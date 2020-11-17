@@ -1,0 +1,10 @@
+
+sudo mysql
+create database fileManagement_DB;
+use fileManagement_DB;
+create table file_management(file_name VARCHAR(50) NOT NULL, uuid VARCHAR(50) PRIMARY KEY, security INT, sharing INT, location VARCHAR(256));
+create user 'file_user'@'%' identified by 'edgecomputing';
+grant all privileges on fileManagement_DB.* to 'file_user'@'%';
+flush privileges;
+show grants for file_user;
+
