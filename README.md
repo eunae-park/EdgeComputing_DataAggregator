@@ -9,3 +9,6 @@ folder_name.txt
   
 src/EdgeDataAggregator.java
    - main() class
+
+fileRead()
+   - 현재 분산 시스템으로 파일 가져오기 하는 중
