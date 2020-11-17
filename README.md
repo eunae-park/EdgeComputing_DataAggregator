@@ -11,4 +11,5 @@ src/EdgeDataAggregator.java
    - main() class
    
 파일 읽어오기
-   - 현재 분산 시스템으로 파일 가져오기 하는 중
+   - 현재 분산 시스템으로 파일 가져오기 접목 중
+   - 파일이 있으면 읽어오기 : slaveWorker.java와 masterWorker.java에서 else if(func == 5) 안 내용 주석 처리 및 version #2 주석 해제
