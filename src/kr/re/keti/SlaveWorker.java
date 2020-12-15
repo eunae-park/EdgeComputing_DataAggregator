@@ -23,6 +23,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		this.slaveList = new ArrayList<String>();
 		this.fileList = new ArrayList<String>();
 		this.slaveList = (ArrayList<String>) ip_list.clone();
+		this.origin_foldername = fname;
 		this.foldername = fname;
 	}
 	SlaveWorker(String ip, String fname)
@@ -31,6 +32,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		this.slaveList = new ArrayList<String>();
 		this.fileList = new ArrayList<String>();
 		this.master_ip = ip;
+		this.origin_foldername = fname;
 		this.foldername = fname;
 	}
 	
@@ -38,7 +40,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 	public void run() {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
-		DataProcess dataprocess = new  DataProcess();
+		DataProcess dataprocess = new  DataProcess(foldername);
 		int check=-1, ip_number=0, i;
 		
 //		System.out.println(manage.file_list[0]); // ex. [1.txt, 2.txt]
@@ -52,8 +54,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			String filename = sc.nextLine();
 			if(filename.equals("end"))
 				break;
-			System.out.println("function : 1. fileExist     5. fileRead");
-//			System.out.println("function : 1. fileExist     2. fileCreate     3. fileRemove     4. fileWrite     5. fileRead     6. fileWhere     7. fileLength");
+			System.out.println("function : 1. fileExist     2. fileCreate     3. fileRemove     4. fileWrite     5. fileRead     6. fileWhere     7. fileLength");
 //			System.out.println("function : 8. fileOpen\t 9. fileClose");
 			System.out.print("function number\t(ex) 1 ?\t");
 			int func = sc.nextInt();
@@ -72,10 +73,12 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 //			System.out.println("master ip list : " + master_ip);
 			for(i=0; i<slaveList.size(); i++)
 			{
+				System.out.println("request to " + slaveList.get(i));
 				check = dataprocess.fileExist(filename, slaveList.get(i));
 				if(check == 1)
 					fileList.add(slaveList.get(i));
 			}
+			System.out.println("request to " + master_ip);
 			check = dataprocess.fileExist(filename, master_ip);
 			if(check == 1)
 				fileList.add(master_ip);
@@ -87,7 +90,9 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 				if(fileList.size() == 0)
 					System.out.println("Anyone doesn't had DATA.");
 				else
-					System.out.println("[" + fileList + "] : had DATA.");
+		        {
+		          System.out.println("* [" + fileList + "] : had DATA" + dataprocess.fileInfo(filename));
+		        }
 			}
 			
 			else if(func == 2) //else if + exist 
@@ -203,10 +208,10 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			}
 			else if(func == 7)
 			{
-				check = dataprocess.fileLength(foldername+filename);
+				check = (int)dataprocess.fileLength(foldername+filename);
 				if(check == -1)
 				{
-					check = dataprocess.fileLength(filename, slaveList); 
+					check = (int)dataprocess.fileLength(filename, slaveList); 
 					if(check == -1)
 						System.out.println("\tfile don't exist.");
 //					else if(check == -2)
@@ -293,5 +298,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 	public static ArrayList<String> slaveList=null;
 	public static ArrayList<String> fileList=null;
 	public static String master_ip=null;
+	public String my_hashcode=null;
+	public static String origin_foldername = "/home/eunae/keti/";
 	public static String foldername = "/home/eunae/keti/";
 }

@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 		this.slaveList = new ArrayList<String>();
 		this.fileList = new ArrayList<String>();
 		this.slaveList = (ArrayList<String>) ip_list.clone();
+		this.origin_foldername = fname;
 		this.foldername = fname;
 	}
 	MasterWorker(String ip, String fname)
@@ -30,6 +32,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 		this.slaveList = new ArrayList<String>();
 		this.fileList = new ArrayList<String>();
 		this.master_ip = ip;
+		this.origin_foldername = fname;
 		this.foldername = fname;
 	}
 	
@@ -37,7 +40,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 	public void run() {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
-		DataProcess dataprocess = new  DataProcess();
+		DataProcess dataprocess = new  DataProcess(foldername);
 		int check=-1, i;
 		
 //		System.out.println(manage.file_list[0]); // ex. [1.txt, 2.txt]
@@ -46,13 +49,17 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 		{
 			if(Thread.interrupted())
 				break;
-			
+			try {
+				Thread.sleep(5000);		//for demo
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.print("filename(declare an end = end )\t(ex) 2.txt ?\t");
 			String filename = sc.nextLine();
 			if(filename.equals("end"))
 				break;
-			System.out.println("function : 1. fileExist     5. fileRead");
-//			System.out.println("function : 1. fileExist     2. fileCreate     3. fileRemove     4. fileWrite     5. fileRead     6. fileWhere     7. fileLength");
+			System.out.println("function : 1. fileExist     2. fileCreate     3. fileRemove     4. fileWrite     5. fileRead     6. fileWhere     7. fileLength");
 //			System.out.println("function : 8. fileOpen\t 9. fileClose");
 			System.out.print("function number\t(ex) 1 ?\t");
 			int func = sc.nextInt();
@@ -70,10 +77,12 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 //			System.out.println("master ip list : " + master_ip);
 			for(i=0; i<slaveList.size(); i++)
 			{
+				System.out.println("request to " + slaveList.get(i));
 				check = dataprocess.fileExist(filename, slaveList.get(i));
 				if(check == 1)
 					fileList.add(slaveList.get(i));
 			}
+			System.out.println("request to mine");
 			check = dataprocess.fileExist(filename, "localhost");
 			if(check == 1)
 				fileList.add("localhost"); //localhost == master_ip
@@ -99,9 +108,11 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			if(func == 1) // fileExsit always execute.
 			{
 				if(fileList.size() == 0)
-					System.out.println("Anyone doesn't had DATA.");
-				else
-					System.out.println("[" + fileList + "] : had DATA.");
+					System.out.println("* Anyone doesn't had DATA.");
+				else if(dataprocess.fileInfo(filename) != null)
+		        {
+		          System.out.println("* [" + fileList + "] : had DATA" + dataprocess.fileInfo(filename));
+		        }
 			}
 			else if(func == 2)
 			{
@@ -141,25 +152,29 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 				else
 					System.out.println("\tfile writing is success");// in local.");				
 			}
+		
 			else if(func == 5)
 			{
 				// FileExist() above
 				if (fileList.size() == 0)
-					System.out.println("Anyone doesn't had and couldn't read DATA.");
-					
-				check  = dataprocess.fileRead(filename, fileList);
-				if(check == 1)
-					System.out.println("[" + fileList + "] : had and could read DATA.");
+					System.out.println("* Anyone doesn't had and couldn't read DATA.");
 				else
-					System.out.println("[" + fileList + "] : had and couldn't read DATA.");
+				{
+					check  = dataprocess.fileRead(filename, fileList);
+					if(check == 1)
+						System.out.println("* [" + fileList + "] : had and could read DATA.");
+					else
+						System.out.println("* [" + fileList + "] : had and couldn't read DATA.");
+				}
 			}
+
 /* version #2
 			else if(func == 5)
 			{
 				check = dataprocess.fileRead(foldername+filename);
 				if(check == -1)
 				{
-					check = dataprocess.fileRead(filename, slaveList);
+					check = dataprocess.fileRead(filename, slaveList); //slaveList.get(0);
 					if(check == -1)
 						System.out.println("\tfile don't exist.");
 //					else if(check == -2)
@@ -171,8 +186,8 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 //				else if(check == -2)
 //				System.out.println("\tfile cannot read.");
 				else
-					System.out.println("\tfile reading is success.");// in local.");				
-			}
+					System.out.println("\tfile reading is success.");// in local.");		 
+	        }
 */
 			else if(func == 6)
 			{
@@ -182,19 +197,19 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					check = dataprocess.fileWhere(filename, slaveList) + 1;
 				
 				if(check == -1)
-					System.out.println("\tfile don't exist.");
+					System.out.println("* DATA don't exist.");
 //				else if(check == -2)
 //					System.out.println("\tfile cannot search.");
 				else
-					System.out.printf("\tfile is in %dth place. (0 is local, 1~ are connected nodes)\n", check);
+					System.out.printf("* DATA is in %dth place. (0 is local, 1~ are connected nodes)\n", check);
 				
 			}
 			else if(func == 7)
 			{
-				check = dataprocess.fileLength(foldername+filename);
+				check = (int)dataprocess.fileLength(foldername+filename);
 				if(check == -1)
 				{
-					check = dataprocess.fileLength(filename, slaveList); 
+					check = (int)dataprocess.fileLength(filename, slaveList); 
 					if(check == -1)
 						System.out.println("\tfile don't exist.");
 //					else if(check == -2)
@@ -240,8 +255,10 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 
 	private boolean stop = false;
 	public static ArrayList<String> slaveList=null;
+	public static ArrayList<String> hashList=null;
 	public static ArrayList<String> fileList=null;
 	public static String master_ip=null;
+	public static String origin_foldername = "/home/eunae/keti/";
 	public static String foldername = "/home/eunae/keti/";
 }
 
