@@ -146,21 +146,20 @@ public class DataProcess
 				String msg[] = msgs.split("#");
 				System.out.println("Answer : " + msgs);
 				//				System.out.print("\t -> " + msg[2] + ":"  + msg[3] + ":"  + msg[4] + ":" + msg[5]);
-				if(msg[1].equals("DATA") && msg[msg.length-1].equals("DATA") && msg[4].equals("0")) // �뜝�럩�쐸�솻洹⑥삕 �뜝�럥�냱�뜝�럩逾у뜝�럩逾� �뜝�럩肉녑뜝�럥裕� �썒�슣�닔占쎄틬占쎈ご�뜝占� db�뜝�럥�뱺 �뜝�룞�삕�뜝�럩�궋
+				if(msg[1].equals("DATA") && msg[msg.length-1].equals("DATA") && msg[4].equals("0")) // 원본 파일이 있는 주소를 db에 저장
 				{
 					System.out.printf("\t" + ipAddress);
 					//					String msg = "#DATA#" + uuid + "#" + security + "#" + sharing + "#" + location + "#DATA#";
 					uuid_file = filename;
 					uuid = msg[2];
-					security = Integer.parseInt(msg[3]);
-					//					sharing = security; //Integer.parseInt(msg[4]) but �뜝�럩�쐸�솻洹⑥삕(0), 占썩뫀踰딉옙占�-�솻洹ｋ샍�뇡�쉻�삕甕곕쵇臾억옙留⑵굢�맮�삕�얜�먯삕占쎈뎄(1 or 2) 
-					sharing = 1; //Integer.parseInt(msg[4]) but �뜝�럩�쐸�솻洹⑥삕(0), 占썩뫀踰딉옙占�(1) 
+					security = Integer.parseInt(msg[3]);//Integer.parseInt(msg[4]) but 원본(0), 공유-보안등급에따라(1 or 2)  
+					sharing = 1; //Integer.parseInt(msg[4]) but 원본(0), 공유(1)  
 					location = ipAddress + ":/" + msg[5];
-					if(security==1 && Integer.parseInt(msg[4])==0) // link 占썩뫀踰딉옙占� -> �뜝�럩�쐸�솻洹⑥삕 ip save 
+					if(security==1 && Integer.parseInt(msg[4])==0) // link 공유 -> 원본 ip save  
 						origin_ip = ipAddress;
 
 					String select_sql = "SELECT * FROM file_management where uuid='" + uuid +"'";
-					rs = state.executeQuery(select_sql); //SQL占쎈닱筌뤾쑴諭� �뜝�럩�쓧�뜝�럥堉롥뜝�럥由��뜝�럥�뿰 �뜝�럥堉꾢뜝�럥六�
+					rs = state.executeQuery(select_sql); //SQL문을 전달하여 실행
 					if(rs.next())
 					{
 						System.out.println("\t - Original DATA DB_info already is existed.");
@@ -174,9 +173,9 @@ public class DataProcess
 						pstate.setInt(3, security);
 						pstate.setInt(4, sharing);
 						pstate.setString(5, location);
-						// INSERT�뜝�럥裕� �뛾�룇瑗뱄옙�꼶�뜝�럥�뵹�뜝�럥裕� �뜝�럥�몥�뜝�럩逾졾뜝�럡�댉�뜝�럥援뜹뜝�럩逾� �뜝�럥�뵪�뜝�럩紐득쾬�꼻�삕�슖�댙�삕 ResultSet �뤆�룇鍮섊뙼�뭿泥롥뜝占� �뜝�럥�닡�뜝�럩�뭵 �뜝�럥�뵪占썩뫅�삕, �뛾�룆��餓ο옙 pstmt.executeUpdate()嶺뚮∥�뾼�땻�슪�삕獄��쓣紐닷뜝占� �뜝�럩源덌옙鍮듿뜝占�
-						// INSERT, UPDATE, DELETE 占쎈쐩占쎈닑占쎈뉴�뜝�럥裕� �뤆�룇�듌�뜝占� 嶺뚮∥�뾼�땻�슪�삕獄��쓣紐닷뜝占� �뜝�럩源덌옙鍮듿뜝占�
-						// @return     int - 嶺뚮쪋�삕 �뤆�룇裕뉛옙踰� row�뤆�룊�삕 �뜝�럩寃ュ뜝�럥�깿�뜝�럩諭� 亦껋꼶梨뤄옙占썲뜝�럥裕됬춯�쉻�삕占쎈ご�뜝占� �뛾�룇瑗뱄옙�꼶
+			        	// INSERT는 반환되는 데이터들이 없으므로 ResultSet 객체가 필요 없고, 바로 pstmt.executeUpdate()메서드를 호출
+			        	// INSERT, UPDATE, DELETE 쿼리는 같은 메서드를 호출
+			        	// @return     int - 몇 개의 row가 영향을 미쳤는지를 반환
 						int db = pstate.executeUpdate();
 						if( db == 0 ){
 							System.out.println("\t - Original DATA DB_info Received : failure");
@@ -185,11 +184,11 @@ public class DataProcess
 							System.out.println("\t - Original DATA DB_info Received : success");
 						}
 					}
-					/*		        	
-		        	rs = state.executeQuery(select_sql); //SQL�뜝�럥�떛嶺뚮ㅎ�뫒獄�占� 占쎈쐻占쎈윪占쎌벁占쎈쐻占쎈윥�젆濡λ쐻占쎈윥�뵳占쏙옙�쐻占쎈윥占쎈염 占쎈쐻占쎈윥�젆袁��쐻占쎈윥筌묕옙
+/*		        	
+		        	rs = state.executeQuery(select_sql); //SQL문을 전달하여 실행
 		        	while(rs.next()){
-		        		// �뜝�럩�읉占쎄턀�겫�뼔援▼뜝�럩踰� �뇖�궡�닑占쎌뱿�뜝�룞�삕 �뛾�룄�ｈ굢�떥占썩뫅�삕 �뜝�럥堉롳옙逾녑뜝占� 0占쎄껀�뜝�룞�삕�땻占� �뜝�럥六삣뜝�럩�굚�뜝�럥由�嶺뚯쉻�삕 �뜝�럥瑜ワ옙�뫅�삕 1占쎄껀�뜝�룞�삕�땻占� �뜝�럥六삣뜝�럩�굚�뜝�럥由썲뜝�럥堉�.
-		                // �뜝�럥�몥�뜝�럩逾졾뜝�럡�댉�뵓怨쀬쪠占쎈턄�뜝�럥裕욃뜝�럥�뱺�뜝�럡�맋 �뤆�룊�삕�뜝�럩二у뜝�럩沅롥뜝�럥裕� �뜝�럥�몥�뜝�럩逾졾뜝�럡�댉�뜝�럩踰� �뜝�룞�삕�뜝�럩肉��뜝�럥�뱺 嶺뚮씮�돰�떋占� getString �뜝�럩援℡뜝�럥裕� getInt �뜝�럥苡삣뜝�럩諭� �뜝�럩源덌옙鍮딉옙裕됮뇡�냲�삕占쎈펲.
+		        		// 레코드의 칼럼은 배열과 달리 0부터 시작하지 않고 1부터 시작한다.
+		                // 데이터베이스에서 가져오는 데이터의 타입에 맞게 getString 또는 getInt 등을 호출한다.
 		        		String file_name = rs.getString("file_name");
 		        		String uuid = rs.getString("uuid");
 		        		int security = rs.getInt("security");
@@ -199,7 +198,7 @@ public class DataProcess
 		        		System.out.println("\nSharing: "+ sharing + "\nLocation: " + location + "\n--------------------------\n");
 		        	}
 		        	rs.close();        	
-					 */
+*/
 				}
 			}
 			else{

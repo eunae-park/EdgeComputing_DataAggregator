@@ -45,10 +45,10 @@ public class ReceiveWorker implements Runnable
         	conn = DriverManager.getConnection(url, "file_user", "edgecomputing"); // DB_URL, USER_NAME, PASSWARD
         	state = conn.createStatement();
         	System.out.println("File Management DB connection : success\n");
-        	rs = state.executeQuery(select_sql); //SQL占쎈닱筌뤾쑴諭� �뜝�럩�쓧�뜝�럥堉롥뜝�럥由��뜝�럥�뿰 �뜝�럥堉꾢뜝�럥六�
+        	rs = state.executeQuery(select_sql); //SQL문을 전달하여 실행
         	while(rs.next()){
-        		// �뜝�럩�읉占쎄턀�겫�뼔援▼뜝�럩踰� �뇖�궡�닑占쎌뱿�뜝�룞�삕 �뛾�룄�ｈ굢�떥占썩뫅�삕 �뜝�럥堉롳옙逾녑뜝占� 0占쎄껀�뜝�룞�삕�땻占� �뜝�럥六삣뜝�럩�굚�뜝�럥由�嶺뚯쉻�삕 �뜝�럥瑜ワ옙�뫅�삕 1占쎄껀�뜝�룞�삕�땻占� �뜝�럥六삣뜝�럩�굚�뜝�럥由썲뜝�럥堉�.
-                // �뜝�럥�몥�뜝�럩逾졾뜝�럡�댉�뵓怨쀬쪠占쎈턄�뜝�럥裕욃뜝�럥�뱺�뜝�럡�맋 �뤆�룊�삕�뜝�럩二у뜝�럩沅롥뜝�럥裕� �뜝�럥�몥�뜝�럩逾졾뜝�럡�댉�뜝�럩踰� �뜝�룞�삕�뜝�럩肉��뜝�럥�뱺 嶺뚮씮�돰�떋占� getString �뜝�럩援℡뜝�럥裕� getInt �뜝�럥苡삣뜝�럩諭� �뜝�럩源덌옙鍮딉옙裕됮뇡�냲�삕占쎈펲.
+        		// 레코드의 칼럼은 배열과 달리 0부터 시작하지 않고 1부터 시작한다.
+                // 데이터베이스에서 가져오는 데이터의 타입에 맞게 getString 또는 getInt 등을 호출한다.
         		String file_name = rs.getString("file_name");
         		String uuid = rs.getString("uuid");
         		int security = rs.getInt("security");
@@ -126,7 +126,7 @@ public class ReceiveWorker implements Runnable
 						
 						if (array[0].equals("exist")) {
 //							System.out.println(foldername + array[1]); //v1102
-				        	rs = state.executeQuery(select_sql); //SQL占쎈닱筌뤾쑴諭� �뜝�럩�쓧�뜝�럥堉롥뜝�럥由��뜝�럥�뿰 �뜝�럥堉꾢뜝�럥六�
+				        	rs = state.executeQuery(select_sql); //SQL문을 전달하여 실행
 				        	while(rs.next()){
 				        		file_name = rs.getString("file_name");
 //				        		uuid = rs.getString("uuid");
