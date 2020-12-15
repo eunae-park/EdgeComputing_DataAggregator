@@ -54,7 +54,8 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			String filename = sc.nextLine();
 			if(filename.equals("end"))
 				break;
-			System.out.println("function : 1. fileExist     2. fileCreate     3. fileRemove     4. fileWrite     5. fileRead     6. fileWhere     7. fileLength");
+			System.out.println("function : 1. Information     2. Where     3. Length     4. Read");
+//			System.out.println("function : 1. fileExist     2. fileCreate     3. fileRemove     4. fileWrite     5. fileRead     6. fileWhere     7. fileLength");
 //			System.out.println("function : 8. fileOpen\t 9. fileClose");
 			System.out.print("function number\t(ex) 1 ?\t");
 			int func = sc.nextInt();
@@ -89,51 +90,44 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			{
 				if(fileList.size() == 0)
 					System.out.println("Anyone doesn't had DATA.");
-				else
-		        {
+				else if(dataprocess.fileInfo(filename) != null)
 		          System.out.println("* [" + fileList + "] : had DATA" + dataprocess.fileInfo(filename));
-		        }
-			}
-			
-			else if(func == 2) //else if + exist 
-			{
-//				check = transmission.fileCreate(filename, master_ip); 
-				if(check == -1)
-					System.out.println("\tfile exist already.");
-//				else if(check == -2)
-//					System.out.println("\tfile cannot create.");
 				else
-					System.out.println("\tfile creation is success.");
+					System.out.println("* [" + fileList + "] : had DATA but Metadata DB doesn't had");
+			}
+			else if(func == 2)
+			{
+				check = dataprocess.fileWhere(foldername+filename); 
+//				System.out.println(check);
+				if(check == -1)
+					check = dataprocess.fileWhere(filename, slaveList) + 1;
+				
+				if(check == -1)
+					System.out.println("* Anyone doesn't had DATA.");
+//				else if(check == -2)
+//					System.out.println("\tfile cannot search.");
+				else
+					System.out.printf("* DATA is in %dth place. (0 is local, 1~ are connected nodes)\n", check);
+				
 			}
 			else if(func == 3)
 			{
-//				check = transmission.fileRemove(filename, master_ip); 
-				if(check == -1)
-					System.out.println("\tfile don't exist already.");
-//				else if(check == -2)
-//					System.out.println("\tfile list correct.");
-				else
-					System.out.println("\tfile removing is success.");
-			}
-			else if(func == 4)
-			{
-				check = dataprocess.fileWrite(foldername+filename);
+				check = (int)dataprocess.fileLength(foldername+filename);
 				if(check == -1)
 				{
-					check = dataprocess.fileWrite(filename, slaveList); 
+					check = (int)dataprocess.fileLength(filename, slaveList); 
 					if(check == -1)
-					{
-						System.out.println("\tfile don't exist and write in local.");
-						dataprocess.fileWrite(foldername+filename, 1);
-					}
+						System.out.println("* Anyone doesn't had DATA and couldn't confirm the length of DATA.");
+//					else if(check == -2)
+//						System.out.println("\tfile length measure is false.");
 					else
-//						System.out.printf("\tfile writing is success in slave #%d.\n", check+1);									
-						System.out.println("\tfile writing is success");// in local.");				
+						System.out.println("* The length of DATA is [" + check + "] Bytes");
 				}
 				else
-					System.out.println("\tfile writing is success");// in local.");				
+					System.out.println("* The length of DATA is [" + check + "] Bytes");
+					
 			}
-			else if(func == 5)
+			else if(func == 4)
 			{
 				// FileExist() above
 				if (fileList.size() == 0)
@@ -146,97 +140,6 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					System.out.println("[" + fileList + "] : had and could read DATA.");
 				else
 					System.out.println("[" + fileList + "] : had and couldn't read DATA.");
-					
-				
-				
-/* 	version #2
-				fileList.clear();
-				for(i=0; i<slaveList.size(); i++)
-				{
-//					if(slaveList.get(i).equals("10.0.7.236"))
-//						continue;
-					System.out.println("data request to " + slaveList.get(i));
-					check = dataprocess.fileRead(filename, slaveList.get(i));
-					if(check == 1)
-						fileList.add(slaveList.get(i));
-					else
-						System.out.println(slaveList.get(i) + " : doesn't exist and couldn't read");
-
-				}
-				System.out.println("data request to " + master_ip);
-				check = dataprocess.fileRead(filename, master_ip);
-				if(check == 1)
-					fileList.add(master_ip);
-				else
-					System.out.println(master_ip + " : doesn't exist and couldn't read");
-				if(fileList.size() == 0)
-					System.out.println("\tfile don't exist and read");
-*/
-/*	version #1			
-				check = dataprocess.fileRead(foldername+filename);
-				if(check == -1)
-				{
-					check = dataprocess.fileRead(filename, slaveList);
-					if(check == -1)
-						System.out.println("\tfile don't exist.");
-//					else if(check == -2)
-//						System.out.println("\tfile exist. [false]");
-					else
-//						System.out.printf("\tfile reading is success in slave #%d.\n", check+1);
-						System.out.println("\tfile reading is success.");
-				}
-//				else if(check == -2)
-//				System.out.println("\tfile cannot read.");
-				else
-					System.out.println("\tfile reading is success.");// in local.");		
-*/							
-			}
-			else if(func == 6)
-			{
-				check = dataprocess.fileWhere(foldername+filename); 
-//				System.out.println(check);
-				if(check == -1)
-					check = dataprocess.fileWhere(filename, slaveList) + 1;
-				
-				if(check == -1)
-					System.out.println("\tfile don't exist.");
-//				else if(check == -2)
-//					System.out.println("\tfile cannot search.");
-				else
-					System.out.printf("\tfile is in %dth place. (0 is local, 1~ are connected nodes)\n", check);
-				
-			}
-			else if(func == 7)
-			{
-				check = (int)dataprocess.fileLength(foldername+filename);
-				if(check == -1)
-				{
-					check = (int)dataprocess.fileLength(filename, slaveList); 
-					if(check == -1)
-						System.out.println("\tfile don't exist.");
-//					else if(check == -2)
-//						System.out.println("\tfile length measure is false.");
-					else
-						System.out.println("\tfile length measure is success.\n\tfile Size : " + check);
-				}
-				else
-					System.out.println("\tfile length measure is success.\n\tfile Size : " + check);
-					
-			}
-			else if(func == 8)
-			{ 
-				// vi, cat, less = impossible , gedit = possible
-//				check = transmission.fileOpen(filename, master_ip);
-				if(check == -1)
-					System.out.println("\tfile don't exist.");
-//				else if(check == -2)
-//					System.out.println("\tfile openning is false.");
-				else
-					System.out.println("\tfile openning is success.");
-			}
-			else if(func == 9)
-			{
-				// how to ??
 			}
 		}
 		
