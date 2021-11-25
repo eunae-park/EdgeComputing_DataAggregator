@@ -22,11 +22,13 @@ public class EdgeReceptor
 	
 	public EdgeReceptor(String myAddr)
 	{
+//		System.out.println("EdgeReceptor" + myAddr);
 		initReceptor(myAddr);
 	}
 	
 	private void initReceptor(String myAddr)
 	{
+//		System.out.println("initReceptor");
 		working = false;
 		listenerThread = receptionThread = null;
 		waitingAddressQueue = new ArrayBlockingQueue<InetAddress>(defaultWaitingQueueCapacity);
@@ -36,15 +38,20 @@ public class EdgeReceptor
 		
 		try
 		{
+			// 127.0.0.1 = 자기 자신을 의미하는 localhost
+			// 127.0.1.1 =  자신의 컴퓨터 이름
 			if(myAddr == null)
 			{
 				masterAddress = InetAddress.getLocalHost().getHostAddress().getBytes();
+
+//				System.out.println("!!" + InetAddress.getLocalHost().getHostAddress()); // 127.0.1.1 //
 			}
 			else
 			{
 				masterAddressObj = InetAddress.getByName(myAddr);
-				
 				masterAddress = masterAddressObj.getHostAddress().getBytes();
+
+//				System.out.println("!!" + masterAddressObj.getHostAddress());
 			}
 		}
 		catch(UnknownHostException e)
@@ -55,21 +62,25 @@ public class EdgeReceptor
 	
 	private void initThreads()
 	{
+//		System.out.println("initThreads");
 		working = true;
 		
 		listenerThread = new Thread(){
 			public void run()
 			{
+//				System.out.println("listenerThread");
 				bsSocket = null;
 				
 				try
 				{
 					if(masterAddressObj == null)
 					{
+//						System.out.println("3");
 						bsSocket = new DatagramSocket(EdgeFinder.defaultBroadcastPort);
 					}
 					else
 					{
+//						System.out.println("4");
 						bsSocket = new DatagramSocket(EdgeFinder.defaultBroadcastPort, masterAddressObj);
 					}
 					
@@ -103,6 +114,7 @@ public class EdgeReceptor
 					
 					if(addr != null)
 					{
+//						System.out.println("5");
 						try
 						{
 							waitingAddressQueue.put(addr);
@@ -124,6 +136,7 @@ public class EdgeReceptor
 		receptionThread = new Thread() {
 			public void run()
 			{
+//				System.out.println("receptionThread");
 				ackSocket = null;
 				
 				try
@@ -141,6 +154,7 @@ public class EdgeReceptor
 				
 				while(working)
 				{
+//					System.out.println("6");
 					try
 					{
 						addr = waitingAddressQueue.take();
@@ -154,6 +168,7 @@ public class EdgeReceptor
 					
 					if(masterAddress != null && addr != null)
 					{
+//						System.out.println("7");
 						ackPacket = new DatagramPacket(masterAddress, masterAddress.length, addr, EdgeFinder.defaultAckPort);
 						
 						try
@@ -167,6 +182,7 @@ public class EdgeReceptor
 						
 						if(receptionEvent != null)
 						{
+//							System.out.println("8");
 							receptionEvent.handler(addr);
 						}
 					}
@@ -187,8 +203,10 @@ public class EdgeReceptor
 	
 	public void start()
 	{
+//		System.out.println("start");
 		if(!working)
 		{
+//			System.out.println("9");
 			initThreads();
 			
 			listenerThread.start();

@@ -1,0 +1,12 @@
+2ce81678-3c50-11ec-807b-3b8fa73906e7
+/home/eunae/keti/
+/home/eunae/cert/
+MySQL
+mecTrace,file_management,mecTrace,penta&keti0415!
+slave
+10.0.7.170
+10.0.7.238
+
+
+
+keti.d-sharing.kr

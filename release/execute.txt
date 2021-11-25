@@ -1,0 +1,3 @@
+java -jar EdgeDataAggregator.jar 
+
+need to write the info_device.txt(guide : info_device_backup.txt)
