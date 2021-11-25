@@ -885,9 +885,12 @@ public class ReceiveWorker implements Runnable
 				else // data information X
 					result = answer + array[1] + "::false}]}";
 					
-			}			else
-				System.out.println("REQ_CODE is wrong.");
-			
+			}
+			else
+			{
+//				System.out.println("REQ_CODE is wrong.");
+				return ;
+			}
 //			System.out.println("!! receivework - penta : " + result);
 //			System.out.println("!! receive-work : " + pkt.getAddress());
 			
