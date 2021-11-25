@@ -58,7 +58,7 @@ public class EdgeDataAggregator {
 			cert_folder = br.readLine();
 			if (cert_folder == null)
 			{
-				System.out.println(" * Input the Name of Main Path with data.");
+				System.out.println(" * Input the Name of Main Path with cert.");
 				System.exit(0);
 			}
 			else
