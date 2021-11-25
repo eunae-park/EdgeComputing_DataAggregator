@@ -62,7 +62,7 @@ public class EdgeDataAggregator {
 				System.exit(0);
 			}
 			else
-				System.out.println(" * Name of Main Path with data : " + cert_folder);
+				System.out.println(" * Name of Main Path with cert : " + cert_folder);
 //			br.close();
 //			file.close();
 
