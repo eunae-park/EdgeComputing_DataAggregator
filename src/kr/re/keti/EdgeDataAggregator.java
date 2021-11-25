@@ -94,16 +94,16 @@ public class EdgeDataAggregator {
 			{
 				String line = br.readLine();
 				String[] db_info = line.split(",");
-				if (db_info.length != 3)
+				if (db_info.length != 5)
 				{
 					System.out.println(" * Input DB Infomation in info_device.txt(ex:DB name,table name,user ID,user PW,DB path).");
 					System.exit(0);
 				}
 				db_name = db_info[0];
 				table_name = db_info[1];
-//				user_id = db_info[2];
-//				user_pw = db_info[3];
-				db_path = db_info[2];
+				user_id = db_info[2];
+				user_pw = db_info[3];
+				db_path = db_info[4];
 
 				dataprocess = Database.getInstance(Database.DB_SQLITE);
 //				dataprocess.connectDB(foldername, DBpath, db_name);
