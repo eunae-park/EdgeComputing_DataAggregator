@@ -492,7 +492,17 @@ public class ReceiveWorker implements Runnable
 				result = answer + array[1] + "::" + result + "}]}";
 //				System.out.println("!! ReceiveWorker - datasplit : " + result);
 			}			
-			else if (array[1].equals("401")) // data sha verify
+			else if (array[1].equals("401")) // data split
+			{
+//				System.out.println("!! ReceiveWorker - " + array[2]);
+//				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
+				int start = Integer.parseInt(array[3]), finish=Integer.parseInt(array[4]);
+				if (array[2].indexOf(".") != -1)
+					result = DataSplit(array[2], start, finish); // 데이터가 무조건 있음.
+				result = answer + array[1] + "::" + result + "}]}";
+//				System.out.println("!! ReceiveWorker - datasplit : " + result);
+			}			
+			else if (array[1].equals("444")) // data sha verify
 			{
 //				System.out.println("!! ReceiveWorker - " + array[2]);
 //				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
@@ -542,7 +552,7 @@ public class ReceiveWorker implements Runnable
 //				System.out.println("!! receive 405 req : " + originalData);
 				int i, start = Integer.parseInt(array[3]), finish=Integer.parseInt(array[4]);
 
-				result = DataSplit(array[2], start, finish); // 데이터가 무조건 있음.
+//				result = DataSplit(array[2], start, finish); // 데이터가 무조건 있음.
 								
 				ChunkTransfer[] chunk_th = new ChunkTransfer[finish-start];
 				for(i=start; i<finish; i++) // chunk 마다 thread 열어서 개별 다중 전송
@@ -716,6 +726,7 @@ public class ReceiveWorker implements Runnable
 			else
 			{
 //				System.out.println("REQ_CODE is wrong.");
+//				System.out.println("!! receivework - keit : " + originalData);
 				return ; // reply할 게 없으므로
 			}
 //			System.out.println("!! receivework - keti : " + result);
@@ -1495,13 +1506,12 @@ public class ReceiveWorker implements Runnable
 		public static String DataSplit(String filename, int start, int finish)
 		{
 			// chunk request #3-2
-			String result="none";
+			String result="false";
 			try {
 				File file = new File(data_folder+filename);
 				String path = file.getParent();
 				if(!file.exists())
 				{
-					result = "false";
 					return result;
 				}
 				
@@ -1551,7 +1561,6 @@ public class ReceiveWorker implements Runnable
 				in.close();
 				result = "success";
 			} catch (Exception e) {
-				result = "false";
 				e.printStackTrace();
 			}
 //			System.out.println("!! data split : " + result);

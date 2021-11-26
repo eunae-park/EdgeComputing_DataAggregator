@@ -165,6 +165,45 @@ public class DataProcess {
 		
 		return result;
 	}
+	public String RequestMessage(String req_content, String ip, String req_code, int start, int finish) // real exists in node
+	{
+		EdgeDeviceInfoClient client;
+		String result = "none";
+		String remote_cmd="";
+
+		try {
+			remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::" + req_content + "::" + start + "::" + finish + "}]}";
+			
+			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			client.startWaitingResponse();
+			client.sendPacket(remote_cmd.getBytes(), remote_cmd.length());
+
+//				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
+			while(client.answerData == null)
+			{			
+				Thread.sleep(100);
+			}
+			
+			if(client.answerData.indexOf("{[{ANS")==0 && client.answerData.indexOf("}]}")!=-1) // 기본 양식 맞음
+			{
+//				System.out.println("!! RequestMessage : " + client.answerData); // Send the answer 로 충분
+				String[] array = client.answerData.substring(8, client.answerData.indexOf("}]}")).split("::");
+				client.answerData = null;
+				// [0] = my_ip, [1]=003, [2]=metadata or none
+//					System.out.println("!! RequestMessage : " + req_code + array[1] + array[2]); // Send the answer 로 충분
+				if (array[1].equals(req_code))
+				{
+					result = array[2];
+				}
+			}
+			client.stopWaitingResponse();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	public String RequestMessage(String req_content, String ip, int data_code) // real exists in node 
 	{
 		EdgeDeviceInfoClient client;
@@ -357,12 +396,10 @@ public class DataProcess {
 
 					result = "success";
 				}
-				else if(array[1].equals("401")) // 기본 양식 맞음
+				else if(array[1].equals("444")) // 기본 양식 맞음
 				{
 //					System.out.println("!! RequestMessageRead : " + array[2]); //datasize
 
-					System.out.println("* Original Data SHA code -\t" + array[2]);
-					System.out.println("* Recieved Data SHA code -\t" + sha(req_content));
 					if(array[2].equals(sha(req_content)))
 					{
 						System.out.println("* Recieved Data SHA code is the same as original.");
@@ -373,6 +410,8 @@ public class DataProcess {
 						System.out.println("* Recieved Data SHA code isn't the same as original.");
 						result = "false";
 					}
+					System.out.println("\tOriginal Data SHA code :\t" + array[2]);
+					System.out.println("\tRecieved Data SHA code :\t" + sha(req_content));
 				}
 			}
 			client.answerData = null;
@@ -923,12 +962,12 @@ public class DataProcess {
 //				while(chunk_result.equals("none")) //sha 검증
 //				{
 ////					System.out.print("!! sha test ");
-//					chunk_result = RequestMessageKETIRead(req_content, edgeList.get(j), "401"); // chunk read request
+//					chunk_result = RequestMessageKETIRead(req_content, edgeList.get(j), "444"); // chunk read request
 //					j++;
 //					if((j+1)%edgeList.size() == 0)   //순차적으로 다른 엣지에게  
 //						j = 0;
 //				}
-				chunk_result = RequestMessageKETIRead(req_content, edgeList.get(i), "401"); // chunk read request
+				chunk_result = RequestMessageKETIRead(req_content, edgeList.get(i), "444"); // chunk read request
 
 //				ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataID='" + dataID + "'");
 				
@@ -1056,7 +1095,7 @@ public class DataProcess {
 				while(chunk_result.equals("none"))
 				{
 //					System.out.print("!! sha test ");
-					chunk_result = RequestMessageKETIRead(req_content, edgeList.get(j), "401"); // chunk read request
+					chunk_result = RequestMessageKETIRead(req_content, edgeList.get(j), "444"); // chunk read request
 					j++;
 					if((j+1)%edgeList.size() == 0)   //순차적으로 다른 엣지에게  
 						j = 0;
@@ -1241,19 +1280,41 @@ public class DataProcess {
 //				}
 //				System.out.println("\tEdge List with Data Separation Completed : " + edgeList);
 				edge_size = edgeList.size();
+				// chunk request #0
+				do
+				{
+					number_request = new int[edge_size];
+					Arrays.fill(number_request, (int)(number_chunk/edge_size)); // working[number_chunk] = true;
+					
+					if(number_chunk % edge_size != 0)
+					{
+	//					number_request[i] += number_chunk % edge_size ; // 엣지 갯수로 데이터 조각이 나누어 떨어지지 않으면, 잔여조각만큼 마스터에 추가 요청
+						for(i=0; i<number_chunk%edge_size; i++)
+							number_request[i] ++; // 잔여 조각 갯수만큼 엣지들에게 추가 요청
+					}
+	
+					Iterator<String> iter = edgeList.iterator();
+					i = 0;
+					j = 1;
+					while(iter.hasNext())
+					{
+						String edge = iter.next();
+						String result = RequestMessage(req_content, edge, "401", j, j+number_request[i] );  // chunk make request
+						j += number_request[i];
+						i++;
+						if(result.equals("false"))
+							iter.remove();
+					}
+					
+					if(edgeList.size() == 0)
+						return edgeList;
+				}while(edge_size != edgeList.size());
+				System.out.println(" * Edge List with Data Separation Completed : " + edgeList);
+				
 				// chunk request #1
 				UnitEdge[] edge_th = new UnitEdge[edge_size]; // thread
 				chunk_check = new int[edge_size]; //thread check
-				number_request = new int[edge_size];
-				Arrays.fill(number_request, (int)(number_chunk/edge_size)); // working[number_chunk] = true;
-				
-				if(number_chunk % edge_size != 0)
-				{
-//					number_request[i] += number_chunk % edge_size ; // 엣지 갯수로 데이터 조각이 나누어 떨어지지 않으면, 잔여조각만큼 마스터에 추가 요청
-					for(i=0; i<number_chunk%edge_size; i++)
-						number_request[i] ++; // 잔여 조각 갯수만큼 엣지들에게 추가 요청
-				}
-				for(i=0, j=0; i<edge_size; i++)
+				for(i=0, j=1; i<edge_size; i++)
 				{
 //						System.out.println("!! chunk read : " + i + ", " + j);
 //						System.out.println("!! chunk read : " + chunkList.get(i));
@@ -1306,7 +1367,7 @@ public class DataProcess {
 				while(chunk_result.equals("none"))
 				{
 //					System.out.print("!! sha test ");
-					chunk_result = RequestMessageKETIRead(req_content, edgeList.get(j), "401"); // chunk read request
+					chunk_result = RequestMessageKETIRead(req_content, edgeList.get(j), "444"); // chunk read request
 					j++;
 					if((j+1)%edgeList.size() == 0)   //순차적으로 다른 엣지에게  
 						j = 0;
@@ -1321,9 +1382,9 @@ public class DataProcess {
 					database.delete(dataID);
 					check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
 					if(check == 0)
-						System.out.println("\tMetaData upload into DataBase : Failure");
+						System.out.println(" * MetaData upload into DataBase : Failure");
 					else
-						System.out.println("\tMetaData upload into DataBase : Success");
+						System.out.println(" * MetaData upload into DataBase : Success");
 				}
 			}
 
@@ -1622,7 +1683,7 @@ public class DataProcess {
 					
 					remote_cmd = "{[{REQ::" + req_ip + "::" + req_code + "::" + req_content + "}]}";
 					client.answerData = null;
-					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
+//					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
 					client.sendPacket(remote_cmd.getBytes(), remote_cmd.length());
 		
 					while(client.answerData == null)
@@ -1737,8 +1798,8 @@ public class DataProcess {
 			req_code = code;
 			file_type = type;
 			th_id = id;
-			index_s = start+1;
-			index_f = finish+1;
+			index_s = start;
+			index_f = finish;
 		}
 		
 		public void run() // 동기화 synchronized - 소용없음
@@ -1773,7 +1834,8 @@ public class DataProcess {
 					
 					remote_cmd = "{[{REQ::" + req_ip + "::" + req_code + "::" + req_content + "::" + index_s + "::" + index_f + "}]}";
 					client.answerData = null;
-					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
+					System.out.println("Request to : " + req_ip + ", chunk #"+ index_s + " to #" + (index_f-1)); //datasize
+//					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
 					client.sendPacket(remote_cmd.getBytes(), remote_cmd.length());
 					
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
@@ -1870,7 +1932,7 @@ public class DataProcess {
 										}
 										else
 										{ // SHA가 다르면 재요청 - 
-											System.out.println("* Recieved Data SHA code isn't the same as original : " + Integer.toString(i));
+//											System.out.println("\tRecieved Chunk #" + Integer.toString(i) + " SHA code isn't the same as original : retry");
 //											File file = new File(data_folder+"chunk/"+req_content + "_" + Integer.toString(i));
 //											file.delete();
 											client.answerData = null;

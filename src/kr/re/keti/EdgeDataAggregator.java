@@ -144,7 +144,7 @@ public class EdgeDataAggregator {
 			else
 				currentIPAddrStr = deviceIP;
 //			System.out.println("!! EdgeInformation - " + currentIPAddr);
-			System.out.println(" * IP Address of Edge Device : " + currentIPAddrStr);
+			System.out.println(" * IP Address of Edge Device : " + currentIPAddrStr + "\n");
 			
 			br.close();
 			file.close();
