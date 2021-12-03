@@ -119,6 +119,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 
 			dataList.clear();
 			metaList.clear();
+			dataprocess.SettingPort();
 
 			slaveList = dataprocess.RequestSlaveList(master_ip);
 			System.out.println("Edge List : " + master_ip + "(master)\t" +  slaveList);
@@ -151,6 +152,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			{
 				System.out.print("Do you Want to Know the Contents of DATA)\t(ex) DataID ?\t");
 				String filename = sc.nextLine();
+//				System.out.println("slaves request dataID : " + filename);
 //				System.out.println("slaves ip list : " + slaveList);
 
 				if(func == 3)
@@ -296,6 +298,18 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 //					ArrayList<String> edgeList=new ArrayList<String>();
 //					edgeList = slaveList.clone();
 //					edgeList.add(0, master_ip);
+					File folder = new File (data_folder+"chunk");
+					if(!folder.exists())
+					{
+//						System.out.println("!! receive 007 cert mkdir");
+						folder.mkdir();
+					}
+					folder = new File (data_folder+"time");
+					if(!folder.exists())
+					{
+//						System.out.println("!! receive 007 cert mkdir");
+						folder.mkdir();
+					}
 
 					check = dataprocess.IndividualDataRead(filename); // 211101 - 직접 검색
 //					check = dataprocess.IndividualDataRead(filename, slave_ip); // 210428 - 소켓통신으로 나 자신에게 문의

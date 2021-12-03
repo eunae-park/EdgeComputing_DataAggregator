@@ -34,7 +34,7 @@ public final class EdgeDeviceInfoClient
 				agentSocket = new DatagramSocket();
 				replySocket = new DatagramSocket(UDPSocketAgent.defaultReplyPort);
 			}
-			else if(socketType == socketTCP)
+			else if(currentSocketType == socketTCP)
 			{
 				int numOfRetry = 0;
 				
@@ -42,6 +42,57 @@ public final class EdgeDeviceInfoClient
 				{
 //					System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
 					streamSocket = new Socket(targetAddress, TCPSocketAgent.defaultPort);
+					
+					++numOfRetry;
+				}
+				while(streamSocket == null && numOfRetry <= connectionRetryLimit);
+				
+				if(streamSocket != null && streamSocket.isConnected())
+				{
+					inputStream = streamSocket.getInputStream();
+				}
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public EdgeDeviceInfoClient(String addr, int socketType, int port)
+	{
+		agentSocket = null;
+		replySocket = null;
+		
+		streamSocket = null;
+		inputStream = null;
+		
+		isWaiting = false;
+		
+		currentSocketType = socketType;
+		
+		// try catch 여기서 각각 하기 
+		try {
+			targetAddress = InetAddress.getByName(addr);
+			if(currentSocketType == socketUDP)
+			{
+				agentSocket = new DatagramSocket();
+				replySocket = new DatagramSocket(UDPSocketAgent.defaultReplyPort);
+			}
+			else if(currentSocketType == socketTCP)
+			{
+				int numOfRetry = 0;
+				
+				do
+				{
+					TCPSocketAgent.defaultPort = port;
+//					System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
+					streamSocket = new Socket(targetAddress, port);
 					
 					++numOfRetry;
 				}
@@ -126,6 +177,8 @@ public final class EdgeDeviceInfoClient
 	public void stopWaitingResponse()
 	{
 		isWaiting = false;
+		
+
 	}
 
 	private int currentSocketType;
@@ -145,7 +198,8 @@ public final class EdgeDeviceInfoClient
 	
 	public static final int socketUDP = 0x1111;
 	public static final int socketTCP = 0x2222;
-	public String answerData = null;
+//	public String answerData = null;
+	public byte[] answerData = null;
 	public int permission = 0;
 	
 	private class UDP_ResponseWaiter implements Runnable
@@ -155,6 +209,7 @@ public final class EdgeDeviceInfoClient
 		{
 			isWaiting = true;
 			
+			byte[] data = null;
 			byte[] packetData = new byte[UDPSocketAgent.defaultPacketSize];
 			DatagramPacket responsePacket = new DatagramPacket(packetData, UDPSocketAgent.defaultPacketSize, targetAddress, UDPSocketAgent.defaultReplyPort);;
 			
@@ -163,13 +218,32 @@ public final class EdgeDeviceInfoClient
 //				answerData = null;
 				java.util.Arrays.fill(packetData, (byte)0); // joo
 				String msg = "";
-				int cnt=0;
+				int cnt=0, total_len=0;
+				byte[] msg_b=null;
 				try
 				{
 					while(msg.indexOf("}]}")==-1)
 					{
 						replySocket.receive(responsePacket); // joo
-						msg += new String(packetData);
+						if(total_len == 0)
+						{
+							total_len += packetData.length;
+							data = new byte[total_len];
+							System.arraycopy(packetData, 0, data, 0, packetData.length);
+
+							msg_b =  data;
+						}
+						else
+						{
+							total_len += packetData.length;
+							data = new byte[total_len];
+							System.arraycopy(msg_b, 0, data, 0, msg_b.length);
+							System.arraycopy(packetData, 0, data, msg_b.length, packetData.length);
+
+							msg_b =  data;
+							
+						}
+						msg += new String(data, "UTF-8");
 						cnt ++;
 //						System.out.println("!! TCP_ResopnseWaiter : " + msg.indexOf("}]}")); //
 					}
@@ -179,9 +253,9 @@ public final class EdgeDeviceInfoClient
 					continue;
 				}
 				
-//				System.out.println("!! TCP_ResopnseWaiter : " + new String(packetData));
-				answerData = msg; //new String(packetData);
-				String[] array = msg.substring(7, msg.indexOf("}]}")).split("::");
+				
+				answerData = data;
+				String[] array = msg.substring(8, msg.indexOf("}]}")).split("::");
 				if(array[1].equals("004"))
 				{
 					if(array[3]==array[4] && cnt>=Integer.parseInt(array[3]))
@@ -207,17 +281,19 @@ public final class EdgeDeviceInfoClient
 			}
 			
 			byte[] packetData = new byte[TCPSocketAgent.defaultPacketSize];
+			byte[] data_b = null;
+			byte[] data = null;
 			
+			int datacnt=0;
+//			String[] data = null;
 			while(isWaiting) // joo
 			{
 				java.util.Arrays.fill(packetData, (byte)0); // joo
-				
 				String msg = "";
-				int cnt=0;
+				int cnt = 0, total_len=0;
 				try
 				{
-					int len = 0;
-//					System.out.println("!! TCP_ResopnseWaiter : " + msg);
+					int len=0;
 					while(msg.indexOf("}]}")==-1)
 					{
 //						System.out.println("!! TCP_ResopnseWaiter : " + isWaiting);
@@ -226,9 +302,34 @@ public final class EdgeDeviceInfoClient
 							msg = "retry";
 							break;
 						}
-						len += inputStream.read(packetData); // -1이 5번 들어오면 통신 끊김
-//						System.out.println("!! len : " + len);
-						msg += new String(packetData);
+						if((len = inputStream.read(packetData)) != -1)
+						{
+							if(total_len == 0)
+							{
+								total_len += len;
+								data = new byte[total_len];
+								
+								System.arraycopy(packetData, 0, data, 0, len);
+								data_b =  data;
+							}
+							else
+							{
+								total_len += len;
+								data = new byte[total_len];
+								
+								System.arraycopy(data_b, 0, data, 0, data_b.length);
+								System.arraycopy(packetData, 0, data, data_b.length, len);
+								data_b =  data;
+							}
+//							System.out.println("!! answer while : " + new String(packetData));
+//							System.out.println("!! answer while : " + new String(data_b));
+//							System.out.println("!! answer while : " + new String(data));
+						}
+						
+//						System.out.println("!! len : " + total_len);
+						if(data != null)
+							msg = new String(data, "UTF-8"); //"EUC-KR"
+//						System.out.println("!! answer : " + msg);
 						cnt ++;
 						Thread.sleep(10);
 					}
@@ -248,7 +349,7 @@ public final class EdgeDeviceInfoClient
 					continue ;
 				else if(msg.equals("retry"))
 				{
-					answerData = msg; //new String(packetData);
+					answerData = data; //new String(packetData);
 					isWaiting = false;
 				}
 				else
@@ -266,97 +367,13 @@ public final class EdgeDeviceInfoClient
 					}
 					else
 						isWaiting = false;
-					answerData = msg; //new String(packetData);
-				}
-
-			}
-			
-		}
-		/*
-		public void run()
-		{
-//			answerData = null;
-			isWaiting = true;
-			
-			if(inputStream == null)
-			{
-				return;
-			}
-			
-			byte[] packetData = new byte[TCPSocketAgent.defaultPacketSize];
-			
-			String msg = "";
-			while(isWaiting) // joo
-			{
-				java.util.Arrays.fill(packetData, (byte)0); // joo
-				
-				System.out.println("!! TCP_ResopnseWaiter : " + msg.lastIndexOf("{[{ANS"));
-				if(msg.lastIndexOf("{[{ANS") > 0)
-				{
-					msg.substring(msg.lastIndexOf("{[{ANS"));
-				}
-				else
-					msg = "";
-				System.out.println("!! TCP_ResopnseWaiter : " + msg);
-				int cnt=0;
-				try
-				{
-					int len = 0;
-					while(msg.indexOf("}]}")==-1)
-					{
-//						System.out.println("!! TCP_ResopnseWaiter : " + isWaiting);
-						if(!isWaiting) // false면
-						{
-							msg = "retry";
-							break;
-						}
-						len += inputStream.read(packetData); // -1이 5번 들어오면 통신 끊김
-//						System.out.println("!! len : " + len);
-						msg += new String(packetData);
-						cnt ++;
-						Thread.sleep(10);
-					}
-//					Thread.sleep(100);
-				}
-				catch(IOException e) // joo
-				{
-					continue;
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				
-//				System.out.println("!! TCP_ResopnseWaiter : " + new String(packetData));
-				System.out.println("!! TCP_ResopnseWaiter2 : " + msg);
-				if(msg.equals(""))
-					continue ;
-				else if(msg.equals("retry"))
-				{
-					answerData = msg; //new String(packetData);
-					isWaiting = false;
-				}
-				else
-				{
-					String[] array = msg.substring(8, msg.indexOf("}]}")).split("::");
-					if(array[1].equals("004"))
-					{
-						if(array[3]==array[4] && cnt>=Integer.parseInt(array[3]))
-							isWaiting = false;
-					}
-					else if(array[1].equals("405"))
-					{
-						if(array[2].equals("sha"))
-							isWaiting = false;
-					}
-					else
-						isWaiting = false;
-					answerData = msg; //new String(packetData);
-				}
-
+				answerData = data; //new String(packetData);
 			}
-			
+
 		}
-		*/
+
 	}
 	
 /*	

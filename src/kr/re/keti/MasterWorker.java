@@ -93,6 +93,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 				System.exit(0);
 			}
 
+			dataprocess.SettingPort();
 			dataList.clear();
 			metaList.clear();
 			System.out.println("Edge List : " + master_ip + "(master)\t" +  slaveList);

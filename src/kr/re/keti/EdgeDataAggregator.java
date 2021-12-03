@@ -286,7 +286,7 @@ public class EdgeDataAggregator {
 //							System.out.println(msg);
 //						System.out.println("\t" + logtime + " : " + slaveList.get(slaveList.size() - 1) + " : new");
 						msg += "\t" + logtime + " : " + slaveList.get(slaveList.size() - 1);
-						System.out.println(msg + " : new");
+						System.out.printf(msg + " : new");
 						msg += "\n";
 						// JOptionPane.showMessageDialog(null, message);
 
@@ -418,7 +418,7 @@ public class EdgeDataAggregator {
 //							System.out.println(msg);
 //						System.out.println("\t" + logtime + " : " + slaveList.get(slaveList.size() - 1) + " : new");
 						msg += "\t" + logtime + " : " + slaveList.get(slaveList.size() - 1);
-						System.out.println(msg + " : new");
+						System.out.printf(msg + " : new");
 						msg += "\n";
 						
 //						String msg = "New EdgeNode : " + logtime + " : " + slaveList.get(slaveList.size() - 1);
