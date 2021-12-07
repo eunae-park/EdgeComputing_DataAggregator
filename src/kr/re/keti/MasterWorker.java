@@ -58,6 +58,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 	
 	@Override
 	public void run() {
+//		System.out.println("!! master open");
 		try {
 			Thread.sleep(100); 
 		} catch (InterruptedException e) {
@@ -78,13 +79,28 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove");
 			System.out.println("function : 0. Declare EXIT");
 			System.out.print("function number\t(ex) 1 ?\t");
-			int func = sc.nextInt();
-			sc.nextLine();
+			String input_func="none";
+			while(!sc.hasNextLine()) // && input_func.equals("")) // NoSuchElementException : No line found
+			{
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			input_func = sc.nextLine();
+			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none"))
+			{
+				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
+				continue ;
+			}
+//			sc.nextLine();
+			int func = Integer.parseInt(input_func);
 			while(func<0 || func>9)
 			{
-				System.out.print("function is wrong.\nfunction number\t(ex) 1 ?\t");
-				func = sc.nextInt();
-				sc.nextLine();
+				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
+				continue ;
 			}
 			if(func == 0)
 			{

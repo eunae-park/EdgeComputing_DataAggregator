@@ -111,7 +111,7 @@ public class DataProcess {
 			{
 //				System.out.println("!! dataprocess - " + result);
 //				System.out.println("!! dataprocess - " + ip);
-				client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+				client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP); // manaul setting
 				client.startWaitingResponse();
 				String remote_cmd = "{[{REQ::" + ip + "::" + "001" + "::EDGE_LIST::" + result + "}]}";
 

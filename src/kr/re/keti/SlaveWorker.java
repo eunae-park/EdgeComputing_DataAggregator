@@ -102,13 +102,28 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove");
 			System.out.println("function : 0. Declare EXIT");
 			System.out.print("function number\t(ex) 1 ?\t");
-			int func = sc.nextInt();
-			sc.nextLine();
+			String input_func="none";
+			while(!sc.hasNextLine()) // && input_func.equals("")) // NoSuchElementException : No line found
+			{
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			input_func = sc.nextLine();
+			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none"))
+			{
+				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
+				continue ;
+			}
+//			sc.nextLine();
+			int func = Integer.parseInt(input_func);
 			while(func<0 || func>9)
 			{
-				System.out.print("function is wrong.\nfunction number\t(ex) 1 ?\t");
-				func = sc.nextInt();
-				sc.nextLine();
+				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
+				continue ;
 			}
 			if(func == 0)
 			{
@@ -298,18 +313,6 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 //					ArrayList<String> edgeList=new ArrayList<String>();
 //					edgeList = slaveList.clone();
 //					edgeList.add(0, master_ip);
-					File folder = new File (data_folder+"chunk");
-					if(!folder.exists())
-					{
-//						System.out.println("!! receive 007 cert mkdir");
-						folder.mkdir();
-					}
-					folder = new File (data_folder+"time");
-					if(!folder.exists())
-					{
-//						System.out.println("!! receive 007 cert mkdir");
-						folder.mkdir();
-					}
 
 					check = dataprocess.IndividualDataRead(filename); // 211101 - 직접 검색
 //					check = dataprocess.IndividualDataRead(filename, slave_ip); // 210428 - 소켓통신으로 나 자신에게 문의

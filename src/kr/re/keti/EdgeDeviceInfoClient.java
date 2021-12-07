@@ -37,6 +37,7 @@ public final class EdgeDeviceInfoClient
 			else if(currentSocketType == socketTCP)
 			{
 				int numOfRetry = 0;
+//				System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
 				
 				do
 				{

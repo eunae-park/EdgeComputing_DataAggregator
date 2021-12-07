@@ -54,7 +54,27 @@ public class EdgeDataAggregator {
 				System.exit(0);
 			}
 			else
+			{
 				System.out.println(" * Name of Main Path with data : " + data_folder);
+				File folder = new File (data_folder);
+				if(!folder.exists())
+				{
+//					System.out.println("!! receive 007 cert mkdir");
+					folder.mkdir();
+				}
+				folder = new File (data_folder+"chunk");
+				if(!folder.exists())
+				{
+//					System.out.println("!! receive 007 cert mkdir");
+					folder.mkdir();
+				}
+				folder = new File (data_folder+"time");
+				if(!folder.exists())
+				{
+//					System.out.println("!! receive 007 cert mkdir");
+					folder.mkdir();
+				}
+			}
 			cert_folder = br.readLine();
 			if (cert_folder == null)
 			{
@@ -62,7 +82,15 @@ public class EdgeDataAggregator {
 				System.exit(0);
 			}
 			else
+			{
 				System.out.println(" * Name of Main Path with cert : " + cert_folder);
+				File folder = new File (cert_folder);
+				if(!folder.exists())
+				{
+//					System.out.println("!! receive 007 cert mkdir");
+					folder.mkdir();
+				}
+			}
 //			br.close();
 //			file.close();
 
@@ -281,6 +309,13 @@ public class EdgeDataAggregator {
 								e.printStackTrace();
 							}
 						}
+						try {
+							fw.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 						System.out.println("\n* Slave List");
 //						if (!msg.equals(""))
 //							System.out.println(msg);
@@ -288,7 +323,7 @@ public class EdgeDataAggregator {
 						msg += "\t" + logtime + " : " + slaveList.get(slaveList.size() - 1);
 						System.out.printf(msg + " : new");
 						msg += "\n";
-						// JOptionPane.showMessageDialog(null, message);
+						// JOptionPane.showMessageDialog(null, message); //
 
 //						if(master == null) // test need
 //						{
@@ -305,12 +340,6 @@ public class EdgeDataAggregator {
 						edgeList.add(0, master_ip);
 						receiver.edgeListadd(edgeList);
 
-						try {
-							fw.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 
 					}
 //					else
@@ -357,6 +386,13 @@ public class EdgeDataAggregator {
 			e.printStackTrace();
 		}
 
+		if(deviceIP.equals("auto"))
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+		else
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+		receiver_th = new Thread(receiver);
+		receiver_th.start();
+
 		if (master == null) // test need
 		{
 			master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name);
@@ -364,12 +400,6 @@ public class EdgeDataAggregator {
 			master_th.start();
 		}
 //		receiver = new ReceiveWorker(foldername, dataprocess, dev_uuid, db_name, currentIPAddrStr);
-		if(deviceIP.equals("auto"))
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
-		else
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
-		receiver_th = new Thread(receiver);
-		receiver_th.start();
 
 		System.out.println("Waiting for connections from slaves...");
 		
@@ -386,7 +416,7 @@ public class EdgeDataAggregator {
 		String msg = "";
 		while(true)
 		{
-
+//			System.out.println("!! master socket open");	
 			try {
 				ss = new ServerSocket(defaultManualPort, defaultBackLog);
 				cs = ss.accept();
