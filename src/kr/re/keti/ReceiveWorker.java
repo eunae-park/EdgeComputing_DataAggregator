@@ -339,7 +339,6 @@ public class ReceiveWorker implements Runnable
 					array[1] = array[1].replaceAll("  ", " ");
 //				System.out.println(array[1]);
 				array = array[1].split(" ");
-
 				rx = Double.parseDouble(array[1]); //55206812351
 				tx = Double.parseDouble(array[9]);
 //				System.out.println(rx);
@@ -553,15 +552,15 @@ public class ReceiveWorker implements Runnable
 						e1.printStackTrace();
 					} //실제 chunk 보내는 부분					
 					
-//					long start_client = System.currentTimeMillis();
+					long start_client = System.currentTimeMillis();
 					while(client.answerData == null)
 					{			
 						try {
 							Thread.sleep(50);
-//							if(System.currentTimeMillis() - start_client > time_out )
-//							{
-//								break;
-//							}
+							if(System.currentTimeMillis() - start_client > time_out )
+							{
+								break;
+							}
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -606,7 +605,7 @@ public class ReceiveWorker implements Runnable
 							System.arraycopy(client.answerData, start.length, content, 0, content.length);
 //							System.out.println("!! read request : " + new String(content));
 //							System.out.println("!! IndividualDataSend - receive data : " + client_arr[5]);
-							System.out.println("!! IndividualDataSend - result : " + new String(result));
+//							System.out.println("!! IndividualDataSend - result : " + new String(result));
 							
 							if(!client_arr[5].equals("none")) // data exist -> save data & metadata
 							{
@@ -617,7 +616,6 @@ public class ReceiveWorker implements Runnable
 				                fos.close();
 
 				                client.stopWaitingResponse();
-//				                System.out.println("!! receive send ip : " + array[0]);
 		//		                System.out.println("!! receive send ip : " + pkt.getAddress().getHostAddress());
 				                client =  new EdgeDeviceInfoClient(array[0], EdgeDeviceInfoClient.socketTCP, pentaCommPort + 1000);
 								client.startWaitingResponse();
@@ -630,6 +628,7 @@ public class ReceiveWorker implements Runnable
 									e.printStackTrace();
 								}
 								client.stopWaitingResponse();
+								System.out.println("!! IndividualDataSend - result to " + array[0] + " : " + new String(send));
 								
 					            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
 					            
@@ -656,7 +655,7 @@ public class ReceiveWorker implements Runnable
 								
 								metadata_list.close();		
 							}
-							System.out.println("!! IndividualDataSend - result after data : " + new String(result));;
+//							System.out.println("!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
 
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
@@ -677,7 +676,6 @@ public class ReceiveWorker implements Runnable
 						
 					}
 					/////////////////////// data request
-					
 				}
 				else if(array[2].equals("data"))
 				{
@@ -1364,6 +1362,8 @@ public class ReceiveWorker implements Runnable
 //				}
 //				client.stopWaitingResponse();
 //				return ;  // 17300 transfer
+				System.out.println("!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
+
 			}
 			else
 			{

@@ -1081,6 +1081,7 @@ public class DataProcess {
 			}
 		}
 		
+		edge_size = edgeList.size();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 		req_content = dataID + "." + fileType;
 		if(check != 0)
@@ -1183,9 +1184,9 @@ public class DataProcess {
 					}
 				}
 
-				for(i=0; i<edgeList.size(); i++)
-				{
-				}
+//				for(i=0; i<edgeList.size(); i++)
+//				{
+//				}
 //					ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataID='" + dataID + "'");
 				
 			}
@@ -1220,10 +1221,10 @@ public class DataProcess {
 ////							System.out.println("dataprocess - chunk split : " + edge);
 //				}
 //				System.out.println("\tEdge List with Data Separation Completed : " + edgeList);
-				edge_size = edgeList.size();
 				// chunk request #0
 				do
 				{
+					edge_size = edgeList.size();
 					number_request = new int[edge_size];
 					Arrays.fill(number_request, (int)(number_chunk/edge_size)); // working[number_chunk] = true;
 					
@@ -1250,6 +1251,24 @@ public class DataProcess {
 					if(edgeList.size() == 0)
 						return edgeList;
 				}while(edge_size != edgeList.size());
+
+				PrintWriter fprogress = null;
+				try {
+					fprogress = new PrintWriter(data_folder + dataID + ".meta");
+					fprogress.println(securityLevel);  //length
+					//					        long file_length = fileLength(req_content, origin_ip); // 단위?
+					fprogress.println(dataSize);  //file length = KB
+					fprogress.println(number_chunk);  //chunk number
+					fprogress.println(chunk_size);  //chunk size = KB
+					fprogress.println(edge_size);  //edge number
+					fprogress.println(dataID+"."+fileType);  //file name
+					for(i=0, j=1; i<edge_size; i++)
+					{
+					}
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
 				System.out.println(" * Edge List with Data Separation Completed : " + edgeList);
 				
 				// chunk request #1
@@ -1261,12 +1280,15 @@ public class DataProcess {
 //						System.out.println("!! chunk read : " + chunkList.get(i));
 		
 // thread			
+					fprogress.print(edgeList.get(i) + " ");
+					fprogress.print(j + " " + (j+number_request[i]-1));
 					chunk_check[i] = 0;
 					// chunk request #2
 					edge_th[i] = new UnitEdge(data_folder, req_content, edgeList.get(i), "405", fileType, i, j, j+number_request[i]); //
 					edge_th[i].start();
 					j += number_request[i];
 				}
+				fprogress.close();
 				
 //				try { // for 공인인증
 //					Thread.sleep(number_chunk);
