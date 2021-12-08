@@ -627,7 +627,7 @@ public class ReceiveWorker implements Runnable
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								client.stopWaitingResponse();
+								client.stopRequest();
 								System.out.println("!! IndividualDataSend - result to " + array[0] + " : " + new String(send));
 								
 					            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 

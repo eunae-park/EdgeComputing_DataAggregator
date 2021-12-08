@@ -178,8 +178,36 @@ public final class EdgeDeviceInfoClient
 	public void stopWaitingResponse()
 	{
 		isWaiting = false;
-		
+	}
 
+	public void stopRequest()
+	{
+		try
+		{
+			if(inputStream != null)
+			{
+				inputStream.close();
+				inputStream = null;
+			}
+		}
+		catch(IOException e)
+		{
+			inputStream = null;
+		}
+		
+		try
+		{
+			if(streamSocket != null)
+			{
+				streamSocket.close();
+				streamSocket = null;
+			}
+		}
+		catch(IOException e)
+		{
+			streamSocket = null;
+		}
+		isWaiting = false;
 	}
 
 	private int currentSocketType;
