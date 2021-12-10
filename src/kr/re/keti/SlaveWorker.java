@@ -116,16 +116,14 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			input_func = sc.nextLine();
 			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none") || input_func.equals(""))
 			{
-				sc.nextLine();
 				System.out.println("\tInput String is Wrong.(Input only Number)");
 //				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
 //			sc.nextLine();
 			int func = Integer.parseInt(input_func);
-			while(func<0 || func>7)
+			if(func<0 || func>7)
 			{
-				sc.nextLine();
 				System.out.println("\tInput Number is Wrong.(Input only Range 0~7)");
 //				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
