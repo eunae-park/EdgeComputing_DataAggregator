@@ -1567,7 +1567,10 @@ public class ReceiveWorker implements Runnable
 				}
 				metadata_list.close();	
 				
-				result += row + data;
+				if(row == 0)
+					result += "0000#none";
+				else
+					result += row + data;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
