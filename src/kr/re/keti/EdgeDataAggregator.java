@@ -221,7 +221,7 @@ public class EdgeDataAggregator {
 
 			System.out.println("* Master found: " + master_ip + "\n");
 //			SlaveWorker slave = new SlaveWorker(master_ip, foldername, whatDB); // v1,2
-			SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, dataprocess, currentIPAddrStr, table_name);//			; // new TransmitWorker(slaveList, foldername);
+			SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);//			; // new TransmitWorker(slaveList, foldername);
 			Thread slave_th = new Thread(slave);//			; // new Thread(master);
 			slave_th.start();
 		} 
@@ -255,7 +255,7 @@ public class EdgeDataAggregator {
 			{
 //				System.out.println("test2");
 //				master = new MasterWorker(master_ip, foldername, whatDB); // v1,2
-				master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name);
+				master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name, dev_uuid);
 				master_th = new Thread(master);
 				master_th.start();
 //				master.start();
@@ -395,7 +395,7 @@ public class EdgeDataAggregator {
 
 		if (master == null) // test need
 		{
-			master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name);
+			master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name, dev_uuid);
 			master_th = new Thread(master); 
 			master_th.start();
 		}
@@ -547,7 +547,7 @@ public class EdgeDataAggregator {
 
 		System.out.println("* Master found: " + master_ip + "\n");
 //		SlaveWorker slave = new SlaveWorker(master_ip, foldername, whatDB); // v1,2
-		SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, dataprocess, currentIPAddrStr, table_name);
+		SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);
 //		; // new TransmitWorker(slaveList, foldername);
 		Thread slave_th = new Thread(slave);
 //		; // new Thread(master);

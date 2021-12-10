@@ -54,7 +54,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		this.data_folder = fname;
 		this.database = dp;
 	}
-	SlaveWorker(String master_ip, String dfname, String cfname, Database dp, String slave_ip, String tablename)
+	SlaveWorker(String master_ip, String dfname, String cfname, Database dp, String slave_ip, String tablename, String uuid)
 	{
 		this.stop = false;
 		this.slaveList = new ArrayList<String>();
@@ -65,8 +65,9 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		this.data_folder = dfname;
 		this.cert_folder = cfname;
 		this.database = dp;
-		this.slave_ip = slave_ip;
+		this.my_ip = slave_ip;
 		this.table_name = tablename;
+		this.device_uuid = uuid;
 	}
 	
 	@Override
@@ -80,7 +81,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		DataProcess dataprocess = new  DataProcess(data_folder, cert_folder, database, slave_ip, table_name); // v0803
+		DataProcess dataprocess = new  DataProcess(data_folder, cert_folder, database, my_ip, table_name, device_uuid); // v0803
 //		DataProcess dataprocess = new  DataProcess(foldername, whatDB); // v1
 /*//v2		
 		Database dataprocess = null;
@@ -113,16 +114,20 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 				}
 			}
 			input_func = sc.nextLine();
-			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none"))
+			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none") || input_func.equals(""))
 			{
-				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
+				sc.nextLine();
+				System.out.println("\tInput String is Wrong.(Input only Number)");
+//				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
 //			sc.nextLine();
 			int func = Integer.parseInt(input_func);
-			while(func<0 || func>9)
+			while(func<0 || func>7)
 			{
-				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
+				sc.nextLine();
+				System.out.println("\tInput Number is Wrong.(Input only Range 0~7)");
+//				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
 			if(func == 0)
@@ -143,10 +148,19 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 //				threadStop(true);
 			if(func == 1)
 			{
-				System.out.print("What do you Want to Know the Information of Device\t(ex)127.0.1.1 ?\t");
+				System.out.print("Which Edge Device Do you Want to Know\t(ex)127.0.1.1 ?\t");
 				String device_ip = sc.nextLine();
 				
-				if(slaveList.contains(device_ip) || master_ip.equals(device_ip))
+				if(device_ip.equals(my_ip))
+				{
+					System.out.println("request to mine");
+					dataprocess.DeviceInfomation(); // 210428 add int func
+//					if(check == 1)
+//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
+//					if(check == -1)
+//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
+				}
+				else if(slaveList.contains(device_ip) || master_ip.equals(device_ip))
 				{
 					System.out.println("request to " + device_ip);
 					check = dataprocess.DeviceInfomation(device_ip); // 210428 add int func
@@ -162,10 +176,33 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			}
 			else if(func == 2)
 			{
+				System.out.print("Which Edge Device Do you Want to Know\t(ex)127.0.1.1 ?\t");
+				String device_ip = sc.nextLine();
+				if(device_ip.equals(my_ip))
+				{
+					System.out.println("request to mine");
+					dataprocess.WholeDataInfo(); // 210428 add int func
+//					if(check == -1)
+//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
+				}
+				else if(slaveList.contains(device_ip) || master_ip.equals(device_ip))
+				{
+					System.out.println("request to " + device_ip);
+					check = dataprocess.WholeDataInfo(device_ip); // 210428 add int func
+//					if(check == 1)
+//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
+					if(check == -1)
+						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
+				}
+				else
+				{
+					System.out.println("* Edge Device(" + device_ip + ") don't consist in Edge Network.");
+				}
 			}
 			else
 			{
-				System.out.print("Do you Want to Know the Contents of DATA)\t(ex) DataID ?\t");
+//				System.out.print("Do you Want to Know the Contents of DATA)\t(ex) DataID ?\t");
+				System.out.print("What Data Do you Want to Know(Input DataID)?\t");
 				String filename = sc.nextLine();
 //				System.out.println("slaves request dataID : " + filename);
 //				System.out.println("slaves ip list : " + slaveList);
@@ -181,7 +218,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					result = dataprocess.MetaDataInfomation(filename); // 210428 add int func
 					if(!result.equals("none"))
 					{
-						dataList.add(slave_ip);
+						dataList.add(my_ip);
 						result_bakcup = result;
 					}
 
@@ -200,7 +237,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 
 					for(i=0; i<slaveList.size(); i++)
 					{
-						if(slaveList.get(i).equals(slave_ip))
+						if(slaveList.get(i).equals(my_ip))
 							continue;
 						System.out.print(slaveList.get(i) + ", ");
 						if(result_bakcup.equals("none"))
@@ -230,83 +267,6 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					}
 				}
 				
-/*
-// v211028 이전 방식		
-				if(func == 3)
-				{
-//					slaveList = dataprocess.RequestSlaveList(master_ip);
-//					System.out.println("slaves ip list : " + slaveList);
-					System.out.println("request to master");
-					check = dataprocess.MetaDataInfomation(filename, master_ip); // 210428 add int func
-					if(check == 1)
-						dataList.add(master_ip); //localhost == master_ip
-
-					System.out.println("request to mine");
-					check = dataprocess.MetaDataInfomation(filename, slave_ip); // 210428 add int func
-					if(check == 1)
-						dataList.add(slave_ip); 
-
-					for(i=0; i<slaveList.size(); i++)
-					{
-						if(slaveList.get(i).equals(slave_ip))
-							continue;
-						System.out.println("request to " + slaveList.get(i));
-						check = dataprocess.MetaDataInfomation(filename, slaveList.get(i)); // 210428 add int func
-						if(check == 1)
-							dataList.add(slaveList.get(i));
-//						System.out.println(check);
-					
-					}
-					
-					if(dataList.size() == 0)
-						System.out.println("* Anyone doesn't have MetaData.");
-					else
-						System.out.println("* [" + dataList + "] : have MetaData.");
-				}
-				else if(func == 4) // fileExsit always execute.
-				{
-//					slaveList = dataprocess.RequestSlaveList(master_ip);
-//					System.out.println("slaves ip list : " + slaveList);
-					System.out.println("request to master");
-					check = dataprocess.IndividualDataRead(filename, master_ip); // 210428 add int func
-					if(check == 2)
-						dataList.add(master_ip); //localhost == master_ip
-					else if(check == 1)
-//						System.out.println("* [" + master_ip + "] : has only MetaData.");
-						metaList.add(master_ip);
-
-					System.out.println("request to mine");
-					check = dataprocess.IndividualDataRead(filename, slave_ip); // 210428 add int func
-					if(check == 2)
-						dataList.add(slave_ip); //localhost == master_ip
-					else if(check == 1)
-//						System.out.println("* [" + slave_ip + "] : has only MetaData.");
-						metaList.add(slave_ip);
-
-					for(i=0; i<slaveList.size(); i++)
-					{
-						if(slaveList.get(i).equals(slave_ip))
-							continue;
-						System.out.println("request to " + slaveList.get(i));
-						check = dataprocess.IndividualDataRead(filename, slaveList.get(i)); // 210428 add int func
-						if(check == 2)
-							dataList.add(slaveList.get(i));
-						else if(check == 1)
-//							System.out.println("* [" + slaveList.get(i) + "] : has only MetaData.");
-							metaList.add(slaveList.get(i));
-//						System.out.println(check);
-					}
-					
-					if(metaList.size() != 0)
-						System.out.println("* [" + metaList + "] : have only MetaData.");
-
-					if(dataList.size() == 0)
-						System.out.println("* Anyone doesn't have Data.");
-					else
-						System.out.println("* [" + dataList + "] : have Data.");
-				}
-*/
-
 // 공인인증시험 준비
 				else if(func == 4) // fileExsit always execute.
 				{
@@ -317,14 +277,14 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					check = dataprocess.IndividualDataRead(filename); // 211101 - 직접 검색
 //					check = dataprocess.IndividualDataRead(filename, slave_ip); // 210428 - 소켓통신으로 나 자신에게 문의
 					if(check == 2)
-						dataList.add(slave_ip); //localhost == master_ip
+						dataList.add(my_ip); //localhost == master_ip
 					else
 					{
 						if(check == 1)
-							metaList.add(slave_ip);
+							metaList.add(my_ip);
 						ArrayList<String> edgeList = dataprocess.RequestSlaveList(master_ip);
 						edgeList.add(0, master_ip);
-						edgeList.remove(slave_ip);
+						edgeList.remove(my_ip);
 						dataList = dataprocess.IndividualDataRead(filename, edgeList); // 210428 add int func
 					}
 					
@@ -348,16 +308,16 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 						metaList.add(master_ip);
 
 					System.out.println("request to mine");
-					check = dataprocess.IndividualDataWrite(filename, slave_ip); // 210428 add int func
+					check = dataprocess.IndividualDataWrite(filename, my_ip); // 210428 add int func
 					if(check == 2)
-						dataList.add(slave_ip); //localhost == master_ip
+						dataList.add(my_ip); //localhost == master_ip
 					else if(check == 1)
 //						System.out.println("* [" + slave_ip + "] : has only MetaData.");
-						metaList.add(slave_ip);
+						metaList.add(my_ip);
 
 					for(i=0; i<slaveList.size(); i++)
 					{
-						if(slaveList.get(i).equals(slave_ip))
+						if(slaveList.get(i).equals(my_ip))
 							continue;
 						System.out.println("request to " + slaveList.get(i));
 						check = dataprocess.IndividualDataWrite(filename, slaveList.get(i)); // 210428 add int func
@@ -379,44 +339,86 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 				}				
 				else if(func == 6) // remove
 				{
-					System.out.println("request to master");
-					check = dataprocess.IndividualDataRemove(filename, master_ip); // 210428 add int func
-					if(check == 2)
-						dataList.add(master_ip); //localhost == master_ip
-					else if(check == 1)
-//						System.out.println("* [" + master_ip + "] : has only MetaData.");
-						metaList.add(master_ip);
-
-					System.out.println("request to mine");
-					check = dataprocess.IndividualDataRemove(filename, slave_ip); // 210428 add int func
-					if(check == 2)
-						dataList.add(slave_ip); //localhost == master_ip
-					else if(check == 1)
-//						System.out.println("* [" + slave_ip + "] : has only MetaData.");
-						metaList.add(slave_ip);
-
-					for(i=0; i<slaveList.size(); i++)
+					System.out.print("Which Edge Do you Want to Erase the data\t(ex) 127.0.0.1 ?\t");
+					String ip = sc.nextLine();
+					boolean ip_check=false;
+					if(ip.equals("all"))// whole edge remove request
 					{
-						if(slaveList.get(i).equals(slave_ip))
-							continue;
-						System.out.println("request to " + slaveList.get(i));
-						check = dataprocess.IndividualDataRemove(filename, slaveList.get(i)); // 210428 add int func 
+						System.out.println("request to master");
+						check = dataprocess.IndividualDataRemove(filename, master_ip); // 210428 add int func
 						if(check == 2)
-							dataList.add(slaveList.get(i));
+							dataList.add(master_ip); //localhost == master_ip
 						else if(check == 1)
-//							System.out.println("* [" + slaveList.get(i) + "] : has only MetaData.");
-							metaList.add(slaveList.get(i));
-//						System.out.println(check);
-					}
-					
-					if(metaList.size() != 0)
-						System.out.println("* [" + metaList + "] : have only MetaData.");
+//								System.out.println("* [" + master_ip + "] : has only MetaData.");
+							metaList.add(master_ip);
+						for(i=0; i<slaveList.size(); i++)
+						{
+							if(slaveList.get(i).equals(my_ip))
+								System.out.println("request to mine");
+							else
+								System.out.println("request to " + slaveList.get(i));
+							check = dataprocess.IndividualDataRemove(filename, my_ip); // 210428 add int func
+							if(check == 2)
+								dataList.add(my_ip); //localhost == master_ip
+							else if(check == 1)
+								metaList.add(my_ip);
+//							System.out.println(check);
+						}
 
-					if(dataList.size() == 0)
-						System.out.println("* Anyone doesn't have Data.");
+//						if(metaList.size() != 0)
+//							System.out.println("* [" + metaList + "] : have only MetaData.");
+//						if(dataList.size() == 0)
+//							System.out.println("* Anyone doesn't have Data.");
+//						else
+//							System.out.println("* [" + dataList + "] : have Data.");
+						if(dataList.size() != 0 || metaList.size() != 0)
+						{
+							if(dataList.size() != 0)
+								System.out.println("* " + dataList + " : have Data and Remove.");
+							if(metaList.size() != 0)
+//								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
+								System.out.println("* " + metaList + "] : have Data but don't have an Authority.");
+						}
+						else
+							System.out.println("* Anyone doesn't have Data.");
+
+					}
 					else
-						System.out.println("* [" + dataList + "] : have Data.");
-					
+					{
+						if(ip.equals(master_ip))
+						{
+							ip_check = true;
+							System.out.println("request to master");
+							check = dataprocess.IndividualDataRemove(filename, master_ip); // 210428 add int func
+						}
+						for(i=0; i<slaveList.size(); i++)
+						{
+							if(slaveList.get(i).equals(my_ip) && ip.equals(my_ip))
+							{
+								ip_check = true;
+								System.out.println("request to mine");
+								check = dataprocess.IndividualDataRemove(filename); // 210428 add int func
+								
+							}
+							else if(ip.equals(slaveList.get(i)))
+							{
+								ip_check = true;
+								System.out.println("request to " + slaveList.get(i));
+								check = dataprocess.IndividualDataRemove(filename, slaveList.get(i)); // 210428 add int func 
+							}
+//							System.out.println(check);
+						}
+						if(!ip_check)
+							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
+						else if(check == 2)
+							System.out.println("* [" + ip + "] : have Data and Remove.");
+						else if(check == 1)
+							System.out.println("* [" + ip + "] : have Data but don't have an Authority.");
+						else
+							System.out.println("* [" + ip + "] doesn't have Data.");
+					}
+/* 					
+*/	// whole edge remove request 						
 				}					
 			}
 		}
@@ -488,6 +490,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 	public static String cert_folder = "/home/keti/data";
 	static String whatDB = "MySQL";
 	static String table_name = "file_management"; //(file_name, uuid, security, sharing, location)
+	static String device_uuid = "f1d6fc0c-1c51-11ec-a6c1-b75b198d62ab"; //(file_name, uuid, security, sharing, location)
 	public static Database database = null;
-	static String slave_ip = null;
+	static String my_ip = null;
 }

@@ -23,6 +23,7 @@ public final class EdgeDeviceInfoClient
 		inputStream = null;
 		
 		isWaiting = false;
+		answerData = null;
 		
 		currentSocketType = socketType;
 		
@@ -41,7 +42,7 @@ public final class EdgeDeviceInfoClient
 				
 				do
 				{
-//					System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
+//					System.out.println("!! EdgeDeviceInfoClient : " + numOfRetry);
 					streamSocket = new Socket(targetAddress, TCPSocketAgent.defaultPort);
 					
 					++numOfRetry;
@@ -63,6 +64,7 @@ public final class EdgeDeviceInfoClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		System.out.println("!! EdgeDeviceInfoClient : ");
 		
 	}
 	public EdgeDeviceInfoClient(String addr, int socketType, int port)
@@ -96,8 +98,7 @@ public final class EdgeDeviceInfoClient
 					streamSocket = new Socket(targetAddress, port);
 					
 					++numOfRetry;
-				}
-				while(streamSocket == null && numOfRetry <= connectionRetryLimit);
+				}while(streamSocket == null && numOfRetry <= connectionRetryLimit);
 				
 				if(streamSocket != null && streamSocket.isConnected())
 				{
@@ -236,6 +237,7 @@ public final class EdgeDeviceInfoClient
 		@Override
 		public void run()
 		{
+			answerData = null;
 			isWaiting = true;
 			
 			byte[] data = null;
@@ -244,7 +246,6 @@ public final class EdgeDeviceInfoClient
 			
 			while(isWaiting) // joo
 			{
-//				answerData = null;
 				java.util.Arrays.fill(packetData, (byte)0); // joo
 				String msg = "";
 				int cnt=0, total_len=0;
