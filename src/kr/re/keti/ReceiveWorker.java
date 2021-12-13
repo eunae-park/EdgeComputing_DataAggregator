@@ -385,7 +385,7 @@ public class ReceiveWorker implements Runnable
 				System.arraycopy(msg_b, 0, result, 0, msg_b.length);
 				System.arraycopy(msg_r, 0, result, msg_b.length, msg_r.length);
 				System.arraycopy(msg_l, 0, result, msg_b.length+msg_r.length, msg_l.length);
-				
+//				System.out.println("!! 004 rw - " + data);
 			}
 			
 			else if (array[1].equals("007") && originalData.indexOf("ANS") > 0) // 
@@ -577,7 +577,7 @@ public class ReceiveWorker implements Runnable
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-									System.out.println("!! IndividualDataSend - result to " + array[0] + " : " + new String(send));
+//penta//									System.out.println("!! IndividualDataSend - result to " + array[0] + " : " + new String(send));
 									
 						            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
 						            
@@ -637,7 +637,7 @@ public class ReceiveWorker implements Runnable
 					File file = new File(data_folder + array[3]);
 					if(!file.exists())
 					{
-						System.out.println("!! IndividualDataSend - data : none");
+//penta//						System.out.println("!! IndividualDataSend - data : none");
 						try {
 							result = (answer + array[1] + "::" + array[2] + "::" +  array[3] + "::0000::none"+ "}]}").getBytes("UTF-8");
 						} catch (UnsupportedEncodingException e) {
@@ -649,7 +649,7 @@ public class ReceiveWorker implements Runnable
 					else
 					{
 				        long fileSize = file.length();
-						System.out.println("!! IndividualDataSend - data : read");
+//penta//						System.out.println("!! IndividualDataSend - data : read");
 						
 	//			        long fileSize = file.length();
 	//			        System.out.println("!! 007 data test : " + fileSize);
@@ -1104,11 +1104,7 @@ public class ReceiveWorker implements Runnable
 			// 응답프로토콜에도 1=read 2=write 3=remove 표기할 것인지... 
 			else if (array[1].equals("005") && originalData.indexOf("REQ") > 0) // write
 			{
-				result = MetaDataInfo(array[2]);
-				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
-				{
-					result = answer + array[1] + "::" + IndividualDataWrite(array[2], array[3]) + "}]}";
-				}
+				result = answer + array[1] + "::" + IndividualDataWrite(array[2], array[3]) + "}]}";
 			}
 			else if (array[1].equals("006") && originalData.indexOf("REQ") > 0) // remove
 			{
@@ -1121,6 +1117,18 @@ public class ReceiveWorker implements Runnable
 ////					System.out.println("!! receive work : " + result);
 //				}
 				result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
+			}
+			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // remove
+			{
+//				result = MetaDataInfo(array[2]);
+////				System.out.println("!! receive work : " + result);
+//				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
+//				{
+////					uuid = result.substring(0,36);
+//					result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
+////					System.out.println("!! receive work : " + result);
+//				}
+//				result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
 			}
 			
 			else
@@ -1270,13 +1278,42 @@ public class ReceiveWorker implements Runnable
 			// 응답프로토콜에도 1=read 2=write 3=remove 표기할 것인지... 
 			else if (array[1].equals("005") && originalData.indexOf("REQ") > 0) // write
 			{
-				result = MetaDataInfo(array[2]);
-				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
+				if (array[2].indexOf(".") == -1)
 				{
-					result = answer + array[1] + "::" + IndividualDataWrite(array[2], array[3]) + "}]}";
+					result = MetaDataInfo(array[2]);
+					array[2] = dataID + "." + fileType;
 				}
 				else
-					result = answer + array[1] + "::" + result + "}]}";
+				{
+//					result = MetaDataInfo(array[2].substring(0, array[2].indexOf("."))); // 필요없음 - DataProcess에서 선 검증
+//					System.out.println("!! ReceiveWorker - " + array[2].substring(array[2].indexOf(".")+1, array[2].length()));
+					result = MetaDataInfo(array[2].substring(0, array[2].indexOf(".")));
+					if(!fileType.equals(array[2].substring(array[2].indexOf(".")+1, array[2].length())))
+						result = "none";
+				}
+				
+				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
+				{
+					String[] meta = result.split("#");
+					dataID = meta[0];
+					fileType = meta[2];
+					dataType = Integer.parseInt(meta[3]);
+					securityLevel = Integer.parseInt(meta[4]);
+					
+					if(securityLevel>1)
+					{
+						if(dataType != 1) // data delete
+							result = answer + array[1] + "::" + IndividualDataWrite(array[2], array[3]) + "}]}";
+						else // link data -> delete only metadata in db
+						{
+							result = answer + array[1] + "::file_type}]}";
+						}
+					}
+					else
+						result = answer + array[1] + "::authority}]}";
+				}
+				else
+					result = answer + array[1] + "::" + "none" + "}]}";
 			}
 			else if (array[1].equals("006") && originalData.indexOf("REQ") > 0) // remove
 			{
@@ -1350,7 +1387,7 @@ public class ReceiveWorker implements Runnable
 //				}
 //				client.stopWaitingResponse();
 //				return ;  // 17300 transfer
-				System.out.println("!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
+//penta//				System.out.println("!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
 
 			}
 			else
@@ -1994,27 +2031,31 @@ public class ReceiveWorker implements Runnable
 		
 		String IndividualDataWrite(String filename, String message)
 		{
-			String result = "none";	
+			String result = "permission";	
+			File file = new File(data_folder+filename);
+//            array[3] = array[3] + "";
+            try {
+				FileOutputStream fos = new FileOutputStream(file, true);
+				fos.write(message.getBytes("UTF-8"), 0, message.length());
+	            fos.flush();
+	            fos.close();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} //Integer.parseInt(array[2]) chunk크기 // chunk 프로토콜 규약
+//            fos.write(Base64.getDecoder().decode(array[3]), 0, Integer.parseInt(array[2])); //Integer.parseInt(array[2]) chunk크기
+            
+//			boolean check2 = database.delete(dataID); 
+			long fileSize = (long)Math.ceil((double)file.length() / 1000.0);
+			dataID = filename.substring(0, filename.indexOf("."));
+			String update_sql = "update " + table_name + " set data_size = " + fileSize +" where dataid = '" + dataID + "'";
+//			"update file_management set security_level=1 where dataID='ggfe0bd2ee16937d772864dc12057eab83df6c23b58a699354c529d5b4730d77';"
+//			System.out.println("!! slaves request dataID : " + req_content);
+			int check = database.update(update_sql);
 			
-//			if(!MetaDataInfo(filename).equals("none"))
-//			{
-				if(securityLevel > 1)
-				{
-					result = "permission";
-					System.out.println("-> Have Permission to Write to Data[" + message + "] in " + filename);
-					
-					if(dataType != 1) //datatype == 1 == link data
-					{
-						
-					}
-				}
-				else
-				{
-					System.out.println("-> Do not Have Permission to Write to Data[" + message + "] in " + filename);
-					result = "failure";
-				}
-					
-//			}
 			return result;
 		}
 		
@@ -2073,6 +2114,7 @@ public class ReceiveWorker implements Runnable
 				{
 				}
 			}
+			dataID = filename.substring(0, filename.indexOf("."));
 			boolean check2 = database.delete(dataID); 
 			
 			return result;

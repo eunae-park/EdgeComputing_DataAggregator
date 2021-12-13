@@ -51,6 +51,7 @@ public class DataProcess {
 		database = db;
 //		origin_foldername = fname;
 		data_folder = dfname;
+		folder = dfname.substring(dfname.length()-1);
 		cert_folder = cfname;
 		local_ip = ip;
 		table_name = tablename;
@@ -394,10 +395,20 @@ public class DataProcess {
 			else if(data_code == 2) // write
 			{
 				Scanner sc = new Scanner(System.in);
-				System.out.print("Want Do You Want to Write ?\t");
-				String contents = sc.nextLine();
+//				System.out.println("What Do you Want to Write\t(Sign of Finish : !!finish!!)");
+//				String contents="";
+//				while(true)
+//				{
+//					String input = sc.nextLine();
+//					if(input.equals("!!finish!!"))
+//					{
+//						break;
+//					}
+//					contents += input + '\n';
+//				}
 				
-				remote_cmd = "{[{REQ::" + ip + "::005::" + req_content + "::" + contents + "}]}";
+//				remote_cmd = "{[{REQ::" + ip + "::005::" + req_content + "::" + contents + "}]}";
+				remote_cmd = "{[{REQ::" + ip + "::005::" + req_content + "}]}";
 				client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 				long start_client = System.currentTimeMillis();
 				while(client.answerData == null)
@@ -529,7 +540,7 @@ public class DataProcess {
 						{
 							String answer_data = new String(client.answerData, "UTF-8");
 							String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
-							
+
 //							System.out.println("!! RequestMessage : " + array[2] + array[3]);
 							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 							{
@@ -583,7 +594,7 @@ public class DataProcess {
 					if(client.answerData != null)
 					{
 						String answer_data = new String(client.answerData, "UTF-8");
-//						System.out.println("!! Dataprocess - " + answer);
+//						System.out.println("!! Dataprocess - " + answer_data);
 						if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 						{
 //								System.out.println("!! RequestMessage2 : " + answer); // Send the answer 로 충분
@@ -591,13 +602,12 @@ public class DataProcess {
 								// [0] = my_ip, [1]=003, [2]=metadata or none
 								if (array[1].equals("004"))
 								{
-									System.out.println("!!read request : " + answer_data.substring(0, answer_data.indexOf(array[5])));
-									System.out.println(answer_data.substring(0, answer_data.indexOf(array[5])));
+//									System.out.println("!!read request : " + answer_data.substring(0, answer_data.indexOf(array[5])));
 									byte[] start = answer_data.substring(0, answer_data.indexOf(array[5])).getBytes("UTF-8"), finish = "}]}".getBytes("UTF-8");
 
 									result = new byte[client.answerData.length-start.length-finish.length];
-									System.out.println("!!read request : " + result.length);
 									System.arraycopy(client.answerData, start.length, result, 0, result.length);
+//									System.out.println("!!read request : " + new String(result));
 								}
 						}
 					}
@@ -991,7 +1001,7 @@ public class DataProcess {
 				securityLevel = metadata.getInt("security_level"); 
 				dataSize = metadata.getLong("data_size");
 				count ++;
-				data += "\t#" + count + " - DataID: " + dataID + "\tDataSize[KB]: " + dataSize + "\tsecurityLevel: " + securityLevel +"\n";
+				data += String.format("\t#%-4d", count) + String.format(" - DataID: %-70s", dataID) + String.format("\tDataSize[KB]: %-4d", dataSize) + "\tsecurityLevel: " + securityLevel +"\n";
 			}
 			System.out.println("\tdevice uuid: " + device_uuid + "\n\tnumber of data: " + count);
 			System.out.println(data);
@@ -1019,8 +1029,11 @@ public class DataProcess {
 		int number_data = Integer.parseInt(array[0].substring(36));	
 //		System.out.println();
 		System.out.println("\tdevice uuid=" + array[0].substring(0,36) + "\n\tnumber of data=" + number_data);
+//				data +=  +  +  + "\tsecurityLevel: " + securityLevel +"\n";
+
 		for(int i=0; i<number_data; i++)
-			System.out.println("\t#" + (i+1) + " - DataID: " + array[i*3+1] + "\tDataSize[KB]: " + array[i*3+2] + "\tsecurityLevel: " + array[(i+1)*3]);
+			System.out.println(String.format("\t#%-4d", i+1) + String.format(" - DataID: %-70s", String.format(" - DataID: %-70s", dataID)) + String.format("\tDataSize[KB]: %-4d", array[i*3+2]) + "\tsecurityLevel: " + array[(i+1)*3]);
+//		System.out.println("\t#" + (i+1) + " - DataID: " + array[i*3+1] + "\tDataSize[KB]: " + array[i*3+2] + "\tsecurityLevel: " + array[(i+1)*3]);
 		
 		return check;
 	}	
@@ -1293,6 +1306,10 @@ public class DataProcess {
 				System.out.println("\n\t]] DATA\n");
 			}
     	}
+    	else
+    	{
+    		System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
+    	}
 
 		return devcnt;
 	}
@@ -1464,7 +1481,8 @@ public class DataProcess {
 			if(msgs.equals("time"))
 			{
 //				return -2;
-				return null;
+				System.out.println("* Bring the Information of Edge Device(" + ipAddress.get(i) + ") : Failure.");
+				continue;
 			}
 			else if(!msgs.equals("none"))
 			{
@@ -1511,10 +1529,25 @@ public class DataProcess {
 			{
 //				System.out.println("!! dataprocess - read : " + securityLevel + ", " + dataSize);
 //				System.out.println("!! dataprocess - read : " + req_content);
+				String sha_result="none";
 				Iterator<String> iter = edgeList.iterator();
 				while(iter.hasNext())
 				{
 					String edge = iter.next();
+//					File file = new File(data_folder+"time/"+req_content.replace(fileType, "txt")); // 1. check if the file exists or not boolean isExists = file.exists();
+//					long start_time = System.currentTimeMillis(); // + 32400000;
+//					try {
+//						FileWriter fw = new FileWriter(file);
+//						String str = format.format(new Date(start_time));
+////							fw.write(req_ip+"\n");
+////							fw.flush();
+//						fw.write(str+"\n");
+//						fw.flush();
+//						fw.close();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 					byte[] msgs_b = RequestMessageByte(req_content, edge, 1);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3) //
 					try {
 						msgs = new String(msgs_b, "UTF-8");
@@ -1522,24 +1555,12 @@ public class DataProcess {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+//					System.out.println("!! 004 - " + msgs);
 					if(!msgs.equals("none"))
 					{
-						File file = new File(data_folder+"time/"+req_content.replace(fileType, "txt")); // 1. check if the file exists or not boolean isExists = file.exists();
-						long start_time = System.currentTimeMillis(); // + 32400000;
-						try {
-							FileWriter fw = new FileWriter(file);
-							String str = format.format(new Date(start_time));
-//								fw.write(req_ip+"\n");
-//								fw.flush();
-							fw.write(str+"\n");
-							fw.flush();
-							fw.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 						if(securityLevel >= 4)
 						{
+//							System.out.println("!! 004 - " +  securityLevel);
 							try {
 								File datafile = new File(data_folder+req_content);
 								FileOutputStream fos = new FileOutputStream(datafile);
@@ -1547,6 +1568,9 @@ public class DataProcess {
 				                fos.flush();
 				                fos.close();
 //				                
+								sha_result = RequestMessageKETIRead(req_content, edge, "444"); // chunk read request
+//								System.out.println("!! 004 - sha result : " + sha_result);
+
 //								FileWriter fw = new FileWriter(data_folder+req_content, false); // byte change need
 //								fw.write(msgs);
 //								fw.flush();
@@ -1558,35 +1582,38 @@ public class DataProcess {
 							dataType = 0;
 							directory = data_folder;
 							linked_edge = null;
+
+							if(fileType.equals("csv") || fileType.equals("txt"))
+								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
+							else
+								System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + data_folder + req_content + "\n\t]] DATA\n");
 						}
 						else // 링크데이터이면, db에 있는지만 확인하여 없으면 upload
 						{
 							dataType = 1;
 							linked_edge = edge + ":" + directory;
 							directory = null;
+							
+							System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
 						}
 
-						long end_time = System.currentTimeMillis(); // + 32400000;
-						try {
-							FileWriter fw = new FileWriter(file, true);
-							String str = format.format(new Date(end_time));
-//								fw.write(req_ip+"\n");
-//								fw.flush();
-							fw.write(str+"\n");
-							fw.flush();
-							str = Long.toString(end_time-start_time);
-							fw.write(str+"ms\n");
-							fw.flush();
-							fw.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//						long end_time = System.currentTimeMillis(); // + 32400000;
+//						try {
+//							FileWriter fw = new FileWriter(file, true);
+//							String str = format.format(new Date(end_time));
+////								fw.write(req_ip+"\n");
+////								fw.flush();
+//							fw.write(str+"\n");
+//							fw.flush();
+//							str = Long.toString(end_time-start_time);
+//							fw.write(str+"ms\n");
+//							fw.flush();
+//							fw.close();
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 
-						if(fileType.equals("csv") || fileType.equals("txt"))
-							System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
-						else
-							System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + data_folder + req_content + "\n\t]] DATA\n");
 
 						database.delete(dataID);
 						check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
@@ -1689,7 +1716,7 @@ public class DataProcess {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}				
-				System.out.println(" * Edge List with Data Separation Completed : " + edgeList);
+				System.out.println("* Edge List with Data Separation Completed : " + edgeList);
 				
 				// chunk request #1
 				UnitEdge[] edge_th = new UnitEdge[edge_size]; // thread
@@ -1765,83 +1792,137 @@ public class DataProcess {
 					database.delete(dataID);
 					check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
 					if(check == 0)
-						System.out.println(" * MetaData upload into DataBase : Failure");
+						System.out.println("* MetaData upload into DataBase : Failure");
 					else
-						System.out.println(" * MetaData upload into DataBase : Success");
+						System.out.println("* MetaData upload into DataBase : Success");
 				}
 			}
 
 			
 		}
 		
-
 		return edgeList;
 	}
 // unit edge thread
 
-	
-	public int IndividualDataWrite(String req_content, String ipAddress) // 210428 add int func
+	public int IndividualDataWrite(String req_content, String input) // 210428 add int func
 	{
 		Scanner sc = new Scanner(System.in);
-		int devcnt=-1, check=0;
+		int devcnt=0, check=0;
+		String msgs ="";
+		String sql = select_sql + table_name + " where dataid = '" + req_content + "'";
+//		System.out.println("!! slaves request dataID : " + req_content);
+		ResultSet metadata = (ResultSet) database.query(sql);
+    	try {
+			if(metadata.next()) // metadata가 있으면 true, 없으면 false
+			{
+				devcnt = 1;
+				dataID = metadata.getString("dataid");
+				fileType = metadata.getString("file_type");
+				dataSize = metadata.getLong("data_size");
+			}
+			else
+			{
+				return devcnt;
+			}
+			
+    		//		String result = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::003::" + uuid +  String.format("%03d", d_length) + location + String.format("%04d", dataSize) + security + sharing + "}]}";	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    	if(securityLevel>1)
+		{
+			if(dataType != 1)// && (fileType.equals("csv") || fileType.equals("txt"))) // data delete
+			{
+				File file = new File(data_folder+req_content+"."+fileType);
+//	            array[3] = array[3] + "";
+	            try {
+					FileOutputStream fos = new FileOutputStream(file);
+					fos.write(input.getBytes("UTF-8"), 0, input.length());
+		            fos.flush();
+		            fos.close();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} //Integer.parseInt(array[2]) chunk크기 // chunk 프로토콜 규약
+//	            fos.write(Base64.getDecoder().decode(array[3]), 0, Integer.parseInt(array[2])); //Integer.parseInt(array[2]) chunk크기
+	            
+//				boolean check2 = database.delete(dataID); 
+				long fileSize = (long)Math.ceil((double)file.length() / 1000.0);
+				String update_sql = "update " + table_name + " set data_size = " + fileSize +" where dataid = '" + req_content + "'";
+//				"update file_management set security_level=1 where dataID='ggfe0bd2ee16937d772864dc12057eab83df6c23b58a699354c529d5b4730d77';"
+//				System.out.println("!! slaves request dataID : " + req_content);
+				check = database.update(update_sql);
+				
+				devcnt = 2;
+			}
+//			else if(dataType != 1)
+//				devcnt = 0;
+//			else // link data -> delete only metadata in db
+//			{
+//			}
+		}
+    	else
+    		devcnt = 1;
+		
+		return devcnt;
+	}
+	public int IndividualDataWrite(String req_content, String ipAddress, String input) // 210428 add int func
+	{
+		int devcnt=0, check=0;
 		String msgs ="";
 
 		msgs=RequestMessage(req_content, ipAddress, "003");
 		if(msgs.equals("time"))
-			return -2;
+			return -1;
 //		System.out.println("!! IndividualDataRead : " + msgs);
 		if(!msgs.equals("none"))
 		{
-			devcnt = 1;
-//			System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
-//			Thread.sleep(5);
+			devcnt = 0;
 
-			// 기존 메타데이
-//			uuid_file = req_content;
-//			uuid = msgs.substring(0,36);
-//			d_length = Integer.parseInt(msgs.substring(36,39));//.getBytes()[0] & 0xff;
-//			location = descriptor = msgs.substring(39,39+d_length);
-//			datasize = Integer.parseInt(msgs.substring(39+d_length,43+d_length));//.getBytes()[0] & 0xff;
-//			security =  Integer.parseInt(msgs.substring(43+d_length, 44+d_length));
-//			datatype =  Integer.parseInt(msgs.substring(44+d_length, 45+d_length));
-//			System.out.println("\tmetadata information : uuid=" + uuid + ",     location=" + location + ",     data_size=" + datasize + ",     security_level=" + security + ",     data_type=" + datatype);
-//			
-//			if(datatype == 1)
-//				return devcnt;
-			// 기존 메타데이터
+			String[] array = msgs.split("#");
+			dataID = array[0];
+			fileType = array[2];
+			dataType = Integer.parseInt(array[3]);
+			securityLevel = Integer.parseInt(array[4]);
+
+			req_content = dataID + "." + fileType + "::" + input;
 			
-			
-			msgs = RequestMessage(req_content, ipAddress, 2);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3)
-			if(msgs.equals("time"))
-				return -2;
-//			System.out.println(msgs);
-			if(msgs.equals("permission"))
+			if(securityLevel>1 && dataType != 1)// && (fileType.equals("csv") || fileType.equals("txt")))
 			{
-				devcnt = 2;
-//				System.out.println("\tIt is Possible to Write the DATA\n");
+//				System.out.println("!! 005 - 1");
+				msgs = RequestMessage(req_content, ipAddress, 2);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3)
+				if(msgs.equals("time"))
+					return -1;
+//				System.out.println("\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
+//				if(!msgs.equals(null))
+//					devcnt = 2;
+				if(msgs.equals("permission"))
+				{
+					devcnt = 2;
+//					System.out.println("\tIt is Possible to Remove the DATA\n");
+				}
+				
+//				if(dataType != 1) // data delete - don't care
 			}
-//			else if(msgs.equals("failure"))
-//			{
-//				System.out.println("\tIt is ImPossible to Write the DATA\n");
-//				
-//			}
+//			else if(securityLevel>1 && dataType != 1)
+//	    		devcnt = 0;
+	    	else
+	    		devcnt = 1;
+			System.out.println("!! 005 - " + devcnt);
 
-
-//			if(!msgs.equals("none"))
-//				System.out.println("\tAnswer : " + ipAddress + " has data.");
-//			else
-//				System.out.println("\tAnswer : doesn't had DATA."); // Send the answer 로 충분
 		}
-//		else
-//		{
-//			System.out.println("\tAnswer : doesn't had DATA."); // Send the answer 로 충분
-//		}
 		return devcnt;
 	}
 
 	public int IndividualDataRemove(String req_content) // 210428 add int func
 	{
-		int devcnt=-1;
+		int devcnt=0;
 		String sql = select_sql + table_name + " where dataid = '" + req_content + "'";
 //		System.out.println("!! slaves request dataID : " + req_content);
 		ResultSet metadata = (ResultSet) database.query(sql);
@@ -1854,25 +1935,6 @@ public class DataProcess {
 				fileType = metadata.getString("file_type");
 				dataType = metadata.getInt("data_type");
 				securityLevel = metadata.getInt("security_level"); 
-//				if(req_content.equals(dataID))
-//				{
-//					timestamp = metadata.getTimestamp("timestamp");
-//					dataSignature = metadata.getString("data_signature");
-//					cert = metadata.getString("cert");
-//					directory = metadata.getString("directory");
-//					linked_edge = metadata.getString("linked_edge");
-//					
-//					dataType = metadata.getInt("data_type");
-//					dataPriority = metadata.getInt("data_priority");
-//					availabilityPolicy = metadata.getInt("availability_policy"); 
-//					dataSize = metadata.getLong("data_size");
-//
-//
-//					System.out.println("\tmetadata information :" 
-//							+ "\n\tDataID: " + dataID + "\n\tTimeStamp: " + timestamp + "\n\tFileType: " + fileType + "\n\tDataType: " + dataType + "\n\tsecurityLevel: " + securityLevel
-//							+ "\n\tDataPriority: " + dataPriority + "\n\tAvailabilityPolicy: " + availabilityPolicy + "\n\tDataSignature: " + dataSignature + "\n\tCert: " + cert
-//							+ "\n\tDirectory: " + directory + "\n\tLinked_edge: " + linked_edge + "\n\tDataSize[KB]: " + dataSize);
-//				}
 			}
 			else
 			{
@@ -1904,19 +1966,16 @@ public class DataProcess {
 	}
 	public int IndividualDataRemove(String req_content, String ipAddress) // 210428 add int func
 	{
-		Scanner sc = new Scanner(System.in);
-		int devcnt=-1, check=0;
+		int devcnt=0, check=0;
 		String msgs ="";
 
 		msgs=RequestMessage(req_content, ipAddress, "003");
 		if(msgs.equals("time"))
-			return -2;
+			return -1;
 //		System.out.println("!! IndividualDataRead : " + msgs);
 		if(!msgs.equals("none"))
 		{
 			devcnt = 1;
-//			System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
-//			Thread.sleep(5);
 
 			String[] array = msgs.split("#");
 			dataID = array[0];
@@ -1930,7 +1989,7 @@ public class DataProcess {
 			{
 				msgs = RequestMessage(req_content, ipAddress, 3);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3)
 				if(msgs.equals("time"))
-					return -2;
+					return -1;
 //				System.out.println("\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
 //				if(!msgs.equals(null))
 //					devcnt = 2;
@@ -1943,6 +2002,189 @@ public class DataProcess {
 //				if(dataType != 1) // data delete - don't care
 			}
 		}
+//		System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
+//		Thread.sleep(5);
+
+		return devcnt;
+	}
+	
+	byte[] IndividualDataSendReadByte(String filename)
+	{
+		int len = 0, total_len=0;
+		byte[] buffer = new byte[1024];
+		byte[] result = "none".getBytes();
+		
+		File file = new File(filename);
+		if(!file.exists())
+		{
+			return result;
+		}
+		
+		try {
+			FileInputStream in = new FileInputStream(file);
+			BufferedInputStream bis = new BufferedInputStream(in);
+			int cnt = 0;
+			byte[] buf = new byte[1024];
+			byte[] msg=null;
+			byte[] msg_b=null;
+			while ((len = bis.read(buf, 0, 1024)) != -1) {
+				total_len += len;
+				msg = new byte[total_len];
+
+				if(cnt == 0)
+				{
+					System.arraycopy(buf, 0, msg, 0, len);
+					msg_b =  msg;
+				}
+				else
+				{
+					System.arraycopy(msg_b, 0, msg, 0, msg_b.length);
+					System.arraycopy(buf, 0, msg, msg_b.length, len);
+					
+					msg_b =  msg;
+				}
+				
+				cnt ++;
+			}
+			bis.close();
+			in.close();
+			
+			result = msg;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}			
+		return result;
+	}
+	public int IndividualDataTransfer(String req_content, String ipAddress, String meta_info) // 210428 add int func
+	{
+		int devcnt=0;
+		String check_s="none";
+		byte[] check=null; 
+		String remote_cmd = "{[{REQ::" + ipAddress + "::007::"; //+ meta_info + "::";
+
+		if(!meta_info.equals("none"))
+		{
+			String[] array = meta_info.split("#");
+			req_content = dataID + "." + fileType;
+			String data_file = dataID + "." + fileType;
+			String cert_file = cert;
+			
+			EdgeDeviceInfoClient client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
+			client.startWaitingResponse();
+			File file = new File(cert_file);
+			if(file.exists())
+			{
+//				devcnt = 1;
+				int filesize = (int)file.length(), whole, chunksize=1000, i;
+				
+//				filesize = (int)file.length();
+//				System.out.println("!! IndividualDataSend : " + filesize);
+//				System.out.println("!! IndividualDataSend : " + data_file);
+//				check = cert_file; //IndividualDataSendRead(cert_file);
+				check = IndividualDataSendReadByte(cert_file);
+				try {
+					check_s = new String(check, "UTF-8");
+				} catch (UnsupportedEncodingException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				if(!check_s.equals("none"))
+				{
+					String[] cert_info = cert_file.split(folder);
+//					System.out.println("!! IndividualDataSend : " + cert_info[cert_info.length-2]);
+//					System.out.println("!! IndividualDataSend : " + cert_info[cert_info.length-1]);
+					String data = remote_cmd + "cert::" + cert_info[cert_info.length-2] + "::" + cert_info[cert_info.length-1] + "::" + filesize + "::";
+//					System.out.println("!! IndividualDataSend : " + data);
+					
+					byte[] msg_b=null, msg_l=null, cert_cmd=null;
+					try {
+						msg_b = data.getBytes("UTF-8");
+						msg_l =  "}]}".getBytes("UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					int length = msg_b.length + check.length + msg_l.length;
+					cert_cmd = new byte[length];
+					
+					System.arraycopy(msg_b, 0, cert_cmd, 0, msg_b.length);
+					System.arraycopy(check, 0, cert_cmd, msg_b.length, check.length);
+					System.arraycopy(msg_l, 0, cert_cmd, msg_b.length+check.length, msg_l.length);
+					client.sendPacket(cert_cmd, cert_cmd.length);
+				}
+			}
+			else
+			{
+//				result = "Fail";
+				return devcnt;
+			}
+			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			client.stopRequest();
+			
+//			System.out.println("!! IndividualDataSend meta : " );
+
+			client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
+			client.startWaitingResponse();
+			String meta_cmd = remote_cmd + "meta::" + meta_info + "}]}";
+			client.answerData = null;
+			try {
+				client.sendPacket(meta_cmd.getBytes("UTF-8"), meta_cmd.length());
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			long start_client = System.currentTimeMillis();
+			while(client.answerData == null)
+			{			
+				try {
+					Thread.sleep(50);
+					if(System.currentTimeMillis() - start_client > check_timeout )
+					{
+//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+						break;
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if(client.answerData != null)
+			{
+				String answer_data = null;
+				try {
+					answer_data = new String(client.answerData, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//				System.out.println("!! IndividualDataSend receive : " + answer_data);
+				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
+				{
+					devcnt = 2;
+					String[] split = answer_data.substring(8, answer_data.indexOf("}]}")).split("::"); // [0] = my_ip, [1]=003, [2]=metadata or none
+					client.answerData = null;
+//					System.out.println("!! IndividualDataSend result : " + result);
+				}
+				
+			}
+			else
+				return -1;
+
+			client.stopRequest();
+		}
+//		System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
+//		Thread.sleep(5);
+
 		return devcnt;
 	}
 
@@ -2079,6 +2321,7 @@ public class DataProcess {
 //	public static String origin_foldername = "/home/keti/data/";
 	public static String data_folder = "/home/keti/data/";
 	public static String cert_folder = "/home/keti/data/";
+	public static String folder = "/";
 	public static String local_ip = "localhost";
 	public static Database database = null;
 	static int ketiCommPort = 5679; // KETI 내부통신

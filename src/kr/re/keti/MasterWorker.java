@@ -77,8 +77,10 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			if(Thread.interrupted())
 				break;
 
-			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove");
-			System.out.println("function : 0. Declare EXIT");
+//			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
+//			System.out.println("function : 0. Declare EXIT");
+			System.out.println("function : 0. Declare EXIT     1. Device Information     2. Whole Data Information");
+			System.out.println("function : 3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
 			System.out.print("function number\t(ex) 1 ?\t");
 			String input_func="none";
 			while(!sc.hasNextLine()) // && input_func.equals("")) // NoSuchElementException : No line found
@@ -118,7 +120,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			System.out.println("Edge List : " + my_ip + "(master)\t" +  slaveList);
 //			if(func == 0)
 //				threadStop(true);
-			if(func == 1)
+			if(func == 1 || func == 2)
 			{
 				System.out.print("Which Edge Device Do you Want to Know\t(ex)127.0.1.1 ?\t");
 				String device_ip = sc.nextLine();
@@ -126,7 +128,10 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 				if(device_ip.equals(my_ip))
 				{
 					System.out.println("request to mine");
-					dataprocess.DeviceInfomation(); // 210428 add int func
+					if(func == 1)
+						dataprocess.DeviceInfomation(); // 210428 add int func
+					else
+						dataprocess.WholeDataInfo();
 //					if(check == 1)
 //						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
 //					if(check == -1)
@@ -135,7 +140,10 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 				else if(slaveList.contains(device_ip))
 				{
 					System.out.println("request to " + device_ip);
-					check = dataprocess.DeviceInfomation(device_ip); // 210428 add int func
+					if(func == 1)
+						check = dataprocess.DeviceInfomation(device_ip); // 210428 add int func
+					else
+						check = dataprocess.WholeDataInfo(device_ip);
 //					if(check == 1)
 //						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
 					if(check == -1)
@@ -146,66 +154,46 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					System.out.println("* Edge Device(" + device_ip + ") don't consist in Edge Network.");
 				}
 			}
-			else if(func == 2)
+			else if(func==3 || func==4)
 			{
-				System.out.print("Which Edge Device Do you Want to Know\t(ex)127.0.1.1 ?\t");
-				String device_ip = sc.nextLine();
-				if(device_ip.equals(my_ip))
-				{
-					System.out.println("request to mine");
-					dataprocess.WholeDataInfo(); // 210428 add int func
-//					if(check == -1)
-//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
-				}
-				else if(slaveList.contains(device_ip))
-				{
-					System.out.println("request to " + device_ip);
-					check = dataprocess.WholeDataInfo(device_ip); // 210428 add int func
-//					if(check == 1)
-//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
-					if(check == -1)
-						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
-				}
-				else
-				{
-					System.out.println("* Edge Device(" + device_ip + ") don't consist in Edge Network.");
-				}
-			}
-			else
-			{
-				System.out.print("What Data Do you Want to Know(Input DataID)?\t");
+				System.out.print("What Data Do you Want to Know(Input the DataID)?\t");
 				String filename = sc.nextLine();
 //				System.out.println("slaves ip list : " + slaveList);
 //				System.out.println("!! MasterWokrer : " + filename);
-			
-
 
 				if(func == 3)
 				{
-					System.out.print("request to mine, ");
+					System.out.println("request to mine");
 					String result="none";
 					String result_bakcup="none";
-					String edge="mine";
+					String edge="none";
 					result = dataprocess.MetaDataInfomation(filename); // 210428 add int func
 					if(!result.equals("none")) //if(!result.equals("none") && !result.equals("time"))
 					{
 						dataList.add(my_ip);
 						result_bakcup = result;
+						edge = "mine";
 					}
 					
 					for(i=0; i<slaveList.size(); i++)
 					{
-						System.out.print(slaveList.get(i) + ", ");
-						if(result_bakcup.equals("none")) // 이전에 메타데이터 정보가 있는 edge가 없었으면
-							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0); // metadata를 저장하고 싶으면=1, 저장 안하면=0 
-						else
-							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0);
-						if(!result.equals("none")) //if(!result.equals("none") && !result.equals("time"))
+						System.out.println("request to " + slaveList.get(i));
+						result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0); // metadata를 저장하고 싶으면=1, 저장 안하면=0 
+//						if(result_bakcup.equals("none")) // 이전에 메타데이터 정보가 있는 edge가 없었으면
+//							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0); // metadata를 저장하고 싶으면=1, 저장 안하면=0 
+//						else
+//							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0);
+						
+						if(result.equals("time"))
+							System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
+						else if(!result.equals("none")) //if(!result.equals("none") && !result.equals("time"))
 						{
 							dataList.add(slaveList.get(i));
 							if(result_bakcup.equals("none"))
+							{
 								result_bakcup = result;
-							edge = slaveList.get(i);
+								edge = slaveList.get(i);
+							}
 						}
 					}
 					System.out.println("");
@@ -279,7 +267,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 				}
 */			
 				
-// 공인인증시험 준비
 				else if(func == 4) // fileExsit always execute.
 				{
 //					ArrayList<String> edgeList=new ArrayList<String>();
@@ -294,57 +281,120 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					{
 						if(check == 1)
 							metaList.add(my_ip);
-						dataList = dataprocess.IndividualDataRead(filename, slaveList); // 210428 add int func
+						dataList = dataprocess.IndividualDataRead(filename, slaveList); // 공인인증시험 - chunk 300 packet
 					}
 					
 					if(dataList.size() != 0)
 						System.out.println("* [" + dataList + "] : have Data.");
-					else if(metaList.size() != 0)
-						System.out.println("* [" + metaList + "] : have only MetaData.");
+//					else if(metaList.size() != 0)
+//						System.out.println("* [" + metaList + "] : have only MetaData.");
 					else
 						System.out.println("* Anyone doesn't have Data.");
-				}
-				
-				else if(func == 5) // fileExsit always execute.
-				{
-					System.out.println("request to mine");
-					check = dataprocess.IndividualDataWrite(filename, my_ip); // 210428 add int func
-					if(check == 2)
-						dataList.add(my_ip); //localhost == my_ip
-					else if(check == 1)
-						metaList.add(my_ip);
-					
-					for(i=0; i<slaveList.size(); i++)
-					{
-						System.out.println("request to " + slaveList.get(i));
-						check = dataprocess.IndividualDataWrite(filename, slaveList.get(i)); // 210428 add int func
-						if(check == 2)
-							dataList.add(slaveList.get(i));
-						else if(check == 1)
-							metaList.add(slaveList.get(i));
-//						System.out.println(check);
-					
-					}
-					
-					if(metaList.size() != 0)
-						System.out.println("* [" + metaList + "] : have only MetaData.");
+				}		
+			} 
+			else
+			{
+				System.out.print("Which Edge Do you Want to do the function\t(ex) 127.0.0.1, all ?\t");
+				String ip = sc.nextLine();
+				System.out.print("What Data Do you Want to Know(Input the DataID)?\t");
+				String filename = sc.nextLine();
+				boolean ip_check=false;
 
-					if(dataList.size() == 0)
-						System.out.println("* Anyone doesn't have Data.");
-					else
-						System.out.println("* [" + dataList + "] : have Data.");
-					
-				}				
-				else if(func == 6) // fileExsit always execute.
+				if(func == 5) // fileExsit always execute.
 				{
-					boolean ip_check=false;
+					System.out.println("What Do you Want to Write\t(Sign of Finish : !!finish!!)");
+					String input_content="";
+					while(true)
+					{
+						String input = sc.nextLine();
+						if(input.equals("!!finish!!"))
+						{
+							break;
+						}
+						input_content += input + '\n';
+					}
+
 					check = -1;
-					System.out.print("Which Edge Do you Want to Erase the data\t(ex) 127.0.0.1 ?\t");
-					String ip = sc.nextLine();
 					if(ip.equals("all")) // whole edge remove request
 					{
 						System.out.println("request to mine");
-						check = dataprocess.IndividualDataRemove(filename, my_ip); // 210428 add int func
+						check = dataprocess.IndividualDataWrite(filename, input_content); // 210428 add int func
+						if(check == 2)
+							dataList.add(my_ip); //localhost == my_ip
+						else if(check == 1)
+							metaList.add(my_ip);
+						
+						for(i=0; i<slaveList.size(); i++)
+						{
+							System.out.println("request to " + slaveList.get(i));
+							check = dataprocess.IndividualDataWrite(filename, slaveList.get(i), input_content); // 210428 add int func
+							if(check == 2)
+								dataList.add(slaveList.get(i));
+							else if(check == 1)
+								metaList.add(slaveList.get(i));
+							else if(check == -1)
+								System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
+//							System.out.println(check);
+						
+						}
+						
+						if(dataList.size() != 0 || metaList.size() != 0)
+						{
+							if(dataList.size() != 0)
+								System.out.println("* " + dataList + " : have Data and Write.");
+							if(metaList.size() != 0)
+//								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
+								System.out.println("* " + metaList + "] : have Data but don't have an Authority.");
+						}
+						else
+							System.out.println("* Anyone doesn't have Data.");
+					}
+					else
+					{
+						if(ip.equals(my_ip))
+						{
+							ip_check = true;
+							System.out.println("request to master");
+							check = dataprocess.IndividualDataWrite(filename, input_content); // 210428 add int func
+						}
+						else if(slaveList.indexOf(ip) != -1)
+						{
+							ip_check = true;
+							System.out.println("request to " + ip);
+							check = dataprocess.IndividualDataWrite(filename, ip, input_content); // 210428 add int func 
+						}
+//						for(i=0; i<slaveList.size(); i++)
+//						{
+//							if(ip.equals(slaveList.get(i)))
+//							{
+//								ip_check = true;
+//								System.out.println("request to " + slaveList.get(i));
+//								check = dataprocess.IndividualDataWrite(filename, slaveList.get(i), input_content); // 210428 add int func 
+//							}
+////								System.out.println(check);
+//						}
+
+						if(!ip_check)
+							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
+						else if(check == 2)
+							System.out.println("* [" + ip + "] : have Data and Write.");
+						else if(check == 1)
+							System.out.println("* [" + ip + "] : have Data but don't have an Authority.");
+//							System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
+						else if(check == -1)
+							System.out.println("* Bring the Information of Edge Device(" + ip + ") : Failure.");
+						else
+							System.out.println("* [" + ip + "] : doesn't have Data.");
+					}
+					
+				} // function 5	
+				else if(func == 6) // fileExsit always execute.
+				{
+					check = -1;
+					if(ip.equals("all")) // whole edge remove request
+					{
+						System.out.println("request to mine");
+						check = dataprocess.IndividualDataRemove(filename); // 210428 add int func
 						if(check == 2)
 							dataList.add(my_ip); //localhost == my_ip
 						else if(check == 1)
@@ -358,6 +408,8 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 								dataList.add(slaveList.get(i));
 							else if(check == 1)
 								metaList.add(slaveList.get(i));
+							else if(check == -1)
+								System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
 //							System.out.println(check);
 						
 						}
@@ -381,16 +433,25 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							System.out.println("request to master");
 							check = dataprocess.IndividualDataRemove(filename); // 210428 add int func
 						}
-						for(i=0; i<slaveList.size(); i++)
+						else if(slaveList.indexOf(ip) != -1)
 						{
-							if(ip.equals(slaveList.get(i)))
-							{
-								ip_check = true;
-								System.out.println("request to " + slaveList.get(i));
-								check = dataprocess.IndividualDataRemove(filename, slaveList.get(i)); // 210428 add int func 
-							}
-//								System.out.println(check);
+							ip_check = true;
+							System.out.println("request to " + ip);
+							check = dataprocess.IndividualDataRemove(filename, ip); // 210428 add int func 
+							
 						}
+//						for(i=0; i<slaveList.size() && !ip.equals(my_ip); i++)
+//						{
+//							if(ip.equals(slaveList.get(i)))
+//							{
+//								ip_check = true;
+//								System.out.println("request to " + slaveList.get(i));
+//								check = dataprocess.IndividualDataRemove(filename, slaveList.get(i)); // 210428 add int func 
+////								if(check == -1)
+////									System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
+//							}
+////								System.out.println(check);
+//						}
 
 						if(!ip_check)
 							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
@@ -399,11 +460,75 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 						else if(check == 1)
 							System.out.println("* [" + ip + "] : have Data but don't have an Authority.");
 //							System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
+						else if(check == -1)
+							System.out.println("* Bring the Information of Edge Device(" + ip + ") : Failure.");
 						else
 							System.out.println("* [" + ip + "] doesn't have Data.");
 					}
 	
-				}				
+				} // function 6			
+				else if(func == 7) // 
+				{
+					check = -1;
+					String meta_info = dataprocess.MetaDataInfomation(filename);
+					if(meta_info.equals("none"))
+					{
+						System.out.println("* Don't have Data [" + filename + "]");
+					}
+					else if(ip.equals("all")) // whole edge remove request
+					{
+						for(i=0; i<slaveList.size(); i++)
+						{
+							System.out.println("request to " + slaveList.get(i));
+							check = dataprocess.IndividualDataTransfer(filename, slaveList.get(i), meta_info);
+							if(check == 2)
+								dataList.add(slaveList.get(i));
+							else if(check == -1)
+								System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
+//							System.out.println(check);
+						
+						}
+						
+						if(dataList.size() == slaveList.size())
+							System.out.println("* [ All Edges ] : Transfermission is Success.");
+						else if(dataList.size() != 0)
+							System.out.println("* " + dataList + " : Transfermission is Success.");
+						else
+							System.out.println("* Cannot Transfer Data to Anyone.");
+					}
+					else
+					{
+						if(slaveList.indexOf(ip) != -1)
+						{
+							ip_check = true;
+							System.out.println("request to " + ip);
+							check = dataprocess.IndividualDataTransfer(filename, ip, meta_info);
+						}
+//						for(i=0; i<slaveList.size(); i++)
+//						{
+//							if(ip.equals(slaveList.get(i)))
+//							{
+//								ip_check = true;
+//								System.out.println("request to " + slaveList.get(i));
+//								check = dataprocess.IndividualDataTransfer(filename, slaveList.get(i), meta_info);
+//							}
+////								System.out.println(check);
+//						}
+
+						if(!ip_check)
+							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
+						else if(check == 2)
+							System.out.println("* [" + ip + "] : Transfermission is Success.");
+//						else if(check == 1)
+//							System.out.println("* [" + ip + "] : have Data but don't have an Authority.");
+//							System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
+						else if(check == -1)
+							System.out.println("* Bring the Information of Edge Device(" + ip + ") : Failure.");
+						else
+//							System.out.println("* Cannot Transfer Data to [" + ip + "].");
+							System.out.println("* [" + ip + "] : Transfermission Fail.");
+					}					
+				}// function 7
 			}
 		}
 		
