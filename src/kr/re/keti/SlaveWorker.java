@@ -249,7 +249,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					else
 					{
 						String[] array = result_bakcup.split("#");
-						System.out.println("* [" + dataList + "] : have MetaData.");
+						System.out.println("* " + dataList + " : have MetaData.");
 						System.out.println("* Metadata information in " + edge + " :" 
 								+ "\n\tDataID: " + array[0] + "\n\tTimeStamp: " + Timestamp.valueOf(array[1]) + "\n\tFileType: " + array[2] + "\n\tDataType: " + Integer.parseInt(array[3])
 								+ "\n\tsecurityLevel: " + Integer.parseInt(array[4]) + "\n\tDataPriority: " + Integer.parseInt(array[5]) + "\n\tAvailabilityPolicy: " + Integer.parseInt(array[6])
@@ -278,7 +278,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					}
 					
 					if(dataList.size() != 0)
-						System.out.println("* [" + dataList + "] : have Data.");
+						System.out.println("* " + dataList + " : have Data.");
 //					else if(metaList.size() != 0)
 //						System.out.println("* [" + metaList + "] : have only MetaData.");
 					else
@@ -358,7 +358,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 								System.out.println("* " + dataList + " : have Data and Write.");
 							if(metaList.size() != 0)
 //								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
-								System.out.println("* " + metaList + "] : have Data but don't have an Authority.");
+								System.out.println("* " + metaList + " : have Data but don't have an Authority.");
 						}
 						else
 							System.out.println("* Anyone doesn't have Data.");
@@ -458,7 +458,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 								System.out.println("* " + dataList + " : have Data and Remove.");
 							if(metaList.size() != 0)
 //								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
-								System.out.println("* " + metaList + "] : have Data but don't have an Authority.");
+								System.out.println("* " + metaList + " : have Data but don't have an Authority.");
 						}
 						else
 							System.out.println("* Anyone doesn't have Data.");

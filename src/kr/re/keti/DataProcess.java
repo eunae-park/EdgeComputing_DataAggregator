@@ -84,7 +84,8 @@ public class DataProcess {
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -142,7 +143,8 @@ public class DataProcess {
 						Thread.sleep(50);
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
-							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+							System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -206,7 +208,8 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						result = "time";
-						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -262,7 +265,8 @@ public class DataProcess {
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -324,7 +328,8 @@ public class DataProcess {
 								Thread.sleep(50);
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
-									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+									System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
@@ -362,7 +367,9 @@ public class DataProcess {
 							Thread.sleep(50);
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
-								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+////								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+								System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+
 								break;
 							}
 						} catch (InterruptedException e) {
@@ -417,7 +424,8 @@ public class DataProcess {
 						Thread.sleep(50);
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
-							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+							System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -459,7 +467,8 @@ public class DataProcess {
 						Thread.sleep(50);
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
-							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+							System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -528,7 +537,8 @@ public class DataProcess {
 								Thread.sleep(50);
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
-									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+									System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
@@ -583,7 +593,8 @@ public class DataProcess {
 							Thread.sleep(50);
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
-								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+								System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 								break;
 							}
 						} catch (InterruptedException e) {
@@ -645,7 +656,8 @@ public class DataProcess {
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -1032,7 +1044,7 @@ public class DataProcess {
 //				data +=  +  +  + "\tsecurityLevel: " + securityLevel +"\n";
 
 		for(int i=0; i<number_data; i++)
-			System.out.println(String.format("\t#%-4d", i+1) + String.format(" - DataID: %-70s", String.format(" - DataID: %-70s", dataID)) + String.format("\tDataSize[KB]: %-4d", array[i*3+2]) + "\tsecurityLevel: " + array[(i+1)*3]);
+			System.out.println(String.format("\t#%-4d", i+1) + String.format(" - DataID: %-70s", array[i*3+1]) + String.format("\tDataSize[KB]: %-4s", array[i*3+2]) + "\tsecurityLevel: " + array[(i+1)*3]);
 //		System.out.println("\t#" + (i+1) + " - DataID: " + array[i*3+1] + "\tDataSize[KB]: " + array[i*3+2] + "\tsecurityLevel: " + array[(i+1)*3]);
 		
 		return check;
@@ -1515,7 +1527,48 @@ public class DataProcess {
 						}
 					}
 					edgeList.add(ipAddress.get(i));
+					try { // 4-5th security level
+						PrintWriter fprogress;
+						fprogress = new PrintWriter(data_folder + dataID + ".meta");
+						fprogress.println(dataType);  //linked or real data
+						fprogress.println(dataSize);  //length
+						fprogress.println(data_folder);  //data location
+						if(securityLevel==5 && dataSize>4)
+						{
+							fprogress.println(dataSize);  //number of chunk
+							fprogress.println(1);  //chunk size
+						}
+						else // no chunk
+						{
+							fprogress.println(1);  //number of chunk
+							fprogress.println(dataSize);  //chunk size
+						}
+						fprogress.println(0);  //
+//						fprogress.println(req_content+ "." + fileType);  //
+						fprogress.close();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 				}
+				else // original data - another edge
+				{
+					try { // linked data sharing information
+						PrintWriter fprogress;
+						fprogress = new PrintWriter(data_folder + dataID + ".meta");
+						fprogress.println(dataType);  //linked or real data
+						//					        long file_length = fileLength(req_content, origin_ip); // 단위?
+						fprogress.println(dataSize);  //length
+						fprogress.println(linked_edge);  //data location
+						fprogress.close();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					continue ;
+				}
+					
 			}
 		}
 		
@@ -1560,6 +1613,29 @@ public class DataProcess {
 					{
 						if(securityLevel >= 4)
 						{
+							try {
+//add file - 1546line remove//	FileWriter fprogress = new FileWriter(data_folder + dataID + ".meta", true);
+//								fprogress.write("1\n");  //number of trasfer edge 
+//								fprogress.write(req_content + "\n");  //chunk name
+//								fprogress.write(edge +", 1, 0\n");  //edge, start_chunk, end_chunk-(0=no chunk)
+//								fprogress.write("1");  //received chunk
+//								fprogress.close();
+								PrintWriter fprogress; //
+								fprogress = new PrintWriter(data_folder + dataID + ".meta");
+								fprogress.println(dataType);  //linked or real data
+								fprogress.println(dataSize);  //length
+								fprogress.println(data_folder);  //data location
+								fprogress.println(1);  //number of chunk
+								fprogress.println(dataSize);  //chunk size
+								fprogress.println("1");  //number of trasfer edge
+								fprogress.println(req_content);  //chunk name
+								fprogress.println(edge +", 1, 0");  //edge, start_chunk, end_chunk-(0=no chunk)
+								fprogress.println("1");  //received chunk
+								fprogress.close();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 //							System.out.println("!! 004 - " +  securityLevel);
 							try {
 								File datafile = new File(data_folder+req_content);
@@ -1593,8 +1669,25 @@ public class DataProcess {
 							dataType = 1;
 							linked_edge = edge + ":" + directory;
 							directory = null;
+							try {
+								PrintWriter fprogress;
+								fprogress = new PrintWriter(data_folder + dataID + ".meta");
+								fprogress.println(dataType);  //linked or real data
+								//					        long file_length = fileLength(req_content, origin_ip); // 단위?
+								fprogress.println(dataSize);  //length
+								fprogress.println(linked_edge);  //length
+								fprogress.close();
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							
-							System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
+							if(fileType.equals("csv") || fileType.equals("txt"))
+								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
+							else
+								System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
+
+// only notify //							System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
 						}
 
 //						long end_time = System.currentTimeMillis(); // + 32400000;
@@ -1639,20 +1732,6 @@ public class DataProcess {
 			}
 			else // securityLevel==5 && dataSize>4
 			{
-				///////////////////////////////////////////////////////////////////v201209.3
-				try {
-					PrintWriter fprogress;
-					fprogress = new PrintWriter(data_folder + dataID + ".meta");
-					fprogress.println(securityLevel);  //length
-					//					        long file_length = fileLength(req_content, origin_ip); // 단위?
-					fprogress.println(dataSize);  //length
-					fprogress.println(local_ip);  //length
-					fprogress.close();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				///////////////////////////////////////////////////////////////////v201209.3
 //					System.out.println("!! dataprocess - edgeList : " + edgeList);
 				
 //				Iterator<String> iter = edgeList.iterator();
@@ -1699,23 +1778,18 @@ public class DataProcess {
 						return edgeList;
 				}while(edge_size != edgeList.size());
 
-				PrintWriter fprogress = null;
-				try {
-					fprogress = new PrintWriter(data_folder + dataID + ".meta");
-					fprogress.println(securityLevel);  //length
-					//					        long file_length = fileLength(req_content, origin_ip); // 단위?
-					fprogress.println(dataSize);  //file length = KB
-					fprogress.println(number_chunk);  //chunk number
-					fprogress.println(chunk_size);  //chunk size = KB
-					fprogress.println(edge_size);  //edge number
-					fprogress.println(dataID+"."+fileType);  //file name
-					for(i=0, j=1; i<edge_size; i++)
-					{
-					}
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}				
+//				FileWriter fprogress = null;
+//				try {
+//					FileWriter fprogress = new FileWriter(data_folder + dataID + ".meta", true);
+//					fprogress.write(edgeList.size() + "\n");  // number of sharing edge
+//					fprogress.write(req_content + "\n");  //chunk name
+//					for(i=0, j=1; i<edge_size; i++)
+//					{
+//					}
+//				} catch (FileNotFoundException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}				
 				System.out.println("* Edge List with Data Separation Completed : " + edgeList);
 				
 				// chunk request #1
@@ -1727,15 +1801,15 @@ public class DataProcess {
 //						System.out.println("!! chunk read : " + chunkList.get(i));
 		
 // thread			
-					fprogress.print(edgeList.get(i) + " ");
-					fprogress.print(j + " " + (j+number_request[i]-1));
+//					fprogress.print(edgeList.get(i) + " ");
+//					fprogress.print(j + " " + (j+number_request[i]-1));
 					chunk_check[i] = 0;
 					// chunk request #2
 					edge_th[i] = new UnitEdge(data_folder, req_content, edgeList.get(i), "405", fileType, i, j, j+number_request[i]); //
 					edge_th[i].start();
 					j += number_request[i];
 				}
-				fprogress.close();
+//				fprogress.close();
 				
 //				try { // for 공인인증
 //					Thread.sleep(number_chunk);
@@ -2150,6 +2224,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -2328,7 +2403,7 @@ public class DataProcess {
 	public int[] chunk_check, chunk_edge;
 //	public String[] chunk;
 	public static int maxRetry = 10;
-	static int check_timeout = 4000;
+	static int check_timeout = 5000;
 
 	
 	class UnitChunk extends Thread

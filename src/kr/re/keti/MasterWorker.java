@@ -175,6 +175,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 						edge = "mine";
 					}
 					
+					
 					for(i=0; i<slaveList.size(); i++)
 					{
 						System.out.println("request to " + slaveList.get(i));
@@ -183,6 +184,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 //							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0); // metadata를 저장하고 싶으면=1, 저장 안하면=0 
 //						else
 //							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0);
+						System.out.println(result);
 						
 						if(result.equals("time"))
 							System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
@@ -203,7 +205,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					else
 					{
 						String[] array = result_bakcup.split("#");
-						System.out.println("* [" + dataList + "] : have MetaData.");
+						System.out.println("* " + dataList + " : have MetaData.");
 						System.out.println("* Metadata information in " + edge + " :" 
 								+ "\n\tDataID: " + array[0] + "\n\tTimeStamp: " + Timestamp.valueOf(array[1]) + "\n\tFileType: " + array[2] + "\n\tDataType: " + Integer.parseInt(array[3])
 								+ "\n\tsecurityLevel: " + Integer.parseInt(array[4]) + "\n\tDataPriority: " + Integer.parseInt(array[5]) + "\n\tAvailabilityPolicy: " + Integer.parseInt(array[6])
@@ -285,7 +287,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					}
 					
 					if(dataList.size() != 0)
-						System.out.println("* [" + dataList + "] : have Data.");
+						System.out.println("* " + dataList + " : have Data.");
 //					else if(metaList.size() != 0)
 //						System.out.println("* [" + metaList + "] : have only MetaData.");
 					else
@@ -344,7 +346,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 								System.out.println("* " + dataList + " : have Data and Write.");
 							if(metaList.size() != 0)
 //								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
-								System.out.println("* " + metaList + "] : have Data but don't have an Authority.");
+								System.out.println("* " + metaList + " : have Data but don't have an Authority.");
 						}
 						else
 							System.out.println("* Anyone doesn't have Data.");
@@ -420,7 +422,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 								System.out.println("* " + dataList + " : have Data and Remove.");
 							if(metaList.size() != 0)
 //								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
-								System.out.println("* " + metaList + "] : have Data but don't have an Authority.");
+								System.out.println("* " + metaList + " : have Data but don't have an Authority.");
 						}
 						else
 							System.out.println("* Anyone doesn't have Data.");
