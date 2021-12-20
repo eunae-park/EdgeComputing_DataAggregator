@@ -11,6 +11,9 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public final class EdgeDeviceInfoClient
 {
@@ -69,7 +72,21 @@ public final class EdgeDeviceInfoClient
 	}
 	public EdgeDeviceInfoClient(String addr, int socketType, int port)
 	{
-		agentSocket = null;
+		Logger logger = Logger.getLogger("MyLog");
+	    FileHandler fh;
+	    try {
+	        // This block configure the logger with handler and formatter  
+	        fh = new FileHandler("log/log");
+	        logger.addHandler(fh);
+	        SimpleFormatter formatter = new SimpleFormatter();
+	        fh.setFormatter(formatter);
+	    } catch (SecurityException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    agentSocket = null;
 		replySocket = null;
 		
 		streamSocket = null;
@@ -94,28 +111,38 @@ public final class EdgeDeviceInfoClient
 				do
 				{
 					TCPSocketAgent.defaultPort = port;
-//					System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
+					System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
 					streamSocket = new Socket(targetAddress, port);
 					
 					++numOfRetry;
 				}while(streamSocket == null && numOfRetry <= connectionRetryLimit);
 				
-				if(streamSocket != null && streamSocket.isConnected())
+				if(streamSocket != null && streamSocket.isConnected() && streamSocket.getKeepAlive())
 				{
 					inputStream = streamSocket.getInputStream();
 				}
 			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			streamSocket = null;
+			logger.info("client UnknownHostException");//e.printStackTrace();
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			streamSocket = null;
+			logger.info("client SocketException");//e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			streamSocket = null;
+			logger.info("client IOException");//e.printStackTrace();
 		}
 		
+	}
+	
+	public boolean streamSocket_alive()
+	{
+		if(streamSocket == null)
+			return false;
+		return true;
 	}
 	
 	public void sendPacket(byte[] data, int len)
@@ -354,6 +381,22 @@ public final class EdgeDeviceInfoClient
 //							System.out.println("!! answer while : " + new String(packetData));
 //							System.out.println("!! answer while : " + new String(data_b));
 //							System.out.println("!! answer while : " + new String(data));
+						}
+						else if(!streamSocket.getKeepAlive())
+						{
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								streamSocket.setKeepAlive(true);
+								if(streamSocket.getKeepAlive() == false)
+								{
+									System.out.println("!! edge socket client alive false");
+									msg = "retry";
+									break;
+								}
 						}
 						
 //						System.out.println("!! len : " + total_len);

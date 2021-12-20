@@ -39,6 +39,9 @@ import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import com.sun.management.OperatingSystemMXBean;
 
@@ -74,6 +77,25 @@ public class DataProcess {
 //			System.out.println("!! RequestSlaveList : " + remote_cmd);
 			
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("RequestSlaveList : " + client.streamSocket_alive());
+				return slavelist;
+			}
+
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 
@@ -132,6 +154,24 @@ public class DataProcess {
 //				System.out.println("!! dataprocess - " + result);
 //				System.out.println("!! dataprocess - " + ip);
 				client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP); // manaul setting
+				if(!client.streamSocket_alive())
+				{
+					Logger logger = Logger.getLogger("MyLog");
+				    FileHandler fh;
+				    try {
+				        // This block configure the logger with handler and formatter  
+				        fh = new FileHandler("log/log");
+				        logger.addHandler(fh);
+				        SimpleFormatter formatter = new SimpleFormatter();
+				        fh.setFormatter(formatter);
+				    } catch (SecurityException e) {
+				        e.printStackTrace();
+				    } catch (IOException e) {
+				        e.printStackTrace();
+				    }
+					logger.info("SendEdgeList : " + client.streamSocket_alive());
+					return ;
+				}
 				client.startWaitingResponse();
 				String remote_cmd = "{[{REQ::" + ip + "::" + "001" + "::EDGE_LIST::" + result + "}]}";
 
@@ -183,7 +223,7 @@ public class DataProcess {
 
 	public String RequestMessage(String req_content, String ip, String req_code) // real exists in node
 	{
-		EdgeDeviceInfoClient client;
+	    EdgeDeviceInfoClient client;
 		String result = "none";
 		String remote_cmd="";
 
@@ -196,6 +236,25 @@ public class DataProcess {
 				remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::" + req_content + "}]}";
 			
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("RequestMessage : " + client.streamSocket_alive());
+				return result;
+			}
+
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 //				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
@@ -255,6 +314,25 @@ public class DataProcess {
 			remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::" + req_content + "::" + start + "::" + finish + "}]}";
 			
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("RequestMessage2 : " + client.streamSocket_alive());
+				return result;
+			}
+
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 //				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
@@ -307,6 +385,24 @@ public class DataProcess {
 
 		try {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("RequestMessage3 : " + client.streamSocket_alive());
+				return result;
+			}
 			client.startWaitingResponse();
 //			System.out.println("!! RequestMessage2 : " + remote_cmd);
 			if(data_code == 1) // read 
@@ -515,6 +611,24 @@ public class DataProcess {
 
 		try {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("RequestMessageByte : " + client.streamSocket_alive());
+				return result;
+			}
 			client.startWaitingResponse();
 //			System.out.println("!! RequestMessage2 : " + remote_cmd);
 			if(data_code == 1) // read 
@@ -637,12 +751,30 @@ public class DataProcess {
 	}
 	public String RequestMessageKETIRead(String req_content, String ip, String req_code)
 	{
-		EdgeDeviceInfoClient client;
+	    EdgeDeviceInfoClient client;
 		String result = "none";
 		String remote_cmd="";
 
 		try {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("RequestMessageKETIRead : " + client.streamSocket_alive());
+				return result;
+			}
 			client.startWaitingResponse();
 			
 			remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::" + req_content + "}]}";
@@ -1043,7 +1175,7 @@ public class DataProcess {
 		System.out.println("\tdevice uuid=" + array[0].substring(0,36) + "\n\tnumber of data=" + number_data);
 //				data +=  +  +  + "\tsecurityLevel: " + securityLevel +"\n";
 
-		for(int i=0; i<number_data; i++)
+		for(int i=0; i<number_data; i++) //check
 			System.out.println(String.format("\t#%-4d", i+1) + String.format(" - DataID: %-70s", array[i*3+1]) + String.format("\tDataSize[KB]: %-4s", array[i*3+2]) + "\tsecurityLevel: " + array[(i+1)*3]);
 //		System.out.println("\t#" + (i+1) + " - DataID: " + array[i*3+1] + "\tDataSize[KB]: " + array[i*3+2] + "\tsecurityLevel: " + array[(i+1)*3]);
 		
@@ -2132,7 +2264,7 @@ public class DataProcess {
 	}
 	public int IndividualDataTransfer(String req_content, String ipAddress, String meta_info) // 210428 add int func
 	{
-		int devcnt=0;
+	    int devcnt=0;
 		String check_s="none";
 		byte[] check=null; 
 		String remote_cmd = "{[{REQ::" + ipAddress + "::007::"; //+ meta_info + "::";
@@ -2145,6 +2277,24 @@ public class DataProcess {
 			String cert_file = cert;
 			
 			EdgeDeviceInfoClient client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("IndividualDataTransfer : " + client.streamSocket_alive());
+				return 0;
+			}
 			client.startWaitingResponse();
 			File file = new File(cert_file);
 			if(file.exists())
@@ -2206,6 +2356,24 @@ public class DataProcess {
 //			System.out.println("!! IndividualDataSend meta : " );
 
 			client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
+			if(!client.streamSocket_alive())
+			{
+				Logger logger = Logger.getLogger("MyLog");
+			    FileHandler fh;
+			    try {
+			        // This block configure the logger with handler and formatter  
+			        fh = new FileHandler("log/log");
+			        logger.addHandler(fh);
+			        SimpleFormatter formatter = new SimpleFormatter();
+			        fh.setFormatter(formatter);
+			    } catch (SecurityException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+				logger.info("IndividualDataTransfer : " + client.streamSocket_alive());
+				return 0;
+			}
 			client.startWaitingResponse();
 			String meta_cmd = remote_cmd + "meta::" + meta_info + "}]}";
 			client.answerData = null;
@@ -2437,6 +2605,24 @@ public class DataProcess {
 						try
 						{
 							client = new EdgeDeviceInfoClient(req_ip, EdgeDeviceInfoClient.socketTCP);
+							if(!client.streamSocket_alive())
+							{
+								Logger logger = Logger.getLogger("MyLog");
+							    FileHandler fh;
+							    try {
+							        // This block configure the logger with handler and formatter  
+							        fh = new FileHandler("log/log");
+							        logger.addHandler(fh);
+							        SimpleFormatter formatter = new SimpleFormatter();
+							        fh.setFormatter(formatter);
+							    } catch (SecurityException e) {
+							        e.printStackTrace();
+							    } catch (IOException e) {
+							        e.printStackTrace();
+							    }
+								logger.info("UnitChunk : " + client.streamSocket_alive());
+								return ;
+							}
 							break;
 						} catch (Exception e)
 						{	
@@ -2596,6 +2782,24 @@ public class DataProcess {
 						try
 						{
 							client = new EdgeDeviceInfoClient(req_ip, EdgeDeviceInfoClient.socketTCP);
+							if(!client.streamSocket_alive())
+							{
+								Logger logger = Logger.getLogger("MyLog");
+							    FileHandler fh;
+							    try {
+							        // This block configure the logger with handler and formatter  
+							        fh = new FileHandler("log/log");
+							        logger.addHandler(fh);
+							        SimpleFormatter formatter = new SimpleFormatter();
+							        fh.setFormatter(formatter);
+							    } catch (SecurityException e) {
+							        e.printStackTrace();
+							    } catch (IOException e) {
+							        e.printStackTrace();
+							    }
+								logger.info("UnitEdge : " + client.streamSocket_alive());
+								return ;
+							}
 							break;
 						} catch (Exception e)
 						{	

@@ -557,6 +557,13 @@ public class EdgeDataAggregator {
 	
 	public static void main(String[] args) throws UnknownHostException
 	{
+		File folder = new File ("log/");
+		if(!folder.exists())
+		{
+//			System.out.println("!! receive 007 cert mkdir");
+			folder.mkdir();
+		}
+
 		if(args.length > 0)
 		{
 			currentIPAddr = InetAddress.getByName(args[args.length - 1]); // ex=\10.0.7.11
@@ -571,6 +578,7 @@ public class EdgeDataAggregator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		FileWriter logger
 		
 //		System.out.println("!! main - " + currentIPAddrStr);
 		
