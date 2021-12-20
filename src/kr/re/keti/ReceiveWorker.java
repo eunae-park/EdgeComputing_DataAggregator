@@ -33,9 +33,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipException;
@@ -357,8 +354,9 @@ public class ReceiveWorker implements Runnable
 			company = com;
 		}
 
-		void keti_community(PacketType pkt, byte[] originalByte, Logger logger)
+		void keti_community(PacketType pkt, byte[] originalByte)
 		{
+			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 			String originalData = null;
 			try {
 				originalData = new String(originalByte, "UTF-8");
@@ -482,159 +480,170 @@ public class ReceiveWorker implements Runnable
 //					System.out.println("!! cert file : " + cert);
 					
 					cert = cert_folder +  cert_info[cert_info.length-2] + folder + cert_info[cert_info.length-1];
-					logger.info("IndividualDataSend - metainfo receive "); //penta//
+					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - metainfo receive "); //penta//
 //					System.out.println("!! cert file : " + cert);
 //					System.out.println("!! cert file : " + cert);
 					dataSize = Long.parseLong(meta_info[11]);
 					
 					/////////////////////// data request
 					EdgeDeviceInfoClient client =  new EdgeDeviceInfoClient(pkt.getAddress().getHostAddress(), EdgeDeviceInfoClient.socketTCP, ketiCommPort);
-					client.startWaitingResponse();
-					
-					String remote_cmd = "{[{REQ::" + pkt.getAddress().getHostAddress() + "::007::data::" + dataID + "." + fileType + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
-//					String remote_cmd = "{[{REQ::" + pkt.getAddress().getHostAddress() + "::004::" + dataID + "." + fileType + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
-//					System.out.println("!! cert : " + dataID + "." + fileType);
-//					System.out.println("!! cert : " + remote_cmd);
-					try {
-						client.answerData = null;
-						client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
-					} catch (UnsupportedEncodingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} //실제 chunk 보내는 부분					
-					
-					long start_client = System.currentTimeMillis();
-					while(client.answerData == null)
-					{			
-						try {
-							Thread.sleep(50);
-							if(System.currentTimeMillis() - start_client > check_timeout )
-							{
-//								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-								System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
-								break;
-							}
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					if(client.answerData != null)
+					if(!client.streamSocket_alive())
 					{
-						String answer_data="";
+					    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : data request : false");
+					}
+					else
+					{
+						client.startWaitingResponse();
+						
+						String remote_cmd = "{[{REQ::" + pkt.getAddress().getHostAddress() + "::007::data::" + dataID + "." + fileType + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
+//						String remote_cmd = "{[{REQ::" + pkt.getAddress().getHostAddress() + "::004::" + dataID + "." + fileType + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
+//						System.out.println("!! cert : " + dataID + "." + fileType);
+//						System.out.println("!! cert : " + remote_cmd);
 						try {
-							answer_data = new String(client.answerData, "UTF-8");
-						} catch (UnsupportedEncodingException e3) {
+							client.answerData = null;
+							client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
+						} catch (UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
-							e3.printStackTrace();
-						}
-						if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
-						{
-							logger.info("IndividualDataSend - data receive "); //penta//
-							
-//							System.out.println("!! ReceiveWorker - data receive : " + answer_data);
-				            String [] client_arr = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
-//							System.out.println("!! ReceiveWorker - data receive : " + client_arr[3]);
-//							System.out.println("!! ReceiveWorker - data receive length : " + client_arr[4]);
-//							try {
-//								System.out.println("!! ReceiveWorker - data receive length: " + client_arr[5].getBytes("UTF-8").length);
-//							} catch (UnsupportedEncodingException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
-//							System.out.println("!! ReceiveWorker - data receive : " + client_arr[5]);
-							
+							e1.printStackTrace();
+						} //실제 chunk 보내는 부분					
+						
+						long start_client = System.currentTimeMillis();
+						while(client.answerData == null)
+						{			
 							try {
-								File datafile = new File(data_folder+client_arr[3]);
-								byte[] start=null, finish=null, content;
-
-								try {
-									start = answer_data.substring(0, answer_data.indexOf(client_arr[5])).getBytes("UTF-8");
-									finish = "}]}".getBytes("UTF-8");
-								} catch (UnsupportedEncodingException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
-								
-								content = new byte[client.answerData.length-start.length-finish.length];
-//								System.out.println("!! read request length: " + content.length);
-								System.arraycopy(client.answerData, start.length, content, 0, content.length);
-//								System.out.println("!! read request : " + new String(content));
-//								System.out.println("!! IndividualDataSend - receive data : " + client_arr[5]);
-								logger.info("IndividualDataSend - result : " + new String(result));
-								
-								if(!client_arr[5].equals("none")) // data exist -> save data & metadata
+								Thread.sleep(50);
+								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
-									logger.info("IndividualDataSend - data save : " + datafile);
-									fos = new FileOutputStream(datafile);
-					                fos.write(content, 0, Integer.parseInt(client_arr[4]));
-					                fos.flush();
-					                fos.close();
+//									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
+									System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+									break;
+								}
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						if(client.answerData != null)
+						{
+							String answer_data="";
+							try {
+								answer_data = new String(client.answerData, "UTF-8");
+							} catch (UnsupportedEncodingException e3) {
+								// TODO Auto-generated catch block
+								e3.printStackTrace();
+							}
+							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
+							{
+								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data receive "); //penta//
+								
+//								System.out.println("!! ReceiveWorker - data receive : " + answer_data);
+					            String [] client_arr = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
+//								System.out.println("!! ReceiveWorker - data receive : " + client_arr[3]);
+//								System.out.println("!! ReceiveWorker - data receive length : " + client_arr[4]);
+//								try {
+//									System.out.println("!! ReceiveWorker - data receive length: " + client_arr[5].getBytes("UTF-8").length);
+//								} catch (UnsupportedEncodingException e1) {
+//									// TODO Auto-generated catch block
+//									e1.printStackTrace();
+//								}
+//								System.out.println("!! ReceiveWorker - data receive : " + client_arr[5]);
+								
+								try {
+									File datafile = new File(data_folder+client_arr[3]);
+									byte[] start=null, finish=null, content;
 
-					                client.stopWaitingResponse();
-			//		                System.out.println("!! receive send ip : " + pkt.getAddress().getHostAddress());
-					                client =  new EdgeDeviceInfoClient(array[0], EdgeDeviceInfoClient.socketTCP, pentaCommPort + 1000);
-									client.startWaitingResponse();
-									String send = answer + array[1] + "::Receive::" + dataID + "}]}"; 
-									client.sendPacket(send.getBytes("UTF-8"), send.length());
 									try {
-										Thread.sleep(50);
-									} catch (InterruptedException e) {
+										start = answer_data.substring(0, answer_data.indexOf(client_arr[5])).getBytes("UTF-8");
+										finish = "}]}".getBytes("UTF-8");
+									} catch (UnsupportedEncodingException e1) {
 										// TODO Auto-generated catch block
-										e.printStackTrace();
+										e1.printStackTrace();
 									}
-									logger.info("IndividualDataSend - result to " + array[0] + " : " + new String(send));//penta//
 									
-						            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
-						            
-									ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataid='" + dataID + "'");
-									if(!metadata_list.next())
+									content = new byte[client.answerData.length-start.length-finish.length];
+//									System.out.println("!! read request length: " + content.length);
+									System.arraycopy(client.answerData, start.length, content, 0, content.length);
+//									System.out.println("!! read request : " + new String(content));
+//									System.out.println("!! IndividualDataSend - receive data : " + client_arr[5]);
+									
+									if(!client_arr[5].equals("none")) // data exist -> save data & metadata
 									{
-//										check = database.update(req_content, uuid, security, datatype, data_folder); // metadata save
-										check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
-									}
-									else
-									{
-//										System.out.println("!! test : " + dataID); 
-										if(database.delete(dataID)) // 기존 메타데이터가 있으면 삭제하고 새로 업로드
+										fos = new FileOutputStream(datafile);
+						                fos.write(content, 0, Integer.parseInt(client_arr[4]));
+						                fos.flush();
+						                fos.close();
+
+						                client.stopWaitingResponse();
+				//		                System.out.println("!! receive send ip : " + pkt.getAddress().getHostAddress());
+							            
+										ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataid='" + dataID + "'");
+										if(!metadata_list.next())
 										{
 //											check = database.update(req_content, uuid, security, datatype, data_folder); // metadata save
 											check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
-//											System.out.println("!! " + check);
 										}
+										else
+										{
+//											System.out.println("!! test : " + dataID); 
+											if(database.delete(dataID)) // 기존 메타데이터가 있으면 삭제하고 새로 업로드
+											{
+//												check = database.update(req_content, uuid, security, datatype, data_folder); // metadata save
+												check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
+//												System.out.println("!! " + check);
+											}
+										}
+										
+										while(check == 0)
+											check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
+//										System.out.println("\tMetaData upload into DataBase : Success");
+										
+										metadata_list.close();		
+							            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
+
+										client = new EdgeDeviceInfoClient(array[0], EdgeDeviceInfoClient.socketTCP, pentaCommPort + 1000);
+						    			if(!client.streamSocket_alive())
+						    			{
+						    			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + array[0] + " : 17300");
+						    			}
+						    			else
+						    			{
+											client.startWaitingResponse();
+											String send = answer + array[1] + "::Receive::" + dataID + "}]}"; 
+											client.sendPacket(send.getBytes("UTF-8"), send.length());
+											try {
+												Thread.sleep(50);
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+											System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + array[0] + " : " + new String(send));//penta//
+						    			}
 									}
 									
-									while(check == 0)
-										check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
-//									System.out.println("\tMetaData upload into DataBase : Success");
-									
-									metadata_list.close();		
+									client.stopRequest();
+									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
+
+								} catch (FileNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (NumberFormatException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (UnsupportedEncodingException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 								
-								client.stopRequest();
-								logger.info("IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
-
-							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (NumberFormatException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (UnsupportedEncodingException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
 							}
-							
 						}
-						/////////////////////// data request
-						
 					}
+					/////////////////////// data request
 				}
 				else if(array[2].equals("data"))
 				{
@@ -643,7 +652,7 @@ public class ReceiveWorker implements Runnable
 					File file = new File(data_folder + array[3]);
 					if(!file.exists())
 					{
-						logger.info("IndividualDataSend - data : none");//penta//
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data : none");//penta//
 						try {
 							result = (answer + array[1] + "::" + array[2] + "::" +  array[3] + "::0000::none"+ "}]}").getBytes("UTF-8");
 						} catch (UnsupportedEncodingException e) {
@@ -655,7 +664,7 @@ public class ReceiveWorker implements Runnable
 					else
 					{
 				        long fileSize = file.length();
-						logger.info("IndividualDataSend - data : read");//penta//
+				        System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data : read");//penta//
 						
 	//			        long fileSize = file.length();
 	//			        System.out.println("!! 007 data test : " + fileSize);
@@ -703,7 +712,7 @@ public class ReceiveWorker implements Runnable
 						folder.mkdir();
 					}
 
-					logger.info("IndividualDataSend - cert receive "); //penta//
+					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - cert receive "); //penta//
 					File certfile = new File(cert); // 
 //					System.out.println("!! cert : " + originalData.substring(0, originalData.indexOf(array[4])));
 					byte[] start=null, finish=null;
@@ -1085,7 +1094,7 @@ public class ReceiveWorker implements Runnable
 			
 			reply(pkt.getAddress(), result, array[2]);
 		}
-		void keti_community(PacketType pkt, String originalData, Logger logger)
+		void keti_community(PacketType pkt, String originalData)
 		{
 			String result = "none";
 			String answer = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::";	
@@ -1160,7 +1169,7 @@ public class ReceiveWorker implements Runnable
 //				e.printStackTrace();
 //			} // for 공인인증
 		}
-		void penta_community(PacketType pkt, byte[] originalByte, Logger logger)
+		void penta_community(PacketType pkt, byte[] originalByte)
 		{
 			String originalData = null;
 			try {
@@ -1235,8 +1244,9 @@ public class ReceiveWorker implements Runnable
 			
 			reply(pkt.getAddress(), result, array[2]);
 		}
-		void penta_community(PacketType pkt, String originalData, Logger logger)
+		void penta_community(PacketType pkt, String originalData)
 		{
+			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 			String result = "none";
 			String answer = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::";	
 
@@ -1367,9 +1377,8 @@ public class ReceiveWorker implements Runnable
 			}
 			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // send
 			{
-				System.out.println("!! IndividualDataSend - start");//penta//
+				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - start");//penta//
 				String meta_result = MetaDataInfo(array[2]);
-				System.out.println("!! IndividualDataSend - meta send : " + meta_result);//penta//
 				if(!meta_result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
 				{
 					String data_file = dataID + "." + fileType;
@@ -1377,7 +1386,7 @@ public class ReceiveWorker implements Runnable
 //					System.out.println("!! penta 007 : " + data_file);
 //					System.out.println("!! penta 007 : " + cert_file);
 					
-					result = answer + array[1] + "::" + IndividualDataSend(data_file, cert_file, meta_result, array[0], logger) + "::" + dataID + "}]}";
+					result = answer + array[1] + "::" + IndividualDataSend(data_file, cert_file, meta_result, array[0]) + "::" + dataID + "}]}";
 				}
 				else // data information X
 					result = answer + array[1] + "::Fail::" + array[2] + "}]}"; 
@@ -1395,7 +1404,7 @@ public class ReceiveWorker implements Runnable
 //				}
 //				client.stopWaitingResponse();
 //				return ;  // 17300 transfer
-				logger.info("IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));//penta//
+				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));//penta//
 
 			}
 			else
@@ -1419,42 +1428,17 @@ public class ReceiveWorker implements Runnable
 		@Override
 		protected void work()
 		{
-			Logger logger = Logger.getLogger("MyLog");
-		    FileHandler fh;
-		    try {
-		        // This block configure the logger with handler and formatter  
-		        fh = new FileHandler("log/log");
-		        logger.addHandler(fh);
-		        SimpleFormatter formatter = new SimpleFormatter();
-		        fh.setFormatter(formatter);
-		    } catch (SecurityException e) {
-		        e.printStackTrace();
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
-
-		    PacketType pkt = getRequestPacket();
+			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
+			PacketType pkt = getRequestPacket();
 			String originalData="";
 			byte[] originalByte = null;
 			try {
 				originalByte = pkt.getData();
-				if(originalByte.length == 5000) //1217
+				if(originalByte == null) //1217
 				{
-					logger.info("client trash");
+					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! packet trash");
 					pkt_stop(pkt);
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-//					reply(pkt.getAddress(), originalByte, "error");
-//=======
-//					System.out.println("!! packet trash");
-//					stop();
-//					pkt = null;
-//					work();
-//>>>>>>> branch 'eunae' of https://gitlab.com/edgecomputingdata/edgedataaggregator/
+					work();
 				}
 				originalData = new String(originalByte, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
@@ -1475,14 +1459,14 @@ public class ReceiveWorker implements Runnable
 					if(array[1].indexOf("001")!=-1 || array[1].indexOf("002")!=-1 || array[1].indexOf("003")!=-1 || array[1].indexOf("005")!=-1 || array[1].indexOf("006")!=-1)
 					{
 //						System.out.println("!! receiveWorker - keti string : " + originalData);
-						keti_community(pkt, originalData, logger);
+						keti_community(pkt, originalData);
 					}
 					else
 					{
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
 							check_timeout += 1000;
 //						System.out.println("!! receiveWorker - keti byte : " + originalData);
-						keti_community(pkt, originalByte, logger);
+						keti_community(pkt, originalByte);
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
 							check_timeout -= 1000;
 					}
@@ -1494,13 +1478,13 @@ public class ReceiveWorker implements Runnable
 					TCPSocketAgent.defaultPort = pentaCommPort;
 					if(array[1].indexOf("004")==-1)
 					{
-						logger.info("receiveWorker - penta string : " + originalData);
-						penta_community(pkt, originalData,logger);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta string : " + originalData);
+						penta_community(pkt, originalData);
 					}
 					else
 					{
-						logger.info("receiveWorker - penta byte : " + new String(originalByte));
-						penta_community(pkt, originalByte,logger);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta byte : " + new String(originalByte));
+						penta_community(pkt, originalByte);
 					}
 				}				
 //				stop();
@@ -2343,22 +2327,23 @@ public class ReceiveWorker implements Runnable
 			
 			return lines;
 		}
-		String IndividualDataSend(String data_file, String cert_file, String meta_info, String ip, Logger logger) //receive_ip
+		String IndividualDataSend(String data_file, String cert_file, String meta_info, String ip) //receive_ip
 		{
+			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 			String result = "Fail", check_s="none";
 			byte [] check;
 			String remote_cmd = "{[{REQ::" + ip + "::007::"; //+ meta_info + "::";
 			EdgeDeviceInfoClient client;
 			
+			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend : " + cert_file);
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-				logger.info("IndividualDataSend : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : cert - false");
 				return "Fail";
 			}
-			client.startWaitingResponse();
 
-			logger.info("IndividualDataSend : " + cert_file);
+			client.startWaitingResponse();
 			File file = new File(cert_file);
 			if(file.exists())
 			{
@@ -2408,7 +2393,7 @@ public class ReceiveWorker implements Runnable
 			}
 			
 			try {
-				Thread.sleep(10);
+				Thread.sleep(100);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -2420,10 +2405,9 @@ public class ReceiveWorker implements Runnable
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-				logger.info("IndividualDataSend : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : meta - false");
 				return "Fail";
 			}
-
 			client.startWaitingResponse();
 			String meta_cmd = remote_cmd + "meta::" + meta_info + "}]}";
 			client.answerData = null;

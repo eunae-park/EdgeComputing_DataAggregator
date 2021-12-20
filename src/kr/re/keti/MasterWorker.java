@@ -184,7 +184,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 //							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0); // metadata를 저장하고 싶으면=1, 저장 안하면=0 
 //						else
 //							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0);
-						System.out.println(result);
+//						System.out.println(result);
 						
 						if(result.equals("time"))
 							System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
@@ -517,7 +517,9 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 ////								System.out.println(check);
 //						}
 
-						if(!ip_check)
+						if(ip.equals(my_ip))
+							System.out.println("* [" + ip + "] : is mine.");
+						else if(!ip_check)
 							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
 						else if(check == 2)
 							System.out.println("* [" + ip + "] : Transfermission is Success.");

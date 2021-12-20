@@ -39,13 +39,8 @@ import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import com.sun.management.OperatingSystemMXBean;
-
-import kr.re.keti.ReceiveWorker.PacketProcessorImpl.ChunkTransfer;
 
 public class DataProcess {
 
@@ -68,6 +63,7 @@ public class DataProcess {
 	}
 	public ArrayList<String> RequestSlaveList(String ip)
 	{
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		EdgeDeviceInfoClient client;
 		ArrayList<String> slavelist = new ArrayList<String>();
 		String remote_cmd="";
@@ -79,23 +75,9 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("RequestSlaveList : " + client.streamSocket_alive());
+				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! RequestSlaveList : " + remote_cmd);
 				return slavelist;
 			}
-
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 
@@ -107,7 +89,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -146,6 +128,7 @@ public class DataProcess {
 	}
 	public void SendEdgeList(ArrayList<String> iplist, String result)
 	{
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		EdgeDeviceInfoClient client;
 
 		try {
@@ -156,20 +139,7 @@ public class DataProcess {
 				client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP); // manaul setting
 				if(!client.streamSocket_alive())
 				{
-					Logger logger = Logger.getLogger("MyLog");
-				    FileHandler fh;
-				    try {
-				        // This block configure the logger with handler and formatter  
-				        fh = new FileHandler("log/log");
-				        logger.addHandler(fh);
-				        SimpleFormatter formatter = new SimpleFormatter();
-				        fh.setFormatter(formatter);
-				    } catch (SecurityException e) {
-				        e.printStackTrace();
-				    } catch (IOException e) {
-				        e.printStackTrace();
-				    }
-					logger.info("SendEdgeList : " + client.streamSocket_alive());
+					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " SendEdgeList : false");
 					return ;
 				}
 				client.startWaitingResponse();
@@ -184,7 +154,7 @@ public class DataProcess {
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
 //							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-							System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -223,7 +193,8 @@ public class DataProcess {
 
 	public String RequestMessage(String req_content, String ip, String req_code) // real exists in node
 	{
-	    EdgeDeviceInfoClient client;
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
+		EdgeDeviceInfoClient client;
 		String result = "none";
 		String remote_cmd="";
 
@@ -238,23 +209,11 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("RequestMessage : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessage - client die : " + remote_cmd);
 				return result;
 			}
-
+			
+			
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 //				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
@@ -268,7 +227,7 @@ public class DataProcess {
 					{
 //						result = "time";
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -306,6 +265,7 @@ public class DataProcess {
 	}
 	public String RequestMessage(String req_content, String ip, String req_code, int start, int finish) // real exists in node
 	{
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		EdgeDeviceInfoClient client;
 		String result = "none";
 		String remote_cmd="";
@@ -316,23 +276,9 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("RequestMessage2 : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessage2 - client die : " + remote_cmd);
 				return result;
 			}
-
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 //				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
@@ -344,7 +290,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -379,6 +325,7 @@ public class DataProcess {
 	}
 	public String RequestMessage(String req_content, String ip, int data_code) // real exists in node 
 	{
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		EdgeDeviceInfoClient client;
 		String result = "none";
 		String remote_cmd="";
@@ -387,20 +334,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("RequestMessage3 : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessage3 - client die : " + ip + "::" + data_code + "r/w/r::" + req_content);
 				return result;
 			}
 			client.startWaitingResponse();
@@ -425,7 +359,7 @@ public class DataProcess {
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
 //									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-									System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
@@ -464,7 +398,7 @@ public class DataProcess {
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
 ////								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-								System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 
 								break;
 							}
@@ -521,7 +455,7 @@ public class DataProcess {
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
 //							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-							System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -564,7 +498,7 @@ public class DataProcess {
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
 //							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-							System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -604,6 +538,7 @@ public class DataProcess {
 	}
 	public byte[] RequestMessageByte(String req_content, String ip, int data_code) // real exists in node 
 	{
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		EdgeDeviceInfoClient client;
 		byte[] result = null;
 		int total_len=0;
@@ -613,20 +548,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("RequestMessageByte : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessage3 - client die : " + ip + "::" + data_code + "r/w/r::" + req_content);
 				return result;
 			}
 			client.startWaitingResponse();
@@ -652,7 +574,7 @@ public class DataProcess {
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
 //									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-									System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
@@ -708,7 +630,7 @@ public class DataProcess {
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
 //								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-								System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 								break;
 							}
 						} catch (InterruptedException e) {
@@ -751,7 +673,8 @@ public class DataProcess {
 	}
 	public String RequestMessageKETIRead(String req_content, String ip, String req_code)
 	{
-	    EdgeDeviceInfoClient client;
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
+		EdgeDeviceInfoClient client;
 		String result = "none";
 		String remote_cmd="";
 
@@ -759,20 +682,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("RequestMessageKETIRead : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessageKETIRead : " + ip + "::" + req_code + "::" + req_content);
 				return result;
 			}
 			client.startWaitingResponse();
@@ -789,7 +699,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -1175,7 +1085,7 @@ public class DataProcess {
 		System.out.println("\tdevice uuid=" + array[0].substring(0,36) + "\n\tnumber of data=" + number_data);
 //				data +=  +  +  + "\tsecurityLevel: " + securityLevel +"\n";
 
-		for(int i=0; i<number_data; i++) //check
+		for(int i=0; i<number_data; i++)
 			System.out.println(String.format("\t#%-4d", i+1) + String.format(" - DataID: %-70s", array[i*3+1]) + String.format("\tDataSize[KB]: %-4s", array[i*3+2]) + "\tsecurityLevel: " + array[(i+1)*3]);
 //		System.out.println("\t#" + (i+1) + " - DataID: " + array[i*3+1] + "\tDataSize[KB]: " + array[i*3+2] + "\tsecurityLevel: " + array[(i+1)*3]);
 		
@@ -2080,6 +1990,7 @@ public class DataProcess {
 	}
 	public int IndividualDataWrite(String req_content, String ipAddress, String input) // 210428 add int func
 	{
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		int devcnt=0, check=0;
 		String msgs ="";
 
@@ -2120,7 +2031,7 @@ public class DataProcess {
 //	    		devcnt = 0;
 	    	else
 	    		devcnt = 1;
-			System.out.println("!! 005 - " + devcnt);
+			System.out.println(log_format.format(new Date(System.currentTimeMillis())) +  "!! 005 - " + devcnt);
 
 		}
 		return devcnt;
@@ -2264,7 +2175,8 @@ public class DataProcess {
 	}
 	public int IndividualDataTransfer(String req_content, String ipAddress, String meta_info) // 210428 add int func
 	{
-	    int devcnt=0;
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
+		int devcnt=0;
 		String check_s="none";
 		byte[] check=null; 
 		String remote_cmd = "{[{REQ::" + ipAddress + "::007::"; //+ meta_info + "::";
@@ -2276,23 +2188,11 @@ public class DataProcess {
 			String data_file = dataID + "." + fileType;
 			String cert_file = cert;
 			
+			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend client cert : " );
 			EdgeDeviceInfoClient client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("IndividualDataTransfer : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataTransfer : cert - false");
 				return 0;
 			}
 			client.startWaitingResponse();
@@ -2346,7 +2246,7 @@ public class DataProcess {
 			}
 			
 			try {
-				Thread.sleep(10);
+				Thread.sleep(100);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -2358,20 +2258,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-				Logger logger = Logger.getLogger("MyLog");
-			    FileHandler fh;
-			    try {
-			        // This block configure the logger with handler and formatter  
-			        fh = new FileHandler("log/log");
-			        logger.addHandler(fh);
-			        SimpleFormatter formatter = new SimpleFormatter();
-			        fh.setFormatter(formatter);
-			    } catch (SecurityException e) {
-			        e.printStackTrace();
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-				logger.info("IndividualDataTransfer : " + client.streamSocket_alive());
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataTransfer : meta - false" + remote_cmd);
 				return 0;
 			}
 			client.startWaitingResponse();
@@ -2392,7 +2279,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println("\t!! Response Time is delayed over : " + meta_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -2418,7 +2305,6 @@ public class DataProcess {
 					client.answerData = null;
 //					System.out.println("!! IndividualDataSend result : " + result);
 				}
-				
 			}
 			else
 				return -1;
@@ -2592,6 +2478,7 @@ public class DataProcess {
 		
 		public void run() // 동기화 synchronized - 소용없음
 		{
+			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 //			synchronized (this) // 지역 동기화 - 소용없음
 			while(chunk_check[th_id] == 0)
 			{ 
@@ -2607,22 +2494,10 @@ public class DataProcess {
 							client = new EdgeDeviceInfoClient(req_ip, EdgeDeviceInfoClient.socketTCP);
 							if(!client.streamSocket_alive())
 							{
-								Logger logger = Logger.getLogger("MyLog");
-							    FileHandler fh;
-							    try {
-							        // This block configure the logger with handler and formatter  
-							        fh = new FileHandler("log/log");
-							        logger.addHandler(fh);
-							        SimpleFormatter formatter = new SimpleFormatter();
-							        fh.setFormatter(formatter);
-							    } catch (SecurityException e) {
-							        e.printStackTrace();
-							    } catch (IOException e) {
-							        e.printStackTrace();
-							    }
-								logger.info("UnitChunk : " + client.streamSocket_alive());
+							    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " UnitChunk : false");
 								return ;
 							}
+
 							break;
 						} catch (Exception e)
 						{	
@@ -2769,6 +2644,7 @@ public class DataProcess {
 		
 		public void run() // 동기화 synchronized - 소용없음
 		{
+			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 			// chunk request #2 - 405
 //			while(chunk_check[th_id] == 0)
 //			{ 
@@ -2784,20 +2660,7 @@ public class DataProcess {
 							client = new EdgeDeviceInfoClient(req_ip, EdgeDeviceInfoClient.socketTCP);
 							if(!client.streamSocket_alive())
 							{
-								Logger logger = Logger.getLogger("MyLog");
-							    FileHandler fh;
-							    try {
-							        // This block configure the logger with handler and formatter  
-							        fh = new FileHandler("log/log");
-							        logger.addHandler(fh);
-							        SimpleFormatter formatter = new SimpleFormatter();
-							        fh.setFormatter(formatter);
-							    } catch (SecurityException e) {
-							        e.printStackTrace();
-							    } catch (IOException e) {
-							        e.printStackTrace();
-							    }
-								logger.info("UnitEdge : " + client.streamSocket_alive());
+							    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " UnitChunk : false");
 								return ;
 							}
 							break;
