@@ -1592,8 +1592,8 @@ public class DataProcess {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
 				}
+
 				else // original data - another edge
 				{
 					try { // linked data sharing information
@@ -1765,13 +1765,8 @@ public class DataProcess {
 						iter.remove();
 					}
 				}
-
-//				for(i=0; i<edgeList.size(); i++)
-//				{
-//				}
-//					ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataID='" + dataID + "'");
-				
 			}
+
 			else // securityLevel==5 && dataSize>4
 			{
 //					System.out.println("!! dataprocess - edgeList : " + edgeList);
@@ -1789,6 +1784,15 @@ public class DataProcess {
 ////							System.out.println("dataprocess - chunk split : " + edge);
 //				}
 //				System.out.println("\tEdge List with Data Separation Completed : " + edgeList);
+				// for edge data list show
+				dataType = 0; 
+				String original_directory = directory;
+				directory = data_folder;
+				linked_edge = null;
+				database.delete(dataID);
+				check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
+				// for edge data list show
+				
 				// chunk request #0
 				do
 				{
@@ -1819,46 +1823,36 @@ public class DataProcess {
 					if(edgeList.size() == 0)
 						return edgeList;
 				}while(edge_size != edgeList.size());
-
-//				FileWriter fprogress = null;
-//				try {
-//					FileWriter fprogress = new FileWriter(data_folder + dataID + ".meta", true);
-//					fprogress.write(edgeList.size() + "\n");  // number of sharing edge
-//					fprogress.write(req_content + "\n");  //chunk name
-//					for(i=0, j=1; i<edge_size; i++)
-//					{
-//					}
-//				} catch (FileNotFoundException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}				
 				System.out.println("* Edge List with Data Separation Completed : " + edgeList);
 				
+				PrintWriter fprogress = null;
+				try { // 4-5th security level
+					fprogress = new PrintWriter(data_folder + dataID + ".meta");
+					fprogress.println(dataType);  //linked or real data
+					fprogress.println(dataSize);  //length
+					fprogress.println(data_folder);  //data location
+					fprogress.println(dataSize);  //number of chunk
+					fprogress.println(1);  //chunk size
+					fprogress.println(edgeList.size());  //number of transfer edge
+					fprogress.println(req_content);  //chunk name
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				// chunk request #1
 				UnitEdge[] edge_th = new UnitEdge[edge_size]; // thread
 				chunk_check = new int[edge_size]; //thread check
 				for(i=0, j=1; i<edge_size; i++)
 				{
-//						System.out.println("!! chunk read : " + i + ", " + j);
-//						System.out.println("!! chunk read : " + chunkList.get(i));
-		
-// thread			
-//					fprogress.print(edgeList.get(i) + " ");
-//					fprogress.print(j + " " + (j+number_request[i]-1));
 					chunk_check[i] = 0;
 					// chunk request #2
 					edge_th[i] = new UnitEdge(data_folder, req_content, edgeList.get(i), "405", fileType, i, j, j+number_request[i]); //
+					fprogress.println(edgeList.get(i) + ", " + j +", " + (j+number_request[i]-1));
 					edge_th[i].start();
 					j += number_request[i];
 				}
-//				fprogress.close();
-				
-//				try { // for 공인인증
-//					Thread.sleep(number_chunk);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} // for 공인인증
+				fprogress.close();
 				
 				boolean[] working = new boolean[number_chunk+1];
 				Arrays.fill(working,true); // working[number_chunk] = true;
@@ -1873,19 +1867,23 @@ public class DataProcess {
 						{
 							finisher ++;
 							working[j] = false;
+							try { // 4-5th security level
+								fprogress = new PrintWriter(new FileWriter(data_folder + dataID + ".meta", true));
+								fprogress.println(j+1);  //chunk size
+								fprogress.close();
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					}
 					if(finisher == number_chunk)
 						working[number_chunk] = false;
 				}
 				
-//				try {
-//					Thread.sleep(number_chunk);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-
 				DataMerge(req_content, chunkList, chunk_size*1000);
 				
 				j=0;
@@ -1898,13 +1896,26 @@ public class DataProcess {
 					if((j+1)%edgeList.size() == 0)   //순차적으로 다른 엣지에게  
 						j = 0;
 				}
-
-				dataType = 0;
-				directory = data_folder;
-				linked_edge = null;
 				
-				if(chunk_result.equals("success"))
+//				if(chunk_result.equals("success")) //original
+//				{
+//					dataType = 0;
+//					directory = directory;
+//					linked_edge = null;
+				
+//					database.delete(dataID);
+//					check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
+//					if(check == 0)
+//						System.out.println("* MetaData upload into DataBase : Failure");
+//					else
+//						System.out.println("* MetaData upload into DataBase : Success");
+//				}
+				if(chunk_result.equals("false"))
 				{
+					dataType = 0;
+					directory = null;
+					linked_edge = edgeList.get(0) + ":" + original_directory;
+					
 					database.delete(dataID);
 					check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
 					if(check == 0)
