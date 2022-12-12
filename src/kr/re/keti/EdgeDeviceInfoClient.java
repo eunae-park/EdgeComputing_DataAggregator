@@ -110,17 +110,17 @@ public final class EdgeDeviceInfoClient
 			}
 		} catch (UnknownHostException e) {
 			streamSocket = null;
-			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client UnknownHostException");
+			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client UnknownHostException");
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (SocketException e) {
 			streamSocket = null;
-			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client SocketException");
+			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client SocketException");
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (IOException e) {
 			streamSocket = null;
-			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client IOException");
+			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client IOException");
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		}

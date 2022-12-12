@@ -195,7 +195,8 @@ public class ReceiveWorker implements Runnable
 	public void run() {
 		int check = 0;
 		//netstat -nap | grep LISTEN | grep 16300
-
+		
+		// keti와 tcp 통신 파트 v0531
 		SocketAgent socketAgent = new TCPSocketAgent(ketiCommPort);
 		PacketProcessor packetProcessor = new PacketProcessorImpl("keti");
 		EdgeDevInfoAgent agent_keti = new EdgeDevInfoAgent(socketAgent, packetProcessor);
@@ -208,6 +209,8 @@ public class ReceiveWorker implements Runnable
 			e.printStackTrace();
 		}
 //		socketAgent = new UDPSocketAgent();
+		
+		// penta와 tcp 통신 파트 v0531
 		SocketAgent socketAgent_penta = new TCPSocketAgent(pentaCommPort);
 		PacketProcessor packetProcessor_penta = new PacketProcessorImpl("penta");
 		EdgeDevInfoAgent agent_penta = new EdgeDevInfoAgent(socketAgent_penta, packetProcessor_penta);
@@ -348,6 +351,7 @@ public class ReceiveWorker implements Runnable
 	protected final static class PacketProcessorImpl extends PacketProcessor
 	{
 		private final int chunk_buffer_size = 4000;
+		private int func_check = 0;
 
 		PacketProcessorImpl(String com)
 		{
@@ -390,7 +394,7 @@ public class ReceiveWorker implements Runnable
 //				System.out.println("!! 004 rw - " + data);
 			}
 			
-			else if (array[1].equals("007") && originalData.indexOf("ANS") > 0) // 
+			else if (array[1].equals("007") && originalData.indexOf("ANS") > 0) // 다른 엣지로 데이터 보내고 그에 대한 응답
 			{
 //				result = answer + array[1] + "::" + array[3] + "::" + fileSize + "::" + IndividualDataSendRead(data_folder+array[3], 1)+ "}]}";
 
@@ -435,7 +439,7 @@ public class ReceiveWorker implements Runnable
 //                result = answer + array[1] + "::" + array[3] + "::save}]}";
 
 			}
-			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // meta&data&cert receive
+			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // meta&data&cert receive // 펜타 프로세스로부터 다른 엣지로 데이터 보내달라고 요청이 들어옴
 			{
 				int check = 0;
 				FileOutputStream fos;
@@ -480,7 +484,7 @@ public class ReceiveWorker implements Runnable
 //					System.out.println("!! cert file : " + cert);
 					
 					cert = cert_folder +  cert_info[cert_info.length-2] + folder + cert_info[cert_info.length-1];
-					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - metainfo receive "); //penta//
+					//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - metainfo receive "); //penta//
 //					System.out.println("!! cert file : " + cert);
 //					System.out.println("!! cert file : " + cert);
 					dataSize = Long.parseLong(meta_info[11]);
@@ -489,7 +493,7 @@ public class ReceiveWorker implements Runnable
 					EdgeDeviceInfoClient client =  new EdgeDeviceInfoClient(pkt.getAddress().getHostAddress(), EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 					if(!client.streamSocket_alive())
 					{
-					    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : data request : false");
+					    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : data request to sender - false");
 					}
 					else
 					{
@@ -534,7 +538,7 @@ public class ReceiveWorker implements Runnable
 							}
 							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 							{
-								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data receive "); //penta//
+								//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data receive "); //penta//
 								
 //								System.out.println("!! ReceiveWorker - data receive : " + answer_data);
 					            String [] client_arr = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
@@ -599,11 +603,13 @@ public class ReceiveWorker implements Runnable
 										
 										metadata_list.close();		
 							            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
+//0107//							            System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " Data Received : " + dataID); //penta//
+							            System.out.println("\tData : " + dataID); //penta//
 
 										client = new EdgeDeviceInfoClient(array[0], EdgeDeviceInfoClient.socketTCP, pentaCommPort + 1000);
 						    			if(!client.streamSocket_alive())
 						    			{
-						    			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + array[0] + " : 17300");
+						    			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " False : IndividualDataSend - result to " + array[0] + " : 17300");
 						    			}
 						    			else
 						    			{
@@ -616,12 +622,12 @@ public class ReceiveWorker implements Runnable
 												// TODO Auto-generated catch block
 												e.printStackTrace();
 											}
-											System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + array[0] + " : " + new String(send));//penta//
+											//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + array[0] + " : " + new String(send));//penta//
 						    			}
 									}
 									
 									client.stopRequest();
-									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
+									//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
 
 								} catch (FileNotFoundException e) {
 									// TODO Auto-generated catch block
@@ -652,7 +658,7 @@ public class ReceiveWorker implements Runnable
 					File file = new File(data_folder + array[3]);
 					if(!file.exists())
 					{
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data : none");//penta//
+						//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend - data : none");//penta//
 						try {
 							result = (answer + array[1] + "::" + array[2] + "::" +  array[3] + "::0000::none"+ "}]}").getBytes("UTF-8");
 						} catch (UnsupportedEncodingException e) {
@@ -664,7 +670,7 @@ public class ReceiveWorker implements Runnable
 					else
 					{
 				        long fileSize = file.length();
-				        System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data : read");//penta//
+				      //0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data : read");//penta//
 						
 	//			        long fileSize = file.length();
 	//			        System.out.println("!! 007 data test : " + fileSize);
@@ -712,7 +718,7 @@ public class ReceiveWorker implements Runnable
 						folder.mkdir();
 					}
 
-					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - cert receive "); //penta//
+					//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - cert receive "); //penta//
 					File certfile = new File(cert); // 
 //					System.out.println("!! cert : " + originalData.substring(0, originalData.indexOf(array[4])));
 					byte[] start=null, finish=null;
@@ -853,8 +859,8 @@ public class ReceiveWorker implements Runnable
 //				System.out.println("!! ReceiveWorker 404 result - " + result);
 //				System.out.println("!! ReceiveWorker 404 chunk - " + ChunkDataReadByte(array[2]));
 //				if(array[2].equals("395240aa-92e4-40fd-8014-12033767f351.csv_1"))
-//				try { // for 공인인증
-//					Thread.sleep(100);
+//				try { // for 공인인증 // for demo
+//					Thread.sleep(1000);
 //				} catch (InterruptedException e) {
 //					// TODO Auto-generated catch block
 //					e.printStackTrace();
@@ -863,6 +869,12 @@ public class ReceiveWorker implements Runnable
 			else if (array[1].equals("405") && originalData.indexOf("REQ") > 0) // chunk 구간 요청
 			{
 				// chunk request #3
+				try { // for 공인인증 // for demo
+					Thread.sleep(2000);  
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // test 필요 
 
 //					System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
@@ -947,13 +959,6 @@ public class ReceiveWorker implements Runnable
 //						period_time = System.currentTimeMillis();
 //					}
 				}
-				
-//				try {
-//					Thread.sleep(100);
-//				} catch (InterruptedException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
 				
 				// chunk request #6 - sha 보내기
 				String data = answer + array[1] + "::sha::";
@@ -1377,7 +1382,7 @@ public class ReceiveWorker implements Runnable
 			}
 			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // send
 			{
-				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - start");//penta//
+				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - start");//penta//
 				String meta_result = MetaDataInfo(array[2]);
 				if(!meta_result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
 				{
@@ -1404,7 +1409,7 @@ public class ReceiveWorker implements Runnable
 //				}
 //				client.stopWaitingResponse();
 //				return ;  // 17300 transfer
-				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));//penta//
+				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));//penta//
 
 			}
 			else
@@ -1436,7 +1441,7 @@ public class ReceiveWorker implements Runnable
 				originalByte = pkt.getData();
 				if(originalByte == null) //1217
 				{
-					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! packet trash");
+					//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! packet trash");
 					pkt_stop(pkt);
 					work();
 				}
@@ -1451,10 +1456,57 @@ public class ReceiveWorker implements Runnable
 			if(originalData.indexOf("{[{")==0 && originalData.indexOf("}]}")!=-1) // 기본 양식 맞음
 			{
 				String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
+				int func = Integer.parseInt(array[1]);
 //				System.out.println("!! receiveWorker - work : " + originalData);
 				if(company.equals("keti"))
 				{
 					TCPSocketAgent.defaultPort = ketiCommPort;
+					if((func > 0 && func <7) || func==401)
+					{
+						System.out.println("\n <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from " + pkt.getAddress().getHostAddress() + " : Accept --> ");
+						if(func == 1 && array[2].equals("DEV_STATUS"))
+							System.out.println("\tRequest Function : Device Information");
+						else if(func == 1 && array[2].equals("SLAVE_LIST"))
+							System.out.println("\tRequest Function : Newest Edge List");
+						else if(func == 1 && array[2].equals("EDGE_LIST"))
+							System.out.println("\tRequest Function : Edge List Update");
+						else if(func == 2)
+							System.out.println("\tRequest Function : Whole Data Information");
+						else
+						{
+							if(func == 3)
+								System.out.println("\tRequest Function : MetaData Information");
+							else if(func == 4 || func == 401)
+								System.out.println("\tRequest Function : Data read");
+							else if(func == 5)
+								System.out.println("\tRequest Function : Data Write");
+							else if(func == 6)
+								System.out.println("\tRequest Function : Data Remove");
+							if(func == 401)
+							{
+								func_check = 1;
+								System.out.println("\tData : " + array[2]);
+								System.out.println("\tchunk : #" + array[3] + " to #" + (Integer.parseInt(array[4])-1));
+							}
+							else if(func == 3)
+								System.out.println("\tDataID : " + array[2]);
+							else
+								System.out.println("\tData : " + array[2]);
+						}
+					}
+					else if(func == 7 && !array[2].equals("data") && !array[2].equals("meta") && !array[2].equals("cert"))
+					{
+						System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " <-- Data Processing Request from " + pkt.getAddress().getHostAddress() + " : Accept --> ");
+						System.out.println("\tRequest Function : Data Transmission");
+						System.out.println("\tReceived Edge : " + array[0]);
+						System.out.println("\tData : " + array[2]);
+					}
+					else if(func == 7 && array[2].equals("cert"))
+					{
+						System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " <-- Data Processing Request from " + pkt.getAddress().getHostAddress() + " : Accept --> ");
+						System.out.println("\tRequest Function : Data Receive");
+						System.out.println("\tReceived Edge : " + array[0]);
+					}
 
 					if(array[1].indexOf("001")!=-1 || array[1].indexOf("002")!=-1 || array[1].indexOf("003")!=-1 || array[1].indexOf("005")!=-1 || array[1].indexOf("006")!=-1)
 					{
@@ -1470,21 +1522,75 @@ public class ReceiveWorker implements Runnable
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
 							check_timeout -= 1000;
 					}
+					if((func > 0 && func <8) && !array[2].equals("data") && !array[2].equals("cert"))
+						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from " + pkt.getAddress().getHostAddress() + " : Complete --> ");
+					else if(func==405 && func_check==1)
+					{
+						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from " + pkt.getAddress().getHostAddress() + " : Complete --> ");
+						func_check = 0;
+					}
 				}
 //				else if(company.equals("penta") && (originalData.indexOf("004")!=-1 && originalData.indexOf("007")!=-1))
 //					penta_community(pkt, originalData);
 				else if(company.equals("penta"))
 				{
 					TCPSocketAgent.defaultPort = pentaCommPort;
+					if((func > 0 && func <7) || func==401)
+					{
+						System.out.println("\n <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from PENTA : Accept --> ");
+						if(func == 1 && array[2].equals("DEV_STATUS"))
+							System.out.println("\tRequest Function : Device Information");
+						else if(func == 1 && array[2].equals("SLAVE_LIST"))
+							System.out.println("\tRequest Function : Newest Edge List");
+						else if(func == 1 && array[2].equals("EDGE_LIST"))
+							System.out.println("\tRequest Function : Edge List Update");
+						else if(func == 2)
+							System.out.println("\tRequest Function : Whole Data Information");
+						else
+						{
+							if(func == 3)
+								System.out.println("\tRequest Function : MetaData Information");
+							else if(func == 4 || func == 401)
+								System.out.println("\tRequest Function : Data read");
+							else if(func == 5)
+								System.out.println("\tRequest Function : Data Write");
+							else if(func == 6)
+								System.out.println("\tRequest Function : Data Remove");
+							if(func == 401)
+							{
+								func_check = 1;
+								System.out.println("\tData : " + array[2]);
+								System.out.println("\tchunk : #" + array[3] + " to #" + (Integer.parseInt(array[4])-1));
+							}
+							else
+								System.out.println("\tDataID : " + array[2]);
+						}
+					}
+					else if(func == 7 && !array[2].equals("data") && !array[2].equals("meta") && !array[2].equals("cert"))
+					{
+						System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " <-- Data Processing Request from PENTA : Accept --> ");
+						System.out.println("\tRequest Function : Data Transmission");
+						System.out.println("\tReceived Edge : " + array[0]);
+						System.out.println("\tData : " + array[2]);
+					}
+					
 					if(array[1].indexOf("004")==-1)
 					{
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta string : " + originalData);
+						//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta string : " + originalData);
 						penta_community(pkt, originalData);
 					}
 					else
 					{
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta byte : " + new String(originalByte));
+						//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta byte : " + new String(originalByte));
 						penta_community(pkt, originalByte);
+					}
+					
+					if((func > 0 && func <8) && !array[2].equals("data") && !array[2].equals("meta") && !array[2].equals("cert"))
+						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from PENTA : Complete --> ");
+					else if (func==405 && func_check==1)
+					{
+						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from PENTA : Complete --> ");
+						func_check = 0;
 					}
 				}				
 //				stop();
@@ -1510,12 +1616,41 @@ public class ReceiveWorker implements Runnable
 			
 			// 물리적 실제 메모리 
 			// memory 사용량 : free -m	
-			double mem_free = (double)osBean.getFreePhysicalMemorySize();
-			double mem_total = (double)osBean.getTotalPhysicalMemorySize();
-			double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);
+//			double mem_free = (double)osBean.getFreePhysicalMemorySize();
+//			double mem_total = (double)osBean.getTotalPhysicalMemorySize();
+//			double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);
 //			System.out.println("!! DeviceStatusInfo - Total Memory : " + mem_total/gb + "[GB]"); 			
 //			System.out.println("!! DeviceStatusInfo - free Memory : " + mem_free/gb + "[GB]"); 			
 //			System.out.println("!! DeviceStatusInfo - Memory Usage : " + String.format("%.2f", (mem_total-mem_free)/mem_total*100.0) + "%"); 
+			String s="";
+			Process p;
+			try {
+				p = Runtime.getRuntime().exec("free");
+		        BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		        s = br.readLine();
+		        s = br.readLine();
+		        p.destroy();
+			} catch (IOException e1) {
+			}
+	        
+			while(true)
+			{
+				String s_c = s.replace("  ", " ");
+				if(s_c.equals(s))
+				{
+					s = s_c;
+					break;				
+				}
+				s = s_c;
+			}
+			String[] array = s.split(" ");
+//			System.out.println(array[0]);
+//			System.out.println(array[1]);
+//			System.out.println(array[2]);
+			double mem_total = Double.parseDouble(array[1]);
+			double mem_free = Double.parseDouble(array[1]) - Double.parseDouble(array[2]);
+			double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);		
+			
 			mem_total /= gb;
 			
 			
@@ -2335,11 +2470,11 @@ public class ReceiveWorker implements Runnable
 			String remote_cmd = "{[{REQ::" + ip + "::007::"; //+ meta_info + "::";
 			EdgeDeviceInfoClient client;
 			
-			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend : " + cert_file);
+			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend : " + cert_file);
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : cert - false");
+				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : cert - false");
 				return "Fail";
 			}
 
@@ -2405,7 +2540,7 @@ public class ReceiveWorker implements Runnable
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : meta - false");
+				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : meta - false");
 				return "Fail";
 			}
 			client.startWaitingResponse();
@@ -2687,6 +2822,13 @@ public class ReceiveWorker implements Runnable
 			public void run() // 동기화 synchronized - 소용없음
 			{
 				// chunk request #406
+//				try { // for 공인인증 // for demo
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} // for 공인인증
+
 				EdgeDeviceInfoClient client =  new EdgeDeviceInfoClient(req_ip, EdgeDeviceInfoClient.socketTCP);
 				client.answerData = null;
 				client.startWaitingResponse();
@@ -2742,7 +2884,7 @@ public class ReceiveWorker implements Runnable
 //				}
 
 				try {
-					Thread.sleep(200); // wait after chunk send 
+					Thread.sleep(100); // wait after chunk send 
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

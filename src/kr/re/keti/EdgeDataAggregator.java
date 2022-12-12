@@ -1,13 +1,25 @@
 /*
  * EdgeDataAggregator = main 
- * DataProcess = file handle
- * EdgeFinder = master existence and nonexistence check
- * EdgeReceptor = when node is master, slave wait.
- * ReceiveWorker = node wait to request and confirm what kind of request
- * TransmitWorker = confirm user request and transmit to others 
- * ShellCommander = X
- *  
+ 	info_device.txt 파일을 읽어 기본 디바이스 정보를 읽어들인 후, master/slave 등 역활에 따라 프로그램 실행이 실행됨
+ 	
+ 	MasterWorker 또는  SlaveWorker로 진입하며,
+ 	나에게 데이터 관련 요청이 올 수 있으므로, ReceiveWorker를 쓰레드로 호출
+ 	
+ 	마스터는 슬레이브와 달리 어떤 엣지가 새로 들어왔는지 제일 먼저 알 수 있으며, 이를 접속 중인 슬레이브에게 알리는 기능을 함
+ 	(다른 기능은 마스터/슬레이브가 같음)
+ 	
+ * EdgeFinder
+ 	UPNP 모드일 때, 마스터가 존재하는지 확인하고 없으면 마스터로 선정하거나, 마스터에게 추가된 디바이스(슬레이브) 존재를 알리기 위한 코드
+
+ * EdgeReceptor
+  	마스터 모드일 때, 슬레이브 모드를 기다리기 위한 동작 코드
+  	
+ * MasterWorker / SlaveWorker
+	dataprocess를 추가로 호출하며, 필요한 기능(ex. 연결되있는 엣지 정보 확인)을 수행할 수 있음
+	데이터 읽기는 데이터 크기(1kb)에 따라 분할 송수신을 진행하거나 한번에 송수신함.(분할 송수신의 경우, 연결된 엣지들에게 데이터가 있는지 확인한 후 조각으로 요청함) 
+
  */
+
 package kr.re.keti;
 
 import java.io.BufferedReader;

@@ -75,7 +75,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! RequestSlaveList : " + remote_cmd);
+				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestSlaveList : client die - " + remote_cmd);
 				return slavelist;
 			}
 			client.startWaitingResponse();
@@ -89,7 +89,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -139,7 +139,7 @@ public class DataProcess {
 				client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP); // manaul setting
 				if(!client.streamSocket_alive())
 				{
-					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " SendEdgeList : false");
+					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " SendEdgeList - client die: false");
 					return ;
 				}
 				client.startWaitingResponse();
@@ -154,7 +154,7 @@ public class DataProcess {
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
 //							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -227,7 +227,7 @@ public class DataProcess {
 					{
 //						result = "time";
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -290,7 +290,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -359,7 +359,7 @@ public class DataProcess {
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
 //									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
@@ -398,7 +398,7 @@ public class DataProcess {
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
 ////								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 
 								break;
 							}
@@ -455,7 +455,7 @@ public class DataProcess {
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
 //							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -498,7 +498,7 @@ public class DataProcess {
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
 //							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
@@ -574,7 +574,7 @@ public class DataProcess {
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
 //									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
@@ -630,7 +630,7 @@ public class DataProcess {
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
 //								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 								break;
 							}
 						} catch (InterruptedException e) {
@@ -682,7 +682,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
-			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessageKETIRead : " + ip + "::" + req_code + "::" + req_content);
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestMessageKETIRead : cleint die - " + ip + "::" + req_code + "::" + req_content);
 				return result;
 			}
 			client.startWaitingResponse();
@@ -699,7 +699,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "\t!! Response Time is delayed over : " + remote_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -943,23 +943,64 @@ public class DataProcess {
 		
 		// 프로세서 부하량
 		OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-		/* getSystemLoadAverage ()
+		// getSystemLoadAverage ()
 		// 1보다 낮은 값을 유지하면 서버의 상태 원활하고, 1보다 높으면 서버가 부하를 받기 시작한다고 판단할 수 있다. 
-		// 평균적으로 5 이상을 시스템에 과부하가 있다고 판단하지만 절대적인 판단의 기준은 절대 아니다.*/
+		// 평균적으로 5 이상을 시스템에 과부하가 있다고 판단하지만 절대적인 판단의 기준은 절대 아니다.
 		int process_load=0;
 		if (osBean.getSystemLoadAverage() != -1) // window 에선 -1 
 			process_load = (int) Math.ceil(osBean.getSystemLoadAverage() / osBean.getAvailableProcessors() * 100); // cpu사용량 - osBean.getSystemCpuLoad() * 100;
+//0105//		OperatingSystemMXBean osBean = (com.sun.management.OperatingSystemMXBean)ManagementFactory.getOperatingSystemMXBean();
+//0105//		int process_load = (int) Math.ceil(osBean.getSystemCpuLoad() * 100);
 		
 		// 물리적 실제 메모리 
 		// memory 사용량 : free -m	
-		double mem_free = (double)osBean.getFreePhysicalMemorySize();
-		double mem_total = (double)osBean.getTotalPhysicalMemorySize();
-		double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);
+//		Runtime.getRuntime().gc();
+//		long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+//		double mem_total = (double)Runtime.getRuntime().totalMemory();
+//		double mem_free = (double)Runtime.getRuntime().freeMemory();
+
+//		Runtime runtime = Runtime.getRuntime();
+//		double mem_total = (int)(runtime.totalMemory());
+//		double mem_free = (int)(runtime.freeMemory());
+
+		//original
+//		double mem_total = (double)osBean.getTotalPhysicalMemorySize();
+//		double mem_free = (double)osBean.getFreePhysicalMemorySize();
+//		double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);
+
+		String s="";
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec("free");
+	        BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	        s = br.readLine();
+	        s = br.readLine();
+	        p.destroy();
+		} catch (IOException e1) {
+		}
+        
+		while(true)
+		{
+			String s_c = s.replace("  ", " ");
+			if(s_c.equals(s))
+			{
+				s = s_c;
+				break;				
+			}
+			s = s_c;
+		}
+		String[] array = s.split(" ");
+//		System.out.println(array[0]);
+//		System.out.println(array[1]);
+//		System.out.println(array[2]);
+		double mem_total = Double.parseDouble(array[1]);
+		double mem_free = Double.parseDouble(array[1]) - Double.parseDouble(array[2]);
+		double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);		
 //		System.out.println("!! DeviceStatusInfo - Total Memory : " + mem_total/gb + "[GB]"); 			
 //		System.out.println("!! DeviceStatusInfo - free Memory : " + mem_free/gb + "[GB]"); 			
 //		System.out.println("!! DeviceStatusInfo - Memory Usage : " + String.format("%.2f", (mem_total-mem_free)/mem_total*100.0) + "%"); 
-		mem_total /= gb;
-		
+//		mem_total /= gb;
+		mem_total = Math.round(mem_total/gb);
 		
 		// memory 사용량 : free -m				
 		// 스토리지 여유량
@@ -1036,7 +1077,7 @@ public class DataProcess {
 		return devcnt;
 	}
 	
-	public void WholeDataInfo()
+	public void WholeDataInfo() // 내 디바이스의 전체 데이터 정보 확인
 	{
 		ResultSet metadata = (ResultSet) database.query(select_sql + table_name);
 		//int column = metadata.getMetaData().getColumnCount();
@@ -1067,7 +1108,7 @@ public class DataProcess {
 			e.printStackTrace();
 		}
 	}
-	public int WholeDataInfo(String ipAddress)
+	public int WholeDataInfo(String ipAddress) // ipAddress 디바이스의 전체 데이터 정보 확인
 	{
 		String msgs ="";
 		int check = -1;
@@ -1091,7 +1132,7 @@ public class DataProcess {
 		
 		return check;
 	}	
-	public String MetaDataInfomation(String req_content) // 210428 add int func
+	public String MetaDataInfomation(String req_content) // 210428 add int func // 내 디바이스의 특정 데이터의 메타데이터 정보 추출 
 	{
 		String result = "none";	
 //		String sql = select_sql + db_name + " where uuid = '" + message + "'";
@@ -1123,7 +1164,7 @@ public class DataProcess {
 		}		
 		return result;
 	}
-	public int MetaDataInfomation(String req_content, String ipAddress) // 210428 add int func
+	public int MetaDataInfomation(String req_content, String ipAddress) // 210428 add int func // ipAddress 디바이스의 특정 데이터의 메타데이터 정보 추출 
 	{
 		int devcnt = -1;
 		String msgs ="";
@@ -1208,11 +1249,11 @@ public class DataProcess {
 
 		msgs=RequestMessage(req_content, ipAddress, "003");
 //		System.out.println("!! MetaDataInfomation : " + msgs); // Send the answer 로 충분
-		if(msgs.equals("time"))
+		if(msgs.equals("time")) //tcp 통신 오류로 시간초과됨 (소켓 연결에 문제가 있을 수 있음)
 			return msgs;
 
-		if(check == 1 && !msgs.equals("none"))
-		{
+		if(check == 1 && !msgs.equals("none")) // check == 1 이고, ipAddress 디바이스에 있는 req_content 데이터의 메타데이터 정보가 있으면,
+		{ // ipAddress 디바이스에 있는 req_content 데이터의 메타데이터 정보를 내 디바이스에 저장
 			devcnt = 1;
 			//System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
 //				Thread.sleep(5);
@@ -1268,7 +1309,7 @@ public class DataProcess {
 		return msgs;	
 	}
 	
-	public int IndividualDataRead(String req_content) // local 검사
+	public int IndividualDataRead(String req_content) // 내 디바이스에 있는 req_content 데이터의 메타데이터와 데이터 내용 읽기
 	{
 		int devcnt = 0;
 		String result = "none";	
@@ -1315,7 +1356,7 @@ public class DataProcess {
 			e.printStackTrace();
 		}
     	
-    	if(dataType == 0 && devcnt==1 && (fileType.equals("csv") || fileType.equals("txt")))
+    	if(dataType == 0 && devcnt==1 && (fileType.equals("csv") || fileType.equals("txt") || fileType.equals("log"))) // 텍스트 데이터의 경우, 화면 출력
     	{
 			req_content = dataID + "." + fileType;
     		File f = new File(data_folder + req_content);
@@ -1362,7 +1403,8 @@ public class DataProcess {
     	}
     	else
     	{
-    		System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
+//    		System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
+    		devcnt = 4;
     	}
 
 		return devcnt;
@@ -1508,11 +1550,11 @@ public class DataProcess {
 
 // unit edge thread
 	public ArrayList<String> IndividualDataRead(String req_content, ArrayList<String> ipAddress) // 210428 add int func
-	{
-		File folder = new File(data_folder + "chunk"); //cert detail path
+	{ // 여러대의 ipAddress 디바이스들에게 req_content 데이터를 조각으로 요청할 때
+		File folder = new File(data_folder + "chunk"); // 조각 데이터 수신 폴더
 		if(!folder.exists())
 			folder.mkdir();
-		folder = new File(data_folder + "time"); //cert detail path
+		folder = new File(data_folder + "time"); // 조각 데이터별 송수신 시간 기록한 파일을 저장하는 폴더
 		if(!folder.exists())
 			folder.mkdir();
 
@@ -1527,7 +1569,7 @@ public class DataProcess {
 		double data_split_size = 4; //KB
 
 		
-		for(i=0; i<ipAddress.size(); i++)
+		for(i=0; i<ipAddress.size(); i++) // 디바이스별로 실제 데이터를 가지고 있는지 판단 
 		{
 //			System.out.println("!! dataprocess - read : " + req_content);
 			msgs=RequestMessage(req_content, ipAddress.get(i), "003");
@@ -1614,13 +1656,13 @@ public class DataProcess {
 			}
 		}
 		
-		edge_size = edgeList.size();
+		edge_size = edgeList.size(); // 데이터 보유 엣지 리스트 업데이트
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 		req_content = dataID + "." + fileType;
 		if(check != 0)
 		{
 //			System.out.println("!! dataprocess - read : " + securityLevel + ", " + dataSize);
-			if(securityLevel < 5 || (securityLevel==5 && dataSize<=data_split_size))
+			if(securityLevel < 5 || (securityLevel==5 && dataSize<=data_split_size)) // 데이터 보안등급 숫자가 작거나, 데이터 크기가 작아 한번에 전송하는 경우
 			{
 //				System.out.println("!! dataprocess - read : " + securityLevel + ", " + dataSize);
 //				System.out.println("!! dataprocess - read : " + req_content);
@@ -1724,7 +1766,7 @@ public class DataProcess {
 								e1.printStackTrace();
 							}
 							
-							if(fileType.equals("csv") || fileType.equals("txt"))
+							if(fileType.equals("csv") || fileType.equals("txt") || fileType.equals("log") )
 								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
 							else
 								System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
@@ -1824,7 +1866,7 @@ public class DataProcess {
 						return edgeList;
 				}while(edge_size != edgeList.size());
 				System.out.println("* Edge List with Data Separation Completed : " + edgeList);
-				
+
 				PrintWriter fprogress = null;
 				try { // 4-5th security level
 					fprogress = new PrintWriter(data_folder + dataID + ".meta");
@@ -1840,6 +1882,7 @@ public class DataProcess {
 					e1.printStackTrace();
 				}
 
+				
 				// chunk request #1
 				UnitEdge[] edge_th = new UnitEdge[edge_size]; // thread
 				chunk_check = new int[edge_size]; //thread check
@@ -1856,7 +1899,7 @@ public class DataProcess {
 				
 				boolean[] working = new boolean[number_chunk+1];
 				Arrays.fill(working,true); // working[number_chunk] = true;
-				int finisher = 0, edge_number=0;
+				int finisher = 0, edge_number=0, before_finisher=0;
 				i = 0;  //순차적으로 다른 엣지에게 
 				while(working[number_chunk])
 				{
@@ -1880,10 +1923,34 @@ public class DataProcess {
 							}
 						}
 					}
-					if(finisher == number_chunk)
+//					System.out.println(before_finisher);
+//					System.out.println(finisher);
+					if(finisher-before_finisher > number_chunk/11)
+					{
+						System.out.println("\tReceive Rate of Chunk : " + finisher + "/" + number_chunk + " = " + Math.round((double)finisher/(double)number_chunk*100.0) + "%");
+						before_finisher = finisher;
+						if(finisher == number_chunk)
+							working[number_chunk] = false;
+						try {
+							Thread.sleep(30); // for demo
+						} catch (InterruptedException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+					}
+					else if(finisher == number_chunk)
+					{
 						working[number_chunk] = false;
+						System.out.println("\tReceive Rate of Chunk : " + finisher + "/" + number_chunk + " = " + Math.round((double)finisher/(double)number_chunk*100.0) + "%");
+					}
 				}
 				
+				try {
+					Thread.sleep(1000); // for demo
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				DataMerge(req_content, chunkList, chunk_size*1000);
 				
 				j=0;
@@ -1932,7 +1999,7 @@ public class DataProcess {
 	}
 // unit edge thread
 
-	public int IndividualDataWrite(String req_content, String input) // 210428 add int func
+	public int IndividualDataWrite(String req_content, String input) // 210428 add int func // 내 디바이스의 req_content 데이터에 input 내용 추가
 	{
 		Scanner sc = new Scanner(System.in);
 		int devcnt=0, check=0;
@@ -1959,7 +2026,7 @@ public class DataProcess {
 			e.printStackTrace();
 		}
 		
-    	if(securityLevel>1)
+    	if(securityLevel>1) // 접근 등급이 
 		{
 			if(dataType != 1)// && (fileType.equals("csv") || fileType.equals("txt"))) // data delete
 			{
@@ -1999,7 +2066,7 @@ public class DataProcess {
 		
 		return devcnt;
 	}
-	public int IndividualDataWrite(String req_content, String ipAddress, String input) // 210428 add int func
+	public int IndividualDataWrite(String req_content, String ipAddress, String input) // 210428 add int func // ipAddress 디바이스의 req_content 데이터에 input 내용 추가
 	{
 		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
 		int devcnt=0, check=0;
@@ -2042,13 +2109,13 @@ public class DataProcess {
 //	    		devcnt = 0;
 	    	else
 	    		devcnt = 1;
-			System.out.println(log_format.format(new Date(System.currentTimeMillis())) +  "!! 005 - " + devcnt);
+			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) +  "!! 005 - " + devcnt);
 
 		}
 		return devcnt;
 	}
 
-	public int IndividualDataRemove(String req_content) // 210428 add int func
+	public int IndividualDataRemove(String req_content) // 210428 add int func // 내 디바이스의 req_content 데이터 제거
 	{
 		int devcnt=0;
 		String sql = select_sql + table_name + " where dataid = '" + req_content + "'";
@@ -2062,6 +2129,8 @@ public class DataProcess {
 //				System.out.println("!! slaves request dataID : " + req_content);
 				fileType = metadata.getString("file_type");
 				dataType = metadata.getInt("data_type");
+//				if(dataType == 0)
+//					devcnt = 1;
 				securityLevel = metadata.getInt("security_level"); 
 			}
 			else
@@ -2092,7 +2161,7 @@ public class DataProcess {
 		
 		return devcnt;
 	}
-	public int IndividualDataRemove(String req_content, String ipAddress) // 210428 add int func
+	public int IndividualDataRemove(String req_content, String ipAddress) // 210428 add int func  // ipAddress 디바이스의 req_content 데이터 제거
 	{
 		int devcnt=0, check=0;
 		String msgs ="";
@@ -2104,16 +2173,17 @@ public class DataProcess {
 		if(!msgs.equals("none"))
 		{
 			devcnt = 1;
-
 			String[] array = msgs.split("#");
 			dataID = array[0];
 			fileType = array[2];
 			dataType = Integer.parseInt(array[3]);
+//			if(dataType == 0)
+//				devcnt = 1;
 			securityLevel = Integer.parseInt(array[4]);
 
 			req_content = dataID + "." + fileType;
 			
-			if(securityLevel>2)
+			if(securityLevel>2) // 제거가 가능한 보안등급인지 확인
 			{
 				msgs = RequestMessage(req_content, ipAddress, 3);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3)
 				if(msgs.equals("time"))
@@ -2133,10 +2203,11 @@ public class DataProcess {
 //		System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
 //		Thread.sleep(5);
 
+//		System.out.println(devcnt);
 		return devcnt;
 	}
 	
-	byte[] IndividualDataSendReadByte(String filename)
+	byte[] IndividualDataSendReadByte(String filename) // filename 파일 byte형으로 내용 읽기
 	{
 		int len = 0, total_len=0;
 		byte[] buffer = new byte[1024];
@@ -2199,11 +2270,11 @@ public class DataProcess {
 			String data_file = dataID + "." + fileType;
 			String cert_file = cert;
 			
-			System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend client cert : " );
+			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend client cert : " );
 			EdgeDeviceInfoClient client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataTransfer : cert - false");
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataTransfer : cert send to client - false");
 				return 0;
 			}
 			client.startWaitingResponse();
@@ -2269,7 +2340,7 @@ public class DataProcess {
 			client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataTransfer : meta - false" + remote_cmd);
+			    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataTransfer : meta send to client - false" + remote_cmd);
 				return 0;
 			}
 			client.startWaitingResponse();
@@ -2290,7 +2361,7 @@ public class DataProcess {
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println("\t!! Response Time is delayed over : " + meta_cmd);
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + meta_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
@@ -2328,7 +2399,7 @@ public class DataProcess {
 		return devcnt;
 	}
 
-	public static void DataMerge(String newFileName, ArrayList<String> filenames, int chunk_size)
+	public static void DataMerge(String newFileName, ArrayList<String> filenames, int chunk_size) // 조각데이터 합치기
 	{
 		FileOutputStream fout = null;
 		FileInputStream in = null;
@@ -2470,7 +2541,7 @@ public class DataProcess {
 	public static int maxRetry = 10;
 	static int check_timeout = 5000;
 
-	
+	// UnitChunk class - 사용 안함
 	class UnitChunk extends Thread
 	{
 //		public static String foldername="/data/";
@@ -2602,12 +2673,12 @@ public class DataProcess {
 				            fos.flush();
 				            fos.close();
 				            
-//							try { // for 공인인증 - interrupted error
-//								Thread.sleep(100);
-//							} catch (InterruptedException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							chunk_check} // for 공인인증
+							try { // for 공인인증 - interrupted error // for demo
+								Thread.sleep(50);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} // for 공인인증
 
 						}
 						else
@@ -2635,7 +2706,8 @@ public class DataProcess {
 		// UnitChunk Thread
 	}
 	
-	// UnitEdge Thread
+	// UnitEdge Thread - 조각 데이터 송수신을 위한 class 
+	// 각각의 엣지에 전달받을 조각 구간의 시작, 종료 위치로 요청
 	class UnitEdge extends Thread
 	{
 		public String req_content, req_ip, req_code, file_type;
@@ -2671,7 +2743,7 @@ public class DataProcess {
 							client = new EdgeDeviceInfoClient(req_ip, EdgeDeviceInfoClient.socketTCP);
 							if(!client.streamSocket_alive())
 							{
-							    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " UnitChunk : false");
+							    System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " UnitEdge : false");
 								return ;
 							}
 							break;
@@ -2692,6 +2764,13 @@ public class DataProcess {
 					remote_cmd = "{[{REQ::" + req_ip + "::" + req_code + "::" + req_content + "::" + index_s + "::" + index_f + "}]}";
 					client.answerData = null;
 					System.out.println("Request to : " + req_ip + ", chunk #"+ index_s + " to #" + (index_f-1)); //datasize
+					try { // for 공인인증 // for demo
+						Thread.sleep(2000);  
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // test 필요 
+
 //					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
 					client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 					

@@ -100,8 +100,11 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			if(Thread.interrupted())
 				break;
 			
-			System.out.println("function : 0. Declare EXIT     1. Device Information     2. Whole Data Information");
-			System.out.println("function : 3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
+//			System.out.println("function : 0. Declare EXIT     1. Device Information     2. Whole Data Information");
+//			System.out.println("function : 3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
+			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information");
+			System.out.println("function : 4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
+			System.out.println("function : 0. Declare EXIT");
 			System.out.print("function number\t(ex) 1 ?\t");
 			String input_func="none";
 			while(!sc.hasNextLine()) // && input_func.equals("")) // NoSuchElementException : No line found
@@ -116,7 +119,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			input_func = sc.nextLine();
 			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none") || input_func.equals(""))
 			{
-				System.out.println("\tInput String is Wrong.(Input only Number)");
+//				System.out.println("\tInput String is Wrong.(Input only Number)");
 //				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
@@ -271,10 +274,22 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 					{
 						if(check == 1)
 							metaList.add(my_ip);
-						ArrayList<String> edgeList = dataprocess.RequestSlaveList(master_ip);
-						edgeList.add(0, master_ip);
-						edgeList.remove(my_ip);
-						dataList = dataprocess.IndividualDataRead(filename, edgeList); // 공인인증시험 - chunk 300packet
+						else if(check == 4)
+						{
+							String result = dataprocess.MetaDataInfomation(filename);
+							String[] array = result.split("#");
+							String origin_ip = array[10].split(":")[0];
+							ArrayList<String> edgeList = new ArrayList<String>();
+							edgeList.add(origin_ip);
+							dataList = dataprocess.IndividualDataRead(filename, edgeList); // 공인인증시험 - chunk 300packet
+						}
+						else
+						{
+							ArrayList<String> edgeList = dataprocess.RequestSlaveList(master_ip);
+							edgeList.add(0, master_ip);
+							edgeList.remove(my_ip);
+							dataList = dataprocess.IndividualDataRead(filename, edgeList); // 공인인증시험 - chunk 300packet
+						}
 					}
 					
 					if(dataList.size() != 0)
@@ -287,8 +302,9 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 			}
 			else
 			{
-				System.out.print("Which Edge Do you Want to do the function\t(ex) 127.0.0.1, all ?\t");
-				String ip = sc.nextLine();
+//				System.out.print("Which Edge Do you Want to do the function\t(ex) 127.0.0.1, all ?\t");
+//				String ip = sc.nextLine();
+				String ip = "all";
 				System.out.print("What Data Do you Want to Know\t(Input the DataID)?\t");
 				String filename = sc.nextLine();
 				boolean ip_check=false;
@@ -436,7 +452,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 							else
 							{
 								System.out.println("request to " + slaveList.get(i));
-								check = dataprocess.IndividualDataRemove(filename, my_ip); // 210428 add int func
+								check = dataprocess.IndividualDataRemove(filename, slaveList.get(i)); // 210428 add int func
 							}
 							if(check == 2)
 								dataList.add(slaveList.get(i)); //localhost == master_ip
@@ -513,6 +529,8 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 				} // function 6
 				else if(func == 7)
 				{
+					System.out.print("Which Edge Do you Want to do\t(ex) 127.0.0.1, all ?\t");
+					ip = sc.nextLine();
 					check = -1;
 					String meta_info = dataprocess.MetaDataInfomation(filename);
 					if(meta_info.equals("none"))

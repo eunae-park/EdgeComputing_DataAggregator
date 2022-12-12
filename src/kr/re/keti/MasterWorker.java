@@ -79,8 +79,9 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 
 //			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
 //			System.out.println("function : 0. Declare EXIT");
-			System.out.println("function : 0. Declare EXIT     1. Device Information     2. Whole Data Information");
-			System.out.println("function : 3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
+			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information");
+			System.out.println("function : 4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
+			System.out.println("function : 0. Declare EXIT");
 			System.out.print("function number\t(ex) 1 ?\t");
 			String input_func="none";
 			while(!sc.hasNextLine()) // && input_func.equals("")) // NoSuchElementException : No line found
@@ -95,7 +96,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			input_func = sc.nextLine();
 			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none") || input_func.equals(""))
 			{
-				System.out.println("\tInput String is Wrong.(Input only Number)");
+//				System.out.println("\tInput String is Wrong.(Input only Number)");
 //				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
@@ -283,7 +284,18 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					{
 						if(check == 1)
 							metaList.add(my_ip);
-						dataList = dataprocess.IndividualDataRead(filename, slaveList); // 공인인증시험 - chunk 300 packet
+						else if(check == 4)
+						{
+							String result = dataprocess.MetaDataInfomation(filename);
+							String[] array = result.split("#");
+							String origin_ip = array[10].split(":")[0];
+							ArrayList<String> edgeList = new ArrayList<String>();
+							//System.out.println(origin_ip);
+							edgeList.add(origin_ip);
+							dataList = dataprocess.IndividualDataRead(filename, edgeList); // 공인인증시험 - chunk 300packet
+						}
+						else
+							dataList = dataprocess.IndividualDataRead(filename, slaveList); // 공인인증시험 - chunk 300 packet
 					}
 					
 					if(dataList.size() != 0)
@@ -296,8 +308,9 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			} 
 			else
 			{
-				System.out.print("Which Edge Do you Want to do the function\t(ex) 127.0.0.1, all ?\t");
-				String ip = sc.nextLine();
+//				System.out.print("Which Edge Do you Want to do the function\t(ex) 127.0.0.1, all ?\t");
+//				String ip = sc.nextLine();
+				String ip = "all";
 				System.out.print("What Data Do you Want to Know(Input the DataID)?\t");
 				String filename = sc.nextLine();
 				boolean ip_check=false;
@@ -471,6 +484,8 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 				} // function 6			
 				else if(func == 7) // 
 				{
+					System.out.print("Which Edge Do you Want to do\t(ex) 127.0.0.1, all ?\t");
+					ip = sc.nextLine();
 					check = -1;
 					String meta_info = dataprocess.MetaDataInfomation(filename);
 					if(meta_info.equals("none"))
