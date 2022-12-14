@@ -1,36 +1,23 @@
-# EdgeComputing_DataAggregator
+# info_device.txt
+info_device.txt는 디바이스의 전체적인 정보를 가지는 설정 파일입니다.
+```
+uuid // 디바이스 ID
+data path // 데이터 폴더 위치
+cert path // 인증서 폴더 위치
+DBMS // 사용하는 DBMS
+database,table,id,password // 데이터베이스, 테이블명, 사용자ID, 사용자PW ','로 구분
+mode // upnp or master or slave upnp일시 처음 접속하는 디바이스가 master 나머지는 slave
+device IP // 디바이스IP or auto auto
+```
 
-info_device.txt
-
-Edge Node UUID
-Data Folder DIR/
-Cert Folder DIR/
-DBMS name
-DB information
-UPNP mode
-upnp information
-My IP Address
- 
-
-//DB info
-MySQL :  DB명,table명,userID,userPW
- (ex) mecTrace,file_management,mecTrace,penta&keti0415!
-SQLite : DB명,table명,userID,userPW,DB경로 
-// 없으면 null
-
-
-//upnp info
-자동모드 : upnp
-수동모드 : master
-수동모드 : slave\nmaster_ip
-
-//My IP Address
-자동으로 가져오기 : auto
-수동설정 : ip 입력 
-
-
-수동모드 - keti.d-sharing.kr   or   keties.iptime.org
-vi /etc/hosts
-127.0.0.1 keti.d-sharing.kr
-keti.d-sharing.kr
-keties.iptime.org
+# 사용
+'''
+0 // 종료
+1 // 디바이스 정보 읽기
+2 // 전체 데이터 읽기
+3 // 데이터 상세 정보
+4 // 데이터 읽기 / 분산 공유
+5 // 데이터 쓰기
+6 // 데이터 제거
+7 // 데이터 전송
+'''
