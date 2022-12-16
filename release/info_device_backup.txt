@@ -15,7 +15,6 @@ master
 10.0.7.11
 
 
-
 //DB info
 MySQL :  DB명,table명,userID,userPW
  (ex) mecTrace,file_management,mecTrace,penta&keti0415!
