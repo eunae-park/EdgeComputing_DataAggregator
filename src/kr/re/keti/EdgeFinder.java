@@ -208,14 +208,12 @@ public class EdgeFinder
 		
 		if(ioSuccess)
 		{ //slave
-//			System.out.println("6");
 			masterDiscovered = true;
 			
 			masterAddress = ackPacket.getAddress();
 		}
 		else
 		{ //master
-//			System.out.println("7");
 			masterAddress = null;
 		}
 	}
