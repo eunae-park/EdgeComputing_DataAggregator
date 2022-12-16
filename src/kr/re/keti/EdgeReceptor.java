@@ -75,12 +75,10 @@ public class EdgeReceptor
 				{
 					if(masterAddressObj == null)
 					{
-//						System.out.println("3");
 						bsSocket = new DatagramSocket(EdgeFinder.defaultBroadcastPort);
 					}
 					else
 					{
-//						System.out.println("4");
 						bsSocket = new DatagramSocket(EdgeFinder.defaultBroadcastPort, masterAddressObj);
 					}
 					
@@ -114,7 +112,6 @@ public class EdgeReceptor
 					
 					if(addr != null)
 					{
-//						System.out.println("5");
 						try
 						{
 							waitingAddressQueue.put(addr);
@@ -154,7 +151,6 @@ public class EdgeReceptor
 				
 				while(working)
 				{
-//					System.out.println("6");
 					try
 					{
 						addr = waitingAddressQueue.take();
@@ -168,7 +164,6 @@ public class EdgeReceptor
 					
 					if(masterAddress != null && addr != null)
 					{
-//						System.out.println("7");
 						ackPacket = new DatagramPacket(masterAddress, masterAddress.length, addr, EdgeFinder.defaultAckPort);
 						
 						try
@@ -206,7 +201,6 @@ public class EdgeReceptor
 //		System.out.println("start");
 		if(!working)
 		{
-//			System.out.println("9");
 			initThreads();
 			
 			listenerThread.start();
