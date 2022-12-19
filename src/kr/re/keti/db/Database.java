@@ -80,6 +80,7 @@ public class Database {
 	}
 	public String select(String dataid) {
 		String query = "select * from "+tableName+" where dataid='"+dataid+"';";
+		System.out.println(query);
 		try (	Connection connection = getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(query);
 				ResultSet rs = pstmt.executeQuery();

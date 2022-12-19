@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -40,33 +41,26 @@ public final class EdgeDeviceInfoClient
 			else if(currentSocketType == socketTCP)
 			{
 				int numOfRetry = 0;
-//				System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
 				
 				do
 				{
-//					System.out.println("!! EdgeDeviceInfoClient : " + numOfRetry);
+					if(streamSocket != null) break;
 					streamSocket = new Socket(targetAddress, TCPSocketAgent.defaultPort);
 					
 					++numOfRetry;
 				}
 				while(streamSocket == null && numOfRetry <= connectionRetryLimit);
-				
+
 				if(streamSocket != null && streamSocket.isConnected())
 				{
 					inputStream = streamSocket.getInputStream();
 				}
 			}
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException error) {
+			error.printStackTrace();
 		}
-//		System.out.println("!! EdgeDeviceInfoClient : ");
 		
 	}
 	public EdgeDeviceInfoClient(String addr, int socketType, int port)
@@ -97,7 +91,6 @@ public final class EdgeDeviceInfoClient
 				do
 				{
 					TCPSocketAgent.defaultPort = port;
-//					System.out.println("!! EdgeDeviceInfoClient : " + TCPSocketAgent.defaultPort);
 					streamSocket = new Socket(targetAddress, port);
 					
 					++numOfRetry;
@@ -110,17 +103,14 @@ public final class EdgeDeviceInfoClient
 			}
 		} catch (UnknownHostException e) {
 			streamSocket = null;
-			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client UnknownHostException");
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (SocketException e) {
 			streamSocket = null;
-			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client SocketException");
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (IOException e) {
 			streamSocket = null;
-			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " client IOException");
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		}
@@ -130,7 +120,6 @@ public final class EdgeDeviceInfoClient
 	public void sendPacket(byte[] data, int len)
 	{
 //		String str = new String(data);
-//		System.out.println("!! EdgeDeviceInfoClient : " + str); //send error
 //		if(str.indexOf("{[{")==-1 || str.indexOf("}]}")==-1)
 //			return ;
 		answerData = null; // 
@@ -291,7 +280,6 @@ public final class EdgeDeviceInfoClient
 						}
 						msg += new String(data, "UTF-8");
 						cnt ++;
-//						System.out.println("!! TCP_ResopnseWaiter : " + msg.indexOf("}]}")); //
 					}
 				}
 				catch(IOException e) // joo
@@ -320,7 +308,7 @@ public final class EdgeDeviceInfoClient
 		{
 //			answerData = null;
 			isWaiting = true;
-			
+
 			if(inputStream == null)
 			{
 				return;
@@ -329,7 +317,6 @@ public final class EdgeDeviceInfoClient
 			byte[] packetData = new byte[TCPSocketAgent.defaultPacketSize];
 			byte[] data_b = null;
 			byte[] data = null;
-			
 			int datacnt=0;
 //			String[] data = null;
 			while(isWaiting) // joo
@@ -342,7 +329,6 @@ public final class EdgeDeviceInfoClient
 					int len=0;
 					while(msg.indexOf("}]}")==-1)
 					{
-//						System.out.println("!! TCP_ResopnseWaiter : " + isWaiting);
 						if(!isWaiting) // false면
 						{
 							msg = "retry";
@@ -367,30 +353,26 @@ public final class EdgeDeviceInfoClient
 								System.arraycopy(packetData, 0, data, data_b.length, len);
 								data_b =  data;
 							}
-//							System.out.println("!! answer while : " + new String(packetData));
-//							System.out.println("!! answer while : " + new String(data_b));
-//							System.out.println("!! answer while : " + new String(data));
 						}
-						
-//						System.out.println("!! len : " + total_len);
 						if(data != null)
 							msg = new String(data, "UTF-8"); //"EUC-KR"
-//						System.out.println("!! answer : " + msg);
 						cnt ++;
 						Thread.sleep(10);
 					}
 //					Thread.sleep(100);
 				}
-				catch(IOException e) // joo
+				catch(SocketException e) // joo
 				{
+//					e.printStackTrace();
 					continue;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
-//				System.out.println("!! TCP_ResopnseWaiter : " + new String(packetData));
-//				System.out.println("!! TCP_ResopnseWaiter2 : " + msg);
 				if(msg.equals(""))
 					continue ;
 				else if(msg.equals("retry"))
@@ -422,28 +404,4 @@ public final class EdgeDeviceInfoClient
 
 	}
 	
-/*	
-	public static void main(String[] args) throws Exception
-	{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		String readLine;
-
-		System.out.print("\nInput Agent IP: ");
-		readLine = reader.readLine();
-		//EdgeDeviceInfoClientTest clientTester = new EdgeDeviceInfoClientTest(readLine, EdgeDeviceInfoClientTest.socketUDP);
-		EdgeDeviceInfoClient clientTester = new EdgeDeviceInfoClient(readLine, EdgeDeviceInfoClient.socketTCP);
-//		EdgeDeviceInfoClientTest clientTester = new EdgeDeviceInfoClientTest("127.0.0.1", EdgeDeviceInfoClientTest.socketTCP);
-		
-		clientTester.startWaitingResponse();
-
-		do
-		{
-			System.out.print("\nInput text: ");
-			readLine = reader.readLine();
-		
-			clientTester.sendPacket(readLine.getBytes(), readLine.length());
-		} while(!readLine.equals("exit"));
-
-	}
-*/	
 }

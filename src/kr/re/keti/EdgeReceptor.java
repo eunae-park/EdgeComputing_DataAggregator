@@ -22,13 +22,11 @@ public class EdgeReceptor
 	
 	public EdgeReceptor(String myAddr)
 	{
-//		System.out.println("EdgeReceptor" + myAddr);
 		initReceptor(myAddr);
 	}
 	
 	private void initReceptor(String myAddr)
 	{
-//		System.out.println("initReceptor");
 		working = false;
 		listenerThread = receptionThread = null;
 		waitingAddressQueue = new ArrayBlockingQueue<InetAddress>(defaultWaitingQueueCapacity);
@@ -44,14 +42,12 @@ public class EdgeReceptor
 			{
 				masterAddress = InetAddress.getLocalHost().getHostAddress().getBytes();
 
-//				System.out.println("!!" + InetAddress.getLocalHost().getHostAddress()); // 127.0.1.1 //
 			}
 			else
 			{
 				masterAddressObj = InetAddress.getByName(myAddr);
 				masterAddress = masterAddressObj.getHostAddress().getBytes();
 
-//				System.out.println("!!" + masterAddressObj.getHostAddress());
 			}
 		}
 		catch(UnknownHostException e)
@@ -62,13 +58,11 @@ public class EdgeReceptor
 	
 	private void initThreads()
 	{
-//		System.out.println("initThreads");
 		working = true;
 		
 		listenerThread = new Thread(){
 			public void run()
 			{
-//				System.out.println("listenerThread");
 				bsSocket = null;
 				
 				try
@@ -133,7 +127,6 @@ public class EdgeReceptor
 		receptionThread = new Thread() {
 			public void run()
 			{
-//				System.out.println("receptionThread");
 				ackSocket = null;
 				
 				try
@@ -177,7 +170,6 @@ public class EdgeReceptor
 						
 						if(receptionEvent != null)
 						{
-//							System.out.println("8");
 							receptionEvent.handler(addr);
 						}
 					}
@@ -198,7 +190,6 @@ public class EdgeReceptor
 	
 	public void start()
 	{
-//		System.out.println("start");
 		if(!working)
 		{
 			initThreads();

@@ -59,9 +59,9 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 	
 	@Override
 	public void run() {
-//		System.out.println("!! master open");
+
 		try {
-			Thread.sleep(100); 
+			Thread.sleep(10); 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -77,8 +77,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			if(Thread.interrupted())
 				break;
 
-//			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information     4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
-//			System.out.println("function : 0. Declare EXIT");
 			System.out.println("function : 1. Device Information     2. Whole Data Information     3. Individual MetaData Information");
 			System.out.println("function : 4. Individual Data Read     5. Individual Data Write     6. Individual Data Remove     7. Individual Data Transmission");
 			System.out.println("function : 0. Declare EXIT");
@@ -96,16 +94,12 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			input_func = sc.nextLine();
 			if(!input_func.matches("[+-]?\\d*(\\.\\d+)?") || input_func.equals("none") || input_func.equals(""))
 			{
-//				System.out.println("\tInput String is Wrong.(Input only Number)");
-//				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
-//			sc.nextLine();
 			int func = Integer.parseInt(input_func);
 			if(func<0 || func>7)
 			{
 				System.out.println("\tInput Number is Wrong.(Input only Range 0~7)");
-//				System.out.print("Input is wrong.\nfunction number\t(ex) 1 ?\t");
 				continue ;
 			}
 			if(func == 0)
@@ -119,8 +113,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			dataList.clear();
 			metaList.clear();
 			System.out.println("Edge List : " + my_ip + "(master)\t" +  slaveList);
-//			if(func == 0)
-//				threadStop(true);
 			if(func == 1 || func == 2)
 			{
 				System.out.print("Which Edge Device Do you Want to Know\t(ex)127.0.1.1 ?\t");
@@ -133,10 +125,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 						dataprocess.DeviceInfomation(); // 210428 add int func
 					else
 						dataprocess.WholeDataInfo();
-//					if(check == 1)
-//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
-//					if(check == -1)
-//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
 				}				
 				else if(slaveList.contains(device_ip))
 				{
@@ -145,8 +133,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 						check = dataprocess.DeviceInfomation(device_ip); // 210428 add int func
 					else
 						check = dataprocess.WholeDataInfo(device_ip);
-//					if(check == 1)
-//						System.out.println("* Bring the Information of Edge Device(" + device_ip + ").");
 					if(check == -1)
 						System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
 				}
@@ -159,8 +145,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 			{
 				System.out.print("What Data Do you Want to Know(Input the DataID)?\t");
 				String filename = sc.nextLine();
-//				System.out.println("slaves ip list : " + slaveList);
-//				System.out.println("!! MasterWokrer : " + filename);
 
 				if(func == 3)
 				{
@@ -185,7 +169,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 //							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0); // metadata를 저장하고 싶으면=1, 저장 안하면=0 
 //						else
 //							result = dataprocess.MetaDataInfomation(filename, slaveList.get(i), 0);
-//						System.out.println(result);
 						
 						if(result.equals("time"))
 							System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
@@ -214,70 +197,11 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					}
 				}
 				
-/*	
-// v211028 이전 방식		
-				if(func == 3)
-				{
-					System.out.println("request to mine");
-					check = dataprocess.MetaDataInfomation(filename, my_ip); // 210428 add int func
-					if(check == 1)
-						dataList.add(my_ip);
-					
-					for(i=0; i<slaveList.size(); i++)
-					{
-						System.out.println("request to " + slaveList.get(i));
-						check = dataprocess.MetaDataInfomation(filename, slaveList.get(i)); // 210428 add int func //
-						if(check == 1)
-							dataList.add(slaveList.get(i));
-//						System.out.println(check);
-					
-					}
-					
-					if(dataList.size() == 0)
-						System.out.println("* Anyone doesn't have MetaData.");
-					else
-						System.out.println("* [" + dataList + "] : have MetaData.");
-				}
-				else if(func == 4) // fileExsit always execute.
-				{
-					System.out.println("request to mine");
-					check = dataprocess.IndividualDataRead(filename, my_ip); // 210428 add int func
-					if(check == 2)
-						dataList.add(my_ip); //localhost == my_ip
-					else if(check == 1)
-						metaList.add(my_ip);
-					
-					for(i=0; i<slaveList.size(); i++)
-					{
-						System.out.println("request to " + slaveList.get(i));
-						check = dataprocess.IndividualDataRead(filename, slaveList.get(i)); // 210428 add int func
-						if(check == 2)
-							dataList.add(slaveList.get(i));
-						else if(check == 1)
-							metaList.add(slaveList.get(i));
-//						System.out.println(check);
-					
-					}
-					
-					if(metaList.size() != 0)
-						System.out.println("* [" + metaList + "] : have only MetaData.");
-
-					if(dataList.size() == 0)
-						System.out.println("* Anyone doesn't have Data.");
-					else
-						System.out.println("* [" + dataList + "] : have Data.");
-					
-				}
-*/			
 				
 				else if(func == 4) // fileExsit always execute.
 				{
-//					ArrayList<String> edgeList=new ArrayList<String>();
-//					edgeList = slaveList.clone();
-//					edgeList.add(0, my_ip);
 
 					check = dataprocess.IndividualDataRead(filename); // 211101 - 직접 검색
-//					check = dataprocess.IndividualDataRead(filename, my_ip); // 210428 - 소켓통신으로 나 자신에게 문의
 					if(check == 2)
 						dataList.add(my_ip); //localhost == my_ip
 					else
@@ -290,7 +214,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							String[] array = result.split("#");
 							String origin_ip = array[10].split(":")[0];
 							ArrayList<String> edgeList = new ArrayList<String>();
-							//System.out.println(origin_ip);
 							edgeList.add(origin_ip);
 							dataList = dataprocess.IndividualDataRead(filename, edgeList); // 공인인증시험 - chunk 300packet
 						}
@@ -300,16 +223,12 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 					
 					if(dataList.size() != 0)
 						System.out.println("* " + dataList + " : have Data.");
-//					else if(metaList.size() != 0)
-//						System.out.println("* [" + metaList + "] : have only MetaData.");
 					else
 						System.out.println("* Anyone doesn't have Data.");
 				}		
 			} 
 			else
 			{
-//				System.out.print("Which Edge Do you Want to do the function\t(ex) 127.0.0.1, all ?\t");
-//				String ip = sc.nextLine();
 				String ip = "all";
 				System.out.print("What Data Do you Want to Know(Input the DataID)?\t");
 				String filename = sc.nextLine();
@@ -349,7 +268,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 								metaList.add(slaveList.get(i));
 							else if(check == -1)
 								System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
-//							System.out.println(check);
 						
 						}
 						
@@ -358,7 +276,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							if(dataList.size() != 0)
 								System.out.println("* " + dataList + " : have Data and Write.");
 							if(metaList.size() != 0)
-//								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
 								System.out.println("* " + metaList + " : have Data but don't have an Authority.");
 						}
 						else
@@ -378,16 +295,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							System.out.println("request to " + ip);
 							check = dataprocess.IndividualDataWrite(filename, ip, input_content); // 210428 add int func 
 						}
-//						for(i=0; i<slaveList.size(); i++)
-//						{
-//							if(ip.equals(slaveList.get(i)))
-//							{
-//								ip_check = true;
-//								System.out.println("request to " + slaveList.get(i));
-//								check = dataprocess.IndividualDataWrite(filename, slaveList.get(i), input_content); // 210428 add int func 
-//							}
-////								System.out.println(check);
-//						}
 
 						if(!ip_check)
 							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
@@ -425,7 +332,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 								metaList.add(slaveList.get(i));
 							else if(check == -1)
 								System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
-//							System.out.println(check);
 						
 						}
 						
@@ -434,7 +340,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							if(dataList.size() != 0)
 								System.out.println("* " + dataList + " : have Data and Remove.");
 							if(metaList.size() != 0)
-//								System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
 								System.out.println("* " + metaList + " : have Data but don't have an Authority.");
 						}
 						else
@@ -455,18 +360,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							check = dataprocess.IndividualDataRemove(filename, ip); // 210428 add int func 
 							
 						}
-//						for(i=0; i<slaveList.size() && !ip.equals(my_ip); i++)
-//						{
-//							if(ip.equals(slaveList.get(i)))
-//							{
-//								ip_check = true;
-//								System.out.println("request to " + slaveList.get(i));
-//								check = dataprocess.IndividualDataRemove(filename, slaveList.get(i)); // 210428 add int func 
-////								if(check == -1)
-////									System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
-//							}
-////								System.out.println(check);
-//						}
 
 						if(!ip_check)
 							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
@@ -502,7 +395,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 								dataList.add(slaveList.get(i));
 							else if(check == -1)
 								System.out.println("* Bring the Information of Edge Device(" + slaveList.get(i) + ") : Failure.");
-//							System.out.println(check);
 						
 						}
 						
@@ -521,30 +413,15 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 							System.out.println("request to " + ip);
 							check = dataprocess.IndividualDataTransfer(filename, ip, meta_info);
 						}
-//						for(i=0; i<slaveList.size(); i++)
-//						{
-//							if(ip.equals(slaveList.get(i)))
-//							{
-//								ip_check = true;
-//								System.out.println("request to " + slaveList.get(i));
-//								check = dataprocess.IndividualDataTransfer(filename, slaveList.get(i), meta_info);
-//							}
-////								System.out.println(check);
-//						}
-
 						if(ip.equals(my_ip))
 							System.out.println("* [" + ip + "] : is mine.");
 						else if(!ip_check)
 							System.out.println("* [" + ip + "] : isn't cosist of Edge Network.");
 						else if(check == 2)
 							System.out.println("* [" + ip + "] : Transfermission is Success.");
-//						else if(check == 1)
-//							System.out.println("* [" + ip + "] : have Data but don't have an Authority.");
-//							System.out.println("* [" + ip + "] : have only MetaData, but cannot Remove.");
 						else if(check == -1)
 							System.out.println("* Bring the Information of Edge Device(" + ip + ") : Failure.");
 						else
-//							System.out.println("* Cannot Transfer Data to [" + ip + "].");
 							System.out.println("* [" + ip + "] : Transfermission Fail.");
 					}					
 				}// function 7
@@ -560,7 +437,6 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 	public void slaveSetting(ArrayList<String> slist)
 	{
 		slaveList = (ArrayList<String>) slist.clone();
-//		System.out.println("!! masterworkter : " + slaveList);
 		String remote_cmd = my_ip;
 
 		for (String slave : slaveList)
@@ -585,7 +461,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 	public static ArrayList<String> dataList=null;
 	public static ArrayList<String> metaList=null;
 	
-	public DataProcess dataprocess;
+	public static DataProcess dataprocess;
 	public static String my_ip=null;
 //	public static String origin_data_folder = "/home/eunae/keti/";
 	public static String data_folder = "/home/keti/data/";

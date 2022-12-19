@@ -81,7 +81,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		DataProcess dataprocess = new  DataProcess(data_folder, cert_folder, database, my_ip, table_name, device_uuid); // v0803
+		dataprocess = new  DataProcess(data_folder, cert_folder, database, my_ip, table_name, device_uuid); // v0803
 //		DataProcess dataprocess = new  DataProcess(foldername, whatDB); // v1
 /*//v2		
 		Database dataprocess = null;
@@ -655,6 +655,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 	}
 
 	private boolean stop = false;
+	public static DataProcess dataprocess;
 	public static ArrayList<String> slaveList=null;
 	public static ArrayList<String> hashList=null;
 	public static ArrayList<String> dataList=null;

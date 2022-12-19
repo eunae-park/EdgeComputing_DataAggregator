@@ -20,12 +20,10 @@ public class EdgeFinder
 	{
 		masterAddress = null;
 		myAddress = (myAddr == null)?(null):(InetAddress.getByName(myAddr));
-//		System.out.println("!!" + myAddress);
 	}
 	
 	private DatagramPacket createBroadcastPacket() throws UnknownHostException
 	{
-//		System.out.println("createBroadcastPacket");
 		DatagramPacket bcPacket = null;
 		
 		byte[] addr = null;
@@ -33,17 +31,14 @@ public class EdgeFinder
 		if(myAddress == null)
 		{
 			addr = InetAddress.getLocalHost().getHostAddress().getBytes();
-//			System.out.println("!!" + InetAddress.getLocalHost().getHostAddress());
 		}
 		else
 		{
 			addr = myAddress.getHostAddress().getBytes();
-//			System.out.println("!!" + myAddress.getHostAddress());
 		}
 		
 		if(addr != null)
 		{
-//			System.out.println("3");
 			bcPacket = new DatagramPacket(addr, addr.length, InetAddress.getByName(defaultBroadcastAddress), defaultBroadcastPort);
 		}
 
@@ -52,12 +47,10 @@ public class EdgeFinder
 	
 	private void broadcaster(DatagramPacket bcPacket) // real broadcasting
 	{
-//		System.out.println("broadcaster");
 		DatagramSocket bcSocket = null;
 		
 		try
 		{
-//			System.out.println("4");
 			bcSocket = new DatagramSocket();
 			
 			bcSocket.setBroadcast(true);
@@ -71,7 +64,6 @@ public class EdgeFinder
 		{
 			try
 			{
-//				System.out.println("5");
 				bcSocket.send(bcPacket);
 			}
 			catch(IOException e)
@@ -83,7 +75,6 @@ public class EdgeFinder
 	
 	private boolean ackReceiver()
 	{
-//		System.out.println("ackReceiver");
 		boolean masterDiscovered = false;
 		boolean ioSuccess = true;
 		
@@ -113,14 +104,12 @@ public class EdgeFinder
 		
 		if(ioSuccess)
 		{ //slave
-//			System.out.println("6");
 			masterDiscovered = true;
 			
 			masterAddress = ackPacket.getAddress();
 		}
 		else
 		{ //master
-//			System.out.println("7");
 			masterAddress = null;
 		}
 		
@@ -129,7 +118,6 @@ public class EdgeFinder
 	
 	public boolean discoverMaster() 
 	{
-//		System.out.println("discoverMaster");
 		boolean masterFound = false;
 		DatagramPacket bcPacket = null;
 				
@@ -144,7 +132,6 @@ public class EdgeFinder
 		
 		if(bcPacket != null)
 		{
-//			System.out.println("8");
 			final DatagramPacket pkt = bcPacket;
 			
 			Thread broadcastThread = new Thread() {
@@ -152,7 +139,6 @@ public class EdgeFinder
 				{
 					try
 					{
-//						System.out.println("9");
 						Thread.sleep(defaultBroadcastDelay);
 					}
 					catch(InterruptedException e)
@@ -162,13 +148,11 @@ public class EdgeFinder
 					
 					for(int i = 0; i < numOfTry; ++i) // repeat 3times - packet loss X
 					{
-//						System.out.println("10");
 						broadcaster(pkt);
 					}
 				}
 			};
 			
-//			System.out.println("11");
 			broadcastThread.start();
 			
 			masterFound = ackReceiver(); // 

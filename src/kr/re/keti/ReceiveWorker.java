@@ -227,7 +227,6 @@ public class ReceiveWorker implements Runnable
 		String command = "cat /proc/cpuinfo"; //"gssdp-discover -t \"upnp:edgedevice\" -i \"br0\""; //"ls -al";  
 
 		Runtime runtime = Runtime.getRuntime();
-//		System.out.println(command);
 		Process process = null;
 		InputStream is;
 		InputStreamReader isr;
@@ -244,7 +243,6 @@ public class ReceiveWorker implements Runnable
 			{
 				line = br.readLine();
 				cnt ++;
-//				System.out.println(line);
 			}
 			line = br.readLine();
 			if(line == null)
@@ -267,7 +265,6 @@ public class ReceiveWorker implements Runnable
 		String command = "cat /proc/net/dev"; //"gssdp-discover -t \"upnp:edgedevice\" -i \"br0\""; //"ls -al";  
 
 		Runtime runtime = Runtime.getRuntime();
-//		System.out.println(command);
 		Process process = null;
 		InputStream is;
 		InputStreamReader isr;
@@ -284,20 +281,14 @@ public class ReceiveWorker implements Runnable
 			line = br.readLine();
 			line = br.readLine();
 			line = br.readLine();
-//			System.out.println(line);
 			if(line != null)
 			{
 				array = line.split(":");
 				while(array[1] != array[1].replaceAll("  ", " "))
 					array[1] = array[1].replaceAll("  ", " ");
-//				System.out.println(array[1]);
 				array = array[1].split(" ");
 				rx = Double.parseDouble(array[1]); //55206812351
 				tx = Double.parseDouble(array[9]);
-//				System.out.println(rx);
-//				System.out.println(tx);
-//				System.out.println(array[1]);
-//				System.out.println(array[9]);
 			}
 			
 			br.close();
@@ -316,26 +307,19 @@ public class ReceiveWorker implements Runnable
 			if(line != null)
 			{
 				array = line.split(":");
-//				System.out.println(array[1]);
 				while(array[1] != array[1].replaceAll("  ", " "))
 					array[1] = array[1].replaceAll("  ", " ");
-//				System.out.println(array[1]);
 				array = array[1].split(" ");
-//				System.out.println(Math.abs(rx-Double.parseDouble(array[1])));
 				rx =  (Math.abs(rx-Double.parseDouble(array[1])) * 8.0 / 1024.0 / 1024.0 / 0.1); //Mbps
 				tx =  (Math.abs(tx-Double.parseDouble(array[9])) * 8.0  / 1024.0 / 1024.0 / 0.1); //Mbps
-//				System.out.println(rx);
-//				System.out.println(tx);
 			}
 			
 			br.close();
 			isr.close();
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -356,6 +340,13 @@ public class ReceiveWorker implements Runnable
 		PacketProcessorImpl(String com)
 		{
 			company = com;
+		}
+		
+		void tempFileSend(PacketType pkt, byte[] originalByte) {
+			String tempDir = data_folder;
+			data_folder = "/home/keti/temp/";
+			keti_community(pkt, originalByte);
+			data_folder = tempDir;
 		}
 
 		void keti_community(PacketType pkt, byte[] originalByte)
@@ -391,16 +382,13 @@ public class ReceiveWorker implements Runnable
 				System.arraycopy(msg_b, 0, result, 0, msg_b.length);
 				System.arraycopy(msg_r, 0, result, msg_b.length, msg_r.length);
 				System.arraycopy(msg_l, 0, result, msg_b.length+msg_r.length, msg_l.length);
-//				System.out.println("!! 004 rw - " + data);
 			}
 			
 			else if (array[1].equals("007") && originalData.indexOf("ANS") > 0) // 다른 엣지로 데이터 보내고 그에 대한 응답
 			{
 //				result = answer + array[1] + "::" + array[3] + "::" + fileSize + "::" + IndividualDataSendRead(data_folder+array[3], 1)+ "}]}";
 
-//				System.out.println("!! receive ans : " + array[2]);
 				
-				System.out.println(originalData.substring(0, originalData.indexOf(array[5])));
 				byte[] start=null, finish=null;
 				try {
 					start = originalData.substring(0, originalData.indexOf(array[5])).getBytes("UTF-8");
@@ -413,46 +401,36 @@ public class ReceiveWorker implements Runnable
 				
 				try {
 					content = new byte[originalByte.length-start.length-finish.length];
-//					System.out.println("!! read request length: " + content.length);
 					System.arraycopy(originalByte, start.length, content, 0, content.length);
-//					System.out.println("!! read request : " + new String(content));
 
 					FileOutputStream fos = new FileOutputStream(data_folder+array[3]);
 	                fos.write(content, 0, Integer.parseInt(array[4]));
 	                fos.flush();
 	                fos.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
   
                 return;
-//                result = answer + array[1] + "::" + array[3] + "::save}]}";
 
 			}
 			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // meta&data&cert receive // 펜타 프로세스로부터 다른 엣지로 데이터 보내달라고 요청이 들어옴
 			{
 				int check = 0;
 				FileOutputStream fos;
-//				System.out.println("!! receive 007 req : " + array[2]);
 				
-				if(array[2].equals("meta"))
-				{
+				if(array[2].equals("meta")) {
 					String[] meta_info = array[3].split("#");
 					dataID = meta_info[0];
 		            try {
 						result = (answer + array[1] + "::Fail::" + dataID + "}]}").getBytes("UTF-8");
 					} catch (UnsupportedEncodingException e2) {
-						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					} 
 					timestamp  = Timestamp.valueOf(meta_info[1]);
@@ -478,15 +456,7 @@ public class ReceiveWorker implements Runnable
 						cert_info = cert.split("/");
 					else if(cert.indexOf("\\") != -1)
 						cert_info = cert.split("\\");
-//					System.out.println("!! cert file : " + cert);
-//					System.out.println("!! cert file : " + cert_info[cert_info.length-2]);
-//					System.out.println("!! cert file : " + cert_info[cert_info.length-1]);
-//					System.out.println("!! cert file : " + cert);
-					
 					cert = cert_folder +  cert_info[cert_info.length-2] + folder + cert_info[cert_info.length-1];
-					//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - metainfo receive "); //penta//
-//					System.out.println("!! cert file : " + cert);
-//					System.out.println("!! cert file : " + cert);
 					dataSize = Long.parseLong(meta_info[11]);
 					
 					/////////////////////// data request
@@ -500,9 +470,6 @@ public class ReceiveWorker implements Runnable
 						client.startWaitingResponse();
 						
 						String remote_cmd = "{[{REQ::" + pkt.getAddress().getHostAddress() + "::007::data::" + dataID + "." + fileType + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
-//						String remote_cmd = "{[{REQ::" + pkt.getAddress().getHostAddress() + "::004::" + dataID + "." + fileType + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
-//						System.out.println("!! cert : " + dataID + "." + fileType);
-//						System.out.println("!! cert : " + remote_cmd);
 						try {
 							client.answerData = null;
 							client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
@@ -518,12 +485,10 @@ public class ReceiveWorker implements Runnable
 								Thread.sleep(50);
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
-//									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 									System.out.println("\t!! Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
@@ -538,19 +503,7 @@ public class ReceiveWorker implements Runnable
 							}
 							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 							{
-								//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data receive "); //penta//
-								
-//								System.out.println("!! ReceiveWorker - data receive : " + answer_data);
 					            String [] client_arr = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
-//								System.out.println("!! ReceiveWorker - data receive : " + client_arr[3]);
-//								System.out.println("!! ReceiveWorker - data receive length : " + client_arr[4]);
-//								try {
-//									System.out.println("!! ReceiveWorker - data receive length: " + client_arr[5].getBytes("UTF-8").length);
-//								} catch (UnsupportedEncodingException e1) {
-//									// TODO Auto-generated catch block
-//									e1.printStackTrace();
-//								}
-//								System.out.println("!! ReceiveWorker - data receive : " + client_arr[5]);
 								
 								try {
 									File datafile = new File(data_folder+client_arr[3]);
@@ -565,47 +518,50 @@ public class ReceiveWorker implements Runnable
 									}
 									
 									content = new byte[client.answerData.length-start.length-finish.length];
-//									System.out.println("!! read request length: " + content.length);
 									System.arraycopy(client.answerData, start.length, content, 0, content.length);
-//									System.out.println("!! read request : " + new String(content));
-//									System.out.println("!! IndividualDataSend - receive data : " + client_arr[5]);
-									
 									if(!client_arr[5].equals("none")) // data exist -> save data & metadata
 									{
+										if(datafile.exists()) {
+						                	Runtime.getRuntime().exec("chmod 777 "+data_folder+client_arr[3]);
+						                	try {
+												Thread.sleep(100);
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+						                	datafile = new File(data_folder+client_arr[3]);
+										}
 										fos = new FileOutputStream(datafile);
 						                fos.write(content, 0, Integer.parseInt(client_arr[4]));
 						                fos.flush();
 						                fos.close();
+						                if(securityLevel == 1) {
+						                	Runtime.getRuntime().exec("chmod 444 "+data_folder+client_arr[3]);
+						                }
+						                else if(securityLevel == 2) {
+						                	Runtime.getRuntime().exec("chmod 666 "+data_folder+client_arr[3]);
+						                }
 
 						                client.stopWaitingResponse();
-				//		                System.out.println("!! receive send ip : " + pkt.getAddress().getHostAddress());
-							            
 										ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataid='" + dataID + "'");
 										if(!metadata_list.next())
 										{
-//											check = database.update(req_content, uuid, security, datatype, data_folder); // metadata save
 											check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
 										}
 										else
 										{
-//											System.out.println("!! test : " + dataID); 
 											if(database.delete(dataID)) // 기존 메타데이터가 있으면 삭제하고 새로 업로드
 											{
-//												check = database.update(req_content, uuid, security, datatype, data_folder); // metadata save
 												check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
-//												System.out.println("!! " + check);
 											}
 										}
 										
 										while(check == 0)
 											check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
-//										System.out.println("\tMetaData upload into DataBase : Success");
 										
 										metadata_list.close();		
 							            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
-//0107//							            System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " Data Received : " + dataID); //penta//
 							            System.out.println("\tData : " + dataID); //penta//
-
 										client = new EdgeDeviceInfoClient(array[0], EdgeDeviceInfoClient.socketTCP, pentaCommPort + 1000);
 						    			if(!client.streamSocket_alive())
 						    			{
@@ -619,15 +575,12 @@ public class ReceiveWorker implements Runnable
 											try {
 												Thread.sleep(50);
 											} catch (InterruptedException e) {
-												// TODO Auto-generated catch block
 												e.printStackTrace();
 											}
-											//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + array[0] + " : " + new String(send));//penta//
 						    			}
 									}
 									
 									client.stopRequest();
-									//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));
 
 								} catch (FileNotFoundException e) {
 									// TODO Auto-generated catch block
@@ -653,16 +606,12 @@ public class ReceiveWorker implements Runnable
 				}
 				else if(array[2].equals("data"))
 				{
-//					result = answer + array[1] + "::Successes::" + dataID + "}]}"; 	
-//			        System.out.println("!! 007 data test : " + array[3]);
 					File file = new File(data_folder + array[3]);
 					if(!file.exists())
 					{
-						//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend - data : none");//penta//
 						try {
 							result = (answer + array[1] + "::" + array[2] + "::" +  array[3] + "::0000::none"+ "}]}").getBytes("UTF-8");
 						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 //						return result;
@@ -670,10 +619,8 @@ public class ReceiveWorker implements Runnable
 					else
 					{
 				        long fileSize = file.length();
-				      //0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - data : read");//penta//
 						
 	//			        long fileSize = file.length();
-	//			        System.out.println("!! 007 data test : " + fileSize);
 						String data = answer + array[1] + "::" + array[2] + "::" + array[3] + "::" + Long.toString(fileSize) + "::";
 	
 				        byte[] msg_b=null, msg_l=null;
@@ -693,49 +640,29 @@ public class ReceiveWorker implements Runnable
 						System.arraycopy(msg_r, 0, result, msg_b.length, msg_r.length);
 						System.arraycopy(msg_l, 0, result, msg_b.length+msg_r.length, msg_l.length);	
 					}					
-//					try {
-//						System.out.println("!! 007 data answer : " + new String(result, "UTF-8"));
-//					} catch (UnsupportedEncodingException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					result = answer + array[1] + "::" + array[2] + "::" + array[3] + "::" + Long.toString(dataSize) + "::" + IndividualDataRead(array[3])+ "}]}";
-					
 				}
 				else if(array[2].equals("cert"))
 				{
-//					System.out.println("!! receive 007 cert array : " + array[3]);
-//					System.out.println("!! receive 007 cert array : " + array[4]);
-//					System.out.println("!! receive 007 cert array : " + folder);
-//					String[] cert_info = array[3].split(cert_folder.substring(cert_folder.length()-1));
 					cert = cert_folder +  array[3] + folder + array[4];
 					File folder = new File(cert_folder +  array[3]); //cert detail path
-//					System.out.println("!! receive 007 cert folder : " + cert);
-//					System.out.println("!! receive 007 cert folder : " + cert_folder);
 					if(!folder.exists())
 					{
-//						System.out.println("!! receive 007 cert mkdir");
 						folder.mkdir();
 					}
 
-					//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - cert receive "); //penta//
 					File certfile = new File(cert); // 
-//					System.out.println("!! cert : " + originalData.substring(0, originalData.indexOf(array[4])));
 					byte[] start=null, finish=null;
 					try {
 						start = originalData.substring(0, originalData.indexOf(array[6])).getBytes("UTF-8");
 						finish = "}]}".getBytes("UTF-8");
 					} catch (UnsupportedEncodingException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					byte[] content; // = new byte[client.answerData.length-start.length-finish.length];
 					
 					try {
 						content = new byte[originalByte.length-start.length-finish.length];
-//						System.out.println("!! read request length: " + content.length);
 						System.arraycopy(originalByte, start.length, content, 0, content.length);
-//						System.out.println("!! read request : " + new String(content));
 
 						fos = new FileOutputStream(certfile);
 		                fos.write(content, 0, Integer.parseInt(array[5]));
@@ -757,7 +684,6 @@ public class ReceiveWorker implements Runnable
 						e.printStackTrace();
 					}
 
-//					System.out.println("!! cert : " + pkt.getAddress().getHostAddress());
 					return ;
 				}
 			}			
@@ -770,8 +696,6 @@ public class ReceiveWorker implements Runnable
 				if(!folder.exists())
 					folder.mkdir();
 				String func = "false";
-//				System.out.println("!! ReceiveWorker - " + array[2]);
-//				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				if (array[2].indexOf(".") != -1)
 					func = DataSplit(array[2]);
 				try {
@@ -780,7 +704,6 @@ public class ReceiveWorker implements Runnable
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				System.out.println("!! ReceiveWorker - datasplit : " + result);
 			}			
 			else if (array[1].equals("401") && originalData.indexOf("REQ") > 0) // data split - range
 			{
@@ -791,8 +714,6 @@ public class ReceiveWorker implements Runnable
 				if(!folder.exists())
 					folder.mkdir();
 				String func = "false";
-//				System.out.println("!! ReceiveWorker - " + array[2]);
-//				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				int start = Integer.parseInt(array[3]), finish=Integer.parseInt(array[4]);
 				if (array[2].indexOf(".") != -1)
 					func = DataSplit(array[2], start, finish); // 데이터가 무조건 있음.
@@ -802,23 +723,18 @@ public class ReceiveWorker implements Runnable
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				System.out.println("!! ReceiveWorker - datasplit : " + result);
 			}			
 			else if (array[1].equals("444") && originalData.indexOf("REQ") > 0) // data sha verify
 			{
 				String func = "";
-//				System.out.println("!! ReceiveWorker - " + array[2]);
-//				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				if (array[2].indexOf(".") != -1)
 					try {
 						func = sha(array[2]);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				try {
 					result = (answer + array[1] + "::" + func + "}]}").getBytes("UTF-8");
-//					System.out.println("!! sha 444 : " + func);
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -826,9 +742,6 @@ public class ReceiveWorker implements Runnable
 			}			
 			else if (array[1].equals("404") && originalData.indexOf("REQ") > 0) // chunk read
 			{
-//					System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
-
-//				System.out.println("!! ReceiveWorker - " + originalData); //
 				File file = new File(data_folder + "chunk/" + array[2]);
 				int FileLength = (int)file.length();
 //				result = answer + array[1] + "::" + String.format("%04d", FileLength) + "::" + ChunkDataReadString(array[2]) + "}]}";
@@ -852,19 +765,6 @@ public class ReceiveWorker implements Runnable
 				System.arraycopy(msg_r, 0, result, msg_b.length, msg_r.length);
 				System.arraycopy(msg_l, 0, result, msg_b.length+msg_r.length, msg_l.length);
 
-//				result = answer + array[1] + "::" + chunk_array[1] + "::" + ChunkDataReadByte(array[2]) + "}]}"; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
-//				String.format("%04d", FileLength) == readBytes
-//				result = ChunkDataReadByte(array[2]); // 전송프로토콜 양식에 맞춰
-//				System.out.println("!! ReceiveWorker 404 - " + array[2]);
-//				System.out.println("!! ReceiveWorker 404 result - " + result);
-//				System.out.println("!! ReceiveWorker 404 chunk - " + ChunkDataReadByte(array[2]));
-//				if(array[2].equals("395240aa-92e4-40fd-8014-12033767f351.csv_1"))
-//				try { // for 공인인증 // for demo
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} // for 공인인증
 			}			
 			else if (array[1].equals("405") && originalData.indexOf("REQ") > 0) // chunk 구간 요청
 			{
@@ -876,15 +776,12 @@ public class ReceiveWorker implements Runnable
 					e.printStackTrace();
 				} // test 필요 
 
-//					System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 				long start_time=0;// = System.currentTimeMillis(); // + 32400000;
 				long end_time=0;// = System.currentTimeMillis(); // + 32400000;
 
-//				System.out.println("!! receive 405 req : " + originalData);
 				int i, start = Integer.parseInt(array[3]), finish=Integer.parseInt(array[4]);
 
-//				result = DataSplit(array[2], start, finish); // 데이터가 무조건 있음 -  split포함
 								
 				ChunkTransfer[] chunk_th = new ChunkTransfer[finish-start];
 				for(i=start; i<finish; i++) // chunk 마다 thread 열어서 개별 다중 전송
@@ -918,7 +815,6 @@ public class ReceiveWorker implements Runnable
 					{
 						if(new File(data_folder+"chunk/"+array[2]+"_"+Integer.toString(i)).exists() && working[i-start])
 						{
-//							System.out.println("!! chunk read finish : " + Integer.toString(i));
 							end_time = System.currentTimeMillis(); // + 32400000;
 							try {
 								File file = new File(data_folder+"time/answer_"+array[2].replace(fileType, "txt")+"_"+Integer.toString(i)); // 1. check if the file exists or not boolean isExists = file.exists();
@@ -943,21 +839,6 @@ public class ReceiveWorker implements Runnable
 					}
 					if(work_cnt == finish-start)
 						working[finish-start] = false;
-//					else if(System.currentTimeMillis()-period_time > 5000) // re-request after 2sec
-//					{
-//						for(i=start; i<finish; i++) // thread가 끝났는지 검사
-//						{
-//							if(working[i-start])
-//							{
-////								System.out.println("!! chunk read finish : " + chunkList.get(i));
-//								chunk_th[i-start].interrupt();
-//								
-//								chunk_th[i-start] = new ChunkTransfer(pkt, "405", array[2]+"_"+Integer.toString(i)); //
-//								chunk_th[i-start].start();
-//							}
-//						}
-//						period_time = System.currentTimeMillis();
-//					}
 				}
 				
 				// chunk request #6 - sha 보내기
@@ -965,7 +846,6 @@ public class ReceiveWorker implements Runnable
 				for(i=start; i<finish; i++)
 				{
 					try {
-//						System.out.println("!! receive 405 chunk sha : " + Integer.toString(i));
 						String str = sha("chunk/"+array[2]+"_"+Integer.toString(i));
 						try {
 							File file = new File(data_folder+"time/answer_"+array[2].replace(fileType, "txt")+"_"+Integer.toString(i)); // 1. check if the file exists or not boolean isExists = file.exists();
@@ -999,11 +879,6 @@ public class ReceiveWorker implements Runnable
 				// chunk request #5
 				
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
-//				System.out.println("!! receive 405 ans : " + originalData);
-//				System.out.println("!! receive 406 -1 : " + pkt.getAddress().getHostAddress());
-//				System.out.println("!! receive 406 -2 : " + array[2]);
-//				System.out.println("!! receive 406 -3 : " + array[3]);
-//				System.out.println("!! receive 406 -4 : " + array[4]);
 				
 				File file = new File(data_folder+"chunk/"+array[2]); // 실제 chunk 수신 부분
 				result = (answer + array[1] + "::false::" + array[2] + "}]}").getBytes(); 
@@ -1015,22 +890,18 @@ public class ReceiveWorker implements Runnable
 						
 						FileOutputStream fos = new FileOutputStream(file);
 						
-//						System.out.println("!! receive 406 : " + originalData.substring(0, originalData.indexOf(array[4])));
 						byte[] start=null, finish=null;
 						try {
 							start = originalData.substring(0, originalData.indexOf(array[4])).getBytes("UTF-8");
 							finish = "}]}".getBytes("UTF-8");
 						} catch (UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						byte[] content; // = new byte[client.answerData.length-start.length-finish.length];
 						
 						try {
 							content = new byte[originalByte.length-start.length-finish.length];
-//							System.out.println("!! read request length: " + content.length);
 							System.arraycopy(originalByte, start.length, content, 0, content.length);
-//							System.out.println("!! read request : " + new String(content));
 
 			                fos.write(content, 0, Integer.parseInt(array[3]));
 			                fos.flush();
@@ -1084,7 +955,6 @@ public class ReceiveWorker implements Runnable
 			}			
 			else if (array[1].equals("406") && originalData.indexOf("ANS") > 0) // chunk별 thread 전송내역 수신 결과
 			{
-//				System.out.println("!! receivework - keti : " + originalData);
 				if(!array[2].equals("success")) //sha 검사하기
 				{
 					ChunkTransfer chunk_th = new ChunkTransfer(pkt, "406", array[3]);
@@ -1096,7 +966,6 @@ public class ReceiveWorker implements Runnable
 			{
 				return ;
 			}
-			
 			reply(pkt.getAddress(), result, array[2]);
 		}
 		void keti_community(PacketType pkt, String originalData)
@@ -1107,7 +976,6 @@ public class ReceiveWorker implements Runnable
 			String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
 			// [0] = my_ip, [1]=003, [2]=metadata or none
 			
-//			System.out.println("!! receive work : " + originalData);
 			if (array[1].equals("001") && originalData.indexOf("REQ") > 0)
 			{
 				if(array[2].equals("DEV_STATUS"))
@@ -1129,37 +997,24 @@ public class ReceiveWorker implements Runnable
 			}
 			else if (array[1].equals("006") && originalData.indexOf("REQ") > 0) // remove
 			{
-//				result = MetaDataInfo(array[2]);
-////				System.out.println("!! receive work : " + result);
-//				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
-//				{
-////					uuid = result.substring(0,36);
-//					result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
-////					System.out.println("!! receive work : " + result);
-//				}
 				result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
 			}
 			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // remove
 			{
-//				result = MetaDataInfo(array[2]);
-////				System.out.println("!! receive work : " + result);
-//				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
-//				{
-////					uuid = result.substring(0,36);
-//					result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
-////					System.out.println("!! receive work : " + result);
-//				}
-//				result = answer + array[1] + "::" + IndividualDataRemove(array[2]) + "}]}";
 			}
 			
 			else
 			{
-//				System.out.println("REQ_CODE is wrong.");
-//				System.out.println("!! receivework - keit : " + originalData);
-				return ; // reply할 게 없으므로
+				try {
+					int func = Integer.parseInt(array[1]);
+					if(func>10 && func<17) {
+						result = answer + array[1] + "::MQTT}]}";
+					}
+					
+				} catch (Exception e) {
+					return ; // reply할 게 없으므로
+				}
 			}
-//			System.out.println("!! receivework - keti : " + result);
-//			System.out.println("!! receive-work : " + pkt.getAddress());
 			
 			try {
 				reply(pkt.getAddress(), result.getBytes("UTF-8"), array[2]);
@@ -1197,8 +1052,6 @@ public class ReceiveWorker implements Runnable
 				folder = new File(data_folder + "time"); //cert detail path
 				if(!folder.exists())
 					folder.mkdir();
-//				System.out.println("!! ReceiveWorke1 : " + array[2].substring(0, array[2].indexOf(".")));
-//				System.out.println("!! ReceiveWorker : " + array[2]);
 				if (array[2].indexOf(".") == -1)
 				{
 					result2 = MetaDataInfo(array[2]);
@@ -1206,14 +1059,10 @@ public class ReceiveWorker implements Runnable
 				}
 				else
 				{
-//					result = MetaDataInfo(array[2].substring(0, array[2].indexOf("."))); // 필요없음 - DataProcess에서 선 검증
-//					System.out.println("!! ReceiveWorker - " + array[2].substring(array[2].indexOf(".")+1, array[2].length()));
 					result2 = MetaDataInfo(array[2].substring(0, array[2].indexOf(".")));
 					if(!fileType.equals(array[2].substring(array[2].indexOf(".")+1, array[2].length())))
 						result2 = "none";
 				}
-//				System.out.println("!! ReceiveWorker : " + result);
-//				System.out.println("!! ReceiveWorker - work : " + result);
 
 				String data = answer + array[1] + "::";
 				if(!result2.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
@@ -1255,12 +1104,10 @@ public class ReceiveWorker implements Runnable
 			String result = "none";
 			String answer = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::";	
 
-//			System.out.println("!! penta_commnunity :" + originalData.substring(0,10));
 			String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
 			// [0] = my_ip, [1]=003, [2]=metadata or none
 			if(!array[0].equals(currentIPAddrStr) && !array[0].equals(device_ip) && !array[1].equals("007")) //except : "007"
 			{
-//				System.out.println("\tRequest the different edge node.");
 				result = answer + array[1] + "::" + "none" + "}]}";
 				try {
 					reply(pkt.getAddress(), result.getBytes("UTF-8"));
@@ -1270,7 +1117,6 @@ public class ReceiveWorker implements Runnable
 				}
 				return ;
 			}
-//			System.out.println("!! receive work : " + array[2]);
 			if (array[1].equals("001") && originalData.indexOf("REQ") > 0)
 			{
 				if(array[2].equals("DEV_STATUS"))
@@ -1285,13 +1131,10 @@ public class ReceiveWorker implements Runnable
 				result = answer + array[1] + "::" + WholeDataInfo(array[2]) + "}]}";
 			else if (array[1].equals("003") && originalData.indexOf("REQ") > 0)
 			{
-//				System.out.println("!! ReceiveWorker - " + array[2]);
-//				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				if (array[2].indexOf(".") == -1)
 					result = answer + array[1] + "::" + MetaDataInfo(array[2]) + "}]}";
 				else
 				{
-//					System.out.println("!! ReceiveWorker - " + array[2].substring(array[2].indexOf(".")+1, array[2].length()));
 					result = answer + array[1] + "::" + MetaDataInfo(array[2].substring(0, array[2].indexOf("."))) + "}]}";
 					if(!fileType.equals(array[2].substring(array[2].indexOf(".")+1, array[2].length())))
 						result = answer + array[1] + "::" + "none" + "}]}";
@@ -1307,8 +1150,6 @@ public class ReceiveWorker implements Runnable
 				}
 				else
 				{
-//					result = MetaDataInfo(array[2].substring(0, array[2].indexOf("."))); // 필요없음 - DataProcess에서 선 검증
-//					System.out.println("!! ReceiveWorker - " + array[2].substring(array[2].indexOf(".")+1, array[2].length()));
 					result = MetaDataInfo(array[2].substring(0, array[2].indexOf(".")));
 					if(!fileType.equals(array[2].substring(array[2].indexOf(".")+1, array[2].length())))
 						result = "none";
@@ -1339,8 +1180,6 @@ public class ReceiveWorker implements Runnable
 			}
 			else if (array[1].equals("006") && originalData.indexOf("REQ") > 0) // remove
 			{
-//				System.out.println("!! ReceiveWorker - " + array[2]);
-//				System.out.println("!! ReceiveWorker - " + array[2].substring(0, array[2].indexOf(".")));
 				if (array[2].indexOf(".") == -1)
 				{
 					result = MetaDataInfo(array[2]);
@@ -1348,13 +1187,10 @@ public class ReceiveWorker implements Runnable
 				}
 				else
 				{
-//					result = MetaDataInfo(array[2].substring(0, array[2].indexOf("."))); // 필요없음 - DataProcess에서 선 검증
-//					System.out.println("!! ReceiveWorker - " + array[2].substring(array[2].indexOf(".")+1, array[2].length()));
 					result = MetaDataInfo(array[2].substring(0, array[2].indexOf(".")));
 					if(!fileType.equals(array[2].substring(array[2].indexOf(".")+1, array[2].length())))
 						result = "none";
 				}
-//				System.out.println("!! receive work : " + result);
 				if(!result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
 				{
 					String[] meta = result.split("#");
@@ -1378,53 +1214,29 @@ public class ReceiveWorker implements Runnable
 				}
 				else
 					result = answer + array[1] + "::" + "none" + "}]}";
-//				System.out.println("!! receive work : " + result);
 			}
 			else if (array[1].equals("007") && originalData.indexOf("REQ") > 0) // send
 			{
-				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - start");//penta//
 				String meta_result = MetaDataInfo(array[2]);
 				if(!meta_result.equals("none")) //메타데이터가 없으면, 읽기 작업 안함
 				{
 					String data_file = dataID + "." + fileType;
 					String cert_file = cert;
-//					System.out.println("!! penta 007 : " + data_file);
-//					System.out.println("!! penta 007 : " + cert_file);
 					
 					result = answer + array[1] + "::" + IndividualDataSend(data_file, cert_file, meta_result, array[0]) + "::" + dataID + "}]}";
 				}
 				else // data information X
 					result = answer + array[1] + "::Fail::" + array[2] + "}]}"; 
 			
-				// 17300 transfer
-//				EdgeDeviceInfoClient client = new EdgeDeviceInfoClient(pkt.getAddress().getHostAddress(), EdgeDeviceInfoClient.socketTCP, pentaCommPort+1000);
-//				client.startWaitingResponse();
-//				client.answerData = null;
-//				client.sendPacket(result.getBytes(), result.length());
-//				try {
-//					Thread.sleep(50);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				client.stopWaitingResponse();
-//				return ;  // 17300 transfer
-				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend - result to " + pkt.getAddress().getHostAddress() + " : " + new String(result));//penta//
-
 			}
 			else
 			{
-//				System.out.println("REQ_CODE is wrong : " + originalData);
-//				originalData
 				return ;
 			}
-//			System.out.println("!! receivework - penta : " + result);
-//			System.out.println("!! receive-work : " + pkt.getAddress());
 			
 			try {
 				reply(pkt.getAddress(), result.getBytes("UTF-8"));
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -1441,23 +1253,23 @@ public class ReceiveWorker implements Runnable
 				originalByte = pkt.getData();
 				if(originalByte == null) //1217
 				{
-					//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! packet trash");
 					pkt_stop(pkt);
 					work();
 				}
 				originalData = new String(originalByte, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-//			System.out.println("!! receive work : " + pkt.getAddress().getHostAddress() + "==" +  currentIPAddrStr);
-//			System.out.println("!! receiveWorker - work : " + company);
 			if(originalData.indexOf("{[{")==0 && originalData.indexOf("}]}")!=-1) // 기본 양식 맞음
 			{
+				try {
+					EdgeDataAggregator.fileMonitor.stop();
+				} catch (Exception e1) {
+//					e1.printStackTrace();
+				}
 				String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
 				int func = Integer.parseInt(array[1]);
-//				System.out.println("!! receiveWorker - work : " + originalData);
 				if(company.equals("keti"))
 				{
 					TCPSocketAgent.defaultPort = ketiCommPort;
@@ -1507,31 +1319,64 @@ public class ReceiveWorker implements Runnable
 						System.out.println("\tRequest Function : Data Receive");
 						System.out.println("\tReceived Edge : " + array[0]);
 					}
+					else if(func == 8) {
+						System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " <-- Data Processing Request from " + pkt.getAddress().getHostAddress() + " : Accept --> ");
+						System.out.println("\tRequest Function : MQTT Service");
+					}
 
 					if(array[1].indexOf("001")!=-1 || array[1].indexOf("002")!=-1 || array[1].indexOf("003")!=-1 || array[1].indexOf("005")!=-1 || array[1].indexOf("006")!=-1)
 					{
-//						System.out.println("!! receiveWorker - keti string : " + originalData);
 						keti_community(pkt, originalData);
 					}
-					else
-					{
+					else if(array[1].indexOf("008")!=-1) {
+						keti_community(pkt, originalData);
+						EdgeDataAggregator.mqtt.send(originalData);
+						
+					}
+					else if(func>10 && func<17) {
+						keti_community(pkt, originalData);
+						EdgeDataAggregator.mqtt.send(originalData);
+						
+						switch(array[1]) {
+							case "013":
+								String fileName = array[2];
+								MasterWorker.dataprocess.IndividualDataDelete(fileName);
+								break;
+						}
+					}
+					else {
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
 							check_timeout += 1000;
-//						System.out.println("!! receiveWorker - keti byte : " + originalData);
-						keti_community(pkt, originalByte);
+						
+
+						DataProcess dataProcess = FileMonitor.dataProcess;
+						String meta = dataProcess.MetaDataInfomation(array[3].split("\\.")[0]);
+
+						if(meta.equals("none")) {
+							keti_community(pkt, originalByte);
+						}
+						else {
+							int dataType = Integer.parseInt(meta.split("#")[3]);
+							if(dataType == 0) {
+								keti_community(pkt, originalByte);							
+							}
+							else {
+								tempFileSend(pkt, originalByte);
+							}
+						}
+						
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
 							check_timeout -= 1000;
 					}
-					if((func > 0 && func <8) && !array[2].equals("data") && !array[2].equals("cert"))
+					if((func > 0 && func <8) && !array[2].equals("data") && !array[2].equals("cert")) {
 						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from " + pkt.getAddress().getHostAddress() + " : Complete --> ");
+					}
 					else if(func==405 && func_check==1)
 					{
 						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from " + pkt.getAddress().getHostAddress() + " : Complete --> ");
 						func_check = 0;
 					}
 				}
-//				else if(company.equals("penta") && (originalData.indexOf("004")!=-1 && originalData.indexOf("007")!=-1))
-//					penta_community(pkt, originalData);
 				else if(company.equals("penta"))
 				{
 					TCPSocketAgent.defaultPort = pentaCommPort;
@@ -1566,6 +1411,16 @@ public class ReceiveWorker implements Runnable
 								System.out.println("\tDataID : " + array[2]);
 						}
 					}
+					else if(func >10 && func<17) {
+						keti_community(pkt, originalData);
+						String data = originalData.substring(originalData.indexOf("{[{"), originalData.lastIndexOf("}]}"));
+						String[] array_ = data.split("::");
+						try {
+							EdgeDataAggregator.mqtt.send(array_[1],array_[2],array_[3]);
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+					}
 					else if(func == 7 && !array[2].equals("data") && !array[2].equals("meta") && !array[2].equals("cert"))
 					{
 						System.out.println("\n" + log_format.format(new Date(System.currentTimeMillis())) + " <-- Data Processing Request from PENTA : Accept --> ");
@@ -1576,12 +1431,10 @@ public class ReceiveWorker implements Runnable
 					
 					if(array[1].indexOf("004")==-1)
 					{
-						//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta string : " + originalData);
 						penta_community(pkt, originalData);
 					}
 					else
 					{
-						//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! receiveWorker - penta byte : " + new String(originalByte));
 						penta_community(pkt, originalByte);
 					}
 					
@@ -1594,6 +1447,12 @@ public class ReceiveWorker implements Runnable
 					}
 				}				
 //				stop();
+				try {
+					EdgeDataAggregator.fileMonitor.start();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+//					e.printStackTrace();
+				}
 			}
 
 		}
@@ -1644,9 +1503,6 @@ public class ReceiveWorker implements Runnable
 				s = s_c;
 			}
 			String[] array = s.split(" ");
-//			System.out.println(array[0]);
-//			System.out.println(array[1]);
-//			System.out.println(array[2]);
 			double mem_total = Double.parseDouble(array[1]);
 			double mem_free = Double.parseDouble(array[1]) - Double.parseDouble(array[2]);
 			double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);		
@@ -1662,8 +1518,6 @@ public class ReceiveWorker implements Runnable
 				File root = new File( data_folder );
 				storage_total = (int)Math.round(root.getTotalSpace() / gb); // 우분투 = round
 				storage_free = (int)Math.round(root.getUsableSpace() / gb);
-//				System.out.println( "!! DeviceStatusInfo -Total  Space: " + storage_total + "MB" );
-//				System.out.println( "!! DeviceStatusInfo - Usable Storage: " + storage_free + "MB" );
 			}
 			catch ( Exception e )
 			{
@@ -1691,8 +1545,6 @@ public class ReceiveWorker implements Runnable
 			
 			
 			result = device_uuid + cpu_id + String.format("%02.0f", mem_total) + String.format("%04d", storage_total) + "        " + String.format("%02d", process_load) + String.format("%02.0f", mem_usage) + String.format("%02d", net_load) + String.format("%04d", storage_free) + "  ";
-//			result = device_uuid + cpu_id + String.format("%02d", mem_total) + String.format("%04d", storage_total) + "        " +  Base64.encodeBase64URLSafeString(pl) + Integer.toString(mem_usage) + String.format("%02d", net_load) + String.format("%04d", storage_free) + "  ";
-//			System.out.println("!! DeviceStatusInfo : " + result);
 			return result;
 		}
 
@@ -1727,15 +1579,12 @@ public class ReceiveWorker implements Runnable
 			String[] array = slist.split(":");
 			// [0] = my_ip, [1]=003, [2]=metadata or none
 			
-//			System.out.println("!! slaveList : " + array[2]);
 
 			edgeList.clear();
 			for(int i=0; i<array.length; i++)
 			{
 				edgeList.add(array[i]);
-//				System.out.println("!! slaveList : " + array[i]);
 			}
-//			System.out.println("!! slaveList : " + edgeList);
 			return "success";
 		}
 		
@@ -1745,7 +1594,6 @@ public class ReceiveWorker implements Runnable
 			metadata_list = (ResultSet) database.query(sql);
 			String result = device_uuid, data="";
 			int row = 0;
-			//int column = metadata.getMetaData().getColumnCount();
 			try {
 //				metadata_list.last();
 ////				int row = metadata.getRow();
@@ -1758,7 +1606,6 @@ public class ReceiveWorker implements Runnable
 					dataID = metadata_list.getString("dataid");
 					securityLevel = metadata_list.getInt("security_level"); 
 					dataSize = metadata_list.getLong("data_size");
-//					System.out.println("!! rw - WholeDataInfo : " + dataID);
 					data += "#" + dataID + "#" + dataSize + "#" + securityLevel;
 					row ++;
 				}
@@ -1796,17 +1643,6 @@ public class ReceiveWorker implements Runnable
 					// 기존 메타데이터
 					if(message.equals(dataID))
 					{
-						// 기존 메타데이터
-//						File file = new File(data_folder+message+"."+fileType);
-//						dataSize = 0;
-//						if (file.length() > 0)
-//						{
-//							dataSize = (int)Math.ceil(file.length() / 1024.0); // kilo = bytes/1024
-////							System.out.println("!!MetaDataInfo : " + (file.length() / 1024.0) + ":" + dataSize);
-////							if (dataSize == 0) // 데이터 크기가 1KB 이하이면
-////								dataSize = 1;
-//						}
-						// 기존 메타데이터
 
 						timestamp = metadata.getTimestamp("timestamp");
 
@@ -1816,8 +1652,6 @@ public class ReceiveWorker implements Runnable
 						cert = metadata.getString("cert");
 						directory = metadata.getString("directory");
 						linked_edge = metadata.getString("linked_edge");
-//						System.out.println("!! ReceiveWorker : " + directory);
-//						System.out.println("!! ReceiveWorker : " + linked_edge);
 						
 						dataType = metadata.getInt("data_type");
 						securityLevel = metadata.getInt("security_level"); 
@@ -1835,7 +1669,6 @@ public class ReceiveWorker implements Runnable
 						// 기존 메타데이터
 						//Timestamp.valueOf(timestamp);
 						result = dataID + "#" + timestamp + "#" + fileType + "#" + dataType + "#" + securityLevel + "#" + dataPriority + "#" + availabilityPolicy + "#" + dataSignature + "#" + cert + "#" + directory + "#" + linked_edge + "#" + dataSize;
-//						System.out.println("!! ReceiveWorker - metainfo : " + result);
 						
 //			String result = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::003::" + uuid +  String.format("%03d", d_length) + location + String.format("%04d", dataSize) + security + sharing + "}]}";	
 //						break;
@@ -1846,20 +1679,24 @@ public class ReceiveWorker implements Runnable
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//        	System.out.println("!! MetaDataInfo : " + result);
 			return result;
 		}
 		
 		byte[] IndividualDataReadByte(String message)
 		{
+			System.out.println("IndividualDataReadByte message : "+message);
 			byte[] result = null;
 			try {
 				result = "none".getBytes("UTF-8");
-				if(dataType != 1)
+				System.out.println("IndividualDataReadByte dataType : "+dataType);
+//				if(dataType != 1)
+				if(true)
 				{
+					System.out.println("IndividualDataReadByte file : "+(data_folder + message));
 					File file = new File(data_folder + message);
 					if(file.exists()) 
 					{
+						System.out.println("IndividualDataReadByte exists");
 						FileInputStream in = new FileInputStream(file);
 						BufferedInputStream bis = new BufferedInputStream(in);
 						int len = 0, total_len=0;
@@ -1873,12 +1710,16 @@ public class ReceiveWorker implements Runnable
 
 							if(cnt == 0)
 							{
+								System.out.println("individualDataReadByte buf : "+new String(buf));
 								System.arraycopy(buf, 0, msg, 0, len);
 								
 								msg_b =  msg;
 							}
 							else
 							{
+								System.out.println("individualDataReadByte msg_b : "+new String(msg_b));
+								System.out.println("individualDataReadByte buf : "+new String(buf));
+								
 								System.arraycopy(msg_b, 0, msg, 0, msg_b.length);
 								System.arraycopy(buf, 0, msg, msg_b.length, len);
 								
@@ -1886,8 +1727,6 @@ public class ReceiveWorker implements Runnable
 							}
 							
 							cnt ++;
-//							if(cnt < 10)
-//								System.out.println("!! " + new String(msg_b, "UTF-8"));
 						}
 						bis.close();
 						in.close();
@@ -1895,6 +1734,10 @@ public class ReceiveWorker implements Runnable
 						dataSize = total_len;
 
 						result = msg;
+					}
+					else {
+
+						System.out.println("IndividualDataReadByte not exists");
 					}
 				}
 			} catch (UnsupportedEncodingException e1) {
@@ -1908,7 +1751,6 @@ public class ReceiveWorker implements Runnable
 				e.printStackTrace();
 			}
 			
-//			System.out.println("!! IndividualDataReadByte : " + new String(result));
 			return result;
 		}
 		String IndividualDataRead(String message)
@@ -1947,8 +1789,6 @@ public class ReceiveWorker implements Runnable
 							}
 							
 							cnt ++;
-//							if(cnt < 10)
-//								System.out.println("!! " + new String(msg_b, "UTF-8"));
 						}
 						bis.close();
 						in.close();
@@ -1969,7 +1809,6 @@ public class ReceiveWorker implements Runnable
 					}
 				}
 			}
-//			System.out.println("!! read : " + result);
 
 			return result;
 		}
@@ -1984,7 +1823,6 @@ public class ReceiveWorker implements Runnable
 					if(file.exists()) {
 
 						try {
-	//						System.out.println("!! ReceiveWorker - read : " + data_folder + message);
 							FileInputStream in = new FileInputStream(file);
 							BufferedInputStream bis = new BufferedInputStream(in);
 							int len = 0, total_len=0;
@@ -2011,8 +1849,6 @@ public class ReceiveWorker implements Runnable
 								}
 								
 								cnt ++;
-//								if(cnt < 10)
-//									System.out.println("!! " + new String(msg_b, "UTF-8"));
 							}
 							bis.close();
 							in.close();
@@ -2046,8 +1882,6 @@ public class ReceiveWorker implements Runnable
 						partSize = 0;
 						
 						try {
-//							System.out.println(security);
-//							System.out.println("	["); //v1102
 							
 							BufferedReader br = new BufferedReader(new FileReader(data_folder + filename));
 							while(true)
@@ -2059,16 +1893,13 @@ public class ReceiveWorker implements Runnable
 
 								if (bytecnt >= current+4096)
 								{
-//									System.out.println("!! IndividualDataRead2 : " + line );
 									break;
 								}
 								else if(bytecnt>=current && bytecnt<current+4096)
 								{
-//									System.out.println("!! IndividualDataRead1 : " + line );
 									lines += line + "\n";
 									if(partSize == 0)
 										partSize = bytecnt;
-//									System.out.println("!! IndividualDataRead : " + bytecnt + " _ " + current);
 								}
 							}
 							br.close();
@@ -2083,7 +1914,6 @@ public class ReceiveWorker implements Runnable
 						
 						result = lines;
 						partSize = bytecnt - partSize;
-//						System.out.println("!! IndividualDataRead : " + bytecnt + " _ "  + partSize + " _ " + current);
 					} 				
 				}
 //			}
@@ -2096,10 +1926,7 @@ public class ReceiveWorker implements Runnable
 			String lines = "";
 	
 			try {
-//						System.out.println("!! ReceiveWorker - read : " + data_folder + message);
 				BufferedReader br = new BufferedReader(new FileReader(data_folder + "chunk/" + message));
-//						System.out.println(security);
-//						System.out.println("	["); //v1102
 				while (true) {
 					String line = br.readLine();
 					if (line == null)
@@ -2127,13 +1954,10 @@ public class ReceiveWorker implements Runnable
 	        byte[] buffer = new byte[chunk_buffer_size];
 	
 			try {
-//						System.out.println("!! ReceiveWorker - read : " + data_folder + message);
 				File file = new File(data_folder + "chunk/" + message);
 				if(!file.exists())
 					return result;
 				
-//						System.out.println(security);
-//						System.out.println("	["); //v1102
 		        long fileSize = file.length();
 		        long totalReadBytes = 0;
 		        int readByte, readBytes=0;
@@ -2165,8 +1989,6 @@ public class ReceiveWorker implements Runnable
 					}
 					
 					cnt ++;
-//					if(cnt < 10)
-//						System.out.println("!! " + new String(msg_b, "UTF-8"));
 				}
 				bis.close();
 				in.close();
@@ -2177,12 +1999,10 @@ public class ReceiveWorker implements Runnable
 					msg_b = (String.format("%04d", readBytes)+"::").getBytes("UTF-8");
 					System.arraycopy(msg_b, 0, result, 0, msg_b.length);
 					System.arraycopy(msg, 0, result, msg_b.length, msg.length);
-//					System.out.println("!! ChunkDataReadByte : " + new String(result));
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -2213,57 +2033,11 @@ public class ReceiveWorker implements Runnable
 			dataID = filename.substring(0, filename.indexOf("."));
 			String update_sql = "update " + table_name + " set data_size = " + fileSize +" where dataid = '" + dataID + "'";
 //			"update file_management set security_level=1 where dataID='ggfe0bd2ee16937d772864dc12057eab83df6c23b58a699354c529d5b4730d77';"
-//			System.out.println("!! slaves request dataID : " + req_content);
 			int check = database.update(update_sql);
 			
 			return result;
 		}
 		
-//		String IndividualDataRemove(String filename)
-//		{
-//			String result = "none";	
-////			if(!MetaDataInfo(filename).equals("none"))
-////			{
-//				if(securityLevel > 2)
-//				{					
-//					result = "permission";
-////					System.out.println("!! IndividualDataRemove " + datatype);
-//					if(dataType != 1) //datatype == 1 == link data
-//					{
-//						File file = new File(data_folder+filename);
-//						boolean check1 = false; 
-//						if( file.exists() )
-//						{ 
-//							check1 = file.delete();
-//						}
-//						boolean check2 = database.delete(dataID); 
-////						if(check1 && check2)
-////						{ 
-////							result = "success";
-////							System.out.println("-> Have Permission(both) to Remove a " + filename);
-////						}
-////						else if(check1)
-////						{ 
-////							result = "permission::data";
-////							System.out.println("-> Have Permission(data) to Remove a " + filename);
-////						} 
-////						else if(check2)
-////						{ 
-////							result = "permission::db";
-////							System.out.println("-> Have Permission(db) to Remove a " + filename);
-////						} 
-//					}
-//				}
-//				else
-//				{
-//					System.out.println("-> Do not Have Permission to Remove a " + filename);
-//					result = "authority";
-//				}
-//					
-////			}			
-//			
-//			return result;
-//		}
 		String IndividualDataRemove(String filename)
 		{
 			String result = "permission";	
@@ -2363,8 +2137,6 @@ public class ReceiveWorker implements Runnable
 						}
 						
 						cnt ++;
-//						if(cnt < 10)
-//							System.out.println("!! " + new String(msg_b, "UTF-8"));
 					}
 					bis.close();
 					in.close();
@@ -2372,7 +2144,6 @@ public class ReceiveWorker implements Runnable
 					lines = new String(msg, "UTF-8");
 
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -2444,15 +2215,11 @@ public class ReceiveWorker implements Runnable
 						}
 						
 						cnt ++;
-//						if(cnt < 10)
-//							System.out.println("" + new String(msg_b, "UTF-8"));
 					}
 					bis.close();
 					in.close();
 					
 					lines = Integer.toString(total_len) + "::" + new String(msg, "UTF-8");
-//					System.out.println("!! data send : " + msg);
-//					System.out.println("!! data send : " + msg.length);
 
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -2470,11 +2237,9 @@ public class ReceiveWorker implements Runnable
 			String remote_cmd = "{[{REQ::" + ip + "::007::"; //+ meta_info + "::";
 			EdgeDeviceInfoClient client;
 			
-			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + "!! IndividualDataSend : " + cert_file);
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : cert - false");
 				return "Fail";
 			}
 
@@ -2484,31 +2249,22 @@ public class ReceiveWorker implements Runnable
 			{
 				int filesize = (int)file.length(), whole, chunksize=1000, i;
 				
-//				filesize = (int)file.length();
-//				System.out.println("!! IndividualDataSend : " + filesize);
-//				System.out.println("!! IndividualDataSend : " + data_file);
-//				check = cert_file; //IndividualDataSendRead(cert_file);
 				check = IndividualDataSendReadByte(cert_file);
 				try {
 					check_s = new String(check, "UTF-8");
 				} catch (UnsupportedEncodingException e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				if(!check_s.equals("none"))
 				{
 					String[] cert_info = cert_file.split(folder);
-//					System.out.println("!! IndividualDataSend : " + cert_info[cert_info.length-2]);
-//					System.out.println("!! IndividualDataSend : " + cert_info[cert_info.length-1]);
 					String data = remote_cmd + "cert::" + cert_info[cert_info.length-2] + "::" + cert_info[cert_info.length-1] + "::" + filesize + "::";
-//					System.out.println("!! IndividualDataSend : " + data);
 					
 					byte[] msg_b=null, msg_l=null, cert_cmd=null;
 					try {
 						msg_b = data.getBytes("UTF-8");
 						msg_l =  "}]}".getBytes("UTF-8");
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -2535,12 +2291,10 @@ public class ReceiveWorker implements Runnable
 			}
 			client.stopRequest();
 			
-//			System.out.println("!! IndividualDataSend meta : " );
 
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
-				//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend : meta - false");
 				return "Fail";
 			}
 			client.startWaitingResponse();
@@ -2549,7 +2303,6 @@ public class ReceiveWorker implements Runnable
 			try {
 				client.sendPacket(meta_cmd.getBytes("UTF-8"), meta_cmd.length());
 			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -2560,12 +2313,10 @@ public class ReceiveWorker implements Runnable
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 						System.out.println("\t!! Response Time is delayed over : " + meta_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -2576,10 +2327,8 @@ public class ReceiveWorker implements Runnable
 				try {
 					answer_data = new String(client.answerData, "UTF-8");
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				System.out.println("!! IndividualDataSend receive : " + answer_data);
 				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 				{
 					result = "Successes";
@@ -2587,7 +2336,6 @@ public class ReceiveWorker implements Runnable
 					client.answerData = null;
 					
 					result = split[2]; // to penta
-//					System.out.println("!! IndividualDataSend result : " + result);
 				}
 				
 			}
@@ -2605,12 +2353,9 @@ public class ReceiveWorker implements Runnable
 			BufferedInputStream bis = null;
 			try {
 				File newFile = new File(data_folder + newFileName);
-//				System.out.println("!! data mergy : " + data_folder+newFileName);
-//				System.out.println("!! data mergy : " + filenames);
 				fout = new FileOutputStream(newFile);
 
 				for (String fileName : filenames) {
-//					System.out.println(fileName);
 					File splittedFile = new File(data_folder + fileName);
 					while(!splittedFile.exists())
 					{
@@ -2623,11 +2368,9 @@ public class ReceiveWorker implements Runnable
 						int len = 0;
 						byte[] buf = new byte[chunk_size];
 						while ((len = bis.read(buf, 0, chunk_size)) != -1) {
-//							System.out.println(new String(buf));
 							fout.write(buf, 0, len);
 							fout.flush();
 						}
-//						splittedFile.delete();
 						bis.close();
 						in.close();
 					}
@@ -2636,7 +2379,6 @@ public class ReceiveWorker implements Runnable
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -2686,7 +2428,6 @@ public class ReceiveWorker implements Runnable
 						if (chunk_size * (i + 1) == jobProcess) break;
 					}
 					fout.close();
-//					Thread.sleep(1);
 				}
 				in.close();
 				result = "success";
@@ -2694,7 +2435,6 @@ public class ReceiveWorker implements Runnable
 				result = "false";
 				e.printStackTrace();
 			}
-//			System.out.println("!! data split : " + result);
 			return result;
 		}
 		
@@ -2758,7 +2498,6 @@ public class ReceiveWorker implements Runnable
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-//			System.out.println("!! data split : " + result);
 			return result;
 		}
 
@@ -2790,21 +2529,16 @@ public class ReceiveWorker implements Runnable
 	          sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
 	        }
 	 
-	        //System.out.println("SHA-256 : " + sb.toString());
 	        fis.close();
 	        return sb.toString();
 	    }
 
 
 
-//		private String select_sql = "SELECT * FROM file_management"; //(file_name, uuid, security, sharing, location)
-//		private ResultSet rs = null;
 		private String company = null;
-//		private int pkt_cnt = 0;
 
 		class ChunkTransfer extends Thread // chunk별 thread 전송
 		{
-//			public static String data_folder="/data/";
 			public String req_content, req_code, req_ip;
 			PacketType req_pkt;
 			
@@ -2848,40 +2582,11 @@ public class ReceiveWorker implements Runnable
 				
 				int length = msg_b.length + msg_r.length + msg_l.length;
 				byte[] remote_cmd = new byte[length]; // file 길이 함수에서 같이 받아오는 경우 // chunk 프로토콜 규약
-//				System.out.println("!! ChunkTransfer send : " + new String(remote_cmd));
 				System.arraycopy(msg_b, 0, remote_cmd, 0, msg_b.length);
 				System.arraycopy(msg_r, 0, remote_cmd, msg_b.length, msg_r.length);
 				System.arraycopy(msg_l, 0, remote_cmd, msg_b.length+msg_r.length, msg_l.length);				
 
 				client.sendPacket(remote_cmd, length);
-//				while(true) // chunk send result 응답 대기 - 수신이 receive로 되서 종료가 안됨
-//				{
-//					client.sendPacket(remote_cmd.getBytes(), remote_cmd.length());
-//					
-//					while(client.answerData == null)
-//					{
-//						try {
-//							Thread.sleep(10);
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						} // test 필요
-//					}
-//					
-//					if(client.answerData.indexOf("{[{ANS")==0 && client.answerData.indexOf("}]}")!=-1) // 기본 양식 맞음
-//					{
-////						System.out.println("!! RequestMessageRead : " + client.answerData); //
-//						String[] array = client.answerData.substring(8, client.answerData.indexOf("}]}")).split("::");
-//						client.answerData = null;
-//						if(array[2].equals("success")) //sha 검사하기
-//						{
-//							break;
-//						}
-//						else
-//							System.out.println("!! ChunkTransfer false : " + array[3]);
-//					}
-//					
-//				}
 
 				try {
 					Thread.sleep(100); // wait after chunk send 
@@ -2913,12 +2618,10 @@ public class ReceiveWorker implements Runnable
 	public void slaveSetting(ArrayList<String> slist)
 	{
 		slaveList = (ArrayList<String>) slist.clone();
-//		System.out.println("!! ReceiveWorker - slave : " + slaveList);
 	}
 	public void edgeListadd(ArrayList<String> slist)
 	{
 		edgeList = (ArrayList<String>) slist.clone();
-//		System.out.println("!! ReceiveWorker - edge : " + edgeList);
 	}
 	
 	

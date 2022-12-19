@@ -4,40 +4,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilePermission;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.management.ManagementFactory;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.security.AccessController;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -143,22 +131,20 @@ public class DataProcess {
 					return ;
 				}
 				client.startWaitingResponse();
+				System.out.println();
 				String remote_cmd = "{[{REQ::" + ip + "::" + "001" + "::EDGE_LIST::" + result + "}]}";
 
 				client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 				long start_client = System.currentTimeMillis();
-				while(client.answerData == null)
-				{			
+				while(client.answerData == null) {			
 					try {
 						Thread.sleep(50);
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
-//							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 							break;
 						}
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}			
@@ -203,9 +189,14 @@ public class DataProcess {
 					remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::DEV_STATUS}]}";
 			else if(req_code.equals("002"))
 					remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::DATA_INFO}]}";
-			else
+
+			else if(req_code.equals("003"))
 				remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::" + req_content + "}]}";
-			
+			else{
+				remote_cmd = "{[{REQ::" + ip.split(",")[1] + "::" + req_code + "::" + req_content + "}]}";
+				ip = ip.split(",")[0];
+			}
+			System.out.print("");
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
 			{
@@ -216,17 +207,14 @@ public class DataProcess {
 			
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
-//				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
 			long start_client = System.currentTimeMillis();
 			while(client.answerData == null)
 			{			
 				try {
 					Thread.sleep(50);
-//					System.out.println("!! delay time " + (System.currentTimeMillis() - start_client));
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
 //						result = "time";
-//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
@@ -809,6 +797,57 @@ public class DataProcess {
 		}
 		
 		return result;		
+	}
+
+	public int RequestMqtt(String masterIp, String deviceIp, String req_code, String fileName) {
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
+		EdgeDeviceInfoClient client;
+		String remote_cmd="";
+
+		try {
+			remote_cmd = "{[{REQ::" + deviceIp + "::"+req_code+"::"+fileName+"}]}";
+			Thread.sleep(10);
+			client = new EdgeDeviceInfoClient(masterIp, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestSlaveList : client die - " + remote_cmd);
+				return 0;
+			}
+			client.startWaitingResponse();
+			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
+
+			long start_client = System.currentTimeMillis();
+			while(client.answerData == null)
+			{			
+				try {
+					Thread.sleep(50);
+					if(System.currentTimeMillis() - start_client > check_timeout )
+					{
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
+						break;
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}			
+			if(client.answerData != null)
+			{
+				String answer_data = new String(client.answerData, "UTF-8");
+				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
+				{
+					String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::"); // [0] = my_ip, [1]=003, [2]=metadata or none
+					client.answerData = null;
+					
+					if (array[2].equals("none"))
+						return 2;
+				}
+			}
+			client.stopRequest();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 	public static String cpu_shellCmd()
@@ -1923,8 +1962,6 @@ public class DataProcess {
 							}
 						}
 					}
-//					System.out.println(before_finisher);
-//					System.out.println(finisher);
 					if(finisher-before_finisher > number_chunk/11)
 					{
 						System.out.println("\tReceive Rate of Chunk : " + finisher + "/" + number_chunk + " = " + Math.round((double)finisher/(double)number_chunk*100.0) + "%");
@@ -2115,6 +2152,55 @@ public class DataProcess {
 		return devcnt;
 	}
 
+	public int IndividualDataDelete(String fileName) {
+		int devcnt = 0;
+
+		String sql = select_sql + table_name + " where dataid = '" + fileName + "'";
+//		System.out.println("!! slaves request dataID : " + req_content);
+		ResultSet metadata = (ResultSet) database.query(sql);
+    	try {
+			if(metadata.next()) // metadata가 있으면 true, 없으면 false
+			{
+				devcnt = 1;
+				dataID = metadata.getString("dataid");
+				fileType = metadata.getString("file_type");
+				dataType = metadata.getInt("data_type");
+//				if(dataType == 0)
+//					devcnt = 1;
+				securityLevel = metadata.getInt("security_level"); 
+			}
+			else
+			{
+				return devcnt;
+			}
+			
+    		//		String result = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::003::" + uuid +  String.format("%03d", d_length) + location + String.format("%04d", dataSize) + security + sharing + "}]}";	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		File file = new File(data_folder+fileName+"."+fileType);
+		if( file.exists() ) {
+            	try {
+            		Runtime.getRuntime().exec("chmod 777 "+(data_folder+fileName+"."+fileType));
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			file.delete();
+			devcnt = 1;
+		}
+		else {
+			System.out.println("local not have data "+fileName+"."+fileType);
+			devcnt = -1;
+		}
+		
+		return devcnt;
+		
+	}
 	public int IndividualDataRemove(String req_content) // 210428 add int func // 내 디바이스의 req_content 데이터 제거
 	{
 		int devcnt=0;
@@ -2126,7 +2212,6 @@ public class DataProcess {
 			{
 				devcnt = 1;
 				dataID = metadata.getString("dataid");
-//				System.out.println("!! slaves request dataID : " + req_content);
 				fileType = metadata.getString("file_type");
 				dataType = metadata.getInt("data_type");
 //				if(dataType == 0)
@@ -2144,9 +2229,11 @@ public class DataProcess {
 			e.printStackTrace();
 		}
 		
-    	if(securityLevel>2)
+//    	if(securityLevel>2)
+    	if(true)
 		{
-			if(dataType != 1) // data delete
+//			if(dataType != 1) // data delete
+    		if(true)
 			{
 				File file = new File(data_folder+req_content+"."+fileType);
 				if( file.exists() )
@@ -2270,7 +2357,6 @@ public class DataProcess {
 			String data_file = dataID + "." + fileType;
 			String cert_file = cert;
 			
-			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " IndividualDataSend client cert : " );
 			EdgeDeviceInfoClient client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
 			{
@@ -2281,13 +2367,8 @@ public class DataProcess {
 			File file = new File(cert_file);
 			if(file.exists())
 			{
-//				devcnt = 1;
 				int filesize = (int)file.length(), whole, chunksize=1000, i;
 				
-//				filesize = (int)file.length();
-//				System.out.println("!! IndividualDataSend : " + filesize);
-//				System.out.println("!! IndividualDataSend : " + data_file);
-//				check = cert_file; //IndividualDataSendRead(cert_file);
 				check = IndividualDataSendReadByte(cert_file);
 				try {
 					check_s = new String(check, "UTF-8");
@@ -2298,10 +2379,7 @@ public class DataProcess {
 				if(!check_s.equals("none"))
 				{
 					String[] cert_info = cert_file.split(folder);
-//					System.out.println("!! IndividualDataSend : " + cert_info[cert_info.length-2]);
-//					System.out.println("!! IndividualDataSend : " + cert_info[cert_info.length-1]);
 					String data = remote_cmd + "cert::" + cert_info[cert_info.length-2] + "::" + cert_info[cert_info.length-1] + "::" + filesize + "::";
-//					System.out.println("!! IndividualDataSend : " + data);
 					
 					byte[] msg_b=null, msg_l=null, cert_cmd=null;
 					try {
@@ -2327,12 +2405,6 @@ public class DataProcess {
 				return devcnt;
 			}
 			
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			client.stopRequest();
 			
 //			System.out.println("!! IndividualDataSend meta : " );
@@ -2352,21 +2424,14 @@ public class DataProcess {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
 			long start_client = System.currentTimeMillis();
 			while(client.answerData == null)
 			{			
-				try {
-					Thread.sleep(50);
-					if(System.currentTimeMillis() - start_client > check_timeout )
-					{
-//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
-						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + meta_cmd);
-						break;
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				System.out.print("");
+				if(client.answerData != null) break;
+				if(System.currentTimeMillis() - start_client > check_timeout ){
+					System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + meta_cmd);
+					break;
 				}
 			}
 
@@ -2376,16 +2441,13 @@ public class DataProcess {
 				try {
 					answer_data = new String(client.answerData, "UTF-8");
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				System.out.println("!! IndividualDataSend receive : " + answer_data);
 				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 				{
 					devcnt = 2;
 					String[] split = answer_data.substring(8, answer_data.indexOf("}]}")).split("::"); // [0] = my_ip, [1]=003, [2]=metadata or none
 					client.answerData = null;
-//					System.out.println("!! IndividualDataSend result : " + result);
 				}
 			}
 			else
@@ -2393,12 +2455,11 @@ public class DataProcess {
 
 			client.stopRequest();
 		}
-//		System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
-//		Thread.sleep(5);
-
 		return devcnt;
 	}
 
+	
+	
 	public static void DataMerge(String newFileName, ArrayList<String> filenames, int chunk_size) // 조각데이터 합치기
 	{
 		FileOutputStream fout = null;
@@ -2510,17 +2571,8 @@ public class DataProcess {
         return sb.toString();
     }
 	
-	private static String finish_cmd="finish";
+	private final static String finish_cmd="finish";
 	public ResultSet rs = null;
-/*	
-	public Connection conn = null;
-	public Statement state = null; 
-	public PreparedStatement pstate = null;
-	// rs.absolute(low_index);
-	public String url = "jdbc:mysql://localhost:3306/fileManagement_DB?serverTimezone=UTC";
-*/	
-//	public String uuid_file="", uuid="", location="", origin_ip="", descriptor="";
-//	public int security=-1, datatype=-1, d_length=-1, datasize=-1;
 	static String dataID, fileType, dataSignature, cert, directory, linked_edge;	
 	static Timestamp timestamp;
 	static int dataType, securityLevel, dataPriority, availabilityPolicy, partSize;
@@ -2535,7 +2587,7 @@ public class DataProcess {
 	public static String folder = "/";
 	public static String local_ip = "localhost";
 	public static Database database = null;
-	static int ketiCommPort = 5679; // KETI 내부통신
+	final static int ketiCommPort = 5679; // KETI 내부통신
 	public int[] chunk_check, chunk_edge;
 //	public String[] chunk;
 	public static int maxRetry = 10;
