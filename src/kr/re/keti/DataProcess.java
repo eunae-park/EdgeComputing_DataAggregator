@@ -32,7 +32,7 @@ import com.sun.management.OperatingSystemMXBean;
 
 public class DataProcess {
 
-	public DataProcess(String dfname, String cfname, Database db, String ip, String tablename, String uuid)
+	public DataProcess(String dfname, String cfname, String sfname, Database db, String ip, String tablename, String uuid)
 	{
 		database = db;
 //		origin_foldername = fname;
@@ -42,6 +42,8 @@ public class DataProcess {
 		local_ip = ip;
 		table_name = tablename;
 		device_uuid = uuid;
+		send_folder = sfname;
+		receive_folder = dfname;
 		TCPSocketAgent.defaultPort = ketiCommPort;
 	}
 	
@@ -73,6 +75,7 @@ public class DataProcess {
 			while(client.answerData == null)
 			{			
 				try {
+					System.out.print("");
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
@@ -826,7 +829,7 @@ public class DataProcess {
 						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}			
@@ -2584,6 +2587,8 @@ public class DataProcess {
 //	public static String origin_foldername = "/home/keti/data/";
 	public static String data_folder = "/home/keti/data/";
 	public static String cert_folder = "/home/keti/data/";
+	public static String send_folder;
+	public static String receive_folder;
 	public static String folder = "/";
 	public static String local_ip = "localhost";
 	public static Database database = null;

@@ -70,7 +70,7 @@ import javax.management.MBeanServerConnection;
 */
 public class ReceiveWorker implements Runnable 
 {
-	ReceiveWorker(String ip, String dfname, String cfname, Database dp, String dev_uuid, String dbname, String tablename, String userid, String userpw) // v2 - 왜 여기서 instance를 이용한 후 master나 slave에서 이용하면 에러나는지 모르겠음. 
+	ReceiveWorker(String ip, String dfname, String cfname, String sfname, Database dp, String dev_uuid, String dbname, String tablename, String userid, String userpw) // v2 - 왜 여기서 instance를 이용한 후 master나 slave에서 이용하면 에러나는지 모르겠음. 
 	{
 //		receptionEvent = new ReceiveWorker();
 		slaveList = new ArrayList<String>();
@@ -86,7 +86,9 @@ public class ReceiveWorker implements Runnable
 		user_id = userid;
 		user_pw = userpw;
 		currentIPAddrStr = ip;
-		
+
+		send_folder = sfname;
+		receive_folder = dfname;
 		url = "jdbc:mysql://localhost:3306/' + db_name + '?serverTimezone=UTC";
 
 
@@ -130,7 +132,7 @@ public class ReceiveWorker implements Runnable
 			e.printStackTrace();
 		}
 	}
-	ReceiveWorker(String ip, String dfname, String cfname,  Database dp, String dev_uuid, String dbname, String tablename, String userid, String userpw, String deviceIP) // v2 - 왜 여기서 instance를 이용한 후 master나 slave에서 이용하면 에러나는지 모르겠음. 
+	ReceiveWorker(String ip, String dfname, String cfname, String sfname,  Database dp, String dev_uuid, String dbname, String tablename, String userid, String userpw, String deviceIP) // v2 - 왜 여기서 instance를 이용한 후 master나 slave에서 이용하면 에러나는지 모르겠음. 
 	{
 //		receptionEvent = new ReceiveWorker();
 		slaveList = new ArrayList<String>();
@@ -148,7 +150,9 @@ public class ReceiveWorker implements Runnable
 		user_pw = userpw;
 		currentIPAddrStr = ip;
 		device_ip = deviceIP;
-		
+
+		send_folder = sfname;
+		receive_folder = dfname;
 		url = "jdbc:mysql://localhost:3306/' + db_name + '?serverTimezone=UTC";
 
 
@@ -343,10 +347,10 @@ public class ReceiveWorker implements Runnable
 		}
 		
 		void tempFileSend(PacketType pkt, byte[] originalByte) {
-			String tempDir = data_folder;
-			data_folder = "/home/keti/temp/";
+			String tempDir = send_folder;
+			send_folder = "/home/keti/temp/";
 			keti_community(pkt, originalByte);
-			data_folder = tempDir;
+			send_folder = tempDir;
 		}
 
 		void keti_community(PacketType pkt, byte[] originalByte)
@@ -506,7 +510,7 @@ public class ReceiveWorker implements Runnable
 					            String [] client_arr = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 								
 								try {
-									File datafile = new File(data_folder+client_arr[3]);
+									File datafile = new File(receive_folder+client_arr[3]);
 									byte[] start=null, finish=null, content;
 
 									try {
@@ -517,29 +521,31 @@ public class ReceiveWorker implements Runnable
 										e1.printStackTrace();
 									}
 									
+									
+									
 									content = new byte[client.answerData.length-start.length-finish.length];
 									System.arraycopy(client.answerData, start.length, content, 0, content.length);
 									if(!client_arr[5].equals("none")) // data exist -> save data & metadata
 									{
 										if(datafile.exists()) {
-						                	Runtime.getRuntime().exec("chmod 777 "+data_folder+client_arr[3]);
+						                	Runtime.getRuntime().exec("chmod 777 "+receive_folder+client_arr[3]);
 						                	try {
 												Thread.sleep(100);
 											} catch (InterruptedException e) {
 												// TODO Auto-generated catch block
 												e.printStackTrace();
 											}
-						                	datafile = new File(data_folder+client_arr[3]);
+						                	datafile = new File(receive_folder+client_arr[3]);
 										}
 										fos = new FileOutputStream(datafile);
 						                fos.write(content, 0, Integer.parseInt(client_arr[4]));
 						                fos.flush();
 						                fos.close();
 						                if(securityLevel == 1) {
-						                	Runtime.getRuntime().exec("chmod 444 "+data_folder+client_arr[3]);
+						                	Runtime.getRuntime().exec("chmod 444 "+receive_folder+client_arr[3]);
 						                }
 						                else if(securityLevel == 2) {
-						                	Runtime.getRuntime().exec("chmod 666 "+data_folder+client_arr[3]);
+						                	Runtime.getRuntime().exec("chmod 666 "+receive_folder+client_arr[3]);
 						                }
 
 						                client.stopWaitingResponse();
@@ -606,7 +612,7 @@ public class ReceiveWorker implements Runnable
 				}
 				else if(array[2].equals("data"))
 				{
-					File file = new File(data_folder + array[3]);
+					File file = new File(send_folder + array[3]);
 					if(!file.exists())
 					{
 						try {
@@ -619,8 +625,6 @@ public class ReceiveWorker implements Runnable
 					else
 					{
 				        long fileSize = file.length();
-						
-	//			        long fileSize = file.length();
 						String data = answer + array[1] + "::" + array[2] + "::" + array[3] + "::" + Long.toString(fileSize) + "::";
 	
 				        byte[] msg_b=null, msg_l=null;
@@ -765,7 +769,7 @@ public class ReceiveWorker implements Runnable
 				System.arraycopy(msg_r, 0, result, msg_b.length, msg_r.length);
 				System.arraycopy(msg_l, 0, result, msg_b.length+msg_r.length, msg_l.length);
 
-			}			
+			}
 			else if (array[1].equals("405") && originalData.indexOf("REQ") > 0) // chunk 구간 요청
 			{
 				// chunk request #3
@@ -968,6 +972,7 @@ public class ReceiveWorker implements Runnable
 			}
 			reply(pkt.getAddress(), result, array[2]);
 		}
+		
 		void keti_community(PacketType pkt, String originalData)
 		{
 			String result = "none";
@@ -976,8 +981,7 @@ public class ReceiveWorker implements Runnable
 			String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
 			// [0] = my_ip, [1]=003, [2]=metadata or none
 			
-			if (array[1].equals("001") && originalData.indexOf("REQ") > 0)
-			{
+			if (array[1].equals("001") && originalData.indexOf("REQ") > 0){
 				if(array[2].equals("DEV_STATUS"))
 					result = answer + array[1] + "::" + DeviceStatusInfo(array[2]) + "}]}";
 				else if(array[2].equals("EDGE_LIST"))
@@ -1260,6 +1264,7 @@ public class ReceiveWorker implements Runnable
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
+
 			
 			if(originalData.indexOf("{[{")==0 && originalData.indexOf("}]}")!=-1) // 기본 양식 맞음
 			{
@@ -1270,6 +1275,7 @@ public class ReceiveWorker implements Runnable
 				}
 				String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
 				int func = Integer.parseInt(array[1]);
+				System.out.println();
 				if(company.equals("keti"))
 				{
 					TCPSocketAgent.defaultPort = ketiCommPort;
@@ -1339,8 +1345,8 @@ public class ReceiveWorker implements Runnable
 						
 						switch(array[1]) {
 							case "013":
-								String fileName = array[2];
-								MasterWorker.dataprocess.IndividualDataDelete(fileName);
+								String fileName = array[2].split("\\.")[0];
+								MasterWorker.dataprocess.IndividualDataRemove(fileName);
 								break;
 						}
 					}
@@ -1358,13 +1364,13 @@ public class ReceiveWorker implements Runnable
 						else {
 							int dataType = Integer.parseInt(meta.split("#")[3]);
 							if(dataType == 0) {
-								keti_community(pkt, originalByte);							
+								keti_community(pkt, originalByte);
 							}
 							else {
 								tempFileSend(pkt, originalByte);
 							}
 						}
-						
+
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
 							check_timeout -= 1000;
 					}
@@ -1448,8 +1454,12 @@ public class ReceiveWorker implements Runnable
 				}				
 //				stop();
 				try {
+					Thread.sleep(100);
 					EdgeDataAggregator.fileMonitor.start();
-				} catch (Exception e) {
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}catch (Exception e) {
 					// TODO Auto-generated catch block
 //					e.printStackTrace();
 				}
@@ -1684,19 +1694,15 @@ public class ReceiveWorker implements Runnable
 		
 		byte[] IndividualDataReadByte(String message)
 		{
-			System.out.println("IndividualDataReadByte message : "+message);
 			byte[] result = null;
 			try {
 				result = "none".getBytes("UTF-8");
-				System.out.println("IndividualDataReadByte dataType : "+dataType);
 //				if(dataType != 1)
 				if(true)
 				{
-					System.out.println("IndividualDataReadByte file : "+(data_folder + message));
-					File file = new File(data_folder + message);
+					File file = new File(send_folder + message);
 					if(file.exists()) 
 					{
-						System.out.println("IndividualDataReadByte exists");
 						FileInputStream in = new FileInputStream(file);
 						BufferedInputStream bis = new BufferedInputStream(in);
 						int len = 0, total_len=0;
@@ -1710,16 +1716,12 @@ public class ReceiveWorker implements Runnable
 
 							if(cnt == 0)
 							{
-								System.out.println("individualDataReadByte buf : "+new String(buf));
 								System.arraycopy(buf, 0, msg, 0, len);
 								
 								msg_b =  msg;
 							}
 							else
 							{
-								System.out.println("individualDataReadByte msg_b : "+new String(msg_b));
-								System.out.println("individualDataReadByte buf : "+new String(buf));
-								
 								System.arraycopy(msg_b, 0, msg, 0, msg_b.length);
 								System.arraycopy(buf, 0, msg, msg_b.length, len);
 								
@@ -1736,8 +1738,6 @@ public class ReceiveWorker implements Runnable
 						result = msg;
 					}
 					else {
-
-						System.out.println("IndividualDataReadByte not exists");
 					}
 				}
 			} catch (UnsupportedEncodingException e1) {
@@ -2635,6 +2635,8 @@ public class ReceiveWorker implements Runnable
 //	private static String origin_data_folder = "/home/eunae/keti/";
 	private static String data_folder = "/home/keti/data/";
 	private static String cert_folder = "/home/keti/cert/";
+	private static String send_folder;
+	private static String receive_folder;
 	private static String folder = "/";
 	private String url = "jdbc:mysql://localhost:3306/fileManagement_DB?serverTimezone=UTC";
 	static String select_sql = "SELECT * FROM "; //file_management"; //(file_name, uuid, security, sharing, location) //

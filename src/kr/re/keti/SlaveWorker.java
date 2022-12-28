@@ -54,7 +54,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		this.data_folder = fname;
 		this.database = dp;
 	}
-	SlaveWorker(String master_ip, String dfname, String cfname, Database dp, String slave_ip, String tablename, String uuid)
+	SlaveWorker(String master_ip, String dfname, String cfname, String sfname, Database dp, String slave_ip, String tablename, String uuid)
 	{
 		this.stop = false;
 		this.slaveList = new ArrayList<String>();
@@ -68,6 +68,10 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		this.my_ip = slave_ip;
 		this.table_name = tablename;
 		this.device_uuid = uuid;
+		
+		this.storage_folder = sfname;
+		this.send_folder = sfname;
+		this.receive_folder = dfname;
 	}
 	
 	@Override
@@ -81,7 +85,7 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		dataprocess = new  DataProcess(data_folder, cert_folder, database, my_ip, table_name, device_uuid); // v0803
+		dataprocess = new  DataProcess(data_folder, cert_folder, storage_folder, database, my_ip, table_name, device_uuid); // v0803
 //		DataProcess dataprocess = new  DataProcess(foldername, whatDB); // v1
 /*//v2		
 		Database dataprocess = null;
@@ -665,6 +669,9 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 //	public static String origin_foldername = "/home/eunae/keti/";
 	public static String data_folder = "/home/keti/data";
 	public static String cert_folder = "/home/keti/data";
+	public static String storage_folder;
+	public static String send_folder;
+	public static String receive_folder;
 	static String whatDB = "MySQL";
 	static String table_name = "file_management"; //(file_name, uuid, security, sharing, location)
 	static String device_uuid = "f1d6fc0c-1c51-11ec-a6c1-b75b198d62ab"; //(file_name, uuid, security, sharing, location)

@@ -42,7 +42,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 		this.data_folder = fname;
 		this.whatDB = whatDB;
 	}
-	MasterWorker(String ip, String dfname, String cfname, Database dp, String tablename, String uuid)
+	MasterWorker(String ip, String dfname, String cfname, String sfname, Database dp, String tablename, String uuid)
 	{
 		this.stop = false;
 		this.slaveList = new ArrayList<String>();
@@ -55,6 +55,10 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 		this.database = dp;
 		this.table_name = tablename;
 		this.device_uuid = uuid;
+
+		this.storage_folder = sfname;
+		this.send_folder = sfname;
+		this.receive_folder = dfname;
 	}
 	
 	@Override
@@ -67,7 +71,7 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 		}
 		
 		Scanner sc = new Scanner(System.in);
-		dataprocess = new  DataProcess(data_folder, cert_folder, database, my_ip, table_name, device_uuid); // v0803
+		dataprocess = new  DataProcess(data_folder, cert_folder, storage_folder, database, my_ip, table_name, device_uuid); // v0803
 //		String test = (String)dataprocess.query("master test");
 
 		int check=-1, i;
@@ -466,6 +470,9 @@ public class MasterWorker implements Runnable // extends Thread // implements Ru
 //	public static String origin_data_folder = "/home/eunae/keti/";
 	public static String data_folder = "/home/keti/data/";
 	public static String cert_folder = "/home/keti/cert/";
+	public static String storage_folder;
+	public static String send_folder;
+	public static String receive_folder;
 	static String table_name = "file_management"; //(file_name, uuid, security, sharing, location)
 	static String device_uuid = "f1d6fc0c-1c51-11ec-a6c1-b75b198d62ab"; //(file_name, uuid, security, sharing, location)
 	static String whatDB = "MySQL";

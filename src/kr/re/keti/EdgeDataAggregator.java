@@ -65,43 +65,11 @@ public class EdgeDataAggregator {
 				System.out.println(" * UUID of Edge Device. : " + dev_uuid);
 			
 			data_folder = br.readLine();
-			if (data_folder == null)
-			{
-				System.out.println(" * Input the Name of Main Path with data.");
-				System.exit(0);
-			}
-			else
-			{
-				System.out.println(" * Name of Main Path with data : " + data_folder);
-				File folder = new File (data_folder);
-				if(!folder.exists())
-				{
-					folder.mkdir();
-				}
-				folder = new File (data_folder+"chunk");
-				if(!folder.exists())
-				{
-					folder.mkdir();
-				}
-				folder = new File (data_folder+"time");
-				if(!folder.exists())
-				{
-					folder.mkdir();
-				}
-			}
+			folderInitCreate("data_folder", data_folder);
 			cert_folder = br.readLine();
-			if (cert_folder == null){
-				System.out.println(" * Input the Name of Main Path with cert.");
-				System.exit(0);
-			}
-			else{
-				System.out.println(" * Name of Main Path with cert : " + cert_folder);
-				File folder = new File (cert_folder);
-				if(!folder.exists())
-				{
-					folder.mkdir();
-				}
-			}
+			folderInitCreate("cert_folder", cert_folder);
+			storage_folder = br.readLine();
+			folderInitCreate("storage_folder", storage_folder);
 //			br.close();
 //			file.close();
 
@@ -209,19 +177,19 @@ public class EdgeDataAggregator {
 			}
 
 			if(deviceIP.equals("auto"))
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
 			else
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 			receiver_th = new Thread(receiver);
 			receiver_th.start();
 
 			System.out.println("* Master found: " + master_ip + "\n");
-			SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);//			; // new TransmitWorker(slaveList, foldername);
+			SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);//			; // new TransmitWorker(slaveList, foldername);
 			Thread slave_th = new Thread(slave);//			; // new Thread(master);
 			slave_th.start();
 			try {
 				mqtt = new Mqtt(master_ip, deviceIP);
-				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, data_folder).work();
+				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, storage_folder, data_folder).work();
 				fileMonitor.start();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -245,14 +213,14 @@ public class EdgeDataAggregator {
 
 			receptor = new EdgeReceptor((currentIPAddr == null) ? (null) : (currentIPAddrStr));
 			if(deviceIP.equals("auto"))
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
 			else
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 			receiver_th = new Thread(receiver);
 			System.out.println("Waiting for connections from slaves...");
 			if (master == null) // test need
 			{
-				master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name, dev_uuid);
+				master = new MasterWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, table_name, dev_uuid);
 				master_th = new Thread(master);
 				master_th.start();
 			}
@@ -260,7 +228,7 @@ public class EdgeDataAggregator {
 			try {
 				Thread.sleep(10);
 				mqtt = new Mqtt(master_ip, deviceIP);
-				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, data_folder).work();
+				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, storage_folder, data_folder).work();
 				fileMonitor.start();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -359,15 +327,15 @@ public class EdgeDataAggregator {
 		}
 
 		if(deviceIP.equals("auto"))
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
 		else
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 		receiver_th = new Thread(receiver);
 		receiver_th.start();
 
 		if (master == null) // test need
 		{
-			master = new MasterWorker(master_ip, data_folder, cert_folder, dataprocess, table_name, dev_uuid);
+			master = new MasterWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, table_name, dev_uuid);
 			master_th = new Thread(master); 
 			master_th.start();
 		}
@@ -491,9 +459,9 @@ public class EdgeDataAggregator {
 //		Runnable receiver = new ReceiveWorker(currentIPAddrStr, foldername, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
 //		Thread receiver_th = new Thread(receiver);
 		if(deviceIP.equals("auto"))
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
 		else
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 		receiver_th = new Thread(receiver);
 		receiver_th.start();
 		// implements Runnable
@@ -501,7 +469,7 @@ public class EdgeDataAggregator {
 
 		System.out.println("* Master found: " + master_ip + "\n");
 //		SlaveWorker slave = new SlaveWorker(master_ip, foldername, whatDB); // v1,2
-		SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);
+		SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);
 //		; // new TransmitWorker(slaveList, foldername);
 		Thread slave_th = new Thread(slave);
 //		; // new Thread(master);
@@ -540,6 +508,55 @@ public class EdgeDataAggregator {
 			SlaveMode(finder);
 	}
 
+	public static void folderInitCreate(String type, String path) {
+		if(type.equals("cert_folder")) {
+			if (path == null){
+				System.out.println(" * Input the Name of Main Path with cert.");
+				System.exit(0);
+			}
+			else{
+				System.out.println(" * Name of Main Path with cert : " + path);
+				File folder = new File (path);
+				if(!folder.exists())
+				{
+					folder.mkdir();
+				}
+				
+			}
+		}
+		else {
+			if (path == null)
+			{
+				System.out.println(" * Input the Name of Main Path with data.");
+				System.exit(0);
+			}
+			else {
+				if(type.equals("data_folder")) {
+					System.out.println(" * Name of Main Path with data : " + path);					
+				}
+				else if(type.equals("storage_folder")) {
+					System.out.println(" * Name of Main Path with storage : " + path);
+				}
+
+				File folder = new File (path);
+				if(!folder.exists())
+				{
+					folder.mkdir();
+				}
+				folder = new File (path+"chunk");
+				if(!folder.exists())
+				{
+					folder.mkdir();
+				}
+				folder = new File (path+"time");
+				if(!folder.exists())
+				{
+					folder.mkdir();
+				}
+				
+			}
+		}
+	}
 	static EdgeReceptor receptor = null;
 	static ReceiveWorker receiver = null;
 	static Thread receiver_th = null;
@@ -555,6 +572,6 @@ public class EdgeDataAggregator {
 	static int defaultManualPort = 5678; // KETI 내부통신
 	
 	static int receive_check = 0;
-	static String dev_uuid=null, data_folder=null, cert_folder=null, upnp_mode=null, master_ip=null;
+	static String dev_uuid=null, data_folder=null, cert_folder=null, storage_folder=null, upnp_mode=null, master_ip=null;
 	static String whatDB=null, db_name=null, db_path=null, table_name=null, user_id=null, user_pw=null;
 }

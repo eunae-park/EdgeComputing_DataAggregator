@@ -102,6 +102,7 @@ public class Mqtt implements MqttCallback{
         System.out.println("=====================메세지 도착=================");
         System.out.println(message);
         String m = message+"";
+        FileMonitor.lastCmd = m;
         m = m.substring(m.indexOf("{[{"), m.lastIndexOf("}]}"));
         String[] array = m.split("::");
         String requestIp = array[1];
@@ -117,7 +118,7 @@ public class Mqtt implements MqttCallback{
         	switch(code) {
 	        	case "013":
 	        		DataProcess dataProcess = SlaveWorker.dataprocess;
-	        		dataProcess.IndividualDataRemove(fileName);
+	        		dataProcess.IndividualDataRemove(fileName.split("\\.")[0]);
 	        		break;
         	}
         	

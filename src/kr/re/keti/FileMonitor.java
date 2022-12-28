@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -19,11 +21,13 @@ public class FileMonitor implements FileAlterationListener{
 	public static DataProcess dataProcess;
 	private Database database;
 	private String dir;
-//	private FileAlterationMonitor monitor;
+	private String ramDisk;
 	private int interva;
-//	private ArrayList<String> dataList;
 	
-	public FileMonitor(Mqtt client, String master_ip, String device_ip, int interva, String dir) {
+	public static String lastCmd;
+	
+	
+	public FileMonitor(Mqtt client, String master_ip, String device_ip, int interva, String dir, String ramDisk) {
 		database = new Database("file_management", "mecTrace", "penta&keti0415!");
 		this.client = client;
 		this.master_ip = master_ip;
@@ -32,7 +36,8 @@ public class FileMonitor implements FileAlterationListener{
 		dir = dir.startsWith("/")? dir: "/"+dir;
 		dir = dir.endsWith("/")? dir: dir+"/";
 		this.dir = dir;
-		
+		this.ramDisk = ramDisk;
+		lastCmd = null;
 		if(master_ip.equals(device_ip)) {
 			dataProcess = MasterWorker.dataprocess;
 		}
@@ -43,19 +48,20 @@ public class FileMonitor implements FileAlterationListener{
 	public FileAlterationMonitor work() {
 		FileAlterationObserver observer = new FileAlterationObserver(dir);
 		FileAlterationMonitor monitor = new FileAlterationMonitor(interva);
-		observer.addListener(new FileMonitor(client, master_ip, device_ip, interva, dir));
+		observer.addListener(new FileMonitor(client, master_ip, device_ip, interva, dir, ramDisk));
 		monitor.addObserver(observer);
 		return monitor;
 	}
 
 	@Override
 	public void onFileCreate(File file) {
-		System.out.println("");
-		System.out.println("<Monitor> creat file : "+file);
 		String fileName = file+"";
 		fileName = fileName.substring(fileName.lastIndexOf("/")+1, fileName.length());
 		if(fileName.startsWith(".")) return;
 
+		System.out.println("");
+		System.out.println("<Monitor> creat file : "+file);
+		
 		dataProcess.SettingPort();
 		
 		if(fileName.split("\\.")[0].equals("hello") || fileName.split("\\.")[0].equals("world")) {
@@ -66,24 +72,25 @@ public class FileMonitor implements FileAlterationListener{
 		}
 
 		if (master_ip.equals(device_ip)) {
-			client.send(master_ip, "011", fileName.split("\\.")[0]);
+			client.send(master_ip, "011", fileName);
 		}
 		else {
-			dataProcess.RequestMqtt(master_ip, device_ip, "011", fileName.split("\\.")[0]);
+			dataProcess.RequestMqtt(master_ip, device_ip, "011", fileName);
 		}
 		
 		tempFileCreate(fileName);
 		sendFile(fileName.split("\\.")[0]);
 		tempFileDelete(fileName);
+		ramFileInsert(fileName);
 	}
-	
 	@Override
 	public void onFileChange(File file) {
-		System.out.println("");
-		System.out.println("<Monitor> FileChange:"+file);
 		String fileName = file+"";
 		fileName = fileName.substring(fileName.lastIndexOf("/")+1, fileName.length());
 		if(fileName.startsWith(".")) return;
+
+		System.out.println("");
+		System.out.println("<Monitor> FileChange : "+file);
 		
 		dataProcess.SettingPort();
 		if (master_ip.equals(device_ip)) {
@@ -96,16 +103,18 @@ public class FileMonitor implements FileAlterationListener{
 		tempFileCreate(fileName);
 		sendFile(fileName.split("\\.")[0]);
 		tempFileDelete(fileName);
+		ramFileInsert(fileName);
 	}
 
 
 	@Override
 	public void onFileDelete(File file) {
-		System.out.println("");
-		System.out.println("<Monitor> FileDelete:"+file);
 		String fileName = file+"";
 		fileName = fileName.substring(fileName.lastIndexOf("/")+1, fileName.length());
 		if(fileName.startsWith(".")) return;
+
+		System.out.println("");
+		System.out.println("<Monitor> FileDelete:"+file);
 		
 		dataProcess.SettingPort();
 		
@@ -117,12 +126,13 @@ public class FileMonitor implements FileAlterationListener{
 		
 		if(security_level > 2 || linked_edge.equals(device_ip)) {
 			if (master_ip.equals(device_ip)) {
-				client.send(master_ip, "013", fileName.split("\\.")[0]);
+				client.send(master_ip, "013", fileName);
 			}
 			else {
-				dataProcess.RequestMqtt(master_ip, device_ip, "013", fileName.split("\\.")[0]);
-			}			
+				dataProcess.RequestMqtt(master_ip, device_ip, "013", fileName);
+			}
 		}
+		ramFileDelete(fileName);
 	}
 
 	@Override
@@ -253,6 +263,36 @@ public class FileMonitor implements FileAlterationListener{
 		}
 		return false;
 	}
+	public void ramFileDelete(String fileName) {
+		File file = new File(ramDisk+fileName);
+		if(file.exists()) {
+			file.delete();
+		}
+	}
+	public void ramFileInsert(String fileName) {
+		try {
+			EdgeDataAggregator.fileMonitor.stop();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+		}
+		File file = new File(dir+fileName);
+		File ramFile = new File(ramDisk+fileName);
+		try {
+			Files.copy(file.toPath(), ramFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Thread.sleep(100);
+			EdgeDataAggregator.fileMonitor.start();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		}
+		
+	}
 	public int indexOf(String str, int index) {
 		return indexOf(str, '/', index);
 	}
@@ -267,7 +307,6 @@ public class FileMonitor implements FileAlterationListener{
 		}
 		return -1;
 	}
-
 	
 
 }
