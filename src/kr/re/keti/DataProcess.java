@@ -1174,6 +1174,49 @@ public class DataProcess {
 		
 		return check;
 	}	
+	public String getDataId(String ipAddress) // 내 디바이스의 전체 데이터 정보 확인
+	{
+		String result = "";
+		String msgs ="";
+
+		msgs=RequestMessage("", ipAddress, "002");
+//		System.out.println("!! MetaDataInfomation : " + msgs); // Send the answer 로 충분
+		if(msgs.equals("time") || msgs.equals("none"))
+			return result;
+		
+		String[] array = msgs.split("#");
+		int number_data = Integer.parseInt(array[0].substring(36));	
+
+		for(int i=0; i<number_data; i++) {
+			if(result.equals("")) {
+				result = array[i*3+1];
+			}
+			else {
+				result = result+"#"+array[i*3+1];
+			}
+		}
+			
+		return result;
+	}
+	public String getDataId() {
+		String result = "";
+		ResultSet rs = (ResultSet) database.query(select_sql + table_name);
+		try {
+			while(rs.next()) {
+				String dataId = rs.getString("dataid");
+				if(result.equals("")) {
+					result = dataId;
+				}
+				else {
+					result = result +"#"+dataId;
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	public String MetaDataInfomation(String req_content) // 210428 add int func // 내 디바이스의 특정 데이터의 메타데이터 정보 추출 
 	{
 		String result = "none";	
@@ -1713,20 +1756,6 @@ public class DataProcess {
 				while(iter.hasNext())
 				{
 					String edge = iter.next();
-//					File file = new File(data_folder+"time/"+req_content.replace(fileType, "txt")); // 1. check if the file exists or not boolean isExists = file.exists();
-//					long start_time = System.currentTimeMillis(); // + 32400000;
-//					try {
-//						FileWriter fw = new FileWriter(file);
-//						String str = format.format(new Date(start_time));
-////							fw.write(req_ip+"\n");
-////							fw.flush();
-//						fw.write(str+"\n");
-//						fw.flush();
-//						fw.close();
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 					byte[] msgs_b = RequestMessageByte(req_content, edge, 1);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3) //
 					try {
 						msgs = new String(msgs_b, "UTF-8");
@@ -2241,6 +2270,9 @@ public class DataProcess {
 				File file = new File(data_folder+req_content+"."+fileType);
 				if( file.exists() )
 					file.delete();
+				file = new File(send_folder+req_content+"."+fileType);
+				if( file.exists() )
+					file.delete();
 			}
 //			else // link data -> delete only metadata in db
 //			{
@@ -2405,6 +2437,7 @@ public class DataProcess {
 			else
 			{
 //				result = "Fail";
+				System.out.println("cert file not find");
 				return devcnt;
 			}
 			
@@ -2935,7 +2968,7 @@ public class DataProcess {
 //												file.delete();
 												client.answerData = null;
 												remote_cmd = "{[{REQ::" + req_ip + "::" + req_code + "::" + req_content + "::" + Integer.toString(i) + "::" + Integer.toString(i+1) + "}]}";
-												client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
+//												client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 												Thread.sleep(100); // test 필요
 
 												i --;

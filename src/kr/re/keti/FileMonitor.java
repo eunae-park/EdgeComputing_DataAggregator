@@ -1,11 +1,12 @@
 package kr.re.keti;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -15,19 +16,22 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 import kr.re.keti.db.Database;
 
 public class FileMonitor implements FileAlterationListener{
+	public String uuid;
 	private String master_ip;
 	private String device_ip;
 	private Mqtt client;
 	public static DataProcess dataProcess;
-	private Database database;
+	public static Database database;
 	private String dir;
+	public String certFolder;
 	private String ramDisk;
 	private int interva;
-	
+	public static boolean start;
 	public static String lastCmd;
 	
 	
-	public FileMonitor(Mqtt client, String master_ip, String device_ip, int interva, String dir, String ramDisk) {
+	public FileMonitor(Mqtt client, String master_ip, String device_ip, int interva, String dir) {
+		this.uuid = EdgeDataAggregator.dev_uuid;
 		database = new Database("file_management", "mecTrace", "penta&keti0415!");
 		this.client = client;
 		this.master_ip = master_ip;
@@ -36,8 +40,10 @@ public class FileMonitor implements FileAlterationListener{
 		dir = dir.startsWith("/")? dir: "/"+dir;
 		dir = dir.endsWith("/")? dir: dir+"/";
 		this.dir = dir;
-		this.ramDisk = ramDisk;
+		this.certFolder = EdgeDataAggregator.cert_folder;
+		this.ramDisk = EdgeDataAggregator.data_folder;
 		lastCmd = null;
+		FileMonitor.start = false;
 		if(master_ip.equals(device_ip)) {
 			dataProcess = MasterWorker.dataprocess;
 		}
@@ -48,7 +54,7 @@ public class FileMonitor implements FileAlterationListener{
 	public FileAlterationMonitor work() {
 		FileAlterationObserver observer = new FileAlterationObserver(dir);
 		FileAlterationMonitor monitor = new FileAlterationMonitor(interva);
-		observer.addListener(new FileMonitor(client, master_ip, device_ip, interva, dir, ramDisk));
+		observer.addListener(new FileMonitor(client, master_ip, device_ip, interva, dir));
 		monitor.addObserver(observer);
 		return monitor;
 	}
@@ -61,27 +67,29 @@ public class FileMonitor implements FileAlterationListener{
 
 		System.out.println("");
 		System.out.println("<Monitor> creat file : "+file);
-		
+		String sign = sign(fileName.split("\\.")[0]);
+//		String sign = "123";
 		dataProcess.SettingPort();
 		
 		if(fileName.split("\\.")[0].equals("hello") || fileName.split("\\.")[0].equals("world")) {
-			database.createFile(fileName, device_ip, 1);	
+			database.createFile(uuid, fileName, device_ip, 1, sign);	
 		}
 		else {
-			database.createFile(fileName, device_ip, 5);
+			database.createFile(uuid, fileName, device_ip, 5, sign);
 		}
 
+		
 		if (master_ip.equals(device_ip)) {
 			client.send(master_ip, "011", fileName);
 		}
 		else {
 			dataProcess.RequestMqtt(master_ip, device_ip, "011", fileName);
 		}
-		
+//		
 		tempFileCreate(fileName);
 		sendFile(fileName.split("\\.")[0]);
 		tempFileDelete(fileName);
-		ramFileInsert(fileName);
+//		ramFileInsert(fileName);
 	}
 	@Override
 	public void onFileChange(File file) {
@@ -92,18 +100,18 @@ public class FileMonitor implements FileAlterationListener{
 		System.out.println("");
 		System.out.println("<Monitor> FileChange : "+file);
 		
-		dataProcess.SettingPort();
-		if (master_ip.equals(device_ip)) {
-			client.send(master_ip, "012", fileName);
-		}
-		else {
-			dataProcess.RequestMqtt(master_ip, device_ip, "012", fileName);
-		}
-
-		tempFileCreate(fileName);
-		sendFile(fileName.split("\\.")[0]);
-		tempFileDelete(fileName);
-		ramFileInsert(fileName);
+//		dataProcess.SettingPort();
+//		if (master_ip.equals(device_ip)) {
+//			client.send(master_ip, "012", fileName);
+//		}
+//		else {
+//			dataProcess.RequestMqtt(master_ip, device_ip, "012", fileName);
+//		}
+//
+//		tempFileCreate(fileName);
+//		sendFile(fileName.split("\\.")[0]);
+//		tempFileDelete(fileName);
+//		ramFileInsert(fileName);
 	}
 
 
@@ -132,6 +140,7 @@ public class FileMonitor implements FileAlterationListener{
 				dataProcess.RequestMqtt(master_ip, device_ip, "013", fileName);
 			}
 		}
+		signDelete(fileName.split("\\.")[0]);
 		ramFileDelete(fileName);
 	}
 
@@ -199,8 +208,7 @@ public class FileMonitor implements FileAlterationListener{
 		return edgeList;
 	}
 	
-	
-	private void sendFile(String filename) {
+	public void sendFile(String filename) {
 		dataProcess.SettingPort();
 		ArrayList<String> dataList = new ArrayList<>();
 		ArrayList<String> edgeList = getEdgeList();
@@ -227,7 +235,7 @@ public class FileMonitor implements FileAlterationListener{
 		else
 			System.out.println("* Cannot Transfer Data to Anyone.");
 	}
-	private boolean tempFileCreate(String fileName) {
+	public boolean tempFileCreate(String fileName) {
 		String directory = dir.substring(0, indexOf(dir, '/', 3))+"/temp";
 		File folder = new File(directory);
 		if(!folder.exists()) {
@@ -250,7 +258,7 @@ public class FileMonitor implements FileAlterationListener{
 		}
 		return false;
 	}
-	private boolean tempFileDelete(String fileName) {
+	public boolean tempFileDelete(String fileName) {
 		String directory = dir.substring(0, indexOf(dir, '/', 3))+"/temp";
 		File file = new File(directory+"/"+fileName);
 		if(file.exists()) {
@@ -269,29 +277,108 @@ public class FileMonitor implements FileAlterationListener{
 			file.delete();
 		}
 	}
-	public void ramFileInsert(String fileName) {
-		try {
-			EdgeDataAggregator.fileMonitor.stop();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
+//	public void ramFileInsert(String fileName) {
+//		try {
+//			EdgeDataAggregator.fileMonitor.stop();
+//		} catch (Exception e1) {
+//			// TODO Auto-generated catch block
 //			e1.printStackTrace();
-		}
-		File file = new File(dir+fileName);
-		File ramFile = new File(ramDisk+fileName);
+//		}
+//		File file = new File(dir+fileName);
+//		File ramFile = new File(ramDisk+fileName);
+//		try {
+//			Files.copy(file.toPath(), ramFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		try {
+//			System.out.println("start");
+//			EdgeDataAggregator.fileMonitor.start();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
+	public static void fileCopy(String fileName, String original, String destination ) {
+		File originalFile = new File(original+fileName);
+		File destinationFile = new File(destination+fileName);
+		
+		FileInputStream input = null;
+		FileOutputStream output = null;
 		try {
-			Files.copy(file.toPath(), ramFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			input = new FileInputStream(originalFile);
+			output = new FileOutputStream(destinationFile);
+			
+			byte[] buf = new byte[1024];
+			
+			int readData;
+			while((readData = input.read(buf)) > 0) {
+				output.write(buf, 0, readData);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		try {
-			Thread.sleep(100);
-			EdgeDataAggregator.fileMonitor.start();
-		} catch (Exception e) {
+			input.close();
+			output.close();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			e.printStackTrace();
+		}
+	}
+	public String sign(String fileName) {
+		String keyPath = certFolder+"private/";
+		String certPath = certFolder+"sign/";
+		String digitalSign = "";
+		File folder = new File(certPath);
+		if(!folder.exists()) {
+			folder.mkdir();
 		}
 		
+		try {
+			String command = "openssl dgst -sha256 -sign "+keyPath+uuid+".key -out "+certPath+fileName+" "+dir+fileName+".txt";
+			Runtime.getRuntime().exec(command);
+			Thread.sleep(100);
+			command = "openssl base64 -in "+certPath+fileName;
+			Process p = Runtime.getRuntime().exec(command);
+			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			
+			while(true) {
+				String s = br.readLine();
+				if(s == null) break;
+				digitalSign += s;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (digitalSign.equals("")) {
+			System.out.println("*not digital sign");			
+		}
+//		signDelete(fileName);
+		return digitalSign;
+	}
+	public void signDelete(String fileName) {
+		File sign = new File(certFolder+"sign/"+fileName);
+		if(sign.exists()) {
+			sign.delete();
+		}
 	}
 	public int indexOf(String str, int index) {
 		return indexOf(str, '/', index);

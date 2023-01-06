@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -92,8 +93,8 @@ public class EdgeDataAggregator {
 				user_id = db_info[2];
 				user_pw = db_info[3];
 				
-				dataprocess = Database.getInstance(Database.DB_MySQL);
-				dataprocess.connectDB(data_folder, db_path, db_name, table_name, user_id, user_pw);
+				database = Database.getInstance(Database.DB_MySQL);
+				database.connectDB(data_folder, db_path, db_name, table_name, user_id, user_pw);
 			}
 			else if(whatDB.equals("SQLite"))
 			{
@@ -110,8 +111,8 @@ public class EdgeDataAggregator {
 				user_pw = db_info[3];
 				db_path = db_info[4];
 
-				dataprocess = Database.getInstance(Database.DB_SQLITE);
-				dataprocess.connectDB(data_folder, db_path, db_name, table_name, user_id, user_pw);
+				database = Database.getInstance(Database.DB_SQLITE);
+				database.connectDB(data_folder, db_path, db_name, table_name, user_id, user_pw);
 			}
 			else
 			{
@@ -177,22 +178,45 @@ public class EdgeDataAggregator {
 			}
 
 			if(deviceIP.equals("auto"))
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw);
 			else
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 			receiver_th = new Thread(receiver);
 			receiver_th.start();
 
 			System.out.println("* Master found: " + master_ip + "\n");
-			SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);//			; // new TransmitWorker(slaveList, foldername);
+			SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, storage_folder, database, currentIPAddrStr, table_name, dev_uuid);//			; // new TransmitWorker(slaveList, foldername);
 			Thread slave_th = new Thread(slave);//			; // new Thread(master);
 			slave_th.start();
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			try {
 				mqtt = new Mqtt(master_ip, deviceIP);
-				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, storage_folder, data_folder).work();
-				fileMonitor.start();
+				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, storage_folder).work();
 			} catch (Exception e1) {
 				e1.printStackTrace();
+			}
+			
+			try {
+				keyShare();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+//			initDataShare();
+			
+			try {
+				fileMonitor.start();
+				FileMonitor.start = true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} 
 		//===================================== Slave  =================================================================//
@@ -213,26 +237,27 @@ public class EdgeDataAggregator {
 
 			receptor = new EdgeReceptor((currentIPAddr == null) ? (null) : (currentIPAddrStr));
 			if(deviceIP.equals("auto"))
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw);
 			else
-				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+				receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 			receiver_th = new Thread(receiver);
 			System.out.println("Waiting for connections from slaves...");
 			if (master == null) // test need
 			{
-				master = new MasterWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, table_name, dev_uuid);
+				master = new MasterWorker(master_ip, data_folder, cert_folder, storage_folder, database, table_name, dev_uuid);
 				master_th = new Thread(master);
 				master_th.start();
 			}
-
 			try {
 				Thread.sleep(10);
 				mqtt = new Mqtt(master_ip, deviceIP);
-				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, storage_folder, data_folder).work();
+				fileMonitor = new FileMonitor(mqtt, master_ip, deviceIP, 1000, storage_folder).work();
 				fileMonitor.start();
+				FileMonitor.start = true;
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+
 			EdgeReceptor.ReceptionEvent rEvent = new EdgeReceptor.ReceptionEvent() 
 			{
 				private String msg = "";
@@ -327,19 +352,18 @@ public class EdgeDataAggregator {
 		}
 
 		if(deviceIP.equals("auto"))
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw);
 		else
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 		receiver_th = new Thread(receiver);
 		receiver_th.start();
 
 		if (master == null) // test need
 		{
-			master = new MasterWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, table_name, dev_uuid);
+			master = new MasterWorker(master_ip, data_folder, cert_folder, storage_folder, database, table_name, dev_uuid);
 			master_th = new Thread(master); 
 			master_th.start();
 		}
-//		receiver = new ReceiveWorker(foldername, dataprocess, dev_uuid, db_name, currentIPAddrStr);
 
 		System.out.println("Waiting for connections from slaves...");
 		
@@ -453,15 +477,10 @@ public class EdgeDataAggregator {
 			e.printStackTrace();
 		}
 
-		// implements Runnable
-//		Runnable receiver = new ReceiveWorker(foldername, whatDB); // v1,2
-		//(String ip, String fname, Database dp, String dev_uuid, String dbname, String tablename, String userid, String userpw)
-//		Runnable receiver = new ReceiveWorker(currentIPAddrStr, foldername, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
-//		Thread receiver_th = new Thread(receiver);
 		if(deviceIP.equals("auto"))
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw);
 		else
-			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, dataprocess, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
+			receiver = new ReceiveWorker(currentIPAddrStr, data_folder, cert_folder, storage_folder, database, dev_uuid, db_name, table_name, user_id, user_pw, deviceIP);
 		receiver_th = new Thread(receiver);
 		receiver_th.start();
 		// implements Runnable
@@ -469,7 +488,7 @@ public class EdgeDataAggregator {
 
 		System.out.println("* Master found: " + master_ip + "\n");
 //		SlaveWorker slave = new SlaveWorker(master_ip, foldername, whatDB); // v1,2
-		SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, storage_folder, dataprocess, currentIPAddrStr, table_name, dev_uuid);
+		SlaveWorker slave = new SlaveWorker(master_ip, data_folder, cert_folder, storage_folder, database, currentIPAddrStr, table_name, dev_uuid);
 //		; // new TransmitWorker(slaveList, foldername);
 		Thread slave_th = new Thread(slave);
 //		; // new Thread(master);
@@ -506,6 +525,8 @@ public class EdgeDataAggregator {
 			MasterMode(finder);
 		else if(upnp_mode.equals("slave"))
 			SlaveMode(finder);
+
+		
 	}
 
 	public static void folderInitCreate(String type, String path) {
@@ -521,7 +542,6 @@ public class EdgeDataAggregator {
 				{
 					folder.mkdir();
 				}
-				
 			}
 		}
 		else {
@@ -553,7 +573,51 @@ public class EdgeDataAggregator {
 				{
 					folder.mkdir();
 				}
+			}
+		}
+	}
+	public static void keyShare() throws IOException {
+		File keyFolder = new File(cert_folder+"key");
+		if(!keyFolder.exists()) {
+			keyFolder.mkdir();
+		}
+	}
+	public static void initDataShare() {
+		String dataIds = SlaveWorker.dataprocess.getDataId(master_ip);
+		String existsData = SlaveWorker.dataprocess.getDataId();
+		for(String dataid : dataIds.split("#")) {
+			if(existsData.indexOf(dataid) == -1) {
+				ArrayList<String> dataList = new ArrayList<>();
+				ArrayList<String> metaList = new ArrayList<>();
+				int check = SlaveWorker.dataprocess.IndividualDataRead(dataid); // 211101 - 직접 검색
+				if(check == 2)
+					dataList.add(currentIPAddrStr); //localhost == master_ip
+				else
+				{
+					if(check == 1)
+						metaList.add(currentIPAddrStr);
+					else if(check == 4)
+					{
+						String result = SlaveWorker.dataprocess.MetaDataInfomation(dataid);
+						String[] array = result.split("#");
+						String origin_ip = array[10].split(":")[0];
+						ArrayList<String> edgeList = new ArrayList<String>();
+						edgeList.add(origin_ip);
+						dataList = SlaveWorker.dataprocess.IndividualDataRead(dataid, edgeList); // 공인인증시험 - chunk 300packet
+					}
+					else
+					{
+						ArrayList<String> edgeList = SlaveWorker.dataprocess.RequestSlaveList(master_ip);
+						edgeList.add(0, master_ip);
+						edgeList.remove(currentIPAddrStr);
+						dataList = SlaveWorker.dataprocess.IndividualDataRead(dataid, edgeList); // 공인인증시험 - chunk 300packet
+					}
+				}
 				
+				if(dataList.size() != 0)
+					System.out.println("* " + dataList + " : have Data.");
+				else
+					System.out.println("* Anyone doesn't have Data.");
 			}
 		}
 	}
@@ -564,7 +628,7 @@ public class EdgeDataAggregator {
 //	static Thread penta_th = null;
 	static MasterWorker master = null; // new TransmitWorker(slaveList, foldername);
 	static Thread master_th = null; // new Thread(master);
-	static Database dataprocess = null;
+	static Database database = null;
 
 	static String currentIPAddrStr = null;
 	static String deviceIP = null;

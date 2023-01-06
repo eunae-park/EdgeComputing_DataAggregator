@@ -33,6 +33,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Base64.Decoder;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipException;
@@ -352,7 +353,43 @@ public class ReceiveWorker implements Runnable
 			keti_community(pkt, originalByte);
 			send_folder = tempDir;
 		}
-
+		void signCheck(String fileName) {
+			kr.re.keti.db.Database database = FileMonitor.database;
+			String dataId = fileName.split("\\.")[0];
+			if(database.getDataType(dataId) == 1) {
+				return;
+			}
+			String certPath = cert_folder+"Vehicle/";
+			String keyPath = cert_folder+"key/";
+			String signPath = cert_folder+"sign/";
+			String filePath = signPath+dataId;
+			File signFolder = new File(signPath);
+			try {
+				if(!signFolder.exists()) signFolder.mkdir();
+				String signString = database.getSign(fileName.split("\\.")[0]);
+				String certFile = database.getCert(dataId);
+				String uuid = certFile.substring(certFile.lastIndexOf("/")+1, certFile.indexOf("."));
+				Decoder decoder = Base64.getDecoder();
+				byte[] sign = decoder.decode(signString.getBytes());
+				FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+				for(int i=0; i<sign.length;i++) {
+					fileOutputStream.write(sign[i]);
+				}
+				fileOutputStream.close();
+				
+				String command = "openssl dgst -sha256 -verify "+keyPath+uuid+".key -signature "+filePath+" "+send_folder+fileName;
+				Process p = Runtime.getRuntime().exec(command);
+				BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				String check = br.readLine();
+				if(check == null) System.out.println("sign check error");
+				else System.out.println(check);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String command = "openssl dgst -sha256 -verify public.key -signature "+cert_folder+" "+fileName;
+		}
 		void keti_community(PacketType pkt, byte[] originalByte)
 		{
 			SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
@@ -527,27 +564,28 @@ public class ReceiveWorker implements Runnable
 									System.arraycopy(client.answerData, start.length, content, 0, content.length);
 									if(!client_arr[5].equals("none")) // data exist -> save data & metadata
 									{
-										if(datafile.exists()) {
-						                	Runtime.getRuntime().exec("chmod 777 "+receive_folder+client_arr[3]);
-						                	try {
-												Thread.sleep(100);
-											} catch (InterruptedException e) {
-												// TODO Auto-generated catch block
-												e.printStackTrace();
-											}
-						                	datafile = new File(receive_folder+client_arr[3]);
-										}
+//										if(datafile.exists()) {
+//						                	Runtime.getRuntime().exec("chmod 777 "+receive_folder+client_arr[3]);
+//						                	try {
+//												Thread.sleep(100);
+//											} catch (InterruptedException e) {
+//												// TODO Auto-generated catch block
+//												e.printStackTrace();
+//											}
+//						                	datafile = new File(receive_folder+client_arr[3]);
+//										}
 										fos = new FileOutputStream(datafile);
 						                fos.write(content, 0, Integer.parseInt(client_arr[4]));
 						                fos.flush();
 						                fos.close();
-						                if(securityLevel == 1) {
-						                	Runtime.getRuntime().exec("chmod 444 "+receive_folder+client_arr[3]);
-						                }
-						                else if(securityLevel == 2) {
-						                	Runtime.getRuntime().exec("chmod 666 "+receive_folder+client_arr[3]);
-						                }
-
+//						                if(securityLevel == 1) {
+//						                	Runtime.getRuntime().exec("chmod 444 "+receive_folder+client_arr[3]);
+//						                }
+//						                else if(securityLevel == 2) {
+//						                	Runtime.getRuntime().exec("chmod 666 "+receive_folder+client_arr[3]);
+//						                }
+						                FileMonitor.fileCopy(client_arr[3], receive_folder, send_folder);
+						                datafile.delete();
 						                client.stopWaitingResponse();
 										ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataid='" + dataID + "'");
 										if(!metadata_list.next())
@@ -565,7 +603,10 @@ public class ReceiveWorker implements Runnable
 										while(check == 0)
 											check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
 										
-										metadata_list.close();		
+										metadata_list.close();
+
+						                signCheck(client_arr[3]);
+						                
 							            result = (answer + array[1] + "::Successes::" + dataID + "}]}").getBytes("UTF-8"); 
 							            System.out.println("\tData : " + dataID); //penta//
 										client = new EdgeDeviceInfoClient(array[0], EdgeDeviceInfoClient.socketTCP, pentaCommPort + 1000);
@@ -1275,7 +1316,6 @@ public class ReceiveWorker implements Runnable
 				}
 				String[] array = originalData.substring(8, originalData.indexOf("}]}")).split("::");
 				int func = Integer.parseInt(array[1]);
-				System.out.println();
 				if(company.equals("keti"))
 				{
 					TCPSocketAgent.defaultPort = ketiCommPort;
@@ -1355,20 +1395,26 @@ public class ReceiveWorker implements Runnable
 							check_timeout += 1000;
 						
 
-						DataProcess dataProcess = FileMonitor.dataProcess;
-						String meta = dataProcess.MetaDataInfomation(array[3].split("\\.")[0]);
-
-						if(meta.equals("none")) {
+						if(array[1].equals("444")) {
 							keti_community(pkt, originalByte);
 						}
 						else {
-							int dataType = Integer.parseInt(meta.split("#")[3]);
-							if(dataType == 0) {
+							DataProcess dataProcess = FileMonitor.dataProcess;
+							String meta = dataProcess.MetaDataInfomation(array[3].split("\\.")[0]);
+
+							if(meta.equals("none")) {
 								keti_community(pkt, originalByte);
 							}
 							else {
-								tempFileSend(pkt, originalByte);
+								int dataType = Integer.parseInt(meta.split("#")[3]);
+								if(dataType == 0) {
+									keti_community(pkt, originalByte);
+								}
+								else {
+									tempFileSend(pkt, originalByte);
+								}
 							}
+							
 						}
 
 						if(array[1].indexOf("004")!=-1 || array[1].indexOf("405")!=-1)
@@ -1451,11 +1497,11 @@ public class ReceiveWorker implements Runnable
 						System.out.println(" <-- " + log_format.format(new Date(System.currentTimeMillis())) + "\tData Processing Request from PENTA : Complete --> ");
 						func_check = 0;
 					}
-				}				
-//				stop();
+				}
 				try {
-					Thread.sleep(100);
-					EdgeDataAggregator.fileMonitor.start();
+					if(FileMonitor.start) {
+						EdgeDataAggregator.fileMonitor.start();
+					}
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

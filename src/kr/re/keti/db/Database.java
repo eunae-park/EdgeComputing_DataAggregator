@@ -54,16 +54,16 @@ public class Database {
 		}
 		return 0;
 	}
-	public void createFile(String fileName, String linkedEdge, int security_level) {
+	public void createFile(String uuid, String fileName, String linkedEdge, int security_level, String sign) {
 		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
 		String dataID = fileName.substring(0, fileName.indexOf("."));
 		String fileType = fileName.substring(fileName.indexOf(".")+1, fileName.length());
-		int dataType = (security_level >3)? 0 : 1; 
+		int dataType = (security_level > 3)? 0 : 1; 
 		int securityLevel = security_level;
 		int dataPriority = 0;
 		int availabilityPolicy = 1;
-		String dataSignature = "abcedfg";
-		String cert = "/home/keti/cert/Vehicle/test.crt";
+		String dataSignature = sign;
+		String cert = "/home/keti/cert/Vehicle/"+uuid+".crt";
 		String directory = "/home/keti/data/";
 		String linked_edge = linkedEdge;
 		long dataSize = 0;
@@ -143,6 +143,14 @@ public class Database {
 	public String getLinkedEdge(String dataid) {
 		String meta = select(dataid);
 		return meta.split("#")[10];
+	}
+	public String getSign(String dataid) {
+		String meta = select(dataid);
+		return meta.split("#")[7];
+	}
+	public String getCert(String dataid) {
+		String meta = select(dataid);
+		return meta.split("#")[8];
 	}
 	
 	
