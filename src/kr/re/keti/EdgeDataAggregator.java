@@ -24,6 +24,7 @@ package kr.re.keti;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -34,6 +35,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Base64.Decoder;
 
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 
@@ -42,6 +44,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class EdgeDataAggregator {
 	public static FileAlterationMonitor fileMonitor;
@@ -202,21 +205,23 @@ public class EdgeDataAggregator {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
+
+			SlaveWorker.dataprocess.RequestLogShow(master_ip, deviceIP, "none", false);
 			try {
 				keyShare();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-//			initDataShare();
+			FileMonitor.ramReset(data_folder);
+			initDataShare();
+			FileMonitor.start = true;
 			
 			try {
 				fileMonitor.start();
-				FileMonitor.start = true;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		} 
 		//===================================== Slave  =================================================================//
@@ -257,6 +262,7 @@ public class EdgeDataAggregator {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+			FileMonitor.ramReset(data_folder);
 
 			EdgeReceptor.ReceptionEvent rEvent = new EdgeReceptor.ReceptionEvent() 
 			{
@@ -542,6 +548,10 @@ public class EdgeDataAggregator {
 				{
 					folder.mkdir();
 				}
+				File vehicleFolder = new File(path+"Vehicle");
+				if(!vehicleFolder.exists()) vehicleFolder.mkdir();
+				File signFolder = new File(path+"sign");
+				if(!signFolder.exists()) signFolder.mkdir();
 			}
 		}
 		else {
@@ -578,15 +588,39 @@ public class EdgeDataAggregator {
 	}
 	public static void keyShare() throws IOException {
 		File keyFolder = new File(cert_folder+"key");
+		String keyFilePath = cert_folder+"key/"+dev_uuid+".key";
+		File keyFile = new File(keyFilePath);
 		if(!keyFolder.exists()) {
 			keyFolder.mkdir();
 		}
+		long size = keyFile.length();
+		byte[] data = new byte[(int) size];
+
+		try {
+			FileInputStream fileInputStream = new FileInputStream(keyFilePath);
+			int n=0, c;
+			while((c=fileInputStream.read()) != -1) {
+				data[n] = (byte) c;
+				n++;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		String content = dev_uuid+","+new String(data);
+		mqtt.send(currentIPAddrStr, "000", content);
 	}
 	public static void initDataShare() {
 		String dataIds = SlaveWorker.dataprocess.getDataId(master_ip);
 		String existsData = SlaveWorker.dataprocess.getDataId();
+		int requestData = 0;
+		int dataComplete = 0;
+		int copyComplete = 0;
+		System.out.println("===================================================");
 		for(String dataid : dataIds.split("#")) {
 			if(existsData.indexOf(dataid) == -1) {
+				requestData++;
+				System.out.println("---------------------------------------------------");
+				System.out.println("request data : "+dataid);
 				ArrayList<String> dataList = new ArrayList<>();
 				ArrayList<String> metaList = new ArrayList<>();
 				int check = SlaveWorker.dataprocess.IndividualDataRead(dataid); // 211101 - 직접 검색
@@ -610,16 +644,34 @@ public class EdgeDataAggregator {
 						ArrayList<String> edgeList = SlaveWorker.dataprocess.RequestSlaveList(master_ip);
 						edgeList.add(0, master_ip);
 						edgeList.remove(currentIPAddrStr);
-						dataList = SlaveWorker.dataprocess.IndividualDataRead(dataid, edgeList); // 공인인증시험 - chunk 300packet
+						dataList = SlaveWorker.dataprocess.IndividualDataRead(dataid, edgeList, false); // 공인인증시험 - chunk 300packet
 					}
 				}
 				
-				if(dataList.size() != 0)
+				if(dataList.size() != 0) {
 					System.out.println("* " + dataList + " : have Data.");
+					dataComplete++;
+				}
 				else
 					System.out.println("* Anyone doesn't have Data.");
+				System.out.println("---------------------------------------------------");
 			}
 		}
+		
+		File ramFolder = new File(data_folder);
+		File files[] = ramFolder.listFiles();
+		for(File file : files) {
+			String fileName = file.getName();
+			if(fileName.indexOf(".") == -1) continue;
+			if(!fileName.substring(fileName.indexOf(".")+1).equals("meta")) {
+				FileMonitor.fileCopy(fileName, data_folder, storage_folder);
+				copyComplete++;
+			}
+		}
+		System.out.println("===================================================");
+		System.out.println("data have to request/ram/storage\t"+requestData+"/"+dataComplete+"/"+copyComplete);
+		String message = "file upload "+requestData+"/"+copyComplete+" complete";
+		SlaveWorker.dataprocess.RequestLogShow(master_ip, deviceIP, message, true);
 	}
 	static EdgeReceptor receptor = null;
 	static ReceiveWorker receiver = null;
@@ -636,6 +688,6 @@ public class EdgeDataAggregator {
 	static int defaultManualPort = 5678; // KETI 내부통신
 	
 	static int receive_check = 0;
-	static String dev_uuid=null, data_folder=null, cert_folder=null, storage_folder=null, upnp_mode=null, master_ip=null;
+	public static String dev_uuid=null, data_folder=null, cert_folder=null, storage_folder=null, upnp_mode=null, master_ip=null;
 	static String whatDB=null, db_name=null, db_path=null, table_name=null, user_id=null, user_pw=null;
 }

@@ -372,7 +372,6 @@ public final class EdgeDeviceInfoClient
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 				if(msg.equals(""))
 					continue ;
 				else if(msg.equals("retry"))

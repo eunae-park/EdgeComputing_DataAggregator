@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -26,7 +29,7 @@ public class FileMonitor implements FileAlterationListener{
 	public String certFolder;
 	private String ramDisk;
 	private int interva;
-	public static boolean start;
+	public static boolean start = false;
 	public static String lastCmd;
 	
 	
@@ -43,7 +46,6 @@ public class FileMonitor implements FileAlterationListener{
 		this.certFolder = EdgeDataAggregator.cert_folder;
 		this.ramDisk = EdgeDataAggregator.data_folder;
 		lastCmd = null;
-		FileMonitor.start = false;
 		if(master_ip.equals(device_ip)) {
 			dataProcess = MasterWorker.dataprocess;
 		}
@@ -67,8 +69,27 @@ public class FileMonitor implements FileAlterationListener{
 
 		System.out.println("");
 		System.out.println("<Monitor> creat file : "+file);
-		String sign = sign(fileName.split("\\.")[0]);
-//		String sign = "123";
+		//-------------------------file size check-----------------------------------
+		Path path = Paths.get(file.getAbsolutePath());
+		try {
+			long bytes = Files.size(path);
+			while(true) {
+				Thread.sleep(50);
+				long nowBytes = Files.size(path);
+				if(bytes <= nowBytes) break;
+				else {
+					bytes = nowBytes;
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//-------------------------file size check end-----------------------------------
+		String sign = sign(fileName.split("\\.")[0], fileName.split("\\.")[1]);
 		dataProcess.SettingPort();
 		
 		if(fileName.split("\\.")[0].equals("hello") || fileName.split("\\.")[0].equals("world")) {
@@ -85,7 +106,7 @@ public class FileMonitor implements FileAlterationListener{
 		else {
 			dataProcess.RequestMqtt(master_ip, device_ip, "011", fileName);
 		}
-//		
+		
 		tempFileCreate(fileName);
 		sendFile(fileName.split("\\.")[0]);
 		tempFileDelete(fileName);
@@ -99,19 +120,18 @@ public class FileMonitor implements FileAlterationListener{
 
 		System.out.println("");
 		System.out.println("<Monitor> FileChange : "+file);
-		
-//		dataProcess.SettingPort();
-//		if (master_ip.equals(device_ip)) {
-//			client.send(master_ip, "012", fileName);
-//		}
-//		else {
-//			dataProcess.RequestMqtt(master_ip, device_ip, "012", fileName);
-//		}
-//
-//		tempFileCreate(fileName);
-//		sendFile(fileName.split("\\.")[0]);
-//		tempFileDelete(fileName);
-//		ramFileInsert(fileName);
+		database.update(fileName);
+		dataProcess.SettingPort();
+		if (master_ip.equals(device_ip)) {
+			client.send(master_ip, "012", fileName);
+		}
+		else {
+			dataProcess.RequestMqtt(master_ip, device_ip, "012", fileName);
+		}
+
+		tempFileCreate(fileName);
+		sendFile(fileName.split("\\.")[0]);
+		tempFileDelete(fileName);
 	}
 
 
@@ -271,6 +291,22 @@ public class FileMonitor implements FileAlterationListener{
 		}
 		return false;
 	}
+	public static void ramReset(String dir) {
+		FileMonitor.folderClear(new File(dir));
+		File chunk = new File(dir+"chunk");
+		chunk.mkdir();
+		File time = new File(dir+"time");
+		time.mkdir();
+	}
+	public static boolean folderClear(File dir) {
+        File[] allFiles = dir.listFiles();
+        if (allFiles != null) {
+            for (File file : allFiles) {
+            	folderClear(file);
+            }
+        }
+        return dir.delete();
+	}
 	public void ramFileDelete(String fileName) {
 		File file = new File(ramDisk+fileName);
 		if(file.exists()) {
@@ -339,7 +375,7 @@ public class FileMonitor implements FileAlterationListener{
 			e.printStackTrace();
 		}
 	}
-	public String sign(String fileName) {
+	public String sign(String fileName, String extension) {
 		String keyPath = certFolder+"private/";
 		String certPath = certFolder+"sign/";
 		String digitalSign = "";
@@ -349,7 +385,7 @@ public class FileMonitor implements FileAlterationListener{
 		}
 		
 		try {
-			String command = "openssl dgst -sha256 -sign "+keyPath+uuid+".key -out "+certPath+fileName+" "+dir+fileName+".txt";
+			String command = "openssl dgst -sha256 -sign "+keyPath+uuid+".key -out "+certPath+fileName+" "+dir+fileName+"."+extension;
 			Runtime.getRuntime().exec(command);
 			Thread.sleep(100);
 			command = "openssl base64 -in "+certPath+fileName;

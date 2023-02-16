@@ -653,10 +653,10 @@ public class SlaveWorker implements Runnable // extends Thread // implements Run
 	{
 		this.stop = stop;
 	}
-	public void slaveAdd(ArrayList<String> slist)
-	{
-		slaveList = (ArrayList<String>) slist.clone();
-	}
+//	public void slaveAdd(ArrayList<String> slist)
+//	{
+//		slaveList = (ArrayList<String>) slist.clone();
+//	}
 
 	private boolean stop = false;
 	public static DataProcess dataprocess;

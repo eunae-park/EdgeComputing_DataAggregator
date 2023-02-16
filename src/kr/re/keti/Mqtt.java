@@ -1,6 +1,8 @@
 package kr.re.keti;
 
 
+import java.io.FileOutputStream;
+
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -11,11 +13,13 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class Mqtt implements MqttCallback{
 	private MqttClient client;
 	private MqttConnectOptions options;
+	private String masterIp;
 	private String deviceIp;
 	
 	//-------------------------------- init --------------------------------------------
 	public Mqtt(String masterIp, String deviceIp) {
 		String addr = "tcp://"+masterIp+":1883";
+		this.masterIp = masterIp;
 		this.deviceIp = deviceIp;
 		if (masterIp.equals(deviceIp)) {
 			publisher(addr, deviceIp);
@@ -54,7 +58,7 @@ public class Mqtt implements MqttCallback{
 	//----------------------------------------------------------------------------------
 
     //메세지 전송을 위한 메소드 master
-    public boolean send(String ip, String type, String data){
+    public boolean publish(String ip, String type, String data){
         try {
         	String remote_cmd = "{[{REQ::"+ip+"::"+type+"::"+data+"}]}";
             //broker로 전송할 메세지 생성 -MqttMessage
@@ -67,18 +71,21 @@ public class Mqtt implements MqttCallback{
         }
         return true;
     }
-    public boolean send(String originalData){
-        try {
-        	String remote_cmd = originalData;
-            //broker로 전송할 메세지 생성 -MqttMessage
-            MqttMessage message = new MqttMessage();
-            message.setPayload(remote_cmd.getBytes()); //실제 broker로 전송할 메세지
-            client.publish("/",message);
-        } catch (MqttException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    public void send(String message) {
+    	String[] messages = message.substring(0, message.indexOf("}]}")).split("::");
+    	String ip = messages[1];
+    	String type = messages[2];
+    	String data = messages[3];
+    	
+    	send(ip, type, data);
+    }
+    public void send(String ip, String type, String data) {
+		if (masterIp.equals(deviceIp)) {
+			publish(ip, type, data);
+		}
+		else {
+			SlaveWorker.dataprocess.RequestMqtt(masterIp, deviceIp, type, data);
+		}
     }
    
     
@@ -99,35 +106,59 @@ public class Mqtt implements MqttCallback{
 	// 메서드는 서버에서 메시지가 도착
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("=====================메세지 도착=================");
-        System.out.println(message);
+        System.out.println("===================== receive message =====================");
         String m = message+"";
         FileMonitor.lastCmd = m;
         m = m.substring(m.indexOf("{[{"), m.lastIndexOf("}]}"));
         String[] array = m.split("::");
         String requestIp = array[1];
         String code = array[2];
-        String fileName = array[3];
-        if(!requestIp.equals(deviceIp)) {
-			try {
-				EdgeDataAggregator.fileMonitor.stop();
-			} catch (Exception e1) {
+        String data = array[3];
+        // message print
+    	if(code.equals("000")) {
+    		System.out.println("new client "+requestIp);
+    	}
+    	else if(!requestIp.equals(deviceIp)) {
+            System.out.println(message);
+    	}
+        else if(requestIp.equals(deviceIp)) return;
+        
+        // logic
+		try {
+			EdgeDataAggregator.fileMonitor.stop();
+		} catch (Exception e1) {
 //				e1.printStackTrace();
-			}
-			
-        	switch(code) {
-	        	case "013":
-	        		DataProcess dataProcess = SlaveWorker.dataprocess;
-	        		dataProcess.IndividualDataRemove(fileName.split("\\.")[0]);
-	        		break;
-        	}
-        	
-			try {
-				EdgeDataAggregator.fileMonitor.start();
-			} catch (Exception e1) {
+		}
+    	switch(code) {
+        	case "000":
+        		String uuid = array[3].split(",")[0];
+        		String file = array[3].split(",")[1];
+        		keyDownload(uuid, file);
+        		break;
+        	case "013":
+        		DataProcess dataProcess = SlaveWorker.dataprocess;
+        		dataProcess.IndividualDataRemove(data.split("\\.")[0]);
+        		break;
+    	}
+    	
+		try {
+			EdgeDataAggregator.fileMonitor.start();
+		} catch (Exception e1) {
 //				e1.printStackTrace();
+		}
+	}
+	public static void keyDownload(String uuid, String dataStr) {
+		byte[] data = dataStr.getBytes();
+		String certPath = EdgeDataAggregator.cert_folder;
+		String keyPath = certPath+"key/"+uuid+".key";
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(keyPath);
+			for(int i=0; i<data.length; i++) {
+				fileOutputStream.write(data[i]);
 			}
-        }
-		
+			fileOutputStream.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

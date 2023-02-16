@@ -13,17 +13,23 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
+import kr.re.keti.EdgeDataAggregator;
+
 public class Database {
 	String url;
 	String tableName;
 	String uid;
 	String pwd;
+	String certFolder;
+	String dataFolder;
 	
 	public Database(String tableName, String uid, String pwd) {
 		this.tableName = tableName;
 		this.url = "jdbc:mysql://localhost:3306/" + "mecTrace" + "?serverTimezone=UTC&autoReconnect=true";
 		this.uid = uid;
 		this.pwd = pwd;
+		certFolder = EdgeDataAggregator.cert_folder;
+		dataFolder = EdgeDataAggregator.storage_folder;
 	}
 	
 	public Connection getConnection() {
@@ -63,12 +69,13 @@ public class Database {
 		int dataPriority = 0;
 		int availabilityPolicy = 1;
 		String dataSignature = sign;
-		String cert = "/home/keti/cert/Vehicle/"+uuid+".crt";
-		String directory = "/home/keti/data/";
+		String cert = certFolder+"Vehicle/"+uuid+".crt";
+		String directory = dataFolder;
 		String linked_edge = linkedEdge;
 		long dataSize = 0;
 		try {
-			dataSize = (Files.size(Paths.get(directory+dataID+"."+fileType)))/1024;
+			double byteSize = Files.size(Paths.get(directory+dataID+"."+fileType));
+			dataSize = (long) Math.ceil(byteSize/1000);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,6 +139,48 @@ public class Database {
 		}
 		return 0;
 	}
+	public int update(String fileName) {
+		String query = "update "+tableName+" set data_size=? where dataId=?";
+		String dataID = fileName.split("\\.")[0];
+		String fileType = fileName.split("\\.")[1];
+
+		long dataSize = 0;
+		try {
+			double byteSize = Files.size(Paths.get(dataFolder+dataID+"."+fileType));
+			dataSize = (long) Math.ceil(byteSize/1000);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try(Connection connection = getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(query);)
+		{
+			preparedStatement.setLong(1, dataSize);
+			preparedStatement.setString(2, dataID);
+			
+			return preparedStatement.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	public boolean existence(String dataid) {
+		String query = "select dataid from "+tableName+" where dataid='"+dataid+"'";
+		try(Connection connection = getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+		){
+			return resultSet.next();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+	public String getFileType(String dataid) {
+		String meta = select(dataid);
+		return meta.split("#")[2];
+	}
 	public int getDataType(String dataid) {
 		String meta = select(dataid);
 		return Integer.parseInt(meta.split("#")[3]);
@@ -140,10 +189,6 @@ public class Database {
 		String meta = select(dataid);
 		return meta.split("#")[4];
 	}
-	public String getLinkedEdge(String dataid) {
-		String meta = select(dataid);
-		return meta.split("#")[10];
-	}
 	public String getSign(String dataid) {
 		String meta = select(dataid);
 		return meta.split("#")[7];
@@ -151,6 +196,10 @@ public class Database {
 	public String getCert(String dataid) {
 		String meta = select(dataid);
 		return meta.split("#")[8];
+	}
+	public String getLinkedEdge(String dataid) {
+		String meta = select(dataid);
+		return meta.split("#")[10];
 	}
 	
 	

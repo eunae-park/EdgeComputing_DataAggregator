@@ -60,7 +60,6 @@ public class DataProcess {
 
 		try {
 			remote_cmd = "{[{REQ::" + ip + "::001::SLAVE_LIST}]}";
-//			System.out.println("!! RequestSlaveList : " + remote_cmd);
 			
 			client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP);
 			if(!client.streamSocket_alive())
@@ -79,7 +78,6 @@ public class DataProcess {
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
@@ -91,27 +89,22 @@ public class DataProcess {
 			if(client.answerData != null)
 			{
 				String answer_data = new String(client.answerData, "UTF-8");
-//				System.out.println("!! RequestSlaveList : " + answer);
 				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 				{
 					String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::"); // [0] = my_ip, [1]=003, [2]=metadata or none
 					client.answerData = null;
 					
-//					System.out.println("!! slaveList : " + array[2]);
 					if (array[2].equals("none"))
 						return slavelist;
 					for(int i=2; i<array.length; i++)
 					{
-//						System.out.println("!! slaveList : " + array[i]);
 						slavelist.add(array[i]);
 					}
 				}
 			}
-//			client.stopWaitingResponse();
 			client.stopRequest();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -125,8 +118,6 @@ public class DataProcess {
 		try {
 			for (String ip : iplist)
 			{
-//				System.out.println("!! dataprocess - " + result);
-//				System.out.println("!! dataprocess - " + ip);
 				client = new EdgeDeviceInfoClient(ip, EdgeDeviceInfoClient.socketTCP); // manaul setting
 				if(!client.streamSocket_alive())
 				{
@@ -156,25 +147,16 @@ public class DataProcess {
 					String answer_data = new String(client.answerData, "UTF-8");
 					if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 					{
-//						System.out.println("!! RequestMessage : " + answer); // Send the answer 로 충분
 						String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 						client.answerData = null;
-						// [0] = my_ip, [1]=003, [2]=metadata or none
-//							System.out.println("!! RequestMessage : " + req_code + array[1] + array[2]); // Send the answer 로 충분
-//						if (array[1].equals("001"))
-//						{
-//							System.out.println("(Edge List transfer : " + array[2] + ")");
-//						}
 					}
 					
 				}
 
-//				client.stopWaitingResponse();
 				client.stopRequest();
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -231,11 +213,8 @@ public class DataProcess {
 				String answer_data = new String(client.answerData, "UTF-8");
 				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 				{
-//					System.out.println("!! RequestMessage : " + answer); // Send the answer 로 충분
 					String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 					client.answerData = null;
-					// [0] = my_ip, [1]=003, [2]=metadata or none
-//						System.out.println("!! RequestMessage : " + req_code + array[1] + array[2]); // Send the answer 로 충분
 					if (array[1].equals(req_code))
 					{
 						result = array[2];
@@ -251,7 +230,6 @@ public class DataProcess {
 			e.printStackTrace();
 		}
 		
-//		System.out.println("!! RequestMessage : " + result); // Send the answer 로 충분
 		return result;
 	}
 	public String RequestMessage(String req_content, String ip, String req_code, int start, int finish) // real exists in node
@@ -272,7 +250,6 @@ public class DataProcess {
 			}
 			client.startWaitingResponse();
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
-//				System.out.println("!! RequestMessage start: " + client.answerData); // Send the answer 로 충분
 			long start_client = System.currentTimeMillis();
 			while(client.answerData == null)
 			{			
@@ -280,12 +257,10 @@ public class DataProcess {
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}			
@@ -294,11 +269,8 @@ public class DataProcess {
 				String answer_data = new String(client.answerData, "UTF-8");
 				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 				{
-//					System.out.println("!! RequestMessage : " + answer); // Send the answer 로 충분
 					String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 					client.answerData = null;
-					// [0] = my_ip, [1]=003, [2]=metadata or none
-//						System.out.println("!! RequestMessage : " + req_code + array[1] + array[2]); // Send the answer 로 충분
 					if (array[1].equals(req_code))
 					{
 						result = array[2];
@@ -329,11 +301,9 @@ public class DataProcess {
 				return result;
 			}
 			client.startWaitingResponse();
-//			System.out.println("!! RequestMessage2 : " + remote_cmd);
 			if(data_code == 1) // read 
 			{
 				remote_cmd = "{[{REQ::" + ip + "::004::" + req_content + "}]}";
-//				System.out.println("!! RequestMessage2 : " + remote_cmd);
 				client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 
 				if(securityLevel==5 && dataSize>=4)
@@ -349,12 +319,10 @@ public class DataProcess {
 								Thread.sleep(50);
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
-//									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 									break;
 								}
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}			
@@ -362,11 +330,9 @@ public class DataProcess {
 						{
 							String answer_data = new String(client.answerData, "UTF-8");
 							String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
-//							System.out.println("!! RequestMessage : " + array[2] + array[3]);
 							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 							{
 									client.answerData = null;			// [0] = my_ip, [1]=003, [2]=metadata or none
-//									System.out.println("!! RequestMessage : " +  array[3].equals("1"));
 									if (array[1].equals("004") && array[3].equals("1"))
 										result = array[5];
 									else
@@ -376,8 +342,6 @@ public class DataProcess {
 								isWaiting = false;
 						}
 					}
-//					System.out.println("!! RequestMessage : " + result);
-//					client.stopWaitingResponse();
 				}
 				else
 				{
@@ -388,7 +352,6 @@ public class DataProcess {
 							Thread.sleep(50);
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
-////								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 
 								break;
@@ -401,17 +364,13 @@ public class DataProcess {
 					if(client.answerData != null)
 					{
 						String answer_data = new String(client.answerData, "UTF-8");
-//						System.out.println("!! Dataprocess - " + answer);
 						if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 						{
-//								System.out.println("!! RequestMessage2 : " + answer); // Send the answer 로 충분
 								String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 								client.answerData = null;
 								// [0] = my_ip, [1]=003, [2]=metadata or none
 								if (array[1].equals("004"))
 								{
-//									System.out.println(array[2]);
-//									return array[2];
 									result = array[5];
 								}
 						}
@@ -423,19 +382,6 @@ public class DataProcess {
 			else if(data_code == 2) // write
 			{
 				Scanner sc = new Scanner(System.in);
-//				System.out.println("What Do you Want to Write\t(Sign of Finish : !!finish!!)");
-//				String contents="";
-//				while(true)
-//				{
-//					String input = sc.nextLine();
-//					if(input.equals("!!finish!!"))
-//					{
-//						break;
-//					}
-//					contents += input + '\n';
-//				}
-				
-//				remote_cmd = "{[{REQ::" + ip + "::005::" + req_content + "::" + contents + "}]}";
 				remote_cmd = "{[{REQ::" + ip + "::005::" + req_content + "}]}";
 				client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 				long start_client = System.currentTimeMillis();
@@ -445,7 +391,6 @@ public class DataProcess {
 						Thread.sleep(50);
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
-//							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 							break;
 						}
@@ -456,21 +401,14 @@ public class DataProcess {
 				}			
 				if(client.answerData != null)
 				{
-//					System.out.println(client.answerData);
-//					System.out.println(client.answerData.indexOf("}]}"));
-//					System.out.println(client.answerData.length()); // 왜 512가 나오는지 모르겠음.
-//					System.out.println(client.answerData.indexOf("{[{ANS"));
 					String answer_data = new String(client.answerData, "UTF-8");
 					if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 					{
-//							System.out.println("!! RequestMessage2 : " + answer); // Send the answer 로 충분
 							String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 							client.answerData = null;
 							// [0] = my_ip, [1]=003, [2]=metadata or none
 							if (array[1].equals("005"))
 							{
-//								System.out.println(array[2]);
-//								return array[2];
 								result = array[2];
 							}
 					}
@@ -488,7 +426,6 @@ public class DataProcess {
 						Thread.sleep(50);
 						if(System.currentTimeMillis() - start_client > check_timeout )
 						{
-//							System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 							System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 							break;
 						}
@@ -499,21 +436,14 @@ public class DataProcess {
 				}			
 				if(client.answerData != null)
 				{
-//					System.out.println(client.answerData);
-//					System.out.println(client.answerData.indexOf("}]}"));
-//					System.out.println(client.answerData.length()); // 왜 512가 나오는지 모르겠음.
-//					System.out.println(client.answerData.indexOf("{[{ANS"));
 					String answer_data = new String(client.answerData, "UTF-8");
 					if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 					{
-//							System.out.println("!! RequestMessage2 : " + answer); // Send the answer 로 충분
 							String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 							client.answerData = null;
 							// [0] = my_ip, [1]=003, [2]=metadata or none
 							if (array[1].equals("006"))
 							{
-//								System.out.println(array[2]);
-//								return array[2];
 								result = array[2];
 							}
 					}
@@ -543,11 +473,9 @@ public class DataProcess {
 				return result;
 			}
 			client.startWaitingResponse();
-//			System.out.println("!! RequestMessage2 : " + remote_cmd);
 			if(data_code == 1) // read 
 			{
 				remote_cmd = "{[{REQ::" + ip + "::004::" + req_content + "}]}";
-//				System.out.println("!! RequestMessage2 : " + remote_cmd);
 				client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 
 				if(securityLevel==5 && dataSize>=4)
@@ -564,7 +492,6 @@ public class DataProcess {
 								Thread.sleep(50);
 								if(System.currentTimeMillis() - start_client > check_timeout )
 								{
-//									System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 									System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 									break;
 								}
@@ -578,7 +505,6 @@ public class DataProcess {
 							String answer_data = new String(client.answerData, "UTF-8");
 							String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 
-//							System.out.println("!! RequestMessage : " + array[2] + array[3]);
 							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 							{
 								System.out.println(answer_data.substring(0, answer_data.indexOf(array[5])));
@@ -588,18 +514,14 @@ public class DataProcess {
 								if (array[1].equals("004") && array[3].equals("1"))
 								{
 									content = new byte[client.answerData.length-start.length-finish.length];
-//									System.out.println("!! read request length: " + content.length);
 									System.arraycopy(client.answerData, start.length, content, 0, content.length);
-//									System.out.println("!! read request : " + new String(content));
 									content_b = content;
 								}
 								else
 								{
 									content = new byte[client.answerData.length-start.length-finish.length + content_b.length];
-//									System.out.println("!!read request length : " + content.length);
 									System.arraycopy(content_b, start.length, content, 0, content_b.length);
 									System.arraycopy(client.answerData, start.length, content, content_b.length, content.length);
-//									System.out.println("!! read request : " + new String(content));
 									content_b = content;
 								}
 								
@@ -609,7 +531,6 @@ public class DataProcess {
 								isWaiting = false;
 						}
 					}
-//					System.out.println("!! RequestMessage : " + result);
 				}
 				else
 				{
@@ -620,7 +541,6 @@ public class DataProcess {
 							Thread.sleep(50);
 							if(System.currentTimeMillis() - start_client > check_timeout )
 							{
-//								System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 								System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 								break;
 							}
@@ -632,20 +552,16 @@ public class DataProcess {
 					if(client.answerData != null)
 					{
 						String answer_data = new String(client.answerData, "UTF-8");
-//						System.out.println("!! Dataprocess - " + answer_data);
 						if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 						{
-//								System.out.println("!! RequestMessage2 : " + answer); // Send the answer 로 충분
 								String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 								// [0] = my_ip, [1]=003, [2]=metadata or none
 								if (array[1].equals("004"))
 								{
-//									System.out.println("!!read request : " + answer_data.substring(0, answer_data.indexOf(array[5])));
 									byte[] start = answer_data.substring(0, answer_data.indexOf(array[5])).getBytes("UTF-8"), finish = "}]}".getBytes("UTF-8");
 
 									result = new byte[client.answerData.length-start.length-finish.length];
 									System.arraycopy(client.answerData, start.length, result, 0, result.length);
-//									System.out.println("!!read request : " + new String(result));
 								}
 						}
 					}
@@ -680,8 +596,6 @@ public class DataProcess {
 			
 			remote_cmd = "{[{REQ::" + ip + "::" + req_code + "::" + req_content + "}]}";
 			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
-//			System.out.println("!! RequestMessageRead : " + remote_cmd); //datasize
-//			System.out.println("!! RequestMessageRead : " + client.answerData); //datasize
 			long start_client = System.currentTimeMillis();
 			while(client.answerData == null)
 			{			
@@ -689,42 +603,23 @@ public class DataProcess {
 					Thread.sleep(50);
 					if(System.currentTimeMillis() - start_client > check_timeout )
 					{
-//						System.out.println("\t!! Response Time is delayed over " + check_timeout + "ms");
 						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
 						break;
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}			
 			if(client.answerData != null)
 			{
-//				System.out.println("!! RequestMessageRead : " + client.answerData); //datasize
 				
 				String answer_data = new String(client.answerData, "UTF-8");
 				String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 
 				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1 && array[1].equals(req_code))
 				{
-	/*			 //String
 					if(array[1].equals("404")) // 기본 양식 맞음
 					{
-//						System.out.println("!! RequestMessageRead : " + array[2]); //datasize
-//						System.out.println("!! RequestMessageRead : " + array[3]); //datasize
-						FileWriter fw = null; // 원본 공유 허용 데이터인 경우, 무조건 저장
-						fw = new FileWriter(data_folder+"chunk/"+req_content, false);
-						fw.write(array[3]);
-						fw.close();
-						result = "success";
-					}
-	*/
-					//Byte
-					if(array[1].equals("404")) // 기본 양식 맞음
-					{
-//						System.out.println("!! RequestMessageRead : " + array[2]); //datasize
-//						System.out.println("!! RequestMessageRead : " + array[3].length()); // 4kb보다 높다
-//						System.out.println("!! RequestMessageRead 404 : " + array[3].getBytes()); //datasize
 			            FileOutputStream fos = new FileOutputStream(data_folder+"chunk/"+req_content);
 						System.out.println(answer_data.substring(0, answer_data.indexOf(array[3])));
 						byte[] start=null, finish=null;
@@ -739,9 +634,7 @@ public class DataProcess {
 						
 						try {
 							content = new byte[client.answerData.length-start.length-finish.length];
-//							System.out.println("!! read request length: " + content.length);
 							System.arraycopy(client.answerData, start.length, content, 0, content.length);
-//							System.out.println("!! read request : " + new String(content));
 
 			                fos.write(content, 0, Integer.parseInt(array[2]));
 			                fos.flush();
@@ -764,11 +657,11 @@ public class DataProcess {
 					}
 					else if(array[1].equals("444")) // 기본 양식 맞음
 					{
-//						System.out.println("!! RequestMessageRead : " + array[2]); //datasize
-
+						System.out.println("\tDATA : "+req_content);
 						if(array[2].equals(sha(req_content)))
 						{
 							System.out.println("* Recieved Data SHA code is the same as original.");
+							FileMonitor.fileCopy(req_content, receive_folder, send_folder);
 							result = "success";
 						}
 						else
@@ -783,7 +676,6 @@ public class DataProcess {
 				
 			}
 			client.answerData = null;
-//			System.out.println("!! RequestMessage : " + result);
 			client.stopRequest();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -843,6 +735,91 @@ public class DataProcess {
 					
 					if (array[2].equals("none"))
 						return 2;
+					else if(array[1].equals("000")) {
+						String[] data = array[2].split("_");
+						for(String key : data) {
+							String keyName = key.split(",")[0];
+							byte[] keyData = key.split(",")[1].getBytes();
+							try {
+								FileOutputStream fileOutputStream = new FileOutputStream(keyName);
+								for(int i=0; i<keyData.length; i++) {
+									fileOutputStream.write(keyData[i]);
+								}
+								fileOutputStream.close();
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+						}
+					}
+					
+				}
+			}
+			client.stopRequest();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}public int RequestLogShow(String masterIp, String deviceIp, String req_content, boolean logShow) {
+		SimpleDateFormat log_format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
+		String req_code = "999";
+		req_content += (","+logShow);
+		EdgeDeviceInfoClient client;
+		String remote_cmd="";
+
+		try {
+			remote_cmd = "{[{REQ::" + deviceIp + "::"+req_code+"::"+req_content+"}]}";
+			Thread.sleep(10);
+			client = new EdgeDeviceInfoClient(masterIp, EdgeDeviceInfoClient.socketTCP);
+			if(!client.streamSocket_alive())
+			{
+				System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " RequestSlaveList : client die - " + remote_cmd);
+				return 0;
+			}
+			client.startWaitingResponse();
+			client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
+
+			long start_client = System.currentTimeMillis();
+			while(client.answerData == null)
+			{			
+				try {
+					Thread.sleep(50);
+					if(System.currentTimeMillis() - start_client > check_timeout )
+					{
+						System.out.println(log_format.format(new Date(System.currentTimeMillis())) + " Response Time is delayed over : " + remote_cmd);
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}			
+			if(client.answerData != null)
+			{
+				String answer_data = new String(client.answerData, "UTF-8");
+				if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
+				{
+					String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::"); // [0] = my_ip, [1]=003, [2]=metadata or none
+					client.answerData = null;
+					
+					if (array[2].equals("none"))
+						return 2;
+					else if(array[1].equals("000")) {
+						String[] data = array[2].split("_");
+						for(String key : data) {
+							String keyName = key.split(",")[0];
+							byte[] keyData = key.split(",")[1].getBytes();
+							try {
+								FileOutputStream fileOutputStream = new FileOutputStream(keyName);
+								for(int i=0; i<keyData.length; i++) {
+									fileOutputStream.write(keyData[i]);
+								}
+								fileOutputStream.close();
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+						}
+					}
+					
 				}
 			}
 			client.stopRequest();
@@ -853,12 +830,12 @@ public class DataProcess {
 		return -1;
 	}
 	
+	
 	public static String cpu_shellCmd()
 	{
 		String command = "cat /proc/cpuinfo"; //"gssdp-discover -t \"upnp:edgedevice\" -i \"br0\""; //"ls -al";  
 
 		Runtime runtime = Runtime.getRuntime();
-//		System.out.println(command);
 		Process process = null;
 		InputStream is;
 		InputStreamReader isr;
@@ -875,7 +852,6 @@ public class DataProcess {
 			{
 				line = br.readLine();
 				cnt ++;
-//				System.out.println(line);
 			}
 			line = br.readLine();
 			if(line == null)
@@ -898,7 +874,6 @@ public class DataProcess {
 		String command = "cat /proc/net/dev"; //"gssdp-discover -t \"upnp:edgedevice\" -i \"br0\""; //"ls -al";  
 
 		Runtime runtime = Runtime.getRuntime();
-//		System.out.println(command);
 		Process process = null;
 		InputStream is;
 		InputStreamReader isr;
@@ -915,20 +890,14 @@ public class DataProcess {
 			line = br.readLine();
 			line = br.readLine();
 			line = br.readLine();
-//			System.out.println(line);
 			if(line != null)
 			{
 				array = line.split(":");
 				while(array[1] != array[1].replaceAll("  ", " "))
 					array[1] = array[1].replaceAll("  ", " ");
-//				System.out.println(array[1]);
 				array = array[1].split(" ");
 				rx = Double.parseDouble(array[1]); //55206812351
 				tx = Double.parseDouble(array[9]);
-//				System.out.println(rx);
-//				System.out.println(tx);
-//				System.out.println(array[1]);
-//				System.out.println(array[9]);
 			}
 			
 			br.close();
@@ -947,16 +916,11 @@ public class DataProcess {
 			if(line != null)
 			{
 				array = line.split(":");
-//				System.out.println(array[1]);
 				while(array[1] != array[1].replaceAll("  ", " "))
 					array[1] = array[1].replaceAll("  ", " ");
-//				System.out.println(array[1]);
 				array = array[1].split(" ");
-//				System.out.println(Math.abs(rx-Double.parseDouble(array[1])));
 				rx =  (Math.abs(rx-Double.parseDouble(array[1])) * 8.0 / 1024.0 / 1024.0 / 0.1); //Mbps
 				tx =  (Math.abs(tx-Double.parseDouble(array[9])) * 8.0  / 1024.0 / 1024.0 / 0.1); //Mbps
-//				System.out.println(rx);
-//				System.out.println(tx);
 			}
 			
 			br.close();
@@ -1032,16 +996,9 @@ public class DataProcess {
 			s = s_c;
 		}
 		String[] array = s.split(" ");
-//		System.out.println(array[0]);
-//		System.out.println(array[1]);
-//		System.out.println(array[2]);
 		double mem_total = Double.parseDouble(array[1]);
 		double mem_free = Double.parseDouble(array[1]) - Double.parseDouble(array[2]);
 		double mem_usage = Math.ceil((mem_total-mem_free) / mem_total * 100);		
-//		System.out.println("!! DeviceStatusInfo - Total Memory : " + mem_total/gb + "[GB]"); 			
-//		System.out.println("!! DeviceStatusInfo - free Memory : " + mem_free/gb + "[GB]"); 			
-//		System.out.println("!! DeviceStatusInfo - Memory Usage : " + String.format("%.2f", (mem_total-mem_free)/mem_total*100.0) + "%"); 
-//		mem_total /= gb;
 		mem_total = Math.round(mem_total/gb);
 		
 		// memory 사용량 : free -m				
@@ -1052,8 +1009,6 @@ public class DataProcess {
 			File root = new File( data_folder );
 			storage_total = (int)Math.round(root.getTotalSpace() / gb); // 우분투 = round
 			storage_free = (int)Math.round(root.getUsableSpace() / gb);
-//			System.out.println( "!! DeviceStatusInfo -Total  Space: " + storage_total + "MB" );
-//			System.out.println( "!! DeviceStatusInfo - Usable Storage: " + storage_free + "MB" );
 		}
 		catch ( Exception e )
 		{
@@ -1083,7 +1038,6 @@ public class DataProcess {
 
 		System.out.print("\tdevice information : \n\t\tuuid=" + device_uuid + ",     cpu=" + cpu_id + ",     memory=" + mem_total + "[GB],     storage=" + storage_total);
 		System.out.println("[GB],     process load=" + process_load + "[%],     memory usage=" + mem_usage + "[%],     network load=" + net_load + "[Mbps],     free storage=" + storage_free + "[GB]");
-//		System.out.println("\tprocess load=" + new String(device_load) + "[%],     memory usage=" + new String(device_mem_usage) + "[%],     network load=" + device_net + "[Mbps],     free storage=" + device_free_storage + "[MB]");
 	}
 	public int DeviceInfomation(String ipAddress) // 210428 add int func
 	{
@@ -1114,7 +1068,6 @@ public class DataProcess {
 
 		System.out.print("\tdevice information : \n\t\tuuid=" + uuid + ",     cpu=" + device_cpu + ",     memory=" + device_mem + "[GB],     storage=" + device_storage);
 		System.out.println("[GB],     process load=" + device_load + "[%],     memory usage=" + device_mem_usage + "[%],     network load=" + device_net + "[Mbps],     free storage=" + device_free_storage + "[GB]");
-//		System.out.println("\tprocess load=" + new String(device_load) + "[%],     memory usage=" + new String(device_mem_usage) + "[%],     network load=" + device_net + "[Mbps],     free storage=" + device_free_storage + "[MB]");
 		
 		return devcnt;
 	}
@@ -1124,10 +1077,6 @@ public class DataProcess {
 		ResultSet metadata = (ResultSet) database.query(select_sql + table_name);
 		//int column = metadata.getMetaData().getColumnCount();
 		try {
-//			metadata.afterLast();
-////			int row = metadata.getRow();
-//			System.out.println("\tdevice uuid=" + device_uuid + "\n\tnumber of data=" +  metadata.getRow());
-//			metadata.beforeFirst();
 			
 			int count = 0;
 			String data = "";
@@ -1156,21 +1105,16 @@ public class DataProcess {
 		int check = -1;
 
 		msgs=RequestMessage("", ipAddress, "002");
-//		System.out.println("!! MetaDataInfomation : " + msgs); // Send the answer 로 충분
 		if(msgs.equals("time") || msgs.equals("none"))
 			return check;
 		
 		check = 1;
-//		System.out.println(msgs);
 		String[] array = msgs.split("#");
 		int number_data = Integer.parseInt(array[0].substring(36));	
-//		System.out.println();
 		System.out.println("\tdevice uuid=" + array[0].substring(0,36) + "\n\tnumber of data=" + number_data);
-//				data +=  +  +  + "\tsecurityLevel: " + securityLevel +"\n";
 
 		for(int i=0; i<number_data; i++)
 			System.out.println(String.format("\t#%-4d", i+1) + String.format(" - DataID: %-70s", array[i*3+1]) + String.format("\tDataSize[KB]: %-4s", array[i*3+2]) + "\tsecurityLevel: " + array[(i+1)*3]);
-//		System.out.println("\t#" + (i+1) + " - DataID: " + array[i*3+1] + "\tDataSize[KB]: " + array[i*3+2] + "\tsecurityLevel: " + array[(i+1)*3]);
 		
 		return check;
 	}	
@@ -1180,7 +1124,6 @@ public class DataProcess {
 		String msgs ="";
 
 		msgs=RequestMessage("", ipAddress, "002");
-//		System.out.println("!! MetaDataInfomation : " + msgs); // Send the answer 로 충분
 		if(msgs.equals("time") || msgs.equals("none"))
 			return result;
 		
@@ -1255,7 +1198,6 @@ public class DataProcess {
 		String msgs ="";
 
 		msgs=RequestMessage(req_content, ipAddress, "003");
-//		System.out.println("!! MetaDataInfomation : " + msgs); // Send the answer 로 충분
 		if(msgs.equals("time")) // System.out.println("* Bring the Information of Edge Device(" + device_ip + ") : Failure.");
 			return devcnt;
 
@@ -1263,8 +1205,6 @@ public class DataProcess {
 		{
 			devcnt = 1;
 			System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
-//			Thread.sleep(5);
-//			System.out.println("!! DataProcess : " + msgs);
 			
 			String[] array = msgs.split("#");
 			dataID = array[0];
@@ -1333,16 +1273,12 @@ public class DataProcess {
 		String msgs ="";
 
 		msgs=RequestMessage(req_content, ipAddress, "003");
-//		System.out.println("!! MetaDataInfomation : " + msgs); // Send the answer 로 충분
 		if(msgs.equals("time")) //tcp 통신 오류로 시간초과됨 (소켓 연결에 문제가 있을 수 있음)
 			return msgs;
 
 		if(check == 1 && !msgs.equals("none")) // check == 1 이고, ipAddress 디바이스에 있는 req_content 데이터의 메타데이터 정보가 있으면,
 		{ // ipAddress 디바이스에 있는 req_content 데이터의 메타데이터 정보를 내 디바이스에 저장
 			devcnt = 1;
-			//System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
-//				Thread.sleep(5);
-//				System.out.println("!! DataProcess : " + msgs);
 			
 			String[] array = msgs.split("#");
 			dataID = array[0];
@@ -1398,15 +1334,12 @@ public class DataProcess {
 	{
 		int devcnt = 0;
 		String result = "none";	
-//		String sql = select_sql + db_name + " where uuid = '" + message + "'";
 		String sql = select_sql + table_name + " where dataid = '" + req_content + "'";
-//		System.out.println("!! slaves request dataID : " + req_content);
 		ResultSet metadata = (ResultSet) database.query(sql);
     	try {
 			if(metadata.next()) // metadata가 있으면 true, 없으면 false
 			{
 				dataID = metadata.getString("dataid");
-//				System.out.println("!! slaves request dataID : " + req_content);
 				fileType = metadata.getString("file_type");
 				if(req_content.equals(dataID))
 				{
@@ -1447,7 +1380,6 @@ public class DataProcess {
     		File f = new File(data_folder + req_content);
 			if(f.exists()) {
 				devcnt = 2;
-				
 				System.out.print("\n\tDATA [[\n\n\t");
 
 				try {
@@ -1457,7 +1389,6 @@ public class DataProcess {
 					byte[] buf = new byte[4096];
 					String lines ="";
 					while ((len = bis.read(buf, 0, 4096)) != -1) {
-//						System.out.println(new String(buf));
 						lines += new String(buf, "UTF-8");
 					}
 					System.out.println(lines.replace("\n", "\n\t"));
@@ -1479,7 +1410,7 @@ public class DataProcess {
     		File f = new File(data_folder + req_content);
 			if(f.exists()) {
 				devcnt = 2;
-				
+
 				System.out.println("\n\tDATA [[\n\t");
 				System.out.println("\t FILE_TYPE is not text.");
 				System.out.println("\t Confirm directly the file : " + data_folder + req_content);
@@ -1488,7 +1419,6 @@ public class DataProcess {
     	}
     	else
     	{
-//    		System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
     		devcnt = 4;
     	}
 
@@ -1501,7 +1431,6 @@ public class DataProcess {
 		String msgs ="";
 
 		msgs=RequestMessage(req_content, ipAddress, "003");
-//		System.out.println("!! IndividualDataRead : " + msgs);
 		if(msgs.equals("time"))
 		{
 			return -2;
@@ -1556,7 +1485,6 @@ public class DataProcess {
 				if(!ipAddress.equals(local_ip))
 				{
 					ResultSet metadata_list = (ResultSet) database.query(select_sql + table_name + " where dataID='" + dataID + "'");
-//					System.out.println("!! IndividualDataRead : " + select_sql + db_name + " where uuid='" + uuid + "';");
 					if(securityLevel >= 4)
 					{
 						FileWriter fw = null; // 원본 공유 허용 데이터인 경우, 무조건 저장
@@ -1634,8 +1562,7 @@ public class DataProcess {
 
 
 // unit edge thread
-	public ArrayList<String> IndividualDataRead(String req_content, ArrayList<String> ipAddress) // 210428 add int func
-	{ // 여러대의 ipAddress 디바이스들에게 req_content 데이터를 조각으로 요청할 때
+	public ArrayList<String> IndividualDataRead(String req_content, ArrayList<String> ipAddress, boolean readData){ // 여러대의 ipAddress 디바이스들에게 req_content 데이터를 조각으로 요청할 때
 		File folder = new File(data_folder + "chunk"); // 조각 데이터 수신 폴더
 		if(!folder.exists())
 			folder.mkdir();
@@ -1656,12 +1583,9 @@ public class DataProcess {
 		
 		for(i=0; i<ipAddress.size(); i++) // 디바이스별로 실제 데이터를 가지고 있는지 판단 
 		{
-//			System.out.println("!! dataprocess - read : " + req_content);
 			msgs=RequestMessage(req_content, ipAddress.get(i), "003");
-//			System.out.println("!! dataprocess - read : " + msgs);
 			if(msgs.equals("time"))
 			{
-//				return -2;
 				System.out.println("* Bring the Information of Edge Device(" + ipAddress.get(i) + ") : Failure.");
 				continue;
 			}
@@ -1692,7 +1616,6 @@ public class DataProcess {
 							number_chunk = (int)Math.ceil((double)dataSize / (double)chunk_size); // chunk size에 따른 chunk 갯수
 							for(j=1; j<=number_chunk; j++)
 								chunkList.add(req_content + "." + fileType + "_" + j);
-//								System.out.println("!! individual data read : " + chunkList);
 						}
 					}
 					edgeList.add(ipAddress.get(i));
@@ -1746,11 +1669,8 @@ public class DataProcess {
 		req_content = dataID + "." + fileType;
 		if(check != 0)
 		{
-//			System.out.println("!! dataprocess - read : " + securityLevel + ", " + dataSize);
 			if(securityLevel < 5 || (securityLevel==5 && dataSize<=data_split_size)) // 데이터 보안등급 숫자가 작거나, 데이터 크기가 작아 한번에 전송하는 경우
 			{
-//				System.out.println("!! dataprocess - read : " + securityLevel + ", " + dataSize);
-//				System.out.println("!! dataprocess - read : " + req_content);
 				String sha_result="none";
 				Iterator<String> iter = edgeList.iterator();
 				while(iter.hasNext())
@@ -1763,7 +1683,6 @@ public class DataProcess {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-//					System.out.println("!! 004 - " + msgs);
 					if(!msgs.equals("none"))
 					{
 						if(securityLevel >= 4)
@@ -1791,7 +1710,6 @@ public class DataProcess {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-//							System.out.println("!! 004 - " +  securityLevel);
 							try {
 								File datafile = new File(data_folder+req_content);
 								FileOutputStream fos = new FileOutputStream(datafile);
@@ -1800,7 +1718,6 @@ public class DataProcess {
 				                fos.close();
 //				                
 								sha_result = RequestMessageKETIRead(req_content, edge, "444"); // chunk read request
-//								System.out.println("!! 004 - sha result : " + sha_result);
 
 //								FileWriter fw = new FileWriter(data_folder+req_content, false); // byte change need
 //								fw.write(msgs);
@@ -1814,10 +1731,12 @@ public class DataProcess {
 							directory = data_folder;
 							linked_edge = null;
 
-							if(fileType.equals("csv") || fileType.equals("txt"))
-								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
-							else
+							if(readData&&(fileType.equals("csv") || fileType.equals("txt"))) {
+								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");								
+							}
+							else if(readData) {
 								System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + data_folder + req_content + "\n\t]] DATA\n");
+							}
 						}
 						else // 링크데이터이면, db에 있는지만 확인하여 없으면 upload
 						{
@@ -1837,30 +1756,15 @@ public class DataProcess {
 								e1.printStackTrace();
 							}
 							
-							if(fileType.equals("csv") || fileType.equals("txt") || fileType.equals("log") )
-								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
-							else
-								System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
+							if(fileType.equals("csv") || fileType.equals("txt") || fileType.equals("log") ) {
+								System.out.println("\n\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");								
+							}
+							else {
+								System.out.println("\n\tDATA [[\n\tFILE_TYPE is not text\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");								
+							}
 
-// only notify //							System.out.println("\n\tDATA [[\n\tSecurity Level is " + securityLevel + "\n\tConfirm directly the file : " + linked_edge + req_content + "\n\t]] DATA\n");
 						}
 
-//						long end_time = System.currentTimeMillis(); // + 32400000;
-//						try {
-//							FileWriter fw = new FileWriter(file, true);
-//							String str = format.format(new Date(end_time));
-////								fw.write(req_ip+"\n");
-////								fw.flush();
-//							fw.write(str+"\n");
-//							fw.flush();
-//							str = Long.toString(end_time-start_time);
-//							fw.write(str+"ms\n");
-//							fw.flush();
-//							fw.close();
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
 
 
 						database.delete(dataID);
@@ -1882,22 +1786,6 @@ public class DataProcess {
 
 			else // securityLevel==5 && dataSize>4
 			{
-//					System.out.println("!! dataprocess - edgeList : " + edgeList);
-				
-//				Iterator<String> iter = edgeList.iterator();
-//				//for(String edge : edgeList)
-//				while(iter.hasNext())
-//				{
-//					String edge = iter.next();
-//					String result = RequestMessage(req_content, edge, "400");  // chunk make request
-//					if(result.equals("false"))
-////							edgeList.remove(edge);
-//						iter.remove();
-////						else
-////							System.out.println("dataprocess - chunk split : " + edge);
-//				}
-//				System.out.println("\tEdge List with Data Separation Completed : " + edgeList);
-				// for edge data list show
 				dataType = 0; 
 				String original_directory = directory;
 				directory = data_folder;
@@ -2033,19 +1921,6 @@ public class DataProcess {
 						j = 0;
 				}
 				
-//				if(chunk_result.equals("success")) //original
-//				{
-//					dataType = 0;
-//					directory = directory;
-//					linked_edge = null;
-				
-//					database.delete(dataID);
-//					check = database.update(dataID, timestamp, fileType, dataType, securityLevel, dataPriority, availabilityPolicy, dataSignature, cert, directory, linked_edge, dataSize); // metadata save
-//					if(check == 0)
-//						System.out.println("* MetaData upload into DataBase : Failure");
-//					else
-//						System.out.println("* MetaData upload into DataBase : Success");
-//				}
 				if(chunk_result.equals("false"))
 				{
 					dataType = 0;
@@ -2065,6 +1940,11 @@ public class DataProcess {
 		}
 		
 		return edgeList;
+	
+	}
+	public ArrayList<String> IndividualDataRead(String req_content, ArrayList<String> ipAddress) // 210428 add int func
+	{
+		return IndividualDataRead(req_content, ipAddress, true);
 	}
 // unit edge thread
 
@@ -2074,7 +1954,6 @@ public class DataProcess {
 		int devcnt=0, check=0;
 		String msgs ="";
 		String sql = select_sql + table_name + " where dataid = '" + req_content + "'";
-//		System.out.println("!! slaves request dataID : " + req_content);
 		ResultSet metadata = (ResultSet) database.query(sql);
     	try {
 			if(metadata.next()) // metadata가 있으면 true, 없으면 false
@@ -2089,7 +1968,6 @@ public class DataProcess {
 				return devcnt;
 			}
 			
-    		//		String result = "{[{ANS::" + pkt.getAddress().getHostAddress() + "::003::" + uuid +  String.format("%03d", d_length) + location + String.format("%04d", dataSize) + security + sharing + "}]}";	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2119,7 +1997,6 @@ public class DataProcess {
 				long fileSize = (long)Math.ceil((double)file.length() / 1000.0);
 				String update_sql = "update " + table_name + " set data_size = " + fileSize +" where dataid = '" + req_content + "'";
 //				"update file_management set security_level=1 where dataID='ggfe0bd2ee16937d772864dc12057eab83df6c23b58a699354c529d5b4730d77';"
-//				System.out.println("!! slaves request dataID : " + req_content);
 				check = database.update(update_sql);
 				
 				devcnt = 2;
@@ -2144,7 +2021,6 @@ public class DataProcess {
 		msgs=RequestMessage(req_content, ipAddress, "003");
 		if(msgs.equals("time"))
 			return -1;
-//		System.out.println("!! IndividualDataRead : " + msgs);
 		if(!msgs.equals("none"))
 		{
 			devcnt = 0;
@@ -2159,17 +2035,12 @@ public class DataProcess {
 			
 			if(securityLevel>1 && dataType != 1)// && (fileType.equals("csv") || fileType.equals("txt")))
 			{
-//				System.out.println("!! 005 - 1");
 				msgs = RequestMessage(req_content, ipAddress, 2);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3)
 				if(msgs.equals("time"))
 					return -1;
-//				System.out.println("\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
-//				if(!msgs.equals(null))
-//					devcnt = 2;
 				if(msgs.equals("permission"))
 				{
 					devcnt = 2;
-//					System.out.println("\tIt is Possible to Remove the DATA\n");
 				}
 				
 //				if(dataType != 1) // data delete - don't care
@@ -2178,7 +2049,6 @@ public class DataProcess {
 //	    		devcnt = 0;
 	    	else
 	    		devcnt = 1;
-			//0104//System.out.println(log_format.format(new Date(System.currentTimeMillis())) +  "!! 005 - " + devcnt);
 
 		}
 		return devcnt;
@@ -2188,7 +2058,6 @@ public class DataProcess {
 		int devcnt = 0;
 
 		String sql = select_sql + table_name + " where dataid = '" + fileName + "'";
-//		System.out.println("!! slaves request dataID : " + req_content);
 		ResultSet metadata = (ResultSet) database.query(sql);
     	try {
 			if(metadata.next()) // metadata가 있으면 true, 없으면 false
@@ -2197,8 +2066,6 @@ public class DataProcess {
 				dataID = metadata.getString("dataid");
 				fileType = metadata.getString("file_type");
 				dataType = metadata.getInt("data_type");
-//				if(dataType == 0)
-//					devcnt = 1;
 				securityLevel = metadata.getInt("security_level"); 
 			}
 			else
@@ -2237,7 +2104,6 @@ public class DataProcess {
 	{
 		int devcnt=0;
 		String sql = select_sql + table_name + " where dataid = '" + req_content + "'";
-//		System.out.println("!! slaves request dataID : " + req_content);
 		ResultSet metadata = (ResultSet) database.query(sql);
     	try {
 			if(metadata.next()) // metadata가 있으면 true, 없으면 false
@@ -2291,7 +2157,6 @@ public class DataProcess {
 		msgs=RequestMessage(req_content, ipAddress, "003");
 		if(msgs.equals("time"))
 			return -1;
-//		System.out.println("!! IndividualDataRead : " + msgs);
 		if(!msgs.equals("none"))
 		{
 			devcnt = 1;
@@ -2310,22 +2175,13 @@ public class DataProcess {
 				msgs = RequestMessage(req_content, ipAddress, 3);// divide는 datasize로 판별 //data_code = read(1), write(2), remove(3)
 				if(msgs.equals("time"))
 					return -1;
-//				System.out.println("\tDATA [[\n\t" + msgs.replace("\n", "\n\t") + "\n\t]] DATA\n");
-//				if(!msgs.equals(null))
-//					devcnt = 2;
 				if(msgs.equals("permission"))
 				{
 					devcnt = 2;
-//					System.out.println("\tIt is Possible to Remove the DATA\n");
 				}
 				
-//				if(dataType != 1) // data delete - don't care
 			}
 		}
-//		System.out.println("\tAnswer : " + ipAddress + " has MetaData.");
-//		Thread.sleep(5);
-
-//		System.out.println(devcnt);
 		return devcnt;
 	}
 	
@@ -2443,7 +2299,6 @@ public class DataProcess {
 			
 			client.stopRequest();
 			
-//			System.out.println("!! IndividualDataSend meta : " );
 
 			client = new EdgeDeviceInfoClient(ipAddress, EdgeDeviceInfoClient.socketTCP, ketiCommPort);
 			if(!client.streamSocket_alive())
@@ -2503,12 +2358,9 @@ public class DataProcess {
 		BufferedInputStream bis = null;
 		try {
 			File newFile = new File(data_folder + newFileName);
-//			System.out.println("!! data mergy : " + data_folder+newFileName);
-//			System.out.println("!! data mergy : " + filenames);
 			fout = new FileOutputStream(newFile);
 
 			for (String fileName : filenames) {
-//				System.out.println(fileName);
 				File splittedFile = new File(data_folder + "chunk/" + fileName);
 				while(!splittedFile.exists())
 				{
@@ -2521,11 +2373,9 @@ public class DataProcess {
 					int len = 0;
 					byte[] buf = new byte[chunk_size];
 					while ((len = bis.read(buf, 0, chunk_size)) != -1) {
-//						System.out.println(new String(buf));
 						fout.write(buf, 0, len);
 						fout.flush();
 					}
-//					splittedFile.delete();
 					bis.close();
 					in.close();
 				}
@@ -2567,7 +2417,6 @@ public class DataProcess {
           sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
         }
  
-        //System.out.println("SHA-256 : " + sb.toString());
         fis.close();
         return sb.toString();
     }
@@ -2602,7 +2451,6 @@ public class DataProcess {
           sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
         }
  
-        //System.out.println("SHA-256 : " + sb.toString());
         fis.close();
         return sb.toString();
     }
@@ -2675,7 +2523,6 @@ public class DataProcess {
 						{	
 							if(i == maxRetry-1)
 							{
-//								System.out.println("!! error : client create : " + th_id+1);
 								client.stopWaitingResponse();
 								chunk_check[th_id] = 1;
 								return ;								
@@ -2686,14 +2533,12 @@ public class DataProcess {
 					int work_cnt = 0;
 					
 					remote_cmd = "{[{REQ::" + req_ip + "::" + req_code + "::" + req_content + "}]}";
-//					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
 					client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 					long start_client = System.currentTimeMillis();
 					while(client.answerData == null)
 					{			
 						if(chunk_check[th_id] != 0) // 수신 대기 중, 다른 thread에서 수신완료한 경우
 						{
-//							System.out.println("!! error : client not need : " + th_id+1);
 							client.stopWaitingResponse();
 							return ;
 						}
@@ -2701,11 +2546,6 @@ public class DataProcess {
 						{
 							try {
 								Thread.sleep(50);
-//								if(System.currentTimeMillis() - start_client > check_timeout ) //chunk except
-//								{
-////									result = "time";
-//									break;
-//								}
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -2726,7 +2566,6 @@ public class DataProcess {
 						
 						if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 						{
-//							System.out.println("!! RequestMessageRead : " + answer); //
 							String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 							if(!array[1].equals(req_code))
 							{
@@ -2737,29 +2576,17 @@ public class DataProcess {
 								return ;								
 							}
 							client.answerData = null;
-//							System.out.println("!! RequestMessageRead : " + array[2]); //datasize
-//							System.out.println("!! RequestMessageRead : " + array[3]); //datasize
 							String[] chunk_array = req_content.split("_");
 							if(!array[2].equals(chunk_array[1])) // chunk 프로토콜 규약
 							{
-//								System.out.println("!! chunk request : " + chunk_array[1] + ", but receive : " + array[4]);
 								chunk_check[th_id] = 1;
-//								chunk_edge[th_id] = chunk_edge[Integer.parseInt(array[4])-1]; //대신 저장한 chunk
 								th_id = Integer.parseInt(array[2]) - 1; // chunk 프로토콜 규약
-//					            chunk[th_id] = array[3];
 								req_content = chunk_array[0] + "_" + array[2]; // 데이터 thread가 엉키는건가? 엉뚱한 thread에서 수신  // chunk 프로토콜 규약
 							}
 				            
-//							if(req_content.equals("195240aa-92e4-40fd-8014-12033767f351.csv_307"))
-//							{
-//								System.out.println("!! RequestMessageRead : " + answer); //datasize
-//								System.exit(0);
-//							}
 							File file = new File(data_folder+"chunk/"+req_content);
 				            FileOutputStream fos = new FileOutputStream(file);
-//				            array[3] = array[3] + "";
 				            fos.write(array[4].getBytes("UTF-8"), 0, Integer.parseInt(array[3])); //Integer.parseInt(array[2]) chunk크기 // chunk 프로토콜 규약
-//				            fos.write(Base64.getDecoder().decode(array[3]), 0, Integer.parseInt(array[2])); //Integer.parseInt(array[2]) chunk크기
 				            fos.flush();
 				            fos.close();
 				            
@@ -2777,7 +2604,6 @@ public class DataProcess {
 					}
 
 					
-			//			System.out.println("!! RequestMessage : " + result);
 					client.stopRequest();
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
@@ -2841,7 +2667,6 @@ public class DataProcess {
 						{	
 							if(i == maxRetry-1)
 							{
-//								System.out.println("!! error : client create : " + th_id+1);
 								client.stopWaitingResponse();
 								chunk_check[th_id] = -1;
 								return ;								
@@ -2861,7 +2686,6 @@ public class DataProcess {
 						e.printStackTrace();
 					} // test 필요 
 
-//					System.out.println("RequestMessage - chunk : " + remote_cmd); //datasize
 					client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 					
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS"); //hh = 12시간, kk=24시간
@@ -2896,7 +2720,6 @@ public class DataProcess {
 						{			
 							if(chunk_check[th_id] >= index_f-index_s) // 수신 대기 중, 다른 thread에서 수신완료한 경우
 							{
-//								System.out.println("!! error : client not need : " + th_id+1);
 								client.stopWaitingResponse();
 								return ;
 							}
@@ -2904,10 +2727,6 @@ public class DataProcess {
 							{
 								try {
 									Thread.sleep(50);
-//									if(System.currentTimeMillis() - start_client > check_timeout )  //chunk except
-//									{
-//										break;
-//									}
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -2919,16 +2738,12 @@ public class DataProcess {
 							String answer_data = new String(client.answerData, "UTF-8");
 							if(answer_data.indexOf("{[{ANS")==0 && answer_data.indexOf("}]}")!=-1) // 기본 양식 맞음
 							{
-//								System.out.println("!! RequestMessageRead : " + answer); //
 								String[] array = answer_data.substring(8, answer_data.indexOf("}]}")).split("::");
 								client.answerData = null;
 								if(!array[1].equals(req_code))
 								{
 									continue;
 								}
-//								System.out.println("!! RequestMessageRead : " + array[2]); //datasize
-//								System.out.println("!! RequestMessageRead : " + array[3]); //datasize
-								
 								if(array[2].equals("sha")) //sha 검사하기
 								{
 									Thread.sleep(100);
@@ -2936,10 +2751,8 @@ public class DataProcess {
 						            {
 						            	if(check_file[i-index_s])
 						            	{
-//											System.out.println("* Original Data SHA code -\t" + array[3+i-index_s]);
 											long end_time = System.currentTimeMillis(); // + 32400000;
 											String str = chunk_sha("chunk/" + req_content + "_" + Integer.toString(i));
-//											System.out.println("* Recieved Data SHA code -\t" + str);
 											if(array[3+i-index_s].equals(str))
 											{
 												File file = new File(data_folder+"time/request_"+req_content.replace(fileType, "txt") + "_" + Integer.toString(i)); // 1. check if the file exists or not boolean isExists = file.exists();
@@ -2963,12 +2776,8 @@ public class DataProcess {
 											}
 											else
 											{ // SHA가 다르면 재요청 - 
-//												System.out.println("\tRecieved Chunk #" + Integer.toString(i) + " SHA code isn't the same as original : retry");
-//												File file = new File(data_folder+"chunk/"+req_content + "_" + Integer.toString(i));
-//												file.delete();
 												client.answerData = null;
 												remote_cmd = "{[{REQ::" + req_ip + "::" + req_code + "::" + req_content + "::" + Integer.toString(i) + "::" + Integer.toString(i+1) + "}]}";
-//												client.sendPacket(remote_cmd.getBytes("UTF-8"), remote_cmd.length());
 												Thread.sleep(100); // test 필요
 
 												i --;
@@ -2979,39 +2788,18 @@ public class DataProcess {
 						            }
 						            break;
 								}
-//								else
-//								{
-//									String chunk_content = req_content + "_" + array[2]; // chunk 프로토콜 규약
-//									System.out.println("!! RequestMessageRead : " + chunk_content); //
-//									File file = new File(data_folder+"chunk/"+chunk_content);
-//						            FileOutputStream fos = new FileOutputStream(file);
-////						            array[3] = array[3] + "";
-//						            fos.write(array[4].getBytes("UTF-8"), 0, Integer.parseInt(array[3])); //Integer.parseInt(array[2]) chunk크기 // chunk 프로토콜 규약
-////						            fos.write(Base64.getDecoder().decode(array[3]), 0, Integer.parseInt(array[2])); //Integer.parseInt(array[2]) chunk크기
-//						            fos.flush();
-//						            fos.close();
-//								}
 							}
 						}
 						
 						
 					}while(true);
-//					System.out.println("!! RequestMessageRead exit : " + th_id); //datasize
 					
 					client.stopRequest();
-//					System.out.println("!! RequestMessageRead : " + chunk_check[th_id]); //
-//				} catch (UnknownHostException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-//		}
 		
 	} // UnitEdge Thread
 }
