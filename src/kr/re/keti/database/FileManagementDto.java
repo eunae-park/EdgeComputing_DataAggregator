@@ -10,4 +10,5 @@ public class FileManagementDto{
 	private String dataId;
 	private int availabilityPolicy;
 	private String cert;
+	private int dataPriority;
 }
