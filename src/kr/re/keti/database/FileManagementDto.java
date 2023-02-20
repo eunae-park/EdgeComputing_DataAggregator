@@ -19,4 +19,5 @@ public class FileManagementDto{
 	private String linkedEdge;
 	private int securityLevel;
 	private Timestamp timestamp;
+
 }
