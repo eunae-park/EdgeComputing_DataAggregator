@@ -16,4 +16,5 @@ public class FileManagementDto{
 	private int dataType;
 	private String directory;
 	private String fileType;
+	private String linkedEdge;
 }
