@@ -15,4 +15,5 @@ public class FileManagementDto{
 	private long dataSize;
 	private int dataType;
 	private String directory;
+	private String fileType;
 }
