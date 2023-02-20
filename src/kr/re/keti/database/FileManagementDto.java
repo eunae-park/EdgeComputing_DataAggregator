@@ -13,4 +13,5 @@ public class FileManagementDto{
 	private int dataPriority;
 	private String dataSign;
 	private long dataSize;
+	private int dataType;
 }
