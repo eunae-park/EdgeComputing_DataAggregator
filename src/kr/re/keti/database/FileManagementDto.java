@@ -14,4 +14,5 @@ public class FileManagementDto{
 	private String dataSign;
 	private long dataSize;
 	private int dataType;
+	private String directory;
 }
