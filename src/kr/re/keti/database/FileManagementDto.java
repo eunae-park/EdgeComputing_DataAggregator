@@ -6,3 +6,6 @@ import java.time.LocalDateTime;
 
 import kr.re.keti.Main;
 
+public class FileManagementDto{
+	private String dataId;
+}
