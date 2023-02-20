@@ -9,4 +9,5 @@ import kr.re.keti.Main;
 public class FileManagementDto{
 	private String dataId;
 	private int availabilityPolicy;
+	private String cert;
 }
