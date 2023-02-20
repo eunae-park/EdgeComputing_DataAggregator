@@ -20,4 +20,6 @@ public class FileManagementDto{
 	private int securityLevel;
 	private Timestamp timestamp;
 
+	public FileManagementDto() {
+	}
 }
