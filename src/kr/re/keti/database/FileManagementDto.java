@@ -32,5 +32,6 @@ public class FileManagementDto{
 		this.dataPriority = dataPriority;
 		this.dataSign = dataSign;
 		this.dataSize = dataSize;
+		this.dataType = dataType;
 			}
 }
