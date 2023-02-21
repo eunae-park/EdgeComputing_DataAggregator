@@ -23,4 +23,5 @@ public class FileManagementDto{
 	public FileManagementDto() {
 	}
 	public FileManagementDto(String dataId, int availabilityPolicy, String cert, int dataPriority, String dataSign,
+			long dataSize, int dataType, String directory, String fileType, String linkedEdge, int securityLevel,
 }
