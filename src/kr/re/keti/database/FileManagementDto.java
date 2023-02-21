@@ -36,5 +36,6 @@ public class FileManagementDto{
 		this.directory = directory;
 		this.fileType = fileType;
 		this.linkedEdge = linkedEdge;
+		this.securityLevel = securityLevel;
 			}
 }
