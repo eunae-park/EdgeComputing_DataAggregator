@@ -29,5 +29,6 @@ public class FileManagementDto{
 		this.dataId = dataId;
 		this.availabilityPolicy = availabilityPolicy;
 		this.cert = cert;
+		this.dataPriority = dataPriority;
 			}
 }
