@@ -28,5 +28,6 @@ public class FileManagementDto{
 		super();
 		this.dataId = dataId;
 		this.availabilityPolicy = availabilityPolicy;
+		this.cert = cert;
 			}
 }
