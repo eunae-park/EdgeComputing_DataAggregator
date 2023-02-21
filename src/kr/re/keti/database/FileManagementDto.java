@@ -34,5 +34,6 @@ public class FileManagementDto{
 		this.dataSize = dataSize;
 		this.dataType = dataType;
 		this.directory = directory;
+		this.fileType = fileType;
 			}
 }
