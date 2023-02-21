@@ -33,5 +33,6 @@ public class FileManagementDto{
 		this.dataSign = dataSign;
 		this.dataSize = dataSize;
 		this.dataType = dataType;
+		this.directory = directory;
 			}
 }
