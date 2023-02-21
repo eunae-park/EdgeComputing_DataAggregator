@@ -31,5 +31,6 @@ public class FileManagementDto{
 		this.cert = cert;
 		this.dataPriority = dataPriority;
 		this.dataSign = dataSign;
+		this.dataSize = dataSize;
 			}
 }
