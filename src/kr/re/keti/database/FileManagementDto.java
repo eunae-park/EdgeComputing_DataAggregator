@@ -40,5 +40,6 @@ public class FileManagementDto{
 		this.timestamp = timestamp;
 			}
 	public FileManagementDto(File file, String signature) {
+		int dotIndex = file.getName().lastIndexOf(".");
 	}
 }
