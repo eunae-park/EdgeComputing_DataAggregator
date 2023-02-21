@@ -39,4 +39,6 @@ public class FileManagementDto{
 		this.securityLevel = securityLevel;
 		this.timestamp = timestamp;
 			}
+	public FileManagementDto(File file, String signature) {
+	}
 }
