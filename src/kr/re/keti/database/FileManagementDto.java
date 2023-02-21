@@ -37,5 +37,6 @@ public class FileManagementDto{
 		this.fileType = fileType;
 		this.linkedEdge = linkedEdge;
 		this.securityLevel = securityLevel;
+		this.timestamp = timestamp;
 			}
 }
