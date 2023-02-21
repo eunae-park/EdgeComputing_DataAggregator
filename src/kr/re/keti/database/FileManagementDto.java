@@ -27,5 +27,6 @@ public class FileManagementDto{
 			Timestamp timestamp) {
 		super();
 		this.dataId = dataId;
+		this.availabilityPolicy = availabilityPolicy;
 			}
 }
