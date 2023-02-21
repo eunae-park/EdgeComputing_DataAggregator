@@ -26,5 +26,6 @@ public class FileManagementDto{
 			long dataSize, int dataType, String directory, String fileType, String linkedEdge, int securityLevel,
 			Timestamp timestamp) {
 		super();
+		this.dataId = dataId;
 			}
 }
