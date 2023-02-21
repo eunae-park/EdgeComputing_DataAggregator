@@ -30,5 +30,6 @@ public class FileManagementDto{
 		this.availabilityPolicy = availabilityPolicy;
 		this.cert = cert;
 		this.dataPriority = dataPriority;
+		this.dataSign = dataSign;
 			}
 }
