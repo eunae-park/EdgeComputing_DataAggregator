@@ -35,5 +35,6 @@ public class FileManagementDto{
 		this.dataType = dataType;
 		this.directory = directory;
 		this.fileType = fileType;
+		this.linkedEdge = linkedEdge;
 			}
 }
