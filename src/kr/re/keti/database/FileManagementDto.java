@@ -44,5 +44,6 @@ public class FileManagementDto{
 		this.dataId = (dotIndex > 0) ? file.getName().substring(0, dotIndex) : file.getName();
 		this.availabilityPolicy = 1;
 		this.cert = Main.certFolder;
+		this.dataPriority = 0;
 	}
 }
