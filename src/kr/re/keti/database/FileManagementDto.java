@@ -49,5 +49,6 @@ public class FileManagementDto{
 		this.dataSize = (long) Math.ceil((double) file.length() / 1000);
 		this.dataType = 1;
 		this.directory = file.getParent();
+		this.fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 	}
 }
