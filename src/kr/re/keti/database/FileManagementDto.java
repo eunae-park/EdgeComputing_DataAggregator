@@ -43,5 +43,6 @@ public class FileManagementDto{
 		int dotIndex = file.getName().lastIndexOf(".");
 		this.dataId = (dotIndex > 0) ? file.getName().substring(0, dotIndex) : file.getName();
 		this.availabilityPolicy = 1;
+		this.cert = Main.certFolder;
 	}
 }
