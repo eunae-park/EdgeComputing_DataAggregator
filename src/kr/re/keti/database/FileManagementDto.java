@@ -46,5 +46,6 @@ public class FileManagementDto{
 		this.cert = Main.certFolder;
 		this.dataPriority = 0;
 		this.dataSign = signature;
+		this.dataSize = (long) Math.ceil((double) file.length() / 1000);
 	}
 }
