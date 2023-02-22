@@ -45,5 +45,6 @@ public class FileManagementDto{
 		this.availabilityPolicy = 1;
 		this.cert = Main.certFolder;
 		this.dataPriority = 0;
+		this.dataSign = signature;
 	}
 }
