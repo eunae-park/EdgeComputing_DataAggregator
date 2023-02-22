@@ -42,5 +42,6 @@ public class FileManagementDto{
 	public FileManagementDto(File file, String signature) {
 		int dotIndex = file.getName().lastIndexOf(".");
 		this.dataId = (dotIndex > 0) ? file.getName().substring(0, dotIndex) : file.getName();
+		this.availabilityPolicy = 1;
 	}
 }
