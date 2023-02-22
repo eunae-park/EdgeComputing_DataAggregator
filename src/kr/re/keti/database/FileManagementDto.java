@@ -48,5 +48,6 @@ public class FileManagementDto{
 		this.dataSign = signature;
 		this.dataSize = (long) Math.ceil((double) file.length() / 1000);
 		this.dataType = 1;
+		this.directory = file.getParent();
 	}
 }
