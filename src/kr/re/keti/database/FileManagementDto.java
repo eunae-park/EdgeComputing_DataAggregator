@@ -47,5 +47,6 @@ public class FileManagementDto{
 		this.dataPriority = 0;
 		this.dataSign = signature;
 		this.dataSize = (long) Math.ceil((double) file.length() / 1000);
+		this.dataType = 1;
 	}
 }
