@@ -68,5 +68,6 @@ public class FileManagementDto{
 	}
 
 	public int getAvailabilityPolicy() {
+		return availabilityPolicy;
 	}
 }
