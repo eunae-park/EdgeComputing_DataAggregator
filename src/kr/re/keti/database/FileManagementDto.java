@@ -60,4 +60,6 @@ public class FileManagementDto{
 		return result;
 	}
 	
+	public void setDataId(String dataId) {
+	}
 }
