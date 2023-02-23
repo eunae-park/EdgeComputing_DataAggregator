@@ -67,4 +67,6 @@ public class FileManagementDto{
 		return dataId;
 	}
 
+	public int getAvailabilityPolicy() {
+	}
 }
