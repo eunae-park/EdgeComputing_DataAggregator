@@ -74,4 +74,5 @@ public class FileManagementDto{
 	public void setAvailabilityPolicy(int availabilityPolicy) {
 		this.availabilityPolicy = availabilityPolicy;
 	}
+
 }
