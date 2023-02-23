@@ -51,5 +51,6 @@ public class FileManagementDto{
 		this.directory = file.getParent();
 		this.fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 		this.linkedEdge = null;
+		this.securityLevel = 1;
 	}
 }
