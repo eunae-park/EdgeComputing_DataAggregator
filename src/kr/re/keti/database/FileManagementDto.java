@@ -64,5 +64,6 @@ public class FileManagementDto{
 		this.dataId = dataId;
 	}
 	public String getDataId() {
+		return dataId;
 	}
 }
