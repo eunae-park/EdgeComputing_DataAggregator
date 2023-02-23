@@ -52,5 +52,6 @@ public class FileManagementDto{
 		this.fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 		this.linkedEdge = null;
 		this.securityLevel = 1;
+		this.timestamp = Timestamp.valueOf(LocalDateTime.now());
 	}
 }
