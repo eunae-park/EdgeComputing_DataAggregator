@@ -71,4 +71,6 @@ public class FileManagementDto{
 		return availabilityPolicy;
 	}
 
+	public void setAvailabilityPolicy(int availabilityPolicy) {
+	}
 }
