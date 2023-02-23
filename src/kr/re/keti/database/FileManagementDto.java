@@ -54,4 +54,6 @@ public class FileManagementDto{
 		this.securityLevel = 1;
 		this.timestamp = Timestamp.valueOf(LocalDateTime.now());
 	}
+	public String toString() {
+	}
 }
