@@ -59,4 +59,5 @@ public class FileManagementDto{
 				+availabilityPolicy+"#"+dataSign+"#"+cert+"#"+directory+"#"+linkedEdge+"#"+dataSize;
 		return result;
 	}
+	
 }
