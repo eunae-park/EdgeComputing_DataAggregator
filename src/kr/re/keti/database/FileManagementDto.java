@@ -57,5 +57,6 @@ public class FileManagementDto{
 	public String toString() {
 		String result = dataId+"#"+timestamp+"#"+fileType+"#"+dataType+"#"+securityLevel+"#"+dataPriority+"#"
 				+availabilityPolicy+"#"+dataSign+"#"+cert+"#"+directory+"#"+linkedEdge+"#"+dataSize;
+		return result;
 	}
 }
