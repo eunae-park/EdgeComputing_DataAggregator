@@ -55,5 +55,6 @@ public class FileManagementDto{
 		this.timestamp = Timestamp.valueOf(LocalDateTime.now());
 	}
 	public String toString() {
+		String result = dataId+"#"+timestamp+"#"+fileType+"#"+dataType+"#"+securityLevel+"#"+dataPriority+"#"
 	}
 }
