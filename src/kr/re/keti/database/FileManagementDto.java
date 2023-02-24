@@ -83,4 +83,6 @@ public class FileManagementDto{
 		this.cert = cert;
 	}
 
+	public int getDataPriority() {
+	}
 }
