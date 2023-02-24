@@ -87,4 +87,6 @@ public class FileManagementDto{
 		return dataPriority;
 	}
 
+	public void setDataPriority(int dataPriority) {
+	}
 }
