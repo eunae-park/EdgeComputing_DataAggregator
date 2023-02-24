@@ -75,4 +75,6 @@ public class FileManagementDto{
 		this.availabilityPolicy = availabilityPolicy;
 	}
 
+	public String getCert() {
+	}
 }
