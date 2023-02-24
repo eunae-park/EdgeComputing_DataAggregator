@@ -79,4 +79,6 @@ public class FileManagementDto{
 		return cert;
 	}
 
+	public void setCert(String cert) {
+	}
 }
