@@ -94,4 +94,5 @@ public class FileManagementDto{
 	public String getDataSign() {
 		return dataSign;
 	}
+
 }
