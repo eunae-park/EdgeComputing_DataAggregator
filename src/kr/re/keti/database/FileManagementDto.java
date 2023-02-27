@@ -107,4 +107,6 @@ public class FileManagementDto{
 		this.dataSize = dataSize;
 	}
 
+	public int getDataType() {
+	}
 }
