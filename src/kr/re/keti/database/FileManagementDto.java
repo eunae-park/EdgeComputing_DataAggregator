@@ -95,4 +95,6 @@ public class FileManagementDto{
 		return dataSign;
 	}
 
+	public void setDataSign(String dataSign) {
+	}
 }
