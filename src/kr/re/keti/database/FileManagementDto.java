@@ -99,4 +99,6 @@ public class FileManagementDto{
 		this.dataSign = dataSign;
 	}
 
+	public long getDataSize() {
+	}
 }
