@@ -102,4 +102,5 @@ public class FileManagementDto{
 	public long getDataSize() {
 		return dataSize;
 	}
+
 }
