@@ -91,4 +91,6 @@ public class FileManagementDto{
 		this.dataPriority = dataPriority;
 	}
 
+	public String getDataSign() {
+	}
 }
