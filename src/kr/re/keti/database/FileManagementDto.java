@@ -103,4 +103,6 @@ public class FileManagementDto{
 		return dataSize;
 	}
 
+	public void setDataSize(long dataSize) {
+	}
 }
