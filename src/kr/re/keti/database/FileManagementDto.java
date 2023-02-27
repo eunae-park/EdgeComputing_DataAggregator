@@ -104,5 +104,6 @@ public class FileManagementDto{
 	}
 
 	public void setDataSize(long dataSize) {
+		this.dataSize = dataSize;
 	}
 }
