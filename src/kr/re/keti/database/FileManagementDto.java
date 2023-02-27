@@ -90,4 +90,5 @@ public class FileManagementDto{
 	public void setDataPriority(int dataPriority) {
 		this.dataPriority = dataPriority;
 	}
+
 }
