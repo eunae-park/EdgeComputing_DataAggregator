@@ -114,4 +114,5 @@ public class FileManagementDto{
 	public void setDataType(int dataType) {
 		this.dataType = dataType;
 	}
+
 }
