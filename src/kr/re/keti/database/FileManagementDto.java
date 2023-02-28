@@ -123,4 +123,6 @@ public class FileManagementDto{
 		this.directory = directory;
 	}
 
+	public String getFileType() {
+	}
 }
