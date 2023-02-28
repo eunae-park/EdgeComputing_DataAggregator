@@ -110,4 +110,5 @@ public class FileManagementDto{
 	public int getDataType() {
 		return dataType;
 	}
+
 }
