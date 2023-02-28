@@ -120,5 +120,6 @@ public class FileManagementDto{
 	}
 
 	public void setDirectory(String directory) {
+		this.directory = directory;
 	}
 }
