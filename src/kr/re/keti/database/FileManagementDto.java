@@ -115,4 +115,6 @@ public class FileManagementDto{
 		this.dataType = dataType;
 	}
 
+	public String getDirectory() {
+	}
 }
