@@ -116,5 +116,6 @@ public class FileManagementDto{
 	}
 
 	public String getDirectory() {
+		return directory;
 	}
 }
