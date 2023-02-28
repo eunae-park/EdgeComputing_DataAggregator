@@ -124,5 +124,6 @@ public class FileManagementDto{
 	}
 
 	public String getFileType() {
+		return fileType;
 	}
 }
