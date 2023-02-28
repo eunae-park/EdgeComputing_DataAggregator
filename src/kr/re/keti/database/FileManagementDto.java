@@ -119,4 +119,6 @@ public class FileManagementDto{
 		return directory;
 	}
 
+	public void setDirectory(String directory) {
+	}
 }
