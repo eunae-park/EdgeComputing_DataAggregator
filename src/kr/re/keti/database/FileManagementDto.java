@@ -136,5 +136,6 @@ public class FileManagementDto{
 	}
 
 	public void setLinkedEdge(String linkedEdge) {
+		this.linkedEdge = linkedEdge;
 	}
 }
