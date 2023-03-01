@@ -127,4 +127,6 @@ public class FileManagementDto{
 		return fileType;
 	}
 
+	public void setFileType(String fileType) {
+	}
 }
