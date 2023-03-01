@@ -139,4 +139,6 @@ public class FileManagementDto{
 		this.linkedEdge = linkedEdge;
 	}
 
+	public int getSecurityLevel() {
+	}
 }
