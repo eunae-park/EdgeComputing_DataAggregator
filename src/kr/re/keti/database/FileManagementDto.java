@@ -135,4 +135,6 @@ public class FileManagementDto{
 		return linkedEdge;
 	}
 
+	public void setLinkedEdge(String linkedEdge) {
+	}
 }
