@@ -131,4 +131,6 @@ public class FileManagementDto{
 		this.fileType = fileType;
 	}
 
+	public String getLinkedEdge() {
+	}
 }
