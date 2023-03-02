@@ -147,4 +147,6 @@ public class FileManagementDto{
 		this.securityLevel = securityLevel;
 	}
 
+	public Timestamp getTimestamp() {
+	}
 }
