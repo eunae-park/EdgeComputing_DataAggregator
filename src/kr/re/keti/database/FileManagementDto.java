@@ -152,5 +152,6 @@ public class FileManagementDto{
 	}
 
 	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 }
