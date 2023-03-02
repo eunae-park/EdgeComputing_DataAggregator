@@ -151,4 +151,6 @@ public class FileManagementDto{
 		return timestamp;
 	}
 
+	public void setTimestamp(Timestamp timestamp) {
+	}
 }
