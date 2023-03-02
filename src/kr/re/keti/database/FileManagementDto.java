@@ -148,5 +148,6 @@ public class FileManagementDto{
 	}
 
 	public Timestamp getTimestamp() {
+		return timestamp;
 	}
 }
