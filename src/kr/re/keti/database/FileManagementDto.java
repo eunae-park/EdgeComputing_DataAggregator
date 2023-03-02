@@ -143,4 +143,6 @@ public class FileManagementDto{
 		return securityLevel;
 	}
 
+	public void setSecurityLevel(int securityLevel) {
+	}
 }
