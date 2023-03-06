@@ -5,5 +5,6 @@ public class FileUuidDto {
 	String fileUuid;
 	public FileUuidDto() { }
 	public FileUuidDto(String fileName, String fileUuid) {
+		super();
 	}
 }
