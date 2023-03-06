@@ -4,4 +4,6 @@ public class FileUuidDto {
 	String fileName;
 	String fileUuid;
 	public FileUuidDto() { }
+	public FileUuidDto(String fileName, String fileUuid) {
+	}
 }
