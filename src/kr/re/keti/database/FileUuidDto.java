@@ -6,5 +6,6 @@ public class FileUuidDto {
 	public FileUuidDto() { }
 	public FileUuidDto(String fileName, String fileUuid) {
 		super();
+		this.fileName = fileName;
 	}
 }
