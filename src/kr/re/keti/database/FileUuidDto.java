@@ -18,4 +18,6 @@ public class FileUuidDto {
 	public String getFileUuid() {
 		return fileUuid;
 	}
+	public void setFileUuid(String fileUuid) {
+	}
 }
