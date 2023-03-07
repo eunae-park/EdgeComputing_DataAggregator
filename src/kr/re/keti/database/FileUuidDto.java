@@ -9,4 +9,6 @@ public class FileUuidDto {
 		this.fileName = fileName;
 		this.fileUuid = fileUuid;
 	}
+	public String getFileName() {
+	}
 }
