@@ -12,4 +12,6 @@ public class FileUuidDto {
 	public String getFileName() {
 		return fileName;
 	}
+	public void setFileName(String fileName) {
+	}
 }
