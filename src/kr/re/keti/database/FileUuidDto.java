@@ -16,5 +16,6 @@ public class FileUuidDto {
 		this.fileName = fileName;
 	}
 	public String getFileUuid() {
+		return fileUuid;
 	}
 }
