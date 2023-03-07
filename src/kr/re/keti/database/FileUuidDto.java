@@ -19,5 +19,6 @@ public class FileUuidDto {
 		return fileUuid;
 	}
 	public void setFileUuid(String fileUuid) {
+		this.fileUuid = fileUuid;
 	}
 }
