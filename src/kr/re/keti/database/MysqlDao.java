@@ -11,4 +11,5 @@ import java.util.ArrayList;
 public class MysqlDao implements Database {
 	private String url;
 	private String id;
+	private String pw;
 }
