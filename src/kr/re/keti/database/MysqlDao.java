@@ -13,4 +13,6 @@ public class MysqlDao implements Database {
 	private String id;
 	private String pw;
 
+	public MysqlDao(String databaseName, String id, String pw) {
+	}
 }
