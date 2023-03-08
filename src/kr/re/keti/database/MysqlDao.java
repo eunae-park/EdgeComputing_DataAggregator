@@ -14,5 +14,6 @@ public class MysqlDao implements Database {
 	private String pw;
 
 	public MysqlDao(String databaseName, String id, String pw) {
+		this.url = "jdbc:mysql://localhost:3306/" + databaseName + "?serverTimezone=UTC&autoReconnect=true";
 	}
 }
