@@ -8,3 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+public class MysqlDao implements Database {
+	private String url;
+}
