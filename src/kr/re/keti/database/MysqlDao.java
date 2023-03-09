@@ -18,4 +18,5 @@ public class MysqlDao implements Database {
 		this.id = id;
 		this.pw = pw;
 	}
+
 }
