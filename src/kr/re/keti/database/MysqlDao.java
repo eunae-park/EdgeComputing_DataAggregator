@@ -20,4 +20,6 @@ public class MysqlDao implements Database {
 	}
 
 	@Override
+	public Connection getConnection() {
+	}
 }
