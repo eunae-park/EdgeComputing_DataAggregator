@@ -25,6 +25,7 @@ public class MysqlDao implements Database {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, id, pw);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
