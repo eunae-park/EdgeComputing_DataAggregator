@@ -38,6 +38,7 @@ public class MysqlDao implements Database {
 		boolean result = false;
 
 		if(table.equals("file_management")) {
+			result = existsFileManagement(pk);
 		}
 	}
 }
