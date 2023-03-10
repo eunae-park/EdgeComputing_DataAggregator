@@ -34,4 +34,6 @@ public class MysqlDao implements Database {
 	}
 
 	@Override
+	public boolean exists(String table, String pk) {
+	}
 }
