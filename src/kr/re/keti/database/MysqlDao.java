@@ -32,4 +32,5 @@ public class MysqlDao implements Database {
 
 		return connection;
 	}
+
 }
