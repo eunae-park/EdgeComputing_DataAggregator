@@ -41,6 +41,7 @@ public class MysqlDao implements Database {
 			result = existsFileManagement(pk);
 		}
 		else if(table.equals("file_uuid")) {
+			result = existsFileUuid(pk);
 		}
 	}
 }
