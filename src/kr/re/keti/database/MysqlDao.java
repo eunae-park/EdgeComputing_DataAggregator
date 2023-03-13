@@ -46,5 +46,6 @@ public class MysqlDao implements Database {
 		else {
 			System.out.println("*** exists Invalid table name [" + table + "] ***");
 		}
+		return result;
 	}
 }
