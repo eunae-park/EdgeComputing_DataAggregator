@@ -44,6 +44,7 @@ public class MysqlDao implements Database {
 			result = existsFileUuid(pk);
 		}
 		else {
+			System.out.println("*** exists Invalid table name [" + table + "] ***");
 		}
 	}
 }
