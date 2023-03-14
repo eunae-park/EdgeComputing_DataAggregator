@@ -54,6 +54,7 @@ public class MysqlDao implements Database {
 		boolean result = false;
 		if(objectDto instanceof FileManagementDto) {
 			FileManagementDto dto = (FileManagementDto) objectDto;
+			result = insertFileManagement(dto);
 		}
 	}
 }
