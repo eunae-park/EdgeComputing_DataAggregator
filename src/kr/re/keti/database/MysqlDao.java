@@ -51,5 +51,6 @@ public class MysqlDao implements Database {
 
 	@Override
 	public boolean insert(Object objectDto) {
+		boolean result = false;
 	}
 }
