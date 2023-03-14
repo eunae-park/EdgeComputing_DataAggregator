@@ -50,4 +50,6 @@ public class MysqlDao implements Database {
 	}
 
 	@Override
+	public boolean insert(Object objectDto) {
+	}
 }
