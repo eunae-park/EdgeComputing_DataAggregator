@@ -60,5 +60,7 @@ public class MysqlDao implements Database {
 			FileUuidDto dto = (FileUuidDto) objectDto;
 			result = insertFileUuid(dto);
 		}
+		else {
+		}
 	}
 }
