@@ -61,6 +61,7 @@ public class MysqlDao implements Database {
 			result = insertFileUuid(dto);
 		}
 		else {
+			System.out.println("***  insert an unsupported DTO type into the database. ***");
 		}
 	}
 }
