@@ -58,6 +58,7 @@ public class MysqlDao implements Database {
 		}
 		else if(objectDto instanceof FileUuidDto) {
 			FileUuidDto dto = (FileUuidDto) objectDto;
+			result = insertFileUuid(dto);
 		}
 	}
 }
