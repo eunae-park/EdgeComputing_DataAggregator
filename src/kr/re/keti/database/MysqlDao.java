@@ -73,5 +73,7 @@ public class MysqlDao implements Database {
 		if(table.equals("file_management")) {
 			dtos.addAll(selectFileManagement());
 		}
+		else if(table.equals("file_uuid")) {
+		}
 	}
 }
