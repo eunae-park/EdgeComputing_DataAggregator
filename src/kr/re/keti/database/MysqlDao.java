@@ -71,6 +71,7 @@ public class MysqlDao implements Database {
 		ArrayList<Object> dtos = new ArrayList<>();
 
 		if(table.equals("file_management")) {
+			dtos.addAll(selectFileManagement());
 		}
 	}
 }
