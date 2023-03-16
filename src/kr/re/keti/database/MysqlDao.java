@@ -63,5 +63,6 @@ public class MysqlDao implements Database {
 		else {
 			System.out.println("***  insert an unsupported DTO type into the database. ***");
 		}
+		return result;
 	}
 }
