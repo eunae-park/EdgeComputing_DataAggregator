@@ -69,5 +69,6 @@ public class MysqlDao implements Database {
 	@Override
 	public ArrayList<Object> select(String table) {
 		ArrayList<Object> dtos = new ArrayList<>();
+
 	}
 }
