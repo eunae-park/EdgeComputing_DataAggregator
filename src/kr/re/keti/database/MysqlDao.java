@@ -94,6 +94,7 @@ public class MysqlDao implements Database {
 			dto = selectFileUuid(pk);
 		}
 		else {
+			System.out.println("*** select Invalid table name [" + table + "] ***");
 		}
 	}
 }
