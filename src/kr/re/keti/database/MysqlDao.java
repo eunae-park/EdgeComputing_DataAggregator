@@ -85,4 +85,6 @@ public class MysqlDao implements Database {
 	}
 
 	@Override
+	public Object select(String table, String pk) {
+	}
 }
