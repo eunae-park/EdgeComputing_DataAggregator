@@ -101,5 +101,6 @@ public class MysqlDao implements Database {
 
 	@Override
 	public boolean update(Object objectDto) {
+		boolean result = false;
 	}
 }
