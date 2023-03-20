@@ -109,6 +109,7 @@ public class MysqlDao implements Database {
 			result = updateFileUuid((FileUuidDto) objectDto);
 		}
 		else {
+			System.out.println("***  update an unsupported DTO type into the database. ***");
 		}
 	}
 }
