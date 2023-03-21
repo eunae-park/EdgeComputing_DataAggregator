@@ -136,6 +136,7 @@ public class MysqlDao implements Database {
 		ArrayList<Object> dtos = new ArrayList<>();
 
 		if(query.indexOf("from file_management") != -1) {
+			dtos.addAll(excuteQueryFileManagement(query));
 		}
 	}
 }
