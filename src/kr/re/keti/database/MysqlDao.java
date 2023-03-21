@@ -124,5 +124,7 @@ public class MysqlDao implements Database {
 		else if(table.equals("file_uuid")) {
 			result = deleteFileUuid(pk);
 		}
+		else {
+		}
 	}
 }
