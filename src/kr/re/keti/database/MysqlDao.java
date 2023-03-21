@@ -125,6 +125,7 @@ public class MysqlDao implements Database {
 			result = deleteFileUuid(pk);
 		}
 		else {
+			System.out.println("*** delete Invalid table name [" + table + "] ***");
 		}
 	}
 }
