@@ -140,6 +140,7 @@ public class MysqlDao implements Database {
 
 		}
 		else if(query.indexOf("from file_uuid") != -1) {
+			dtos.addAll(excuteQueryFileUuid(query));
 		}
 	}
 }
