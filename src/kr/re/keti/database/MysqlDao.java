@@ -133,5 +133,6 @@ public class MysqlDao implements Database {
 
 	@Override
 	public ArrayList<Object> executeQuery(String query) {
+		ArrayList<Object> dtos = new ArrayList<>();
 	}
 }
