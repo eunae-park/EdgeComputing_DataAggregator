@@ -127,5 +127,6 @@ public class MysqlDao implements Database {
 		else {
 			System.out.println("*** delete Invalid table name [" + table + "] ***");
 		}
+
 	}
 }
