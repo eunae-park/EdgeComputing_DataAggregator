@@ -155,6 +155,7 @@ public class MysqlDao implements Database {
 
 			int check = statement.executeUpdate(query);
 			if(check == 0) {
+				System.out.println("Database [" + query + "]: fail");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
