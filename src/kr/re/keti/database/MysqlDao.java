@@ -154,6 +154,8 @@ public class MysqlDao implements Database {
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
 
 			int check = statement.executeUpdate(query);
+			if(check == 0) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
