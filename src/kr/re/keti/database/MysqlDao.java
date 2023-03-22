@@ -151,5 +151,10 @@ public class MysqlDao implements Database {
 
 	@Override
 	public boolean executeUpdate(String query) {
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
