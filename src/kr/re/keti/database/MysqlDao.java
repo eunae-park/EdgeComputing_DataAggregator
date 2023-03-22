@@ -153,6 +153,7 @@ public class MysqlDao implements Database {
 	public boolean executeUpdate(String query) {
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
 
+			int check = statement.executeUpdate(query);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
