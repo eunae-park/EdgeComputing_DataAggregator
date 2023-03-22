@@ -158,6 +158,7 @@ public class MysqlDao implements Database {
 				System.out.println("Database [" + query + "]: fail");
 			}
 			else {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
