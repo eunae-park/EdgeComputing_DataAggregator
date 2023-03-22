@@ -150,4 +150,6 @@ public class MysqlDao implements Database {
 	}
 
 	@Override
+	public boolean executeUpdate(String query) {
+	}
 }
