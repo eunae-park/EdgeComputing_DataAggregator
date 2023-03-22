@@ -143,5 +143,7 @@ public class MysqlDao implements Database {
 			dtos.addAll(excuteQueryFileUuid(query));
 
 		}
+		else {
+		}
 	}
 }
