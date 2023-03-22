@@ -146,5 +146,6 @@ public class MysqlDao implements Database {
 		else {
 			System.out.println("*** query Invalid ***");
 		}
+		return dtos;
 	}
 }
