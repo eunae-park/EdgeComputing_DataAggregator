@@ -168,4 +168,6 @@ public class MysqlDao implements Database {
 
 	// ==========================================================================================
 
+	private boolean existsFileManagement(String pk) {
+	}
 }
