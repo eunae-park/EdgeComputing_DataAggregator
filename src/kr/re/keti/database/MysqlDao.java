@@ -180,4 +180,6 @@ public class MysqlDao implements Database {
 		return false;
 	}
 
+	private boolean existsFileUuid(String pk) {
+	}
 }
