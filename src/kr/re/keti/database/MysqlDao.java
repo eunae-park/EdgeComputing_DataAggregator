@@ -192,4 +192,6 @@ public class MysqlDao implements Database {
 		return false;
 	}
 
+	private boolean insertFileManagement(FileManagementDto dto) {
+	}
 }
