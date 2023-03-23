@@ -194,5 +194,10 @@ public class MysqlDao implements Database {
 
 	private boolean insertFileManagement(FileManagementDto dto) {
 		String insert_sql = "insert into " + "file_management" + " (dataid, availability_policy, cert, data_priority, data_signature, data_size, data_type, directory, file_type, linked_edge, security_level, timestamp)" + " values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try (Connection connection = getConnection(); PreparedStatement pstmt = connection.prepareStatement(insert_sql);) {
+			pstmt.setString(1, dto.getDataId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
