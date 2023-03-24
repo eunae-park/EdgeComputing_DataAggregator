@@ -205,6 +205,7 @@ public class MysqlDao implements Database {
 			pstmt.setString(8, dto.getDirectory());
 			pstmt.setString(9, dto.getFileType());
 			pstmt.setString(10, dto.getLinkedEdge());
+			pstmt.setInt(11, dto.getSecurityLevel());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
