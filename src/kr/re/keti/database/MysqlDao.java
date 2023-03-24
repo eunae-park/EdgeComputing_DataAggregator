@@ -202,6 +202,7 @@ public class MysqlDao implements Database {
 			pstmt.setString(5, dto.getDataSign());
 			pstmt.setLong(6, dto.getDataSize());
 			pstmt.setInt(7, dto.getDataType());
+			pstmt.setString(8, dto.getDirectory());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
