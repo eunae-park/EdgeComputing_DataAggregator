@@ -208,6 +208,8 @@ public class MysqlDao implements Database {
 			pstmt.setInt(11, dto.getSecurityLevel());
 			pstmt.setTimestamp(12, dto.getTimestamp());
 			int check = pstmt.executeUpdate();
+			if(check == 0) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
