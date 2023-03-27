@@ -222,5 +222,6 @@ public class MysqlDao implements Database {
 	}
 
 	private boolean insertFileUuid(FileUuidDto dto) {
+		String insert_sql = "insert into " + "file_uuid" + " (fileName, fileUuid)" + " values(?, ?)";
 	}
 }
