@@ -209,6 +209,7 @@ public class MysqlDao implements Database {
 			pstmt.setTimestamp(12, dto.getTimestamp());
 			int check = pstmt.executeUpdate();
 			if(check == 0) {
+				System.out.println("Data '" + dto.getDataId() + "' insert fail");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
