@@ -225,6 +225,7 @@ public class MysqlDao implements Database {
 		String insert_sql = "insert into " + "file_uuid" + " (fileName, fileUuid)" + " values(?, ?)";
 		try (Connection connection = getConnection(); PreparedStatement pstmt = connection.prepareStatement(insert_sql);) {
 			pstmt.setString(1, dto.getFileName());
+			pstmt.setString(2, dto.getFileUuid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
