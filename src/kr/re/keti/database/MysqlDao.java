@@ -218,5 +218,6 @@ public class MysqlDao implements Database {
 			e.printStackTrace();
 		}
 		return false;
+
 	}
 }
