@@ -227,6 +227,8 @@ public class MysqlDao implements Database {
 			pstmt.setString(1, dto.getFileName());
 			pstmt.setString(2, dto.getFileUuid());
 			int check = pstmt.executeUpdate();
+			if(check == 0) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
