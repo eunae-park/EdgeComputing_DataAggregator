@@ -248,6 +248,7 @@ public class MysqlDao implements Database {
 				dto.setDataId(resultSet.getString("dataid"));
 				dto.setAvailabilityPolicy(resultSet.getInt("availability_policy"));
 				dto.setCert(resultSet.getString("cert"));
+				dto.setDataPriority(resultSet.getInt("data_priority"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
