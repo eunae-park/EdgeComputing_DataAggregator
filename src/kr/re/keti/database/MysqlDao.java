@@ -244,6 +244,7 @@ public class MysqlDao implements Database {
 		String query = "select * from file_management";
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			while (resultSet.next()) {
+				FileManagementDto dto = new FileManagementDto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
