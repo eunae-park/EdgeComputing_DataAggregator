@@ -272,6 +272,7 @@ public class MysqlDao implements Database {
 				FileManagementDto dto = new FileManagementDto();
 				dto.setDataId(resultSet.getString("dataid"));
 				dto.setAvailabilityPolicy(resultSet.getInt("availability_policy"));
+				dto.setCert(resultSet.getString("cert"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
