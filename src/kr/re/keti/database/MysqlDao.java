@@ -281,6 +281,7 @@ public class MysqlDao implements Database {
 				dto.setFileType(resultSet.getString("file_type"));
 				dto.setLinkedEdge(resultSet.getString("linked_edge"));
 				dto.setSecurityLevel(resultSet.getInt("security_level"));
+				dto.setTimestamp(resultSet.getTimestamp("timestamp"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
