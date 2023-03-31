@@ -270,6 +270,7 @@ public class MysqlDao implements Database {
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			if(resultSet.next()) {
 				FileManagementDto dto = new FileManagementDto();
+				dto.setDataId(resultSet.getString("dataid"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
