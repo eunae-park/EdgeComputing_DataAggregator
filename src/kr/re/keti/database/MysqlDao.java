@@ -265,4 +265,6 @@ public class MysqlDao implements Database {
 		return dtos;
 	}
 
+	public FileManagementDto selectFileManagement(String pk) {
+	}
 }
