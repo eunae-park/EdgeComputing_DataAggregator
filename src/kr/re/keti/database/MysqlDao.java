@@ -269,6 +269,7 @@ public class MysqlDao implements Database {
 		String query = "select * from " + "file_management" + " where dataID='" + pk + "'";
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			if(resultSet.next()) {
+				FileManagementDto dto = new FileManagementDto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
