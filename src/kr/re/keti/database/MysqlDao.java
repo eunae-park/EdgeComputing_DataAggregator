@@ -282,6 +282,7 @@ public class MysqlDao implements Database {
 				dto.setLinkedEdge(resultSet.getString("linked_edge"));
 				dto.setSecurityLevel(resultSet.getInt("security_level"));
 				dto.setTimestamp(resultSet.getTimestamp("timestamp"));
+				return dto;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
