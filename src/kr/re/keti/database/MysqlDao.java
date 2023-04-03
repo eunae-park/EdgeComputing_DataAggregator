@@ -298,6 +298,7 @@ public class MysqlDao implements Database {
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			while (resultSet.next()) {
 				FileUuidDto dto = new FileUuidDto();
+				dto.setFileName(resultSet.getString("fileName"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
