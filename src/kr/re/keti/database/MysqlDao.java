@@ -295,5 +295,11 @@ public class MysqlDao implements Database {
 	private ArrayList<FileUuidDto> selectFileUuid() {
 		ArrayList<FileUuidDto> dtos = new ArrayList<>();
 		String query = "select * from file_uuid";
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
+			while (resultSet.next()) {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
