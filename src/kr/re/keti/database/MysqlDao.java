@@ -292,4 +292,6 @@ public class MysqlDao implements Database {
 		return null;
 	}
 
+	private ArrayList<FileUuidDto> selectFileUuid() {
+	}
 }
