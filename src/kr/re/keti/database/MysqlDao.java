@@ -300,6 +300,7 @@ public class MysqlDao implements Database {
 				FileUuidDto dto = new FileUuidDto();
 				dto.setFileName(resultSet.getString("fileName"));
 				dto.setFileUuid(resultSet.getString("fileUuid"));
+				dtos.add(dto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
