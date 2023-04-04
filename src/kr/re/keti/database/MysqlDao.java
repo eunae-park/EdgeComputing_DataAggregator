@@ -309,5 +309,6 @@ public class MysqlDao implements Database {
 	}
 
 	private FileUuidDto selectFileUuid(String pk) {
+		String query = "select * from " + "file_uuid" + " where dataID='" + pk + "'";
 	}
 }
