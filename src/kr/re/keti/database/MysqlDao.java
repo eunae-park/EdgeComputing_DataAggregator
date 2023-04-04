@@ -326,5 +326,6 @@ public class MysqlDao implements Database {
 	}
 
 	private boolean updateFileManagement(FileManagementDto dto) {
+		String query = "update file_management" + " set availability_policy=?, cert=?, data_priority=?, data_signature=?, data_size=?, data_type=?, " + "directory=?, file_type=?, linked_edge=?, security_level=?, timestamp=? " + "where dataId=?";
 	}
 }
