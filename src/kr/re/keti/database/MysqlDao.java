@@ -308,4 +308,6 @@ public class MysqlDao implements Database {
 		return dtos;
 	}
 
+	private FileUuidDto selectFileUuid(String pk) {
+	}
 }
