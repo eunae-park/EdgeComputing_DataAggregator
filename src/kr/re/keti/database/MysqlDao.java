@@ -330,6 +330,7 @@ public class MysqlDao implements Database {
 		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(query);) {
 			statement.setInt(1, dto.getAvailabilityPolicy());
 			statement.setString(2, dto.getCert());
+			statement.setInt(3, dto.getDataPriority());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
