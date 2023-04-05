@@ -332,6 +332,7 @@ public class MysqlDao implements Database {
 			statement.setString(2, dto.getCert());
 			statement.setInt(3, dto.getDataPriority());
 			statement.setString(4, dto.getDataSign());
+			statement.setLong(5, dto.getDataSize());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
