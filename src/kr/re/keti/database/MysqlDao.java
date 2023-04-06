@@ -358,6 +358,7 @@ public class MysqlDao implements Database {
 		String query = "update file_uuid set fileName=?, fileUuid=?";
 		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(query);) {
 			statement.setString(1, dto.getFileName());
+			statement.setString(2, dto.getFileUuid());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
