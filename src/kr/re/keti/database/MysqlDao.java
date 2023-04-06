@@ -339,6 +339,7 @@ public class MysqlDao implements Database {
 			statement.setString(9, dto.getLinkedEdge());
 			statement.setInt(10, dto.getSecurityLevel());
 			statement.setTimestamp(11, dto.getTimestamp());
+			statement.setString(12, dto.getDataId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
