@@ -354,4 +354,6 @@ public class MysqlDao implements Database {
 
 	}
 
+	private boolean updateFileUuid(FileUuidDto dto) {
+	}
 }
