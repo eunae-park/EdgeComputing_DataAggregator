@@ -362,6 +362,7 @@ public class MysqlDao implements Database {
 
 			int check = statement.executeUpdate();
 			if(check == 0) {
+				System.out.println("Database '" + dto.getFileName() + "' update fail");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
