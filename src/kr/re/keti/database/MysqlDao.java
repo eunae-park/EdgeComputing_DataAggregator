@@ -380,6 +380,7 @@ public class MysqlDao implements Database {
 				System.out.println("Database '" + pk + "' delete fail");
 			}
 			else {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
