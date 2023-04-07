@@ -390,5 +390,10 @@ public class MysqlDao implements Database {
 
 	private boolean deleteFileUuid(String pk) {
 		String query = "delete from file_Uuid where dataId='" + pk + "'";
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
+			int check = statement.executeUpdate(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
