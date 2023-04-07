@@ -385,5 +385,6 @@ public class MysqlDao implements Database {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 }
