@@ -373,5 +373,6 @@ public class MysqlDao implements Database {
 	}
 
 	private boolean deleteFileManagement(String pk) {
+		String query = "delete from file_management where dataId='" + pk + "'";
 	}
 }
