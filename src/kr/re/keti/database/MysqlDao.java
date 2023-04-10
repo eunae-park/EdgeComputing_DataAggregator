@@ -405,5 +405,6 @@ public class MysqlDao implements Database {
 	}
 
 	private ArrayList<FileManagementDto> excuteQueryFileManagement(String query) {
+		ArrayList<FileManagementDto> dtos = new ArrayList<>();
 	}
 }
