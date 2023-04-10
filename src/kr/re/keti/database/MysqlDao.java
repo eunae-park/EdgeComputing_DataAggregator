@@ -417,6 +417,7 @@ public class MysqlDao implements Database {
 				dto.setDataSize(resultSet.getLong("data_size"));
 				dto.setDataType(resultSet.getInt("data_type"));
 				dto.setDirectory(resultSet.getString("directory"));
+				dto.setFileType(resultSet.getString("file_type"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
