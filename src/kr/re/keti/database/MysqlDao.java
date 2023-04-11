@@ -429,4 +429,6 @@ public class MysqlDao implements Database {
 		return dtos;
 	}
 
+	private ArrayList<FileUuidDto> excuteQueryFileUuid(String query) {
+	}
 }
