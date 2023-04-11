@@ -435,6 +435,7 @@ public class MysqlDao implements Database {
 			while (resultSet.next()) {
 				FileUuidDto dto = new FileUuidDto();
 				dto.setFileName(resultSet.getString("fileName"));
+				dto.setFileUuid(resultSet.getString("fileUuid"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
