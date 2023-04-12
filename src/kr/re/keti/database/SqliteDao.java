@@ -10,4 +10,6 @@ import java.util.ArrayList;
 public class SqliteDao implements Database {
 	private String path;
 
+	public SqliteDao(String path, String databaseName) {
+	}
 }
