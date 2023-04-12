@@ -11,5 +11,6 @@ public class SqliteDao implements Database {
 	private String path;
 
 	public SqliteDao(String path, String databaseName) {
+		this.path = "jdbc:sqlite:" + path + databaseName + ".db";
 	}
 }
