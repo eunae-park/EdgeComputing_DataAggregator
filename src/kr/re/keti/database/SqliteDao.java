@@ -17,5 +17,10 @@ public class SqliteDao implements Database {
 	@Override
 	public Connection getConnection() {
 		Connection connection = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
