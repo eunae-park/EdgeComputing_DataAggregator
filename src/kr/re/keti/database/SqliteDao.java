@@ -19,6 +19,7 @@ public class SqliteDao implements Database {
 		Connection connection = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager.getConnection(path);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
