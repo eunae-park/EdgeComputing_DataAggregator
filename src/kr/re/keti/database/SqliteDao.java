@@ -16,5 +16,6 @@ public class SqliteDao implements Database {
 
 	@Override
 	public Connection getConnection() {
+		Connection connection = null;
 	}
 }
