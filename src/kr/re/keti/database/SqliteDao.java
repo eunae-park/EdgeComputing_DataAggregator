@@ -30,5 +30,7 @@ public class SqliteDao implements Database {
 	public boolean exists(String table, String pk) {
 		boolean result = false;
 
+		if(table.equals("file_management")) {
+		}
 	}
 }
