@@ -33,5 +33,7 @@ public class SqliteDao implements Database {
 		if(table.equals("file_management")) {
 			result = existsFileManagement(pk);
 		}
+		else if(table.equals("file_uuid")) {
+		}
 	}
 }
