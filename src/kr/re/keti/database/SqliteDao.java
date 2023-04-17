@@ -44,5 +44,6 @@ public class SqliteDao implements Database {
 
 	@Override
 	public boolean insert(Object objectDto) {
+		boolean result = false;
 	}
 }
