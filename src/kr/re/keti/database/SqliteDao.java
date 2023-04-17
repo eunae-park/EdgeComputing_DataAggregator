@@ -60,4 +60,6 @@ public class SqliteDao implements Database {
 	}
 
 	@Override
+	public ArrayList<Object> select(String table) {
+	}
 }
