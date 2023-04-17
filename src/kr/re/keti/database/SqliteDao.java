@@ -39,5 +39,6 @@ public class SqliteDao implements Database {
 		else {
 			System.out.println("*** exists Invalid table name [" + table + "] ***");
 		}
+		return result;
 	}
 }
