@@ -46,6 +46,7 @@ public class SqliteDao implements Database {
 	public boolean insert(Object objectDto) {
 		boolean result = false;
 		if(objectDto instanceof FileManagementDto) {
+			FileManagementDto dto = (FileManagementDto) objectDto;
 		}
 	}
 }
