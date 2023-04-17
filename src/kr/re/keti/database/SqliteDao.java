@@ -49,5 +49,7 @@ public class SqliteDao implements Database {
 			FileManagementDto dto = (FileManagementDto) objectDto;
 			result = insertFileManagement(dto);
 		}
+		else if(objectDto instanceof FileUuidDto) {
+		}
 	}
 }
