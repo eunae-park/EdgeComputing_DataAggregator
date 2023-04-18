@@ -62,5 +62,6 @@ public class SqliteDao implements Database {
 	@Override
 	public ArrayList<Object> select(String table) {
 		ArrayList<Object> dtos = new ArrayList<>();
+
 	}
 }
