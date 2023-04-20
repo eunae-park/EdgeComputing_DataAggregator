@@ -99,6 +99,7 @@ public class SqliteDao implements Database {
 			result = updateFileManagement((FileManagementDto) objectDto);
 		}
 		else if(objectDto instanceof FileUuidDto) {
+			result = updateFileUuid((FileUuidDto) objectDto);
 		}
 	}
 }
