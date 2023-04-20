@@ -96,6 +96,7 @@ public class SqliteDao implements Database {
 	public boolean update(Object objectDto) {
 		boolean result = false;
 		if(objectDto instanceof FileManagementDto) {
+			result = updateFileManagement((FileManagementDto) objectDto);
 		}
 	}
 }
