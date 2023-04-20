@@ -94,5 +94,6 @@ public class SqliteDao implements Database {
 
 	@Override
 	public boolean update(Object objectDto) {
+		boolean result = false;
 	}
 }
