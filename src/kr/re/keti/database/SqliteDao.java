@@ -84,6 +84,7 @@ public class SqliteDao implements Database {
 			dto = selectFileManagement(pk);
 		}
 		else if(table.equals("file_uuid")) {
+			dto = selectFileUuid(pk);
 		}
 	}
 }
