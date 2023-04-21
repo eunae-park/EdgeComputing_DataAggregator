@@ -114,5 +114,7 @@ public class SqliteDao implements Database {
 		if(table.equals("file_management")) {
 			result = deleteFileManagement(pk);
 		}
+		else if(table.equals("file_uuid")) {
+		}
 	}
 }
