@@ -104,5 +104,6 @@ public class SqliteDao implements Database {
 		else {
 			System.out.println("***  update an unsupported DTO type into the database. ***");
 		}
+		return result;
 	}
 }
