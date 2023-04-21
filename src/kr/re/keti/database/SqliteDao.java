@@ -110,5 +110,6 @@ public class SqliteDao implements Database {
 	@Override
 	public boolean delete(String table, String pk) {
 		boolean result = false;
+
 	}
 }
