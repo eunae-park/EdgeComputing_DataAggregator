@@ -136,5 +136,7 @@ public class SqliteDao implements Database {
 			dtos.addAll(excuteQueryFileUuid(query));
 
 		}
+		else {
+		}
 	}
 }
