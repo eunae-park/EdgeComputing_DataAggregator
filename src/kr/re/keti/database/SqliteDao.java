@@ -120,5 +120,6 @@ public class SqliteDao implements Database {
 		else {
 			System.out.println("*** delete Invalid table name [" + table + "] ***");
 		}
+
 	}
 }
