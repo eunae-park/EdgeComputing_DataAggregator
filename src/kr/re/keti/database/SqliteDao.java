@@ -139,5 +139,6 @@ public class SqliteDao implements Database {
 		else {
 			System.out.println("*** query Invalid ***");
 		}
+		return dtos;
 	}
 }
