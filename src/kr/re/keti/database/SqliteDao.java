@@ -132,5 +132,7 @@ public class SqliteDao implements Database {
 			dtos.addAll(excuteQueryFileManagement(query));
 
 		}
+		else if(query.indexOf("from file_uuid") != -1) {
+		}
 	}
 }
