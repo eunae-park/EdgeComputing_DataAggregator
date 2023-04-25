@@ -165,6 +165,7 @@ public class SqliteDao implements Database {
 		String query = "select dataid from file_management where dataid='" + pk + "'";
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			if(resultSet.next()) {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
