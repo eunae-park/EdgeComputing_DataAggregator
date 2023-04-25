@@ -161,4 +161,6 @@ public class SqliteDao implements Database {
 
 	//==========================================================================================
 
+	private boolean existsFileManagement(String pk) {
+	}
 }
