@@ -162,5 +162,6 @@ public class SqliteDao implements Database {
 	//==========================================================================================
 
 	private boolean existsFileManagement(String pk) {
+		String query = "select dataid from file_management where dataid='" + pk + "'";
 	}
 }
