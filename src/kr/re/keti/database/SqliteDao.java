@@ -175,5 +175,11 @@ public class SqliteDao implements Database {
 
 	private boolean existsFileUuid(String pk) {
 		String query = "select dataid from file_uuid whare fileName='" + pk + "'";
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
+			if(resultSet.next()) {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
