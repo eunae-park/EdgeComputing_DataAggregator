@@ -173,4 +173,6 @@ public class SqliteDao implements Database {
 		return false;
 	}
 
+	private boolean existsFileUuid(String pk) {
+	}
 }
