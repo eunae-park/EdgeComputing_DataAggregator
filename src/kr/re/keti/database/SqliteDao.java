@@ -192,6 +192,7 @@ public class SqliteDao implements Database {
 			pstmt.setString(1, dto.getDataId());
 			pstmt.setInt(2, dto.getAvailabilityPolicy());
 			pstmt.setString(3, dto.getCert());
+			pstmt.setInt(4, dto.getDataPriority());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
