@@ -191,6 +191,7 @@ public class SqliteDao implements Database {
 		try (Connection connection = getConnection(); PreparedStatement pstmt = connection.prepareStatement(insert_sql);) {
 			pstmt.setString(1, dto.getDataId());
 			pstmt.setInt(2, dto.getAvailabilityPolicy());
+			pstmt.setString(3, dto.getCert());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
