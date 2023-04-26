@@ -185,4 +185,6 @@ public class SqliteDao implements Database {
 		return false;
 	}
 
+	private boolean insertFileManagement(FileManagementDto dto) {
+	}
 }
