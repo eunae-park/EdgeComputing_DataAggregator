@@ -201,6 +201,7 @@ public class SqliteDao implements Database {
 			pstmt.setString(10, dto.getLinkedEdge());
 			pstmt.setInt(11, dto.getSecurityLevel());
 			pstmt.setTimestamp(12, dto.getTimestamp());
+			int check = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
