@@ -217,5 +217,10 @@ public class SqliteDao implements Database {
 
 	private boolean insertFileUuid(FileUuidDto dto) {
 		String insert_sql = "insert into " + "file_uuid" + " (fileName, fileUuid)" + " values(?, ?)";
+		try (Connection connection = getConnection(); PreparedStatement pstmt = connection.prepareStatement(insert_sql);) {
+			pstmt.setString(1, dto.getFileName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
