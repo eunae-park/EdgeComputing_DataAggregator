@@ -215,4 +215,6 @@ public class SqliteDao implements Database {
 
 	}
 
+	private boolean insertFileUuid(FileUuidDto dto) {
+	}
 }
