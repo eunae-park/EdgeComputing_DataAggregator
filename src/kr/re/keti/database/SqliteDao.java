@@ -194,6 +194,7 @@ public class SqliteDao implements Database {
 			pstmt.setString(3, dto.getCert());
 			pstmt.setInt(4, dto.getDataPriority());
 			pstmt.setString(5, dto.getDataSign());
+			pstmt.setLong(6, dto.getDataSize());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
