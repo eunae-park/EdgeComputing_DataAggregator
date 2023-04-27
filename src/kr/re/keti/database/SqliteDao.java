@@ -206,6 +206,7 @@ public class SqliteDao implements Database {
 				System.out.println("Data '" + dto.getDataId() + "' insert fail");
 			}
 			else {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
