@@ -220,6 +220,7 @@ public class SqliteDao implements Database {
 		try (Connection connection = getConnection(); PreparedStatement pstmt = connection.prepareStatement(insert_sql);) {
 			pstmt.setString(1, dto.getFileName());
 			pstmt.setString(2, dto.getFileUuid());
+			int check = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
