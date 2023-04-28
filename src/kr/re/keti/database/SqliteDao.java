@@ -222,6 +222,7 @@ public class SqliteDao implements Database {
 			pstmt.setString(2, dto.getFileUuid());
 			int check = pstmt.executeUpdate();
 			if(check == 0) {
+				System.out.println("Data '" + dto.getFileName() + "' insert fail");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
