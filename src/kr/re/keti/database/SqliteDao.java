@@ -224,6 +224,8 @@ public class SqliteDao implements Database {
 			if(check == 0) {
 				System.out.println("Data '" + dto.getFileName() + "' insert fail");
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
