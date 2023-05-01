@@ -235,5 +235,6 @@ public class SqliteDao implements Database {
 
 	private ArrayList<FileManagementDto> selectFileManagement() {
 		ArrayList<FileManagementDto> dtos = new ArrayList<>();
+		String query = "select * from file_management";
 	}
 }
