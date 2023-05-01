@@ -236,5 +236,11 @@ public class SqliteDao implements Database {
 	private ArrayList<FileManagementDto> selectFileManagement() {
 		ArrayList<FileManagementDto> dtos = new ArrayList<>();
 		String query = "select * from file_management";
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
+			while (resultSet.next()) {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
