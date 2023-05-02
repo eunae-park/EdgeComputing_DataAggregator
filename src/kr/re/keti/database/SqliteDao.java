@@ -245,6 +245,7 @@ public class SqliteDao implements Database {
 				dto.setDataPriority(resultSet.getInt("data_priority"));
 				dto.setDataSign(resultSet.getString("data_signature"));
 				dto.setDataSize(resultSet.getLong("data_size"));
+				dto.setDataType(resultSet.getInt("data_type"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
