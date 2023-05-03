@@ -260,5 +260,6 @@ public class SqliteDao implements Database {
 	}
 
 	public FileManagementDto selectFileManagement(String pk) {
+		String query = "select * from " + "file_management" + " where dataID='" + pk + "'";
 	}
 }
