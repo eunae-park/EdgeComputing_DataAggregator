@@ -259,4 +259,6 @@ public class SqliteDao implements Database {
 		return dtos;
 	}
 
+	public FileManagementDto selectFileManagement(String pk) {
+	}
 }
