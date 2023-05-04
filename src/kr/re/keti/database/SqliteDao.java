@@ -269,6 +269,7 @@ public class SqliteDao implements Database {
 				dto.setCert(resultSet.getString("cert"));
 				dto.setDataPriority(resultSet.getInt("data_priority"));
 				dto.setDataSign(resultSet.getString("data_signature"));
+				dto.setDataSize(resultSet.getLong("data_size"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
