@@ -286,4 +286,6 @@ public class SqliteDao implements Database {
 		return null;
 	}
 
+	private ArrayList<FileUuidDto> selectFileUuid() {
+	}
 }
