@@ -278,6 +278,8 @@ public class SqliteDao implements Database {
 				dto.setTimestamp(resultSet.getTimestamp("timestamp"));
 				return dto;
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
