@@ -302,4 +302,6 @@ public class SqliteDao implements Database {
 		return dtos;
 	}
 
+	private FileUuidDto selectFileUuid(String pk) {
+	}
 }
