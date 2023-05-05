@@ -291,6 +291,7 @@ public class SqliteDao implements Database {
 		String query = "select * from file_uuid";
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			while (resultSet.next()) {
+				FileUuidDto dto = new FileUuidDto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
