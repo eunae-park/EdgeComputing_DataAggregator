@@ -299,5 +299,6 @@ public class SqliteDao implements Database {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return dtos;
 	}
 }
