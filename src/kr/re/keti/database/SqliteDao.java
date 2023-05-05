@@ -288,5 +288,6 @@ public class SqliteDao implements Database {
 
 	private ArrayList<FileUuidDto> selectFileUuid() {
 		ArrayList<FileUuidDto> dtos = new ArrayList<>();
+		String query = "select * from file_uuid";
 	}
 }
