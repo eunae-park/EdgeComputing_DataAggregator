@@ -309,6 +309,7 @@ public class SqliteDao implements Database {
 				FileUuidDto dto = new FileUuidDto();
 				dto.setFileName(resultSet.getString("fileName"));
 				dto.setFileUuid(resultSet.getString("fileUuid"));
+				return dto;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
