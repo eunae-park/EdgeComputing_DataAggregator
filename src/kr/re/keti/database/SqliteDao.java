@@ -306,6 +306,7 @@ public class SqliteDao implements Database {
 		String query = "select * from " + "file_uuid" + " where dataID='" + pk + "'";
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			if(resultSet.next()) {
+				FileUuidDto dto = new FileUuidDto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
