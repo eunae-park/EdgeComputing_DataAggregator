@@ -311,6 +311,8 @@ public class SqliteDao implements Database {
 				dto.setFileUuid(resultSet.getString("fileUuid"));
 				return dto;
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
