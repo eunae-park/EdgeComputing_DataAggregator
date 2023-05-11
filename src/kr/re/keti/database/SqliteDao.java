@@ -332,6 +332,7 @@ public class SqliteDao implements Database {
 			statement.setString(8, dto.getFileType());
 			statement.setString(9, dto.getLinkedEdge());
 			statement.setInt(10, dto.getSecurityLevel());
+			statement.setTimestamp(11, dto.getTimestamp());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
