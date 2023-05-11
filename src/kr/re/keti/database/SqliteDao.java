@@ -330,6 +330,7 @@ public class SqliteDao implements Database {
 			statement.setInt(6, dto.getDataType());
 			statement.setString(7, dto.getDirectory());
 			statement.setString(8, dto.getFileType());
+			statement.setString(9, dto.getLinkedEdge());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
