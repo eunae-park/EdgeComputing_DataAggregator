@@ -335,6 +335,7 @@ public class SqliteDao implements Database {
 			statement.setTimestamp(11, dto.getTimestamp());
 			statement.setString(12, dto.getDataId());
 
+			int check = statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
