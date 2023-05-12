@@ -339,6 +339,7 @@ public class SqliteDao implements Database {
 			if(check == 0) {
 				System.out.println("Database '" + dto.getDataId() + "' update fail");
 			}
+			else
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
