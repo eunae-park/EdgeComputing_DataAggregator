@@ -345,5 +345,6 @@ public class SqliteDao implements Database {
 			e.printStackTrace();
 		}
 		return false;
+
 	}
 }
