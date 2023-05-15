@@ -348,4 +348,6 @@ public class SqliteDao implements Database {
 
 	}
 
+	private boolean updateFileUuid(FileUuidDto dto) {
+	}
 }
