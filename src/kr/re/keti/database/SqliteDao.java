@@ -366,4 +366,6 @@ public class SqliteDao implements Database {
 		return false;
 	}
 
+	private boolean deleteFileManagement(String pk) {
+	}
 }
