@@ -349,5 +349,6 @@ public class SqliteDao implements Database {
 	}
 
 	private boolean updateFileUuid(FileUuidDto dto) {
+		String query = "update file_uuid set fileName=?, fileUuid=?";
 	}
 }
