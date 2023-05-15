@@ -350,5 +350,10 @@ public class SqliteDao implements Database {
 
 	private boolean updateFileUuid(FileUuidDto dto) {
 		String query = "update file_uuid set fileName=?, fileUuid=?";
+		try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(query);) {
+			statement.setString(1, dto.getFileName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
