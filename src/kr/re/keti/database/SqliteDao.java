@@ -354,6 +354,7 @@ public class SqliteDao implements Database {
 			statement.setString(1, dto.getFileName());
 			statement.setString(2, dto.getFileUuid());
 
+			int check = statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
