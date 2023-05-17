@@ -386,6 +386,8 @@ public class SqliteDao implements Database {
 		String query = "delete from file_Uuid where dataId='" + pk + "'";
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
 			int check = statement.executeUpdate(query);
+			if(check == 0) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
