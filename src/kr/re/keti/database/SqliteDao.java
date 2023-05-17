@@ -383,5 +383,6 @@ public class SqliteDao implements Database {
 	}
 
 	private boolean deleteFileUuid(String pk) {
+		String query = "delete from file_Uuid where dataId='" + pk + "'";
 	}
 }
