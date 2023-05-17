@@ -382,4 +382,6 @@ public class SqliteDao implements Database {
 		return false;
 	}
 
+	private boolean deleteFileUuid(String pk) {
+	}
 }
