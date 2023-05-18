@@ -398,4 +398,6 @@ public class SqliteDao implements Database {
 		return false;
 	}
 
+	private ArrayList<FileManagementDto> excuteQueryFileManagement(String query) {
+	}
 }
