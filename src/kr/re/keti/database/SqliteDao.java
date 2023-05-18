@@ -400,5 +400,11 @@ public class SqliteDao implements Database {
 
 	private ArrayList<FileManagementDto> excuteQueryFileManagement(String query) {
 		ArrayList<FileManagementDto> dtos = new ArrayList<>();
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
+			while (resultSet.next()) {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
