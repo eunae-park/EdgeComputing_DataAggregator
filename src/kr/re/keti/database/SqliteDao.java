@@ -402,6 +402,7 @@ public class SqliteDao implements Database {
 		ArrayList<FileManagementDto> dtos = new ArrayList<>();
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			while (resultSet.next()) {
+				FileManagementDto dto = new FileManagementDto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
