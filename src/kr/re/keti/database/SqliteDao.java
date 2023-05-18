@@ -404,6 +404,7 @@ public class SqliteDao implements Database {
 			while (resultSet.next()) {
 				FileManagementDto dto = new FileManagementDto();
 				dto.setDataId(resultSet.getString("dataid"));
+				dto.setAvailabilityPolicy(resultSet.getInt("availability_policy"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
