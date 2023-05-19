@@ -423,4 +423,6 @@ public class SqliteDao implements Database {
 		return dtos;
 	}
 
+	private ArrayList<FileUuidDto> excuteQueryFileUuid(String query) {
+	}
 }
