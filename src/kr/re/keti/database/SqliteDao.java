@@ -427,6 +427,7 @@ public class SqliteDao implements Database {
 		ArrayList<FileUuidDto> dtos = new ArrayList<>();
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query);) {
 			while (resultSet.next()) {
+				FileUuidDto dto = new FileUuidDto();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
