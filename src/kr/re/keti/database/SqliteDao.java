@@ -415,6 +415,7 @@ public class SqliteDao implements Database {
 				dto.setLinkedEdge(resultSet.getString("linked_edge"));
 				dto.setSecurityLevel(resultSet.getInt("security_level"));
 				dto.setTimestamp(resultSet.getTimestamp("timestamp"));
+				dtos.add(dto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
