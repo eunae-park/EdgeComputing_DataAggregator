@@ -18,4 +18,5 @@ public class Broadcast {
 	private byte[] addr;
 	private DatagramSocket receiverSocket;
 	private DatagramSocket sendSocket;
+	
 }
