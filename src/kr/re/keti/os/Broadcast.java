@@ -23,5 +23,6 @@ public class Broadcast {
 		return instance;
 	}
 	private Broadcast() {
+		setting();
 	}
 }
