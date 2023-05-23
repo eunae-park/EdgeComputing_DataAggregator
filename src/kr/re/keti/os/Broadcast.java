@@ -14,4 +14,5 @@ public class Broadcast {
 	private static final Broadcast instance = new Broadcast();
 	private final int DEFAULT_BUF_LENGTH = 64;
 	private final String DEFAULT_BROADCAST_ADDRESS = "255.255.255.255";
+	
 }
