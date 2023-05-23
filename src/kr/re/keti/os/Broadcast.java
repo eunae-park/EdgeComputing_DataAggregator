@@ -20,5 +20,6 @@ public class Broadcast {
 	private DatagramSocket sendSocket;
 	
 	public static Broadcast getInstance() {
+		return instance;
 	}
 }
