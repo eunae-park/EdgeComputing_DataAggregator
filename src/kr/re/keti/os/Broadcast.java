@@ -10,3 +10,6 @@ import java.net.UnknownHostException;
 import kr.re.keti.Main;
 import kr.re.keti.PortNum;
 
+public class Broadcast {
+	private static final Broadcast instance = new Broadcast();
+}
