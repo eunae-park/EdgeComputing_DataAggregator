@@ -16,4 +16,5 @@ public class Broadcast {
 	private final String DEFAULT_BROADCAST_ADDRESS = "255.255.255.255";
 	
 	private byte[] addr;
+	private DatagramSocket receiverSocket;
 }
