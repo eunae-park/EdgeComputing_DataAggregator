@@ -22,4 +22,6 @@ public class Broadcast {
 	public static Broadcast getInstance() {
 		return instance;
 	}
+	private Broadcast() {
+	}
 }
