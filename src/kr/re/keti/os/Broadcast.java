@@ -37,4 +37,6 @@ public class Broadcast {
 			e.printStackTrace();
 		}
 	}
+	public void close() {
+	}
 }
