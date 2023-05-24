@@ -31,6 +31,7 @@ public class Broadcast {
 			receiverSocket.setReuseAddress(true);
 			
 			sendSocket = new DatagramSocket(PortNum.DEFAULT_SEND_PORT);
+			sendSocket.setReuseAddress(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
