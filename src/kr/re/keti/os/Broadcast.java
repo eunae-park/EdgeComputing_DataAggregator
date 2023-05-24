@@ -25,4 +25,6 @@ public class Broadcast {
 	private Broadcast() {
 		setting();
 	}
+	public void setting() {
+	}
 }
