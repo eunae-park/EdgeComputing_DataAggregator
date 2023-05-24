@@ -44,5 +44,6 @@ public class Broadcast {
 	//--------------------------send packet--------------------------------------------------
 	public void send() {
 		byte[] buf = new byte[DEFAULT_BUF_LENGTH];
+		send(buf);
 	}
 }
