@@ -39,5 +39,6 @@ public class Broadcast {
 	}
 	public void close() {
 		if(receiverSocket != null) receiverSocket.close();
+		if(sendSocket != null) sendSocket.close();
 	}
 }
