@@ -26,5 +26,10 @@ public class Broadcast {
 		setting();
 	}
 	public void setting() {
+		try {
+			receiverSocket = new DatagramSocket(PortNum.DEFAULT_RECEIVE_PORT);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
