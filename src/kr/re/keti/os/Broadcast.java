@@ -75,5 +75,10 @@ public class Broadcast {
 	//------------------------receive packet-----------------------------------------
 	public DatagramPacket receive() {
 		DatagramPacket packet = null;
+		try {
+			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
