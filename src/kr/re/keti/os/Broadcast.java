@@ -57,6 +57,7 @@ public class Broadcast {
 		DatagramPacket packet = null;
 		try {
 			addr = Main.deviceIP.getBytes();
+			packet = new DatagramPacket(addr, addr.length, InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS),PortNum.DEFAULT_RECEIVE_PORT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
