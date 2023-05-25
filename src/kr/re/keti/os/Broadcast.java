@@ -74,5 +74,6 @@ public class Broadcast {
 	}
 	//------------------------receive packet-----------------------------------------
 	public DatagramPacket receive() {
+		DatagramPacket packet = null;
 	}
 }
