@@ -53,4 +53,6 @@ public class Broadcast {
 	    System.arraycopy(b, 0, buf, 0, len);
 	    send(buf);
 	}
+	public void send(byte[] data) {
+	}
 }
