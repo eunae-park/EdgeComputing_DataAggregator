@@ -55,5 +55,10 @@ public class Broadcast {
 	}
 	public void send(byte[] data) {
 		DatagramPacket packet = null;
+		try {
+			addr = Main.deviceIP.getBytes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
