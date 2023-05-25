@@ -48,5 +48,6 @@ public class Broadcast {
 	}
 	public void send(String data) {
 		byte[] buf = new byte[DEFAULT_BUF_LENGTH];
+	    byte[] b = data.getBytes();
 	}
 }
