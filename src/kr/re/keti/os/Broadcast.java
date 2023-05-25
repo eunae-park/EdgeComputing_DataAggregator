@@ -65,4 +65,6 @@ public class Broadcast {
 		}
 		
 	}
+	public void send(DatagramPacket packet) {
+	}
 }
