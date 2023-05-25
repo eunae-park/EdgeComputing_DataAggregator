@@ -66,5 +66,10 @@ public class Broadcast {
 		
 	}
 	public void send(DatagramPacket packet) {
+		try {
+			sendSocket.send(packet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
