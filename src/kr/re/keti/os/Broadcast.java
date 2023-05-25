@@ -50,5 +50,6 @@ public class Broadcast {
 		byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 	    byte[] b = data.getBytes();
 	    int len = Math.min(b.length, buf.length);
+	    System.arraycopy(b, 0, buf, 0, len);
 	}
 }
