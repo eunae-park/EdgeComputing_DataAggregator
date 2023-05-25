@@ -72,4 +72,7 @@ public class Broadcast {
 			e.printStackTrace();
 		}
 	}
+	//------------------------receive packet-----------------------------------------
+	public DatagramPacket receive() {
+	}
 }
