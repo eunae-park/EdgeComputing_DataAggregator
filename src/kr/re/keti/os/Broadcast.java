@@ -54,5 +54,6 @@ public class Broadcast {
 	    send(buf);
 	}
 	public void send(byte[] data) {
+		DatagramPacket packet = null;
 	}
 }
