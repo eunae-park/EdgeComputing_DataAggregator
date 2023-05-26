@@ -85,4 +85,7 @@ public class Broadcast {
 		return packet;
 	}
 	
+	//----------------------get local IP--------------------------------------
+	public void selfSend() {
+	}
 }
