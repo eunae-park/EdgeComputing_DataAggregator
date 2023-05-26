@@ -87,5 +87,10 @@ public class Broadcast {
 	
 	//----------------------get local IP--------------------------------------
 	public void selfSend() {
+		try {
+			addr = Main.deviceIP.getBytes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
