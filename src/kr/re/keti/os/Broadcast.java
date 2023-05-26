@@ -78,6 +78,7 @@ public class Broadcast {
 		try {
 			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 			packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
+			receiverSocket.receive(packet);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
