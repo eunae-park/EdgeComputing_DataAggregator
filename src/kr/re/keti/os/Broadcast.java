@@ -92,6 +92,7 @@ public class Broadcast {
 			DatagramPacket packet =  new DatagramPacket(addr, addr.length, InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS), PortNum.DEFAULT_SELF_PORT);
 			DatagramSocket socket = new DatagramSocket();
 			socket.send(packet);
+			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
