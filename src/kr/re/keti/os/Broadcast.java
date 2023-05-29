@@ -104,6 +104,7 @@ public class Broadcast {
 			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 			DatagramSocket socket = new DatagramSocket(PortNum.DEFAULT_SELF_PORT);
 			DatagramPacket packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
+			socket.receive(packet);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
