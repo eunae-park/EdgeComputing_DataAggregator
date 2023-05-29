@@ -106,6 +106,7 @@ public class Broadcast {
 			DatagramPacket packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
 			socket.receive(packet);
 			String addr = packet.getAddress().getHostAddress();
+			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
