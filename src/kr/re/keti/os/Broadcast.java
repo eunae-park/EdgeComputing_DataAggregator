@@ -100,5 +100,10 @@ public class Broadcast {
 		
 	}
 	public String selfReceive() {
+		try {
+			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
