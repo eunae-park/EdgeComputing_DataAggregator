@@ -108,8 +108,11 @@ public class Broadcast {
 			String addr = packet.getAddress().getHostAddress();
 			socket.close();
 			return addr;
+			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "none";
 	}
 }
