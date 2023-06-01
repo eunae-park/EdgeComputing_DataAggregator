@@ -12,5 +12,6 @@ public class Linux implements OSProcess{
 	}
 	@Override
 	public void start() {
+		receptor.start();
 	}
 }
