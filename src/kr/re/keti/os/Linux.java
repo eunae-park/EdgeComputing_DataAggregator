@@ -8,5 +8,6 @@ public class Linux implements OSProcess{
 		receptor = new UdpReceptor();
 		String masterIP = "none";
 		masterIP = receptor.getMaster();
+		return masterIP;
 	}
 }
