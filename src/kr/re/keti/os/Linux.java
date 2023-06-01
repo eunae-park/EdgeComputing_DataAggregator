@@ -11,4 +11,6 @@ public class Linux implements OSProcess{
 		return masterIP;
 	}
 	@Override
+	public void start() {
+	}
 }
