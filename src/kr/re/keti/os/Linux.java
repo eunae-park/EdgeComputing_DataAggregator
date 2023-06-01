@@ -10,4 +10,5 @@ public class Linux implements OSProcess{
 		masterIP = receptor.getMaster();
 		return masterIP;
 	}
+	@Override
 }
