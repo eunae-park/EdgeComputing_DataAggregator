@@ -6,5 +6,6 @@ public class Linux implements OSProcess{
 	@Override
 	public String getMaster() {
 		receptor = new UdpReceptor();
+		String masterIP = "none";
 	}
 }
