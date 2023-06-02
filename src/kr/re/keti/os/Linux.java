@@ -17,5 +17,6 @@ public class Linux implements OSProcess{
 
 	@Override
 	public void stop() {
+		receptor.stop();
 	}
 }
