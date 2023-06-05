@@ -7,3 +7,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import kr.re.keti.Main;
 
+public class EdgeFinder {
+	private static EdgeFinder instance = new EdgeFinder();
+}
