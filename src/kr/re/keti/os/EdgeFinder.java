@@ -11,4 +11,5 @@ public class EdgeFinder {
 	private static EdgeFinder instance = new EdgeFinder();
 	private Broadcast broadcast;
 	private ArrayBlockingQueue<DatagramPacket> queue;
+	private final int DEFAULT_CAPACITY_SIZE = 50000;
 }
