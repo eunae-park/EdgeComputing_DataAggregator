@@ -15,5 +15,6 @@ public class EdgeFinder {
 	public static final int DEFAULT_WAITING_TIME = 100;
 
 	public static EdgeFinder getInstance() {
+		return instance;
 	}
 }
