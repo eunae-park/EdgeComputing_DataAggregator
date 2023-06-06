@@ -17,4 +17,5 @@ public class EdgeFinder {
 	public static EdgeFinder getInstance() {
 		return instance;
 	}
+
 }
