@@ -23,4 +23,6 @@ public class EdgeFinder {
 		queue = new ArrayBlockingQueue<>(DEFAULT_CAPACITY_SIZE);
 	}
 
+	public void discoverMaster() {
+	}
 }
