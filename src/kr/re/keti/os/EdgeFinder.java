@@ -18,4 +18,6 @@ public class EdgeFinder {
 		return instance;
 	}
 
+	private EdgeFinder() {
+	}
 }
