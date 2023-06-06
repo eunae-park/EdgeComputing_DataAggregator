@@ -22,4 +22,5 @@ public class EdgeFinder {
 		broadcast = Broadcast.getInstance();
 		queue = new ArrayBlockingQueue<>(DEFAULT_CAPACITY_SIZE);
 	}
+
 }
