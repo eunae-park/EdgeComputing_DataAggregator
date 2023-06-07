@@ -25,5 +25,6 @@ public class EdgeFinder {
 
 	public void discoverMaster() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+
 	}
 }
