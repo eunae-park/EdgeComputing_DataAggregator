@@ -26,5 +26,10 @@ public class EdgeFinder {
 	public void discoverMaster() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
+		try {
+			Thread.sleep(DEFAULT_WAITING_TIME);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
