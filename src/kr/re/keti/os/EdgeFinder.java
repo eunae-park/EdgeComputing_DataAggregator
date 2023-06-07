@@ -36,6 +36,7 @@ public class EdgeFinder {
 		String masterIP = Main.deviceIP;
 
 		for (DatagramPacket packet : queue) {
+			String packetData = new String(packet.getData()).trim();
 		}
 	}
 }
