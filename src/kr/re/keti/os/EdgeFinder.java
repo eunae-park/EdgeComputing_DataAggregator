@@ -32,5 +32,6 @@ public class EdgeFinder {
 			e.printStackTrace();
 		}
 
+		LocalDateTime masterTime = LocalDateTime.parse(Main.programStartTime, formatter);
 	}
 }
