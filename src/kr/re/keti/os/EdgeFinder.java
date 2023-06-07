@@ -39,6 +39,7 @@ public class EdgeFinder {
 			String packetData = new String(packet.getData()).trim();
 			String[] datas = packetData.split("::");
 			String packetIP = packet.getAddress().getHostAddress();
+
 		}
 	}
 }
