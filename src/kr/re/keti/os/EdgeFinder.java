@@ -33,5 +33,6 @@ public class EdgeFinder {
 		}
 
 		LocalDateTime masterTime = LocalDateTime.parse(Main.programStartTime, formatter);
+		String masterIP = Main.deviceIP;
 	}
 }
