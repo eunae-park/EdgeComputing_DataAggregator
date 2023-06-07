@@ -40,6 +40,9 @@ public class EdgeFinder {
 			String[] datas = packetData.split("::");
 			String packetIP = packet.getAddress().getHostAddress();
 
+			//------------master answer--------------
+			if(datas[1].equals("master")) {
+			}
 		}
 	}
 }
