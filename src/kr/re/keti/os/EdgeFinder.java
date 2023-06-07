@@ -38,6 +38,7 @@ public class EdgeFinder {
 		for (DatagramPacket packet : queue) {
 			String packetData = new String(packet.getData()).trim();
 			String[] datas = packetData.split("::");
+			String packetIP = packet.getAddress().getHostAddress();
 		}
 	}
 }
