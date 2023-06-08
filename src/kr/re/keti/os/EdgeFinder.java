@@ -49,6 +49,7 @@ public class EdgeFinder {
 			//-----------------all device answer---------------------
 			else {
 				String packetTime = datas[2];
+				LocalDateTime time = LocalDateTime.parse(packetTime, formatter);
 			}
 		}
 	}
