@@ -48,6 +48,7 @@ public class EdgeFinder {
 
 			//-----------------all device answer---------------------
 			else {
+				String packetTime = datas[2];
 			}
 		}
 	}
