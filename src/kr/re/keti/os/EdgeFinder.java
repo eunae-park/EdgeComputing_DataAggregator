@@ -46,6 +46,9 @@ public class EdgeFinder {
 				break;
 			}
 
+			//-----------------all device answer---------------------
+			else {
+			}
 		}
 	}
 }
