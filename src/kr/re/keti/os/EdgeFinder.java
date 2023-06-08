@@ -50,6 +50,8 @@ public class EdgeFinder {
 			else {
 				String packetTime = datas[2];
 				LocalDateTime time = LocalDateTime.parse(packetTime, formatter);
+				if(time.isBefore(masterTime)) {
+				}
 			}
 		}
 	}
