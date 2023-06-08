@@ -43,6 +43,7 @@ public class EdgeFinder {
 			//------------master answer--------------
 			if(datas[1].equals("master")) {
 				masterIP = packetIP;
+				break;
 			}
 		}
 	}
