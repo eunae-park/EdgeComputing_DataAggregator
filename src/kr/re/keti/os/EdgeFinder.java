@@ -45,6 +45,7 @@ public class EdgeFinder {
 				masterIP = packetIP;
 				break;
 			}
+
 		}
 	}
 }
