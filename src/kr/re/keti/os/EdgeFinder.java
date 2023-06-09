@@ -66,5 +66,7 @@ public class EdgeFinder {
 				System.out.println("* Master found: " + masterIP + "\n");
 			}
 		}
+		else {
+		}
 	}
 }
