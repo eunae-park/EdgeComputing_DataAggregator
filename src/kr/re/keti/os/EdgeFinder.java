@@ -60,6 +60,7 @@ public class EdgeFinder {
 		//----------------------master found log--------------------------
 		if(Main.masterIP.equals("None")) {
 			if(masterIP.equals(Main.deviceIP)) {
+				System.out.println("Waiting for connections from slaves...");
 			}
 		}
 	}
