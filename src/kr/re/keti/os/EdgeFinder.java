@@ -73,5 +73,6 @@ public class EdgeFinder {
 			}
 		}
 
+		Main.masterIP = masterIP;
 	}
 }
