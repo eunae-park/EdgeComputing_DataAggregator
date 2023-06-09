@@ -52,6 +52,7 @@ public class EdgeFinder {
 				LocalDateTime time = LocalDateTime.parse(packetTime, formatter);
 				if(time.isBefore(masterTime)) {
 					masterTime = time;
+					masterIP = packetIP;
 				}
 			}
 		}
