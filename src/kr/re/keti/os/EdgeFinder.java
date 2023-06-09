@@ -67,6 +67,8 @@ public class EdgeFinder {
 			}
 		}
 		else {
+			if(!Main.masterIP.equals(masterIP)) {
+			}
 		}
 	}
 }
