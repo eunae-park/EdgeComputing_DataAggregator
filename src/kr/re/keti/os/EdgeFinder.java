@@ -69,6 +69,7 @@ public class EdgeFinder {
 		else {
 			if(!Main.masterIP.equals(masterIP)) {
 				System.out.println("* Master(" + Main.masterIP + ") die");
+				System.out.println("* Master change to " + masterIP);
 			}
 		}
 	}
