@@ -72,5 +72,6 @@ public class EdgeFinder {
 				System.out.println("* Master change to " + masterIP);
 			}
 		}
+
 	}
 }
