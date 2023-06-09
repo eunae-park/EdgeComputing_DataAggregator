@@ -62,6 +62,8 @@ public class EdgeFinder {
 			if(masterIP.equals(Main.deviceIP)) {
 				System.out.println("Waiting for connections from slaves...");
 			}
+			else {
+			}
 		}
 	}
 }
