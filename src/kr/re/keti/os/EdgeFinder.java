@@ -78,5 +78,7 @@ public class EdgeFinder {
 		if(Main.masterIP.equals(Main.deviceIP)) {
 			Main.mode = "master";
 		}
+		else {
+		}
 	}
 }
