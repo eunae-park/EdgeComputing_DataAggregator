@@ -57,5 +57,8 @@ public class EdgeFinder {
 			}
 		}
 
+		//----------------------master found log--------------------------
+		if(Main.masterIP.equals("None")) {
+		}
 	}
 }
