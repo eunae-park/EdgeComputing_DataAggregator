@@ -79,6 +79,7 @@ public class EdgeFinder {
 			Main.mode = "master";
 		}
 		else {
+			Main.mode = "slave";
 		}
 	}
 }
