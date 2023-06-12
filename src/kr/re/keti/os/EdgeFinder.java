@@ -85,5 +85,6 @@ public class EdgeFinder {
 	}
 
 	public void addPacket(DatagramPacket packet) {
+		queue.add(packet);
 	}
 }
