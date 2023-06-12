@@ -81,5 +81,6 @@ public class EdgeFinder {
 		else {
 			Main.mode = "slave";
 		}
+		clearQueue();
 	}
 }
