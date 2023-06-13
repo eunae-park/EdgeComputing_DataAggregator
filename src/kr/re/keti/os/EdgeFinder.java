@@ -88,4 +88,6 @@ public class EdgeFinder {
 		queue.add(packet);
 	}
 
+	public void clearQueue() {
+	}
 }
