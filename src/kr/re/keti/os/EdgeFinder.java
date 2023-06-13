@@ -97,4 +97,6 @@ public class EdgeFinder {
 		broadcast.send(data);
 	}
 
+	public void request() {
+	}
 }
