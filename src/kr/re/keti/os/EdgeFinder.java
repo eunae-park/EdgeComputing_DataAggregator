@@ -92,4 +92,6 @@ public class EdgeFinder {
 		queue.clear();
 	}
 
+	public void response() {
+	}
 }
