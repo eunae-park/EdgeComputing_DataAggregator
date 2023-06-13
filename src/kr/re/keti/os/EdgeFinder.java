@@ -98,5 +98,6 @@ public class EdgeFinder {
 	}
 
 	public void request() {
+		String data = "REQ::" + Main.mode + "::" + Main.programStartTime;
 	}
 }
