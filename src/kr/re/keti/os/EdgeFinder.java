@@ -93,5 +93,6 @@ public class EdgeFinder {
 	}
 
 	public void response() {
+		String data = "ANS::" + Main.mode + "::" + Main.programStartTime;
 	}
 }
