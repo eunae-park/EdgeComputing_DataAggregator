@@ -89,5 +89,6 @@ public class EdgeFinder {
 	}
 
 	public void clearQueue() {
+		queue.clear();
 	}
 }
