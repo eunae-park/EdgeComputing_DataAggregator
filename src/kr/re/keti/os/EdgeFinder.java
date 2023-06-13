@@ -96,4 +96,5 @@ public class EdgeFinder {
 		String data = "ANS::" + Main.mode + "::" + Main.programStartTime;
 		broadcast.send(data);
 	}
+
 }
