@@ -110,5 +110,7 @@ public class EdgeFinder {
 				}
 			}
 		}
+		Thread receiveThread = new Thread() {
+		}
 	}
 }
