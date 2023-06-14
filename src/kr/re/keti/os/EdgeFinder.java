@@ -116,5 +116,6 @@ public class EdgeFinder {
 			}
 		}
 		receiveThread.start();
+		sendThread.start();
 	}
 }
