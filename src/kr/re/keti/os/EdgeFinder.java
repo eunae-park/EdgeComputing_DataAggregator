@@ -115,5 +115,6 @@ public class EdgeFinder {
 				Main.deviceIP = broadcast.selfReceive();
 			}
 		}
+		receiveThread.start();
 	}
 }
