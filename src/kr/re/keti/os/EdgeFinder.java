@@ -112,6 +112,7 @@ public class EdgeFinder {
 		}
 		Thread receiveThread = new Thread() {
 			public void run() {
+				Main.deviceIP = broadcast.selfReceive();
 			}
 		}
 	}
