@@ -104,6 +104,8 @@ public class EdgeFinder {
 
 	public void getLocalIPAddress() {
 		Thread sendThread = new Thread() {
+			public void run() {
+			}
 		}
 	}
 }
