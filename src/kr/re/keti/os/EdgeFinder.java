@@ -106,6 +106,7 @@ public class EdgeFinder {
 		Thread sendThread = new Thread() {
 			public void run() {
 				while (!Thread.interrupted()) {
+					broadcast.selfSend();
 				}
 			}
 		}
