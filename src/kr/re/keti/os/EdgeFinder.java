@@ -121,6 +121,7 @@ public class EdgeFinder {
 			receiveThread.join();
 			sendThread.interrupt();
 			sendThread.join();
+			System.out.println("device adress update : " + Main.deviceIP);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
