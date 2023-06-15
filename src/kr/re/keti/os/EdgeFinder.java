@@ -119,6 +119,7 @@ public class EdgeFinder {
 		sendThread.start();
 		try {
 			receiveThread.join();
+			sendThread.interrupt();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
