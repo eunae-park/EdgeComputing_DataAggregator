@@ -23,4 +23,5 @@ public class EdgeReceptor {
 	private Broadcast broadcast;
 	//	private Agent agent;
 
+	private ArrayBlockingQueue<DatagramPacket> waitingAddressQeue;
 }
