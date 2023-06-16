@@ -20,4 +20,5 @@ public class EdgeReceptor {
 	private Thread listenerThread;
 	private Thread responseThread;
 	private byte[] deviceIP;
+	private Broadcast broadcast;
 }
