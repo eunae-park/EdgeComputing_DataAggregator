@@ -19,4 +19,5 @@ public class EdgeReceptor {
 	private final int DEFAULT_WAITING_QUEUE_CAPACITY = 256;
 	private Thread listenerThread;
 	private Thread responseThread;
+	private byte[] deviceIP;
 }
