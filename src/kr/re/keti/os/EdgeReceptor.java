@@ -18,4 +18,5 @@ public class EdgeReceptor {
 	private HashMap<String, String> slaveMap = new HashMap<>();
 	private final int DEFAULT_WAITING_QUEUE_CAPACITY = 256;
 	private Thread listenerThread;
+	private Thread responseThread;
 }
