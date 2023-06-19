@@ -29,4 +29,6 @@ public class EdgeReceptor {
 		return instance;
 	}
 
+	private EdgeReceptor() {
+	}
 }
