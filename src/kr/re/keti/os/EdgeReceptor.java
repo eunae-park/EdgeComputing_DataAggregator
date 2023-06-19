@@ -24,4 +24,5 @@ public class EdgeReceptor {
 	//	private Agent agent;
 
 	private ArrayBlockingQueue<DatagramPacket> waitingAddressQeue;
+
 }
