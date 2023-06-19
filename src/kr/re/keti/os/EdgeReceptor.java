@@ -41,4 +41,6 @@ public class EdgeReceptor {
 		initThreads();
 	}
 
+	public void listenerStart() {
+	}
 }
