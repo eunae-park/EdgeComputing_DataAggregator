@@ -30,5 +30,7 @@ public class EdgeReceptor {
 	}
 
 	private EdgeReceptor() {
+		//		agent = Agent.getInstance();
+		broadcast = Broadcast.getInstance();
 	}
 }
