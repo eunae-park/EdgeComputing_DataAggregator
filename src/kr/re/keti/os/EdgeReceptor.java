@@ -26,5 +26,6 @@ public class EdgeReceptor {
 	private ArrayBlockingQueue<DatagramPacket> waitingAddressQeue;
 
 	public static EdgeReceptor getInstance() {
+		return instance;
 	}
 }
