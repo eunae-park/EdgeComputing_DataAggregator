@@ -32,5 +32,6 @@ public class EdgeReceptor {
 	private EdgeReceptor() {
 		//		agent = Agent.getInstance();
 		broadcast = Broadcast.getInstance();
+		waitingAddressQeue = new ArrayBlockingQueue<>(DEFAULT_WAITING_QUEUE_CAPACITY);
 	}
 }
