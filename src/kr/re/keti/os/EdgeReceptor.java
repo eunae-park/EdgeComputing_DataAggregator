@@ -33,5 +33,10 @@ public class EdgeReceptor {
 		//		agent = Agent.getInstance();
 		broadcast = Broadcast.getInstance();
 		waitingAddressQeue = new ArrayBlockingQueue<>(DEFAULT_WAITING_QUEUE_CAPACITY);
+		try {
+			deviceIP = InetAddress.getLocalHost().getHostAddress().getBytes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
