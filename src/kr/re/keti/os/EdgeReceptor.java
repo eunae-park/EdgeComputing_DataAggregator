@@ -54,4 +54,6 @@ public class EdgeReceptor {
 		responseThread.start();
 	}
 
+	public void responseStop() {
+	}
 }
