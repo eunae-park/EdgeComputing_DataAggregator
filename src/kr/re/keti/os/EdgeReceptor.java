@@ -58,4 +58,6 @@ public class EdgeReceptor {
 		responseThread.interrupt();
 	}
 
+	public void close() {
+	}
 }
