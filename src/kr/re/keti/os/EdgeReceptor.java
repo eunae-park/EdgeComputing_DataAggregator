@@ -50,4 +50,6 @@ public class EdgeReceptor {
 		;
 	}
 
+	public void responseStart() {
+	}
 }
