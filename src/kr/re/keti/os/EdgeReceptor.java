@@ -45,4 +45,6 @@ public class EdgeReceptor {
 		listenerThread.start();
 	}
 
+	public void listenerStop() {
+	}
 }
