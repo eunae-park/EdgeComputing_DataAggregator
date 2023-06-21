@@ -65,4 +65,5 @@ public class EdgeReceptor {
 			responseStop();
 		waitingAddressQeue.clear();
 	}
+
 }
