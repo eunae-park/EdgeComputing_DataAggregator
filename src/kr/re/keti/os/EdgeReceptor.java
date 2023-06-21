@@ -80,5 +80,7 @@ public class EdgeReceptor {
 	}
 
 	public void delEdgeListShow(String address) {
+		for (String slave : slaveList) {
+		}
 	}
 }
