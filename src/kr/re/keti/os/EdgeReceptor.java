@@ -78,4 +78,5 @@ public class EdgeReceptor {
 				System.out.println("\t" + slaveMap.get(slave) + " : " + slave);
 		}
 	}
+
 }
