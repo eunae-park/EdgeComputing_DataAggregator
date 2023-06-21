@@ -79,4 +79,6 @@ public class EdgeReceptor {
 		}
 	}
 
+	public void delEdgeListShow(String address) {
+	}
 }
