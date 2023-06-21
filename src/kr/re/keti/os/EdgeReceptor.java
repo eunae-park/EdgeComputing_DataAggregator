@@ -62,5 +62,6 @@ public class EdgeReceptor {
 		if(listenerThread != null)
 			listenerStop();
 		if(responseThread != null)
+			responseStop();
 	}
 }
