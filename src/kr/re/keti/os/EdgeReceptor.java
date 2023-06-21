@@ -63,5 +63,6 @@ public class EdgeReceptor {
 			listenerStop();
 		if(responseThread != null)
 			responseStop();
+		waitingAddressQeue.clear();
 	}
 }
