@@ -71,6 +71,7 @@ public class EdgeReceptor {
 			return;
 		System.out.println("\n* Slave List");
 		for (String slave : slaveList) {
+			if(slave.equals(slaveList.get(slaveList.size() - 1)))
 		}
 	}
 }
