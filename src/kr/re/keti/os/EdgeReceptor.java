@@ -66,4 +66,6 @@ public class EdgeReceptor {
 		waitingAddressQeue.clear();
 	}
 
+	public void newEdgeListShow() {
+	}
 }
