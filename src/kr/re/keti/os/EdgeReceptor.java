@@ -67,5 +67,6 @@ public class EdgeReceptor {
 	}
 
 	public void newEdgeListShow() {
+		if(slaveList.size() == 0)
 	}
 }
