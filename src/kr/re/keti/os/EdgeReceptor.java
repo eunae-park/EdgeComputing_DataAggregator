@@ -69,5 +69,6 @@ public class EdgeReceptor {
 	public void newEdgeListShow() {
 		if(slaveList.size() == 0)
 			return;
+		System.out.println("\n* Slave List");
 	}
 }
