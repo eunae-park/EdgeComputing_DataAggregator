@@ -74,6 +74,7 @@ public class EdgeReceptor {
 			if(slave.equals(slaveList.get(slaveList.size() - 1)))
 				// last slave == new slave
 				System.out.println("\t" + slaveMap.get(slave) + " : " + slave + " : new");
+			else
 		}
 	}
 }
