@@ -60,5 +60,6 @@ public class EdgeReceptor {
 
 	public void close() {
 		if(listenerThread != null)
+			listenerStop();
 	}
 }
