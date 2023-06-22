@@ -84,6 +84,7 @@ public class EdgeReceptor {
 			if(slave.equals(address)) {
 				System.out.println("\t" + slaveMap.get(slave) + " : " + slave + " : delete");
 				slaveList.remove(address);
+				slaveMap.remove(address);
 			}
 		}
 	}
