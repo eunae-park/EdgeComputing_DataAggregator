@@ -94,5 +94,7 @@ public class EdgeReceptor {
 
 	public void initThreads() {
 
+		listenerThread = new Thread(() -> {
+		}
 	}
 }
