@@ -95,6 +95,11 @@ public class EdgeReceptor {
 	public void initThreads() {
 
 		listenerThread = new Thread(() -> {
+			try {
+				EdgeFinder finder = EdgeFinder.getInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
