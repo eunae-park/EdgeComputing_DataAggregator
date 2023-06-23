@@ -101,6 +101,9 @@ public class EdgeReceptor {
 					DatagramPacket packet = broadcast.receive();
 					String packetData = new String(packet.getData());
 
+					//-------------------packet save------------------------
+					if(packetData.indexOf("ANS") != -1) {
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
