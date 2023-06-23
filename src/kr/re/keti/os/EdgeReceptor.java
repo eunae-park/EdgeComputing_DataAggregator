@@ -99,6 +99,7 @@ public class EdgeReceptor {
 				EdgeFinder finder = EdgeFinder.getInstance();
 				while (!Thread.currentThread().isInterrupted()) {
 					DatagramPacket packet = broadcast.receive();
+					String packetData = new String(packet.getData());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
