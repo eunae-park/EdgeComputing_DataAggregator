@@ -105,6 +105,8 @@ public class EdgeReceptor {
 					if(packetData.indexOf("ANS") != -1) {
 						finder.addPacket(packet);
 					}
+					if(packetData.indexOf("ANS") != -1 || packetData.indexOf("REQ") != -1) {
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
