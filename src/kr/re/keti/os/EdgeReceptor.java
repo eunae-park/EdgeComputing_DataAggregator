@@ -103,6 +103,7 @@ public class EdgeReceptor {
 
 					//-------------------packet save------------------------
 					if(packetData.indexOf("ANS") != -1) {
+						finder.addPacket(packet);
 					}
 				}
 			} catch (Exception e) {
