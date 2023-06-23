@@ -97,6 +97,8 @@ public class EdgeReceptor {
 		listenerThread = new Thread(() -> {
 			try {
 				EdgeFinder finder = EdgeFinder.getInstance();
+				while (!Thread.currentThread().isInterrupted()) {
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
