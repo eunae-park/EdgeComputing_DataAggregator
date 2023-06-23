@@ -93,5 +93,6 @@ public class EdgeReceptor {
 	}
 
 	public void initThreads() {
+
 	}
 }
