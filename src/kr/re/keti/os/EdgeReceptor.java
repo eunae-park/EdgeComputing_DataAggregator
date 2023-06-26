@@ -118,6 +118,8 @@ public class EdgeReceptor {
 			try {
 				String addr;
 				DatagramPacket packet;
+				while (!Thread.currentThread().isInterrupted()) {
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
