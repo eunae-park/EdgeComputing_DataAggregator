@@ -106,6 +106,7 @@ public class EdgeReceptor {
 						finder.addPacket(packet);
 					}
 					if(packetData.indexOf("ANS") != -1 || packetData.indexOf("REQ") != -1) {
+						waitingAddressQeue.put(packet);
 					}
 				}
 			} catch (Exception e) {
