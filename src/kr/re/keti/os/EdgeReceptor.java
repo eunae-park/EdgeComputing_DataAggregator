@@ -114,5 +114,7 @@ public class EdgeReceptor {
 			}
 		}
 
+		responseThread = new Thread(() -> {
+		}
 	}
 }
