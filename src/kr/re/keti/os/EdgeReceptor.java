@@ -117,6 +117,7 @@ public class EdgeReceptor {
 		responseThread = new Thread(() -> {
 			try {
 				String addr;
+				DatagramPacket packet;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
