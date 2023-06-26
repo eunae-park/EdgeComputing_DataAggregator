@@ -115,6 +115,11 @@ public class EdgeReceptor {
 		}
 
 		responseThread = new Thread(() -> {
+			try {
+				String addr;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
