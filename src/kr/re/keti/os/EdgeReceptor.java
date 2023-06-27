@@ -135,6 +135,9 @@ public class EdgeReceptor {
 							finder.response();
 							finder.discoverMaster();
 						}
+						//						System.out.println("DUP Data : "+packetData);
+						if(Main.mode.equals("master") && !addr.equals(Main.deviceIP)) {
+						}
 					}
 				}
 			} catch (Exception e) {
