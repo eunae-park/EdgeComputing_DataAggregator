@@ -126,6 +126,7 @@ public class EdgeReceptor {
 						EdgeFinder finder = EdgeFinder.getInstance();
 
 						String[] datas = packetData.split("::");
+
 					}
 				}
 			} catch (Exception e) {
