@@ -139,6 +139,8 @@ public class EdgeReceptor {
 						if(Main.mode.equals("master") && !addr.equals(Main.deviceIP)) {
 							if(logWrite(addr)) {
 								newEdgeListShow();
+								//								DataProcess.initEdgeList(PortNum.KETI_PORT);
+								String edgeList = slaveList + "";
 							}
 						}
 					}
