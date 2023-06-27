@@ -132,6 +132,7 @@ public class EdgeReceptor {
 						//						String time = datas[2];
 
 						if(type.equals("REQ")) {
+							finder.response();
 						}
 					}
 				}
