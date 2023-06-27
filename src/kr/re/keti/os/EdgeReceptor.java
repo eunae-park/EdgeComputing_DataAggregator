@@ -121,6 +121,8 @@ public class EdgeReceptor {
 				while (!Thread.currentThread().isInterrupted()) {
 					packet = waitingAddressQeue.take();
 					addr = packet.getAddress().getHostAddress();
+					if(deviceIP != null && addr != null) {
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
