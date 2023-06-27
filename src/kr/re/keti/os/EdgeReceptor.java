@@ -127,6 +127,7 @@ public class EdgeReceptor {
 
 						String[] datas = packetData.split("::");
 
+						String type = datas[0];
 					}
 				}
 			} catch (Exception e) {
