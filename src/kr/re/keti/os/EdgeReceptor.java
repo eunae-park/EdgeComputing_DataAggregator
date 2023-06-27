@@ -138,6 +138,7 @@ public class EdgeReceptor {
 						//						System.out.println("DUP Data : "+packetData);
 						if(Main.mode.equals("master") && !addr.equals(Main.deviceIP)) {
 							if(logWrite(addr)) {
+								newEdgeListShow();
 							}
 						}
 					}
