@@ -124,6 +124,7 @@ public class EdgeReceptor {
 					if(deviceIP != null && addr != null) {
 						String packetData = new String(packet.getData()).trim();
 						EdgeFinder finder = EdgeFinder.getInstance();
+
 					}
 				}
 			} catch (Exception e) {
