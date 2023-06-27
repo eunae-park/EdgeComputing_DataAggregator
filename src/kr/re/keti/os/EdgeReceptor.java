@@ -123,6 +123,7 @@ public class EdgeReceptor {
 					addr = packet.getAddress().getHostAddress();
 					if(deviceIP != null && addr != null) {
 						String packetData = new String(packet.getData()).trim();
+						EdgeFinder finder = EdgeFinder.getInstance();
 					}
 				}
 			} catch (Exception e) {
