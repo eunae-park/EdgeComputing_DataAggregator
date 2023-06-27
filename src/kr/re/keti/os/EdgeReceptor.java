@@ -128,6 +128,9 @@ public class EdgeReceptor {
 						String[] datas = packetData.split("::");
 
 						String type = datas[0];
+						//						String mode = datas[1];
+						//						String time = datas[2];
+
 					}
 				}
 			} catch (Exception e) {
