@@ -131,6 +131,8 @@ public class EdgeReceptor {
 						//						String mode = datas[1];
 						//						String time = datas[2];
 
+						if(type.equals("REQ")) {
+						}
 					}
 				}
 			} catch (Exception e) {
