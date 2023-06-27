@@ -122,6 +122,7 @@ public class EdgeReceptor {
 					packet = waitingAddressQeue.take();
 					addr = packet.getAddress().getHostAddress();
 					if(deviceIP != null && addr != null) {
+						String packetData = new String(packet.getData()).trim();
 					}
 				}
 			} catch (Exception e) {
