@@ -133,6 +133,7 @@ public class EdgeReceptor {
 
 						if(type.equals("REQ")) {
 							finder.response();
+							finder.discoverMaster();
 						}
 					}
 				}
