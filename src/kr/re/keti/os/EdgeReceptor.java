@@ -120,6 +120,7 @@ public class EdgeReceptor {
 				DatagramPacket packet;
 				while (!Thread.currentThread().isInterrupted()) {
 					packet = waitingAddressQeue.take();
+					addr = packet.getAddress().getHostAddress();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
