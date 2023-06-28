@@ -166,5 +166,6 @@ public class EdgeReceptor {
 		Date nowTime = new Date();
 		String logTime = timeFormat.format(nowTime);
 
+		if(slaveList.contains(slaveAddr))
 	}
 }
