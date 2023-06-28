@@ -158,5 +158,6 @@ public class EdgeReceptor {
 
 		listenerThread.setName("UDP_lisener");
 		responseThread.setName("UDP_response");
+
 	}
 }
