@@ -156,5 +156,6 @@ public class EdgeReceptor {
 			}
 		}
 
+		listenerThread.setName("UDP_lisener");
 	}
 }
