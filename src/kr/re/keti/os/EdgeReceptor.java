@@ -162,5 +162,6 @@ public class EdgeReceptor {
 	}
 
 	public boolean logWrite(String slaveAddr) {
+		SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 }
