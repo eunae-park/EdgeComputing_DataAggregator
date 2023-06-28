@@ -145,6 +145,8 @@ public class EdgeReceptor {
 								//								String request = "{[{REQ::"+Main.masterIP+"::001::EDGE_LIST::"+edgeList+"}]}";
 								//								agent.send(request.getBytes());
 
+								//								String request = "{[{REQ::"+Main.masterIP+"::001::EDGE_LIST::"+edgeList+"}]}";
+								//								agent.send(request.getBytes());
 							}
 						}
 					}
@@ -153,5 +155,6 @@ public class EdgeReceptor {
 				e.printStackTrace();
 			}
 		}
+
 	}
 }
