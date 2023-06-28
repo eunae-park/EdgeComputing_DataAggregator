@@ -161,4 +161,6 @@ public class EdgeReceptor {
 
 	}
 
+	public boolean logWrite(String slaveAddr) {
+	}
 }
