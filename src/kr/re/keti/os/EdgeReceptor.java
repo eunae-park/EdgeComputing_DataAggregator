@@ -142,6 +142,9 @@ public class EdgeReceptor {
 								//								DataProcess.initEdgeList(PortNum.KETI_PORT);
 								String edgeList = slaveList + "";
 								edgeList.replace(Main.masterIP, "");
+								//								String request = "{[{REQ::"+Main.masterIP+"::001::EDGE_LIST::"+edgeList+"}]}";
+								//								agent.send(request.getBytes());
+
 							}
 						}
 					}
