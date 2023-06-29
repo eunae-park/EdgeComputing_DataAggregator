@@ -170,5 +170,6 @@ public class EdgeReceptor {
 			return false;
 
 		slaveList.add(slaveAddr);
+		slaveMap.put(slaveAddr, logTime);
 	}
 }
