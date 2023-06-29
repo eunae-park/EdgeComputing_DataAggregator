@@ -168,5 +168,6 @@ public class EdgeReceptor {
 
 		if(slaveList.contains(slaveAddr))
 			return false;
+
 	}
 }
