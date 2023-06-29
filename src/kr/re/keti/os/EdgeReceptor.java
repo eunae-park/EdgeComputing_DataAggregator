@@ -181,6 +181,7 @@ public class EdgeReceptor {
 				writer.write(slaveList.get(i) + "\n");
 				writer.flush();
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
