@@ -182,6 +182,7 @@ public class EdgeReceptor {
 				writer.flush();
 			}
 
+			if(writer != null)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
