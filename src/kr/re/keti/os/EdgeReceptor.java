@@ -172,5 +172,10 @@ public class EdgeReceptor {
 		slaveList.add(slaveAddr);
 		slaveMap.put(slaveAddr, logTime);
 
+		try {
+			FileWriter writer = new FileWriter("edge_ipList.txt", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
