@@ -177,6 +177,8 @@ public class EdgeReceptor {
 			writer.write("master\n");
 			writer.flush();
 
+			for (int i = 0; i < slaveList.size(); i++) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
