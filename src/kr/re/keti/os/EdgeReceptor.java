@@ -176,6 +176,7 @@ public class EdgeReceptor {
 			FileWriter writer = new FileWriter("edge_ipList.txt", false);
 			writer.write("master\n");
 			writer.flush();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
