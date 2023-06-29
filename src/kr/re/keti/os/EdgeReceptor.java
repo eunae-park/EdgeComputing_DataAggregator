@@ -188,5 +188,6 @@ public class EdgeReceptor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 }
