@@ -18,4 +18,5 @@ public class TcpReceptor {
 	public static ArrayList<String> slaveList = new ArrayList<>();
 	private HashMap<String, String> slaveMap = new HashMap<>();
 	private final int CAPACITY = 5000;
+	private ServerSocket serverSocket;
 }
