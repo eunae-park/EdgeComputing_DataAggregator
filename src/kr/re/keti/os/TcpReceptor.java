@@ -19,4 +19,5 @@ public class TcpReceptor {
 	private HashMap<String, String> slaveMap = new HashMap<>();
 	private final int CAPACITY = 5000;
 	private ServerSocket serverSocket;
+	private ArrayBlockingQueue<Socket> acceptQueue;
 }
