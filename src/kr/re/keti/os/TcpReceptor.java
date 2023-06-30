@@ -20,4 +20,5 @@ public class TcpReceptor {
 	private final int CAPACITY = 5000;
 	private ServerSocket serverSocket;
 	private ArrayBlockingQueue<Socket> acceptQueue;
+	private Thread acceptThread;
 }
