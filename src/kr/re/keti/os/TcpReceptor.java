@@ -14,3 +14,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import kr.re.keti.PortNum;
 
+public class TcpReceptor {
+	public static ArrayList<String> slaveList = new ArrayList<>();
+}
