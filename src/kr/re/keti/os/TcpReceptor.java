@@ -24,4 +24,6 @@ public class TcpReceptor {
 	private Thread receiveThread;
 	private final int PORT = PortNum.DEFAULT_TCP_RECEPTOR_PORT;
 
+	public TcpReceptor() {
+	}
 }
