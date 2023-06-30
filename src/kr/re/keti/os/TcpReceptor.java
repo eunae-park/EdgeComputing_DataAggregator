@@ -21,4 +21,5 @@ public class TcpReceptor {
 	private ServerSocket serverSocket;
 	private ArrayBlockingQueue<Socket> acceptQueue;
 	private Thread acceptThread;
+	private Thread receiveThread;
 }
