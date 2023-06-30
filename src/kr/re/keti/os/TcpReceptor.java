@@ -25,5 +25,10 @@ public class TcpReceptor {
 	private final int PORT = PortNum.DEFAULT_TCP_RECEPTOR_PORT;
 
 	public TcpReceptor() {
+		try {
+			serverSocket = new ServerSocket(PortNum.DEFAULT_TCP_RECEPTOR_PORT);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
