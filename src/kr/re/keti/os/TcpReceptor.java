@@ -48,4 +48,6 @@ public class TcpReceptor {
 
 	}
 
+	private void initThread() {
+	}
 }
