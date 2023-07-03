@@ -52,6 +52,7 @@ public class TcpReceptor {
 		receiveThread = new Thread(() -> {
 			try {
 				while (!Thread.currentThread().isInterrupted()) {
+					Socket socket = acceptQueue.take();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
