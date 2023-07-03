@@ -43,5 +43,6 @@ public class TcpReceptor {
 		acceptThread.interrupt();
 		;
 		receiveThread.interrupt();
+		;
 	}
 }
