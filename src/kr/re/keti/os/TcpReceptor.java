@@ -35,5 +35,6 @@ public class TcpReceptor {
 	}
 
 	public void start() {
+		acceptThread.start();
 	}
 }
