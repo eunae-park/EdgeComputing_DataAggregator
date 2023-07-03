@@ -50,6 +50,12 @@ public class TcpReceptor {
 
 	private void initThread() {
 		receiveThread = new Thread(() -> {
+			try {
+				while (!Thread.currentThread().isInterrupted()) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
