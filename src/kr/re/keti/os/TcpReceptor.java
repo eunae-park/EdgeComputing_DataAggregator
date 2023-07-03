@@ -28,6 +28,7 @@ public class TcpReceptor {
 		try {
 			serverSocket = new ServerSocket(PortNum.DEFAULT_TCP_RECEPTOR_PORT);
 			acceptQueue = new ArrayBlockingQueue<>(CAPACITY);
+			initThread();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
