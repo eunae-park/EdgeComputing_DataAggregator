@@ -49,5 +49,7 @@ public class TcpReceptor {
 	}
 
 	private void initThread() {
+		receiveThread = new Thread(() -> {
+		}
 	}
 }
