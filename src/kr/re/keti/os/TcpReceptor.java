@@ -45,5 +45,6 @@ public class TcpReceptor {
 		receiveThread.interrupt();
 		;
 		acceptQueue.clear();
+
 	}
 }
