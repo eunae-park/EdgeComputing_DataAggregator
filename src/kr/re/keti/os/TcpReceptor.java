@@ -39,4 +39,6 @@ public class TcpReceptor {
 		receiveThread.start();
 	}
 
+	public void stop() {
+	}
 }
