@@ -57,6 +57,7 @@ public class TcpReceptor {
 					if(!slaveList.contains(address)) {
 						SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						Date nowTime = new Date();
+						String logTime = timeFormat.format(nowTime);
 					}
 				}
 			} catch (Exception e) {
