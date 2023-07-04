@@ -62,6 +62,11 @@ public class TcpReceptor {
 						slaveMap.put(address, logTime);
 						newEdgeListShow();
 
+						try {
+							FileWriter writer = new FileWriter("edge_ipList.txt", false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			} catch (Exception e) {
