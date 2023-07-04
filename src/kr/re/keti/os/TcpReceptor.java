@@ -55,6 +55,7 @@ public class TcpReceptor {
 					Socket socket = acceptQueue.take();
 					String address = socket.getInetAddress().getHostAddress();
 					if(!slaveList.contains(address)) {
+						SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					}
 				}
 			} catch (Exception e) {
