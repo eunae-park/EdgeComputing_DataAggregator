@@ -59,6 +59,7 @@ public class TcpReceptor {
 						Date nowTime = new Date();
 						String logTime = timeFormat.format(nowTime);
 						slaveList.add(address);
+						slaveMap.put(address, logTime);
 					}
 				}
 			} catch (Exception e) {
