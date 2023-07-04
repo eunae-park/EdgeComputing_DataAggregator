@@ -54,6 +54,8 @@ public class TcpReceptor {
 				while (!Thread.currentThread().isInterrupted()) {
 					Socket socket = acceptQueue.take();
 					String address = socket.getInetAddress().getHostAddress();
+					if(!slaveList.contains(address)) {
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
