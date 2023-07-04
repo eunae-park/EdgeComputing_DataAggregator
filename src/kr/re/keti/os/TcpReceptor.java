@@ -61,6 +61,7 @@ public class TcpReceptor {
 						slaveList.add(address);
 						slaveMap.put(address, logTime);
 						newEdgeListShow();
+
 					}
 				}
 			} catch (Exception e) {
