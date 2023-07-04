@@ -53,6 +53,7 @@ public class TcpReceptor {
 			try {
 				while (!Thread.currentThread().isInterrupted()) {
 					Socket socket = acceptQueue.take();
+					String address = socket.getInetAddress().getHostAddress();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
