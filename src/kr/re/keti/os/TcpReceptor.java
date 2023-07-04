@@ -60,6 +60,7 @@ public class TcpReceptor {
 						String logTime = timeFormat.format(nowTime);
 						slaveList.add(address);
 						slaveMap.put(address, logTime);
+						newEdgeListShow();
 					}
 				}
 			} catch (Exception e) {
