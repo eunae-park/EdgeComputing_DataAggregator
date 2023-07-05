@@ -64,6 +64,7 @@ public class TcpReceptor {
 
 						try {
 							FileWriter writer = new FileWriter("edge_ipList.txt", false);
+							writer.write("master\n");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
