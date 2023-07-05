@@ -68,6 +68,7 @@ public class TcpReceptor {
 							writer.flush();
 
 							for (int i = 0; i < slaveList.size(); i++) {
+								writer.write(slaveList.get(i) + "\n");
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
