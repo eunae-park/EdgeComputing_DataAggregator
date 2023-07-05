@@ -86,6 +86,8 @@ public class TcpReceptor {
 			}
 		}
 		acceptThread = new Thread(() -> {
+			while (!Thread.currentThread().isInterrupted()) {
+			}
 		}
 	}
 }
