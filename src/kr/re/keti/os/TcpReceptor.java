@@ -80,9 +80,12 @@ public class TcpReceptor {
 						}
 					}
 				}
+				//				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		acceptThread = new Thread(() -> {
 		}
 	}
 }
