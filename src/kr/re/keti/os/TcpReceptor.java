@@ -72,6 +72,7 @@ public class TcpReceptor {
 								writer.flush();
 							}
 
+							if(writer != null)
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
