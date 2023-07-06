@@ -89,6 +89,7 @@ public class TcpReceptor {
 			while (!Thread.currentThread().isInterrupted()) {
 				try {
 					Socket clientSocket = serverSocket.accept();
+					acceptQueue.put(clientSocket);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
