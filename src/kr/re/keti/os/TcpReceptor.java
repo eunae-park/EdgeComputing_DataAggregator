@@ -98,5 +98,6 @@ public class TcpReceptor {
 		}
 
 		acceptThread.setName("TCP_AcceptThread");
+		receiveThread.setName("TCP_ReceiveThread");
 	}
 }
