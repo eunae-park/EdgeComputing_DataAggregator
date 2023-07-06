@@ -121,5 +121,7 @@ public class TcpReceptor {
 		if(slaveList.size() == 0)
 			return;
 		System.out.println("\n* Slave List");
+		for (String slave : slaveList) {
+		}
 	}
 }
