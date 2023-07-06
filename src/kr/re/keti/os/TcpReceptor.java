@@ -109,5 +109,10 @@ public class TcpReceptor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		try (Socket socket = new Socket(masterIP, PORT);) {
+			socket.setSoTimeout(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
