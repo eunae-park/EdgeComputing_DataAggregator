@@ -101,4 +101,6 @@ public class TcpReceptor {
 		receiveThread.setName("TCP_ReceiveThread");
 	}
 
+	public boolean check(String masterIP) {
+	}
 }
