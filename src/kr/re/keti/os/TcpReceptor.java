@@ -105,6 +105,7 @@ public class TcpReceptor {
 		try {
 			String address = InetAddress.getLocalHost().getHostAddress();
 			if(address.equals(masterIP))
+				return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
