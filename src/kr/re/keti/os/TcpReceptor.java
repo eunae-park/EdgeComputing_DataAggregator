@@ -90,10 +90,12 @@ public class TcpReceptor {
 				try {
 					Socket clientSocket = serverSocket.accept();
 					acceptQueue.put(clientSocket);
+					//					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
+
 	}
 }
