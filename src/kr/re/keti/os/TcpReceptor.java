@@ -118,5 +118,6 @@ public class TcpReceptor {
 	}
 
 	public void newEdgeListShow() {
+		if(slaveList.size() == 0)
 	}
 }
