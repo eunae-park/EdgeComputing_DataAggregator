@@ -104,6 +104,7 @@ public class TcpReceptor {
 	public boolean check(String masterIP) {
 		try {
 			String address = InetAddress.getLocalHost().getHostAddress();
+			if(address.equals(masterIP))
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
