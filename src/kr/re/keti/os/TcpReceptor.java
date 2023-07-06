@@ -117,4 +117,6 @@ public class TcpReceptor {
 		return true;
 	}
 
+	public void newEdgeListShow() {
+	}
 }
