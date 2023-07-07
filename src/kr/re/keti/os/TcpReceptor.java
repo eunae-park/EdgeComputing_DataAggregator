@@ -126,6 +126,7 @@ public class TcpReceptor {
 				// last slave == new slave
 				System.out.println("\t" + slaveMap.get(slave) + " : " + slave + " : new");
 			else
+				System.out.println("\t" + slaveMap.get(slave) + " : " + slave);
 		}
 	}
 }
