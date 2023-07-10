@@ -33,4 +33,5 @@ public class UdpReceptor {
 	private DatagramSocket receiveSocket, sendSocket;
 	private Thread receiveThread, sendThread;
 	private Agent agent;
+	
 }
