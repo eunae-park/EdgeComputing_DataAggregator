@@ -25,4 +25,5 @@ public class UdpReceptor {
 	private HashMap<String, String> edgeMap = new HashMap<>();
 	
 	public final int DEFAULT_RECEIVE_PORT = PortNum.DEFAULT_RECEIVE_PORT;
+	public final int DEFAULT_SEND_PORT = PortNum.DEFAULT_SEND_PORT;
 }
