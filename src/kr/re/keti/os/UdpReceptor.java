@@ -38,6 +38,7 @@ public class UdpReceptor {
 		try {
 			queue = new ArrayBlockingQueue<>(5000);
 			receiveSocket = new DatagramSocket(DEFAULT_RECEIVE_PORT);
+			receiveSocket.setReuseAddress(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
