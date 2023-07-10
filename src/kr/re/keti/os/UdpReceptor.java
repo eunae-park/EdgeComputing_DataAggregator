@@ -31,4 +31,5 @@ public class UdpReceptor {
 	
 	private ArrayBlockingQueue<DatagramPacket> queue;
 	private DatagramSocket receiveSocket, sendSocket;
+	private Thread receiveThread, sendThread;
 }
