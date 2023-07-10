@@ -37,6 +37,7 @@ public class UdpReceptor {
 	public UdpReceptor() {
 		try {
 			queue = new ArrayBlockingQueue<>(5000);
+			receiveSocket = new DatagramSocket(DEFAULT_RECEIVE_PORT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
