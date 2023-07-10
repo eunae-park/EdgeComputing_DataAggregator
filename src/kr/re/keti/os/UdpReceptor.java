@@ -35,5 +35,10 @@ public class UdpReceptor {
 	private Agent agent;
 	
 	public UdpReceptor() {
+		try {
+			queue = new ArrayBlockingQueue<>(5000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
