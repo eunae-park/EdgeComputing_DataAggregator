@@ -34,4 +34,6 @@ public class UdpReceptor {
 	private Thread receiveThread, sendThread;
 	private Agent agent;
 	
+	public UdpReceptor() {
+	}
 }
