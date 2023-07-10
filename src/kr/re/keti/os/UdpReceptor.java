@@ -20,3 +20,6 @@ import kr.re.keti.PortNum;
 import kr.re.keti.agent.Agent;
 import kr.re.keti.Ssl;
 
+public class UdpReceptor {
+	public static ArrayList<String> edgeList = new ArrayList<>();
+}
