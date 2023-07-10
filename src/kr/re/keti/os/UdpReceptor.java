@@ -27,4 +27,5 @@ public class UdpReceptor {
 	public final int DEFAULT_RECEIVE_PORT = PortNum.DEFAULT_RECEIVE_PORT;
 	public final int DEFAULT_SEND_PORT = PortNum.DEFAULT_SEND_PORT;
 	private final int DEFAULT_BUF_LENGTH = 64;
+	private final String DEFAULT_BROADCAST_ADDRESS = "255.255.255.255";
 }
