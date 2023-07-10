@@ -30,4 +30,5 @@ public class UdpReceptor {
 	private final String DEFAULT_BROADCAST_ADDRESS = "255.255.255.255";
 	
 	private ArrayBlockingQueue<DatagramPacket> queue;
+	private DatagramSocket receiveSocket, sendSocket;
 }
