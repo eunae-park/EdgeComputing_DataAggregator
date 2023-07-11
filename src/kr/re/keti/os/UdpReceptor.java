@@ -59,6 +59,7 @@ public class UdpReceptor {
 			masterIP= packet.getAddress().getHostAddress();
 			
 
+			byte[] request = ("{[{REQ::"+masterIP+"::020::EDGE_KEYS}]}").getBytes();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
