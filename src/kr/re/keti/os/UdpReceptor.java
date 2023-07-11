@@ -58,6 +58,7 @@ public class UdpReceptor {
 			sendSocket.receive(packet);
 			masterIP= packet.getAddress().getHostAddress();
 			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
