@@ -49,5 +49,6 @@ public class UdpReceptor {
 		}
 	}
 	public String getMaster() {
+		String masterIP = "none";
 	}
 }
