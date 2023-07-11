@@ -40,6 +40,7 @@ public class UdpReceptor {
 			receiveSocket = new DatagramSocket(DEFAULT_RECEIVE_PORT);
 			receiveSocket.setReuseAddress(true);
 			
+			sendSocket = new DatagramSocket(DEFAULT_SEND_PORT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
