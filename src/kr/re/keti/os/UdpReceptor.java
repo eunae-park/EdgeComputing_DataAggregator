@@ -51,5 +51,10 @@ public class UdpReceptor {
 	public String getMaster() {
 		String masterIP = "none";
 		
+		try {
+			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
