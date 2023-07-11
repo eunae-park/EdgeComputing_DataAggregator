@@ -42,6 +42,7 @@ public class UdpReceptor {
 			
 			sendSocket = new DatagramSocket(DEFAULT_SEND_PORT);
 			sendSocket.setReuseAddress(true);
+			sendSocket.setBroadcast(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
