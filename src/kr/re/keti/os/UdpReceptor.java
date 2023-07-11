@@ -48,4 +48,6 @@ public class UdpReceptor {
 			e.printStackTrace();
 		}
 	}
+	public String getMaster() {
+	}
 }
