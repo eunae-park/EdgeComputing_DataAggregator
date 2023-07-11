@@ -57,6 +57,7 @@ public class UdpReceptor {
 			DatagramPacket packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
 			sendSocket.receive(packet);
 			masterIP= packet.getAddress().getHostAddress();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
