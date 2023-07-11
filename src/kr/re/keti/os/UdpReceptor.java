@@ -53,6 +53,7 @@ public class UdpReceptor {
 		
 		try {
 			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
+			send(DEFAULT_RECEIVE_PORT, Main.uuid.getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
