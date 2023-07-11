@@ -54,6 +54,7 @@ public class UdpReceptor {
 		try {
 			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 			send(DEFAULT_RECEIVE_PORT, Main.uuid.getBytes());
+			DatagramPacket packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
