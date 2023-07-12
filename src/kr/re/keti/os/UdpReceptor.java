@@ -60,6 +60,7 @@ public class UdpReceptor {
 			
 
 			byte[] request = ("{[{REQ::"+masterIP+"::020::EDGE_KEYS}]}").getBytes();
+			String response = new String(agent.send(masterIP, request));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
