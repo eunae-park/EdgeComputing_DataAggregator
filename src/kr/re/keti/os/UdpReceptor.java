@@ -66,6 +66,7 @@ public class UdpReceptor {
 			for(String data : datas) {
 				String uuid = data.substring(0, 36);
 				String key = data.substring(36, data.length());
+				byte[] keyData = key.getBytes();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
