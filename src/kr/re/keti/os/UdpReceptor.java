@@ -63,6 +63,8 @@ public class UdpReceptor {
 			String response = new String(agent.send(masterIP, request));
 			String responseData = response.split("::")[3];
 			String[] datas = response.split(":");
+			for(String data : datas) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
