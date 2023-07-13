@@ -73,8 +73,11 @@ public class UdpReceptor {
 			byte[] keyData = Files.readAllBytes(Path.of(path));
 			String key = new String(keyData);
 			agent.send(("{[{REQ::"+Main.deviceIP+"::019::"+Main.uuid+"::"+key+"}]}").getBytes());
+//			e.printStackTrace();
+//			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return masterIP;
 	}
 }
