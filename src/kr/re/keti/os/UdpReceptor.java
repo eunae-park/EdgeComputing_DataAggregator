@@ -81,5 +81,6 @@ public class UdpReceptor {
 		return masterIP;
 	}
 	public void start() {
+		agent = Agent.getInstance();
 	}
 }
