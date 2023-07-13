@@ -67,6 +67,7 @@ public class UdpReceptor {
 				String uuid = data.substring(0, 36);
 				String key = data.substring(36, data.length());
 				byte[] keyData = key.getBytes();
+				Ssl.addKey(responseData, uuid, keyData);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
