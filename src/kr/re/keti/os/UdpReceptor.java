@@ -83,5 +83,7 @@ public class UdpReceptor {
 	public void start() {
 		agent = Agent.getInstance();
 		queue = new ArrayBlockingQueue<>(5000);
+		receiveThread = new Thread(()->{
+		});
 	}
 }
