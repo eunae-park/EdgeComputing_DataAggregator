@@ -72,6 +72,7 @@ public class UdpReceptor {
 			String path = Ssl.getPath()+"private/private.key";
 			byte[] keyData = Files.readAllBytes(Path.of(path));
 			String key = new String(keyData);
+			agent.send(("{[{REQ::"+Main.deviceIP+"::019::"+Main.uuid+"::"+key+"}]}").getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
