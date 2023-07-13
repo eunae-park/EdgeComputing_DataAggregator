@@ -80,4 +80,6 @@ public class UdpReceptor {
 		}
 		return masterIP;
 	}
+	public void start() {
+	}
 }
