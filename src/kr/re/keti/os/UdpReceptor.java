@@ -70,6 +70,7 @@ public class UdpReceptor {
 				Ssl.addKey(responseData, uuid, keyData);
 			}
 			String path = Ssl.getPath()+"private/private.key";
+			byte[] keyData = Files.readAllBytes(Path.of(path));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
