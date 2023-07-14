@@ -89,6 +89,7 @@ public class UdpReceptor {
 				DatagramPacket packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
 				try {
 					receiveSocket.receive(packet);
+					queue.put(packet);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
