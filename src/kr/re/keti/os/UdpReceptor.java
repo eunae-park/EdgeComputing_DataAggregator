@@ -85,6 +85,7 @@ public class UdpReceptor {
 		queue = new ArrayBlockingQueue<>(5000);
 		receiveThread = new Thread(()->{
 			while(!Thread.currentThread().isInterrupted()) {
+				byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 			}
 		});
 	}
