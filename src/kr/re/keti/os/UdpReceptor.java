@@ -87,6 +87,11 @@ public class UdpReceptor {
 			while(!Thread.currentThread().isInterrupted()) {
 				byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 				DatagramPacket packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
+				try {
+					receiveSocket.receive(packet);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
