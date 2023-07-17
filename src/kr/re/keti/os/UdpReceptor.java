@@ -103,6 +103,7 @@ public class UdpReceptor {
 					String address = packet.getAddress().getHostAddress();
 					String uuid = new String(packet.getData());
 					if(address.equals(Main.deviceIP)) continue;
+					send(packet.getPort(), Main.uuid.getBytes());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
