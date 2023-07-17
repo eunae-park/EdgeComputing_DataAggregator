@@ -98,6 +98,11 @@ public class UdpReceptor {
 		
 		sendThread = new Thread(()->{
 			while(!Thread.currentThread().isInterrupted()) {
+				try {
+					DatagramPacket packet = queue.take();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
