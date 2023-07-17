@@ -102,6 +102,7 @@ public class UdpReceptor {
 					DatagramPacket packet = queue.take();
 					String address = packet.getAddress().getHostAddress();
 					String uuid = new String(packet.getData());
+					if(address.equals(Main.deviceIP)) continue;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
