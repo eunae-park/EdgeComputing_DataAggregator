@@ -100,6 +100,7 @@ public class UdpReceptor {
 			while(!Thread.currentThread().isInterrupted()) {
 				try {
 					DatagramPacket packet = queue.take();
+					String address = packet.getAddress().getHostAddress();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
