@@ -97,6 +97,8 @@ public class UdpReceptor {
 		});
 		
 		sendThread = new Thread(()->{
+			while(!Thread.currentThread().isInterrupted()) {
+			}
 		});
 	}
 }
