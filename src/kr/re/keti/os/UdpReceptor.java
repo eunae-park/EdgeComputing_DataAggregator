@@ -104,6 +104,7 @@ public class UdpReceptor {
 					String uuid = new String(packet.getData());
 					if(address.equals(Main.deviceIP)) continue;
 					send(packet.getPort(), Main.uuid.getBytes());
+					newEdge(address, uuid);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
