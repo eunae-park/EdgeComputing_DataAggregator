@@ -96,5 +96,7 @@ public class UdpReceptor {
 			}
 		});
 		
+		sendThread = new Thread(()->{
+		});
 	}
 }
