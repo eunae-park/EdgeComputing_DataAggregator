@@ -101,6 +101,7 @@ public class UdpReceptor {
 				try {
 					DatagramPacket packet = queue.take();
 					String address = packet.getAddress().getHostAddress();
+					String uuid = new String(packet.getData());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
