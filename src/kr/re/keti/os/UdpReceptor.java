@@ -115,5 +115,6 @@ public class UdpReceptor {
 		receiveThread.start();
 		
 		sendThread.setName("UDP_Send");
+		sendThread.start();
 	}
 }
