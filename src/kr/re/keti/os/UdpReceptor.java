@@ -134,6 +134,7 @@ public class UdpReceptor {
 		try {
 			DatagramPacket packet = new DatagramPacket(
 				data,
+				data.length,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
