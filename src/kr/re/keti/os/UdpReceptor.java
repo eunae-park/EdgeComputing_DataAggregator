@@ -118,5 +118,6 @@ public class UdpReceptor {
 		sendThread.start();
 	}
 	public void stop() {
+		queue.clear();
 	}
 }
