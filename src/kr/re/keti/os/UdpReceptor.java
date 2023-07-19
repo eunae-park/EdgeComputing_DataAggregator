@@ -122,4 +122,6 @@ public class UdpReceptor {
 		if(sendThread != null) sendThread.interrupt();
 		if(receiveThread != null) receiveThread.interrupt();
 	}
+	private void send(int targetPort, byte[] data) {
+	}
 }
