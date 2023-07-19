@@ -120,5 +120,6 @@ public class UdpReceptor {
 	public void stop() {
 		queue.clear();
 		if(sendThread != null) sendThread.interrupt();
+		if(receiveThread != null) receiveThread.interrupt();
 	}
 }
