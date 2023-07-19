@@ -123,5 +123,10 @@ public class UdpReceptor {
 		if(receiveThread != null) receiveThread.interrupt();
 	}
 	private void send(int targetPort, byte[] data) {
+		try {
+			DatagramPacket packet = createPacket(targetPort, data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
