@@ -135,6 +135,7 @@ public class UdpReceptor {
 			DatagramPacket packet = new DatagramPacket(
 				data,
 				data.length,
+				InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS),
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
