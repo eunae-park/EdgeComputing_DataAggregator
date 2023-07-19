@@ -125,6 +125,7 @@ public class UdpReceptor {
 	private void send(int targetPort, byte[] data) {
 		try {
 			DatagramPacket packet = createPacket(targetPort, data);
+			sendSocket.send(packet);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
