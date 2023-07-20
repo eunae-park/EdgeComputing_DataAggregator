@@ -155,5 +155,6 @@ public class UdpReceptor {
 			edgeMap.remove(address);
 		}
 		
+		edgeList.add(address);
 	}
 }
