@@ -137,6 +137,7 @@ public class UdpReceptor {
 				data.length,
 				InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS),
 				port
+			);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
