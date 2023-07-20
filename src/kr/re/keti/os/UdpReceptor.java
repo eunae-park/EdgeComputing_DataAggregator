@@ -146,5 +146,6 @@ public class UdpReceptor {
 	}
 	private void newEdge(String address, String uuid) {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date nowTime = new Date();
 	}
 }
