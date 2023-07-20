@@ -150,6 +150,7 @@ public class UdpReceptor {
 		String logTime = timeFormat.format(nowTime);
 		
 		if(edgeList.contains(address)) {
+			System.out.println("\t"+edgeMap.get(address)+" : "+address +" : delete");
 		}
 	}
 }
