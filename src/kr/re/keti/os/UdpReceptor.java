@@ -149,5 +149,7 @@ public class UdpReceptor {
 		Date nowTime = new Date();
 		String logTime = timeFormat.format(nowTime);
 		
+		if(edgeList.contains(address)) {
+		}
 	}
 }
