@@ -144,4 +144,6 @@ public class UdpReceptor {
 		}
 		return null;
 	}
+	private void newEdge(String address, String uuid) {
+	}
 }
