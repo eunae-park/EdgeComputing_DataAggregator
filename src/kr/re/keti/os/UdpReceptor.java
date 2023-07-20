@@ -151,6 +151,7 @@ public class UdpReceptor {
 		
 		if(edgeList.contains(address)) {
 			System.out.println("\t"+edgeMap.get(address)+" : "+address +" : delete");
+			edgeList.remove(address);
 		}
 	}
 }
