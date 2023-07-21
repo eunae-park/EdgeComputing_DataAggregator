@@ -163,5 +163,6 @@ public class UdpReceptor {
 			System.out.println("edge_ipList write error");
 		}
 		String list = getEdgeList();
+		agent.send(("{[{REQ::"+address+"::001::EDGE_LIST::"+list+"}]}").getBytes());
 	}
 }
