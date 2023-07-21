@@ -162,5 +162,6 @@ public class UdpReceptor {
 		if(!logWrite()) {
 			System.out.println("edge_ipList write error");
 		}
+		String list = getEdgeList();
 	}
 }
