@@ -167,4 +167,6 @@ public class UdpReceptor {
 		
 		
 	}
+	public void newEdgeLog() {
+	}
 }
