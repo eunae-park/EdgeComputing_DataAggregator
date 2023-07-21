@@ -164,5 +164,6 @@ public class UdpReceptor {
 		}
 		String list = getEdgeList();
 		agent.send(("{[{REQ::"+address+"::001::EDGE_LIST::"+list+"}]}").getBytes());
+		
 	}
 }
