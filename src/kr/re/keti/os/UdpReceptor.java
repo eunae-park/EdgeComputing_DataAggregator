@@ -159,5 +159,7 @@ public class UdpReceptor {
 		edgeMap.put(address, logTime);
 		
 		newEdgeLog();
+		if(!logWrite()) {
+		}
 	}
 }
