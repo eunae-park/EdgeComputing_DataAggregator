@@ -168,5 +168,6 @@ public class UdpReceptor {
 		
 	}
 	public void newEdgeLog() {
+		if(edgeList.size() == 0) return;
 	}
 }
