@@ -174,6 +174,7 @@ public class UdpReceptor {
 			if(slave.equals(edgeList.get(edgeList.size()-1)))
 				// last slave == new slave
 				System.out.println("\t"+edgeMap.get(slave)+" : "+slave+" : new");
+			else
 		}
 	}
 }
