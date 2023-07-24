@@ -170,5 +170,7 @@ public class UdpReceptor {
 	public void newEdgeLog() {
 		if(edgeList.size() == 0) return;
 		System.out.println("\n* Slave List");
+		for(String slave : edgeList) {
+		}
 	}
 }
