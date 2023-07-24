@@ -181,5 +181,10 @@ public class UdpReceptor {
 	}
 	public boolean logWrite() {
 		
+		try {
+			FileWriter writer = new FileWriter("edge_ipList.txt", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
