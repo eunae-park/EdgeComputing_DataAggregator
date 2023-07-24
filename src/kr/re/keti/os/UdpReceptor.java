@@ -171,6 +171,7 @@ public class UdpReceptor {
 		if(edgeList.size() == 0) return;
 		System.out.println("\n* Slave List");
 		for(String slave : edgeList) {
+			if(slave.equals(edgeList.get(edgeList.size()-1)))
 		}
 	}
 }
