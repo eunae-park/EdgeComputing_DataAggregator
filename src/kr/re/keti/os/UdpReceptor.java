@@ -175,6 +175,7 @@ public class UdpReceptor {
 				// last slave == new slave
 				System.out.println("\t"+edgeMap.get(slave)+" : "+slave+" : new");
 			else
+				System.out.println("\t"+edgeMap.get(slave)+" : "+slave);
 		}
 	}
 }
