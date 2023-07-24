@@ -179,4 +179,6 @@ public class UdpReceptor {
 		}
 		
 	}
+	public boolean logWrite() {
+	}
 }
