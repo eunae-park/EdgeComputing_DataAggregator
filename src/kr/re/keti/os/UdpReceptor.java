@@ -191,6 +191,7 @@ public class UdpReceptor {
 				writer.flush();
 			}
 			
+			if(writer != null) writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
