@@ -190,6 +190,7 @@ public class UdpReceptor {
 				writer.write(edgeList.get(i)+"\n");
 				writer.flush();
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
