@@ -203,5 +203,6 @@ public class UdpReceptor {
 		String list = edgeList.toString();
 		list = list.substring(1, list.length()-1);
 		list = list.replace(", ", ":");
+		return list;
 	}
 }
