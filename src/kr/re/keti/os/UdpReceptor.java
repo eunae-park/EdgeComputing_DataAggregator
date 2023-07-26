@@ -201,5 +201,6 @@ public class UdpReceptor {
 	}
 	public String getEdgeList() {
 		String list = edgeList.toString();
+		list = list.substring(1, list.length()-1);
 	}
 }
