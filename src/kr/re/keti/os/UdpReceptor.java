@@ -200,5 +200,6 @@ public class UdpReceptor {
 		return false;
 	}
 	public String getEdgeList() {
+		String list = edgeList.toString();
 	}
 }
