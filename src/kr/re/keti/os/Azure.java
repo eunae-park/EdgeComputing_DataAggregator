@@ -24,6 +24,7 @@ public class Azure implements OSProcess{
 		mount(mountPath);
 		masterIP = getMasterAddress();
 		if(!receptor.check(masterIP)) {
+			checkFileCreate();
 		}
 	}
 }
