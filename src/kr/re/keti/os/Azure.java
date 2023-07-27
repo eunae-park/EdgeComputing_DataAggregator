@@ -30,4 +30,5 @@ public class Azure implements OSProcess{
 		umount();
 		return masterIP;
 	}
+	
 }
