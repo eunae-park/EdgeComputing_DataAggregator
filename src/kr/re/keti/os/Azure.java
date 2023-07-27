@@ -27,5 +27,6 @@ public class Azure implements OSProcess{
 			checkFileCreate();
 			masterIP = getMasterAddress();
 		}
+		umount();
 	}
 }
