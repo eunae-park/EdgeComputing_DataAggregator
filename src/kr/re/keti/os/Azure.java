@@ -21,5 +21,6 @@ public class Azure implements OSProcess{
 		receptor = new TcpReceptor();
 		String masterIP = "none";
 		mountPath = getSharedDiskPath();
+		mount(mountPath);
 	}
 }
