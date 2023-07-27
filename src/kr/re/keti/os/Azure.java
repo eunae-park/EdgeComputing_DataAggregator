@@ -28,5 +28,6 @@ public class Azure implements OSProcess{
 			masterIP = getMasterAddress();
 		}
 		umount();
+		return masterIP;
 	}
 }
