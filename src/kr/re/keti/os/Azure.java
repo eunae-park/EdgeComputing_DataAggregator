@@ -17,4 +17,6 @@ public class Azure implements OSProcess{
 	private String mountPath;
 	private TcpReceptor receptor;
 	@Override
+	public String getMaster() {
+	}
 }
