@@ -19,5 +19,6 @@ public class Azure implements OSProcess{
 	@Override
 	public String getMaster() {
 		receptor = new TcpReceptor();
+		String masterIP = "none";
 	}
 }
