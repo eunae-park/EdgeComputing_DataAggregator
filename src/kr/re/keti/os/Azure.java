@@ -15,4 +15,5 @@ public class Azure implements OSProcess{
 	private final String mountPoint = "/media/azure/";
 	private final String checkFile = "check.txt";
 	private String mountPath;
+	private TcpReceptor receptor;
 }
