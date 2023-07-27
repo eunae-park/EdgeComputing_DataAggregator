@@ -11,3 +11,6 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.Arrays;
 
+public class Azure implements OSProcess{
+	private final String mountPoint = "/media/azure/";
+}
