@@ -23,5 +23,7 @@ public class Azure implements OSProcess{
 		mountPath = getSharedDiskPath();
 		mount(mountPath);
 		masterIP = getMasterAddress();
+		if(!receptor.check(masterIP)) {
+		}
 	}
 }
