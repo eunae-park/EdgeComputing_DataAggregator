@@ -18,5 +18,6 @@ public class Azure implements OSProcess{
 	private TcpReceptor receptor;
 	@Override
 	public String getMaster() {
+		receptor = new TcpReceptor();
 	}
 }
