@@ -31,4 +31,5 @@ public class Azure implements OSProcess{
 		return masterIP;
 	}
 	
+	@Override
 }
