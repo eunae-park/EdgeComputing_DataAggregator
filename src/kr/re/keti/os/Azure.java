@@ -35,4 +35,5 @@ public class Azure implements OSProcess{
 	public void start() {
 		receptor.start();
 	}
+	
 }
