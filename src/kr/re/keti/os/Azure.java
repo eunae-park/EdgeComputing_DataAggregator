@@ -32,4 +32,6 @@ public class Azure implements OSProcess{
 	}
 	
 	@Override
+	public void start() {
+	}
 }
