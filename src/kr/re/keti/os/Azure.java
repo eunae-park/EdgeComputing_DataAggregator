@@ -38,5 +38,6 @@ public class Azure implements OSProcess{
 	
 	@Override
 	public void stop() {
+		receptor.stop();
 	}
 }
