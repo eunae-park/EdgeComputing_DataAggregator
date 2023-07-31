@@ -41,5 +41,6 @@ public class Azure implements OSProcess{
 		receptor.stop();
 		mount(mountPath);
 		checkFileDelete();
+		umount();
 	}
 }
