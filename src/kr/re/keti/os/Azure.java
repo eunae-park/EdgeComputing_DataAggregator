@@ -53,4 +53,6 @@ public class Azure implements OSProcess{
 		}
 		return result;
 	}
+	private String getMasterAddress() {
+	}
 }
