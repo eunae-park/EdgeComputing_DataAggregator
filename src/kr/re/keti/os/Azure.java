@@ -45,5 +45,6 @@ public class Azure implements OSProcess{
 	}
 	
 	public boolean checkFileDelete() {
+		boolean result = false;
 	}
 }
