@@ -48,6 +48,7 @@ public class Azure implements OSProcess{
 		boolean result = false;
 		File file = new File(mountPoint+checkFile);
 		if(file.exists()) {
+			file.delete();
 		}
 	}
 }
