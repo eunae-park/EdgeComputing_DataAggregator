@@ -44,4 +44,6 @@ public class Azure implements OSProcess{
 		umount();
 	}
 	
+	public boolean checkFileDelete() {
+	}
 }
