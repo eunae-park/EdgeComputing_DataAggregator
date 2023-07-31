@@ -51,5 +51,6 @@ public class Azure implements OSProcess{
 			file.delete();
 			result = true;
 		}
+		return result;
 	}
 }
