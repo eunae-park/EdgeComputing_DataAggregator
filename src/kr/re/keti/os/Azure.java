@@ -40,5 +40,6 @@ public class Azure implements OSProcess{
 	public void stop() {
 		receptor.stop();
 		mount(mountPath);
+		checkFileDelete();
 	}
 }
