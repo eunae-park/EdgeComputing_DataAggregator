@@ -72,5 +72,6 @@ public class Azure implements OSProcess{
 	}
 	private String checkFileCreate() {
 		String address = "none";
+		File checkPath = new File(mountPoint+checkFile);
 	}
 }
