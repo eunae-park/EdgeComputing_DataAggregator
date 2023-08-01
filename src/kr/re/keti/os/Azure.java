@@ -70,4 +70,6 @@ public class Azure implements OSProcess{
 		}
 		return masterIP;
 	}
+	private String checkFileCreate() {
+	}
 }
