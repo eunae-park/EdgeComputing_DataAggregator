@@ -68,5 +68,6 @@ public class Azure implements OSProcess{
 		else {
 			masterIP = checkFileCreate();
 		}
+		return masterIP;
 	}
 }
