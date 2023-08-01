@@ -55,5 +55,6 @@ public class Azure implements OSProcess{
 	}
 	private String getMasterAddress() {
 		String masterIP = "none";
+		File checkPath = new File(mountPoint+checkFile);
 	}
 }
