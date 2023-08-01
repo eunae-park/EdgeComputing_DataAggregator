@@ -60,6 +60,7 @@ public class Azure implements OSProcess{
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(checkPath));
 				masterIP = reader.readLine();
+				reader.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
