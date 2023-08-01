@@ -57,6 +57,11 @@ public class Azure implements OSProcess{
 		String masterIP = "none";
 		File checkPath = new File(mountPoint+checkFile);
 		if(checkPath.exists()) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(checkPath));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
