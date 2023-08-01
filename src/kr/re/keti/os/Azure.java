@@ -59,6 +59,7 @@ public class Azure implements OSProcess{
 		if(checkPath.exists()) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(checkPath));
+				masterIP = reader.readLine();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
