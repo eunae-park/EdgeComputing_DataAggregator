@@ -65,5 +65,7 @@ public class Azure implements OSProcess{
 				e.printStackTrace();
 			}
 		}
+		else {
+		}
 	}
 }
