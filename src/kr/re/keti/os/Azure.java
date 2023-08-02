@@ -77,6 +77,7 @@ public class Azure implements OSProcess{
 			address = InetAddress.getLocalHost().getHostAddress();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(checkPath));
 			writer.write(address);
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
