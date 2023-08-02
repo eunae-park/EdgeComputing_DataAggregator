@@ -87,6 +87,7 @@ public class Azure implements OSProcess{
 	private boolean mount(String path) {
 		File mountFolder = new File(mountPoint);
 		if(!mountFolder.exists()) {
+			mountFolder.mkdir();
 		}
 	}
 }
