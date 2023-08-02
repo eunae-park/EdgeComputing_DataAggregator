@@ -93,6 +93,7 @@ public class Azure implements OSProcess{
 		try {
 			Process process = Runtime.getRuntime().exec("sudo mount "+path+" "+mountPoint);
 			process.waitFor();
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
