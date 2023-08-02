@@ -89,5 +89,6 @@ public class Azure implements OSProcess{
 		if(!mountFolder.exists()) {
 			mountFolder.mkdir();
 		}
+		
 	}
 }
