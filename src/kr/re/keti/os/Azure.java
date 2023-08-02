@@ -90,5 +90,10 @@ public class Azure implements OSProcess{
 			mountFolder.mkdir();
 		}
 		
+		try {
+			Process process = Runtime.getRuntime().exec("sudo mount "+path+" "+mountPoint);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
