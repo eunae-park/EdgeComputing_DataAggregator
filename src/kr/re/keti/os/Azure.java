@@ -84,4 +84,6 @@ public class Azure implements OSProcess{
 		return address;
 		
 	}
+	private boolean mount(String path) {
+	}
 }
