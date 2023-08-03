@@ -99,4 +99,6 @@ public class Azure implements OSProcess{
 		}
 		return false;
 	}
+	private boolean umount() {
+	}
 }
