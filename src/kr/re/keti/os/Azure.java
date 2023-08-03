@@ -112,5 +112,6 @@ public class Azure implements OSProcess{
 	}
 	private String getSharedDiskPath() {
 		String path = "none";
+		double topSize = -1;
 	}
 }
