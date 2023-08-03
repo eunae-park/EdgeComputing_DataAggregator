@@ -110,4 +110,6 @@ public class Azure implements OSProcess{
 		}
 		return false;
 	}
+	private String getSharedDiskPath() {
+	}
 }
