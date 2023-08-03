@@ -102,6 +102,7 @@ public class Azure implements OSProcess{
 	private boolean umount() {
 		try {
 			Process process = Runtime.getRuntime().exec("sudo umount "+mountPoint);
+			process.waitFor();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
