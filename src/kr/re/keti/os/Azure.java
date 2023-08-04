@@ -118,6 +118,7 @@ public class Azure implements OSProcess{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line;
 			while((line = reader.readLine()) != null) {
+				String[] parts = line.trim().split("\\s+");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
