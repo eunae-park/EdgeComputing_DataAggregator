@@ -119,6 +119,7 @@ public class Azure implements OSProcess{
 			String line;
 			while((line = reader.readLine()) != null) {
 				String[] parts = line.trim().split("\\s+");
+				double size = convertToBytes(parts[2]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
