@@ -122,6 +122,7 @@ public class Azure implements OSProcess{
 				double size = convertToBytes(parts[2]);
 				if(size > topSize) {
 					path = parts[0];
+					topSize = size;
 				}
 			}
 		} catch (Exception e) {
