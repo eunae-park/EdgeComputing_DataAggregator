@@ -126,6 +126,7 @@ public class Azure implements OSProcess{
 				}
 				
 			}
+			return "/dev/"+path;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
