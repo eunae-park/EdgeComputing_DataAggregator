@@ -116,6 +116,7 @@ public class Azure implements OSProcess{
 		try {
 			Process process = new ProcessBuilder("lsblk", "--noheadings", "--output", "NAME,TYPE,SIZE").start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
