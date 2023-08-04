@@ -124,6 +124,7 @@ public class Azure implements OSProcess{
 					path = parts[0];
 					topSize = size;
 				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
