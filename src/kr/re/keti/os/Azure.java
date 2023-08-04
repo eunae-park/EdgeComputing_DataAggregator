@@ -113,5 +113,10 @@ public class Azure implements OSProcess{
 	private String getSharedDiskPath() {
 		String path = "none";
 		double topSize = -1;
+		try {
+			Process process = new ProcessBuilder("lsblk", "--noheadings", "--output", "NAME,TYPE,SIZE").start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
