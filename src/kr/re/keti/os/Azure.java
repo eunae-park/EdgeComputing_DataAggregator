@@ -130,5 +130,6 @@ public class Azure implements OSProcess{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 }
