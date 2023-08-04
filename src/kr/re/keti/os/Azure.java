@@ -121,6 +121,7 @@ public class Azure implements OSProcess{
 				String[] parts = line.trim().split("\\s+");
 				double size = convertToBytes(parts[2]);
 				if(size > topSize) {
+					path = parts[0];
 				}
 			}
 		} catch (Exception e) {
