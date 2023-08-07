@@ -133,4 +133,6 @@ public class Azure implements OSProcess{
 		
 		return path;
 	}
+	private double convertToBytes(String size) {
+	}
 }
