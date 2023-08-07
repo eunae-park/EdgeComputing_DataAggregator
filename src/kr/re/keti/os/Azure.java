@@ -137,5 +137,6 @@ public class Azure implements OSProcess{
 		String[] units = {"B", "K", "M", "G", "T"};
 		String unit = size.substring(size.length()-1);
 		double value = Double.parseDouble(size.substring(0, size.length()-1));
+		int square = Arrays.binarySearch(units, unit);
 	}
 }
