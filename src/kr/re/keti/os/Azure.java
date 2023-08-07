@@ -134,5 +134,6 @@ public class Azure implements OSProcess{
 		return path;
 	}
 	private double convertToBytes(String size) {
+		String[] units = {"B", "K", "M", "G", "T"};
 	}
 }
