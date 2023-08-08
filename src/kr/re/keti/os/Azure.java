@@ -139,5 +139,6 @@ public class Azure implements OSProcess{
 		double value = Double.parseDouble(size.substring(0, size.length()-1));
 		int square = Arrays.binarySearch(units, unit);
 		value = (double) (value * Math.pow(1024, square));
+		return value;
 	}
 }
