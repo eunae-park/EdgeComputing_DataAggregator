@@ -26,4 +26,5 @@ import kr.re.keti.os.OSProcess;
 public class Main {
 	public static String uuid;
 	public static String deviceIP;
+	public static String masterIP = "None";
 }
