@@ -33,4 +33,6 @@ public class Main {
 	public static String mode;
 	public static String programStartTime = programStartTime();
 	public static OSProcess process;
+	public static void main(String[] args){
+	}
 }
