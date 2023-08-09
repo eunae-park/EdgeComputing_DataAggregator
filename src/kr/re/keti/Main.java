@@ -32,4 +32,5 @@ public class Main {
 	public static String ramFolder;
 	public static String mode;
 	public static String programStartTime = programStartTime();
+	public static OSProcess process;
 }
