@@ -38,6 +38,7 @@ public class Main {
 		if(args.length >0 ) {
 			try {
 				InetAddress addr = InetAddress.getByName(args[args.length - 1]);
+				deviceIP = addr.getHostAddress();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
