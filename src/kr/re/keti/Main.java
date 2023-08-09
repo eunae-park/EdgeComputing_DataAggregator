@@ -36,6 +36,11 @@ public class Main {
 	public static void main(String[] args){
 		// -----------------IP in args---------------------------------------------
 		if(args.length >0 ) {
+			try {
+				InetAddress addr = InetAddress.getByName(args[args.length - 1]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
