@@ -23,3 +23,6 @@ import kr.re.keti.os.EdgeFinder;
 import kr.re.keti.os.Linux;
 import kr.re.keti.os.OSProcess;
 
+public class Main {
+	public static String uuid;
+}
