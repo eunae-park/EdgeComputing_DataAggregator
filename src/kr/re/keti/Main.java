@@ -30,4 +30,5 @@ public class Main {
 	public static String storageFolder;
 	public static String certFolder;
 	public static String ramFolder;
+	public static String mode;
 }
