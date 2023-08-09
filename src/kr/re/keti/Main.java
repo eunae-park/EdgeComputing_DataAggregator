@@ -34,5 +34,8 @@ public class Main {
 	public static String programStartTime = programStartTime();
 	public static OSProcess process;
 	public static void main(String[] args){
+		// -----------------IP in args---------------------------------------------
+		if(args.length >0 ) {
+		}
 	}
 }
