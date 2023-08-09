@@ -29,4 +29,5 @@ public class Main {
 	public static String masterIP = "None";
 	public static String storageFolder;
 	public static String certFolder;
+	public static String ramFolder;
 }
