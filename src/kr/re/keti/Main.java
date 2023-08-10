@@ -63,6 +63,8 @@ public class Main {
 		String osName = System.getProperty("os.name");
 		if(osName.equals("Linux")) {
 			String osVersion = System.getProperty("os.version");
+			if(osVersion.indexOf("azure") != -1) {
+			}
 		}
 	}
 }
