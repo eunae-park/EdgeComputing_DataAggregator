@@ -52,6 +52,7 @@ public class Main {
 			BufferedReader br = new BufferedReader(file);
 		
 			database = EdgeInformation(br);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
