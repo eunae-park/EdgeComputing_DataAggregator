@@ -49,6 +49,7 @@ public class Main {
 		//----------------------file read--------------------------
 		try {
 			FileReader file = new FileReader("info_device.txt");
+			BufferedReader br = new BufferedReader(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
