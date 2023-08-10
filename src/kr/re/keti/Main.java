@@ -54,6 +54,7 @@ public class Main {
 			database = EdgeInformation(br);
 		
 			if(br!=null) br.close();
+			if(file!=null) file.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
