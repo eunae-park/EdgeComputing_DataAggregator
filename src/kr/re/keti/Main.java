@@ -66,6 +66,8 @@ public class Main {
 			if(osVersion.indexOf("azure") != -1) {
 				process = new Azure();
 			}
+			else {
+			}
 		}
 	}
 }
