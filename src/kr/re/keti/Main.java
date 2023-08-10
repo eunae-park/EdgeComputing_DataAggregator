@@ -61,5 +61,7 @@ public class Main {
 		
 		//----------------OS-----------------------------------
 		String osName = System.getProperty("os.name");
+		if(osName.equals("Linux")) {
+		}
 	}
 }
