@@ -51,6 +51,7 @@ public class Main {
 			FileReader file = new FileReader("info_device.txt");
 			BufferedReader br = new BufferedReader(file);
 		
+			database = EdgeInformation(br);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
