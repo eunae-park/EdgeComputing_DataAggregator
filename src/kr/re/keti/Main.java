@@ -64,6 +64,7 @@ public class Main {
 		if(osName.equals("Linux")) {
 			String osVersion = System.getProperty("os.version");
 			if(osVersion.indexOf("azure") != -1) {
+				process = new Azure();
 			}
 		}
 	}
