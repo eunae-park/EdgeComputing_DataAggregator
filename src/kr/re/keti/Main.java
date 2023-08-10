@@ -53,6 +53,7 @@ public class Main {
 		
 			database = EdgeInformation(br);
 		
+			if(br!=null) br.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
