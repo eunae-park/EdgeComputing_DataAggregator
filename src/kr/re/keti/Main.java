@@ -46,5 +46,11 @@ public class Main {
 		
 		Database database = null;
 		
+		//----------------------file read--------------------------
+		try {
+			FileReader file = new FileReader("info_device.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
