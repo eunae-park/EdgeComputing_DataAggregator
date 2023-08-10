@@ -59,5 +59,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		//----------------OS-----------------------------------
+		String osName = System.getProperty("os.name");
 	}
 }
