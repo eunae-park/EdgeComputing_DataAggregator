@@ -70,5 +70,7 @@ public class Main {
 				process = new Linux();
 			}
 		}
+		else if(osName.equals("Windows")) {
+		}
 	}
 }
