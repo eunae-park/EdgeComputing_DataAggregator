@@ -71,6 +71,7 @@ public class Main {
 			}
 		}
 		else if(osName.equals("Windows")) {
+			System.out.println("\t**System is Windows**");
 		}
 	}
 }
