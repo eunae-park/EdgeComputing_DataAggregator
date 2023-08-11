@@ -75,5 +75,7 @@ public class Main {
 		}
 
 		Ssl.selfSignedCertificate(certFolder, certFolder+"Private/", certFolder+"Private/private.key", 365);
+		//--------------------Master Find---------------------------------
+		masterIP = process.getMaster();
 	}
 }
