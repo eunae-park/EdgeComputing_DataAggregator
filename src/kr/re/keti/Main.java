@@ -67,6 +67,7 @@ public class Main {
 				process = new Azure();
 			}
 			else {
+				process = new Linux();
 			}
 		}
 	}
