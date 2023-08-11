@@ -74,5 +74,6 @@ public class Main {
 			System.out.println("\t**System is Windows**");
 		}
 
+		Ssl.selfSignedCertificate(certFolder, certFolder+"Private/", certFolder+"Private/private.key", 365);
 	}
 }
