@@ -82,5 +82,7 @@ public class Main {
 			masterIP = deviceIP;
 			process.start();
 		}
+		else {
+		}
 	}
 }
