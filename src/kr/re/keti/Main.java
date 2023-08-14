@@ -79,6 +79,7 @@ public class Main {
 		masterIP = process.getMaster();
 		if(masterIP.equals("none") || masterIP.equals(deviceIP)) {
 			mode = "master";
+			masterIP = deviceIP;
 		}
 	}
 }
