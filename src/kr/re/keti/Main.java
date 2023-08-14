@@ -89,5 +89,6 @@ public class Main {
 		
 		DataProcess dataProcess = new DataProcess(database);
 		dataProcess.initWholeDataInformation();
+		
 	}
 }
