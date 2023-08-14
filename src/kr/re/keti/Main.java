@@ -80,6 +80,7 @@ public class Main {
 		if(masterIP.equals("none") || masterIP.equals(deviceIP)) {
 			mode = "master";
 			masterIP = deviceIP;
+			process.start();
 		}
 	}
 }
