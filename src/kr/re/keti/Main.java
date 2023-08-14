@@ -83,6 +83,7 @@ public class Main {
 			process.start();
 		}
 		else {
+			mode = "slave";
 		}
 	}
 }
