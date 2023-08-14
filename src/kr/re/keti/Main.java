@@ -85,5 +85,6 @@ public class Main {
 		else {
 			mode = "slave";
 		}
+		
 	}
 }
