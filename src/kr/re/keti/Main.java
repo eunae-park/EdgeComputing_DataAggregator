@@ -97,5 +97,7 @@ public class Main {
 		agent.start();
 		
 
+		if(mode.equals("master")) {
+		}
 	}
 }
