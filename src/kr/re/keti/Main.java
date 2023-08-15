@@ -107,6 +107,7 @@ public class Main {
 			try {
 				byte[] keyData = Files.readAllBytes(Path.of(certFolder+"Private/pub.key"));
 				int keySize = keyData.length;
+				byte[] start = ("{[{REQ::"+deviceIP+"::019::public_key::"+keySize+"::").getBytes();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
