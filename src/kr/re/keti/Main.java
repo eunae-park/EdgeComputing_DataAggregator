@@ -100,5 +100,7 @@ public class Main {
 		if(mode.equals("master")) {
 			System.out.println("Waiting for connections from slaves...");
 		}
+		else {
+		}
 	}
 }
