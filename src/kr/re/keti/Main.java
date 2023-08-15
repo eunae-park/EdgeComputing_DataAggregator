@@ -93,5 +93,6 @@ public class Main {
 
 		//------------------------master found----------------------------------
 		Agent agent = Agent.getInstance();
+		agent.setDatabase(database);
 	}
 }
