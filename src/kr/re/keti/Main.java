@@ -91,5 +91,7 @@ public class Main {
 		dataProcess.initWholeDataInformation();
 		
 
+		//------------------------master found----------------------------------
+		Agent agent = Agent.getInstance();
 	}
 }
