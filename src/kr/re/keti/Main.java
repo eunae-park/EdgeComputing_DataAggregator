@@ -110,6 +110,7 @@ public class Main {
 				byte[] start = ("{[{REQ::"+deviceIP+"::019::public_key::"+keySize+"::").getBytes();
 				byte[] end = "}]}".getBytes();
 				
+				byte[] data = new byte[start.length + keyData.length + end.length];
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
