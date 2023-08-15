@@ -104,6 +104,11 @@ public class Main {
 			System.out.println("* Master found: " + masterIP + "\n");
 			agent.send(("{[{REQ::"+deviceIP+"::001::EDGE_LIST}]}").getBytes());
 			
+			try {
+				byte[] keyData = Files.readAllBytes(Path.of(certFolder+"Private/pub.key"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
