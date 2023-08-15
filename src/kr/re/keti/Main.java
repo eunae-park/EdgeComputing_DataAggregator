@@ -95,5 +95,6 @@ public class Main {
 		Agent agent = Agent.getInstance();
 		agent.setDatabase(database);
 		agent.start();
+		
 	}
 }
