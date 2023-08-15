@@ -102,6 +102,7 @@ public class Main {
 		}
 		else {
 			System.out.println("* Master found: " + masterIP + "\n");
+			agent.send(("{[{REQ::"+deviceIP+"::001::EDGE_LIST}]}").getBytes());
 		}
 	}
 }
