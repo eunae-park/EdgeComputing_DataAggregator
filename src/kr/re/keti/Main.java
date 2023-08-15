@@ -101,6 +101,7 @@ public class Main {
 			System.out.println("Waiting for connections from slaves...");
 		}
 		else {
+			System.out.println("* Master found: " + masterIP + "\n");
 		}
 	}
 }
