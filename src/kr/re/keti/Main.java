@@ -111,6 +111,7 @@ public class Main {
 				byte[] end = "}]}".getBytes();
 				
 				byte[] data = new byte[start.length + keyData.length + end.length];
+			    System.arraycopy(start, 0, data, 0, start.length);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
