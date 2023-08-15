@@ -106,6 +106,7 @@ public class Main {
 			
 			try {
 				byte[] keyData = Files.readAllBytes(Path.of(certFolder+"Private/pub.key"));
+				int keySize = keyData.length;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
