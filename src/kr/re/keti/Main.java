@@ -134,5 +134,8 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		//-----------------------command-------------------------------------
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+		}
 	}
 }
