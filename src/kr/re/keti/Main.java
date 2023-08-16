@@ -129,6 +129,7 @@ public class Main {
 		}
 		try {
 			Thread.sleep(EdgeFinder.DEFAULT_WAITING_TIME+100);
+			edgeIPList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
