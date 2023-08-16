@@ -127,5 +127,10 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		try {
+			Thread.sleep(EdgeFinder.DEFAULT_WAITING_TIME+100);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
