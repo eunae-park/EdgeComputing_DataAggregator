@@ -143,6 +143,7 @@ public class Main {
 			Command command = new Command(database);
 			command.setName("command");
 			command.start();
+			command.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
