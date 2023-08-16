@@ -137,6 +137,7 @@ public class Main {
 		//-----------------------command-------------------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			Command.interrupted();
+			shutdown();
 		}
 	}
 }
