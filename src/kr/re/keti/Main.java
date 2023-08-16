@@ -121,5 +121,6 @@ public class Main {
 			}
 		}
 		
+		FileMonitor fileMonitor = new FileMonitor(storageFolder, agent, database, 500);
 	}
 }
