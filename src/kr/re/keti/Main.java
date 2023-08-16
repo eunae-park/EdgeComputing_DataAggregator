@@ -148,5 +148,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		//-----------------------program exit---------------------------------
+		shutdown();
 	}
 }
