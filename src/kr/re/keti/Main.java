@@ -122,5 +122,10 @@ public class Main {
 		}
 		
 		FileMonitor fileMonitor = new FileMonitor(storageFolder, agent, database, 500);
+		try {
+			fileMonitor.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
