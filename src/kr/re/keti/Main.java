@@ -141,6 +141,7 @@ public class Main {
 		}
 		try {
 			Command command = new Command(database);
+			command.setName("command");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
