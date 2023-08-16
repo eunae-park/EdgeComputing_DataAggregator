@@ -150,5 +150,6 @@ public class Main {
 		
 		//-----------------------program exit---------------------------------
 		shutdown();
+		System.exit(0);
 	}
 }
