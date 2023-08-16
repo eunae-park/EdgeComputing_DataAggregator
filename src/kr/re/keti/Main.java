@@ -115,6 +115,7 @@ public class Main {
 			    System.arraycopy(keyData, 0, data, start.length, keyData.length);
 			    System.arraycopy(end, 0, data, start.length + keyData.length, end.length);
 
+			    agent.send(data);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
