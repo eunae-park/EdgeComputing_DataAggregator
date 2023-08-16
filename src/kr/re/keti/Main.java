@@ -139,5 +139,10 @@ public class Main {
 			Command.interrupted();
 			shutdown();
 		}
+		try {
+			Command command = new Command(database);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
