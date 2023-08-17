@@ -153,4 +153,6 @@ public class Main {
 		System.exit(0);
 	}
 	
+	private static Database EdgeInformation(BufferedReader br) {
+	}
 }
