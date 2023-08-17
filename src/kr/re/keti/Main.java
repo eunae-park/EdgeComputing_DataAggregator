@@ -155,5 +155,6 @@ public class Main {
 	
 	private static Database EdgeInformation(BufferedReader br) {
 		Database database = null;
+		System.out.println("==================================================================");
 	}
 }
