@@ -156,5 +156,11 @@ public class Main {
 	private static Database EdgeInformation(BufferedReader br) {
 		Database database = null;
 		System.out.println("==================================================================");
+		try {
+			//------------------------uuid-----------------------
+			uuid = br.readLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
