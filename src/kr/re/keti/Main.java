@@ -159,6 +159,8 @@ public class Main {
 		try {
 			//------------------------uuid-----------------------
 			uuid = br.readLine();
+			if(uuid == null) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
