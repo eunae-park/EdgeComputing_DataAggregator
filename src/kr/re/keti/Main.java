@@ -163,6 +163,8 @@ public class Main {
 				System.out.println(" * Input the UUID of Edge Device.");
 				System.exit(0);
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
