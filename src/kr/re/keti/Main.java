@@ -161,6 +161,7 @@ public class Main {
 			uuid = br.readLine();
 			if(uuid == null) {
 				System.out.println(" * Input the UUID of Edge Device.");
+				System.exit(0);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
