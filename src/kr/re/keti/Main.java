@@ -181,6 +181,7 @@ public class Main {
 				if(!folder.exists()) folder.mkdir();
 			}
 			
+			certFolder = br.readLine();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
