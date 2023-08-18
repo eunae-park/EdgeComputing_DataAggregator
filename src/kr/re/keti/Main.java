@@ -184,6 +184,7 @@ public class Main {
 			certFolder = br.readLine();
 			if(certFolder == null) {
 				System.out.println(" * Input the Name of Main Path with cert.");
+				System.exit(0);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
