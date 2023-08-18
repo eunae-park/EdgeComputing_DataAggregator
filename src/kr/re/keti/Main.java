@@ -169,6 +169,8 @@ public class Main {
 
 			//------------------------cert-----------------------
 
+			//------------------------storage-----------------------
+			storageFolder = br.readLine();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
