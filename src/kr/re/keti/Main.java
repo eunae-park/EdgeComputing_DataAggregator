@@ -182,6 +182,8 @@ public class Main {
 			}
 			
 			certFolder = br.readLine();
+			if(certFolder == null) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
