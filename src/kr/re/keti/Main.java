@@ -173,6 +173,7 @@ public class Main {
 			storageFolder = br.readLine();
 			if(storageFolder == null) {
 				System.out.println(" * Input the Name of Main Path with storage.");
+				System.exit(0);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
