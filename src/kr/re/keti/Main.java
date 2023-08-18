@@ -176,6 +176,7 @@ public class Main {
 				System.exit(0);
 			}
 			else {
+				System.out.println(" * Name of Main Path with storage : " + storageFolder);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
