@@ -171,6 +171,8 @@ public class Main {
 
 			//------------------------storage-----------------------
 			storageFolder = br.readLine();
+			if(storageFolder == null) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
