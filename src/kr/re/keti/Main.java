@@ -167,6 +167,8 @@ public class Main {
 				System.out.println(" * UUID of Edge Device. : " + uuid);
 			}
 
+			//------------------------cert-----------------------
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
