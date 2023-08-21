@@ -194,6 +194,7 @@ public class Main {
 				folder = new File(certFolder +"Private");//private key and original crt file
 				if(!folder.exists()) folder.mkdir();
 				
+				folder = new File(certFolder +"Vehicle"); // copy crt file
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
