@@ -187,6 +187,7 @@ public class Main {
 				System.exit(0);
 			}
 			else {
+				System.out.println(" * Name of Main Path with cert : " + certFolder);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
