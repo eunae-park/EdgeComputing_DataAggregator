@@ -186,6 +186,8 @@ public class Main {
 				System.out.println(" * Input the Name of Main Path with cert.");
 				System.exit(0);
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
