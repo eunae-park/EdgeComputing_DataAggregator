@@ -189,6 +189,7 @@ public class Main {
 			else {
 				System.out.println(" * Name of Main Path with cert : " + certFolder);
 				File folder = new File(certFolder);
+				if(!folder.exists()) folder.mkdir();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
