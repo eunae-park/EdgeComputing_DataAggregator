@@ -211,6 +211,7 @@ public class Main {
 			else {
 				System.out.println(" * Name of Main Path with ram : " + ramFolder);
 				File folder = new File(ramFolder);
+				if(!folder.exists()) folder.mkdir();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
