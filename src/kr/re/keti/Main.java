@@ -197,6 +197,7 @@ public class Main {
 				folder = new File(certFolder +"Vehicle"); // copy crt file
 				if(!folder.exists()) folder.mkdir();
 				
+				folder = new File(certFolder+"keys"); // public key file
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
