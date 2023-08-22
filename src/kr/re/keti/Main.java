@@ -202,6 +202,8 @@ public class Main {
 			}
 
 
+			//------------------------ram-----------------------
+			ramFolder = br.readLine();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
