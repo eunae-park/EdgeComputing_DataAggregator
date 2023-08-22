@@ -208,6 +208,8 @@ public class Main {
 				System.out.println(" * Input the Name of Main Path with ram.");
 				System.exit(0);
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
