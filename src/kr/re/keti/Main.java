@@ -209,6 +209,7 @@ public class Main {
 				System.exit(0);
 			}
 			else {
+				System.out.println(" * Name of Main Path with ram : " + ramFolder);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
