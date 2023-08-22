@@ -213,6 +213,7 @@ public class Main {
 				File folder = new File(ramFolder);
 				if(!folder.exists()) folder.mkdir();
 				
+				folder = new File(ramFolder+"chunk");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
