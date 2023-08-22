@@ -200,6 +200,7 @@ public class Main {
 				folder = new File(certFolder+"keys"); // public key file
 				if(!folder.exists()) folder.mkdir();
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
