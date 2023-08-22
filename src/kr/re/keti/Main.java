@@ -205,6 +205,7 @@ public class Main {
 			//------------------------ram-----------------------
 			ramFolder = br.readLine();
 			if(ramFolder == null) {
+				System.out.println(" * Input the Name of Main Path with ram.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
