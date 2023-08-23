@@ -227,6 +227,7 @@ public class Main {
 				String line = br.readLine();
 				String[] dbInfo = line.split(",");
 				if(dbInfo.length != 3) {
+					System.out.println(" * Input DB Infomation in info_device.txt(ex:DB name,table name,user ID,user PW).");
 				}
 			}
 		} catch (Exception e) {
