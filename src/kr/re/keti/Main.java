@@ -231,6 +231,7 @@ public class Main {
 					System.exit(0);
 				}
 				String databaseName = dbInfo[0];
+				String id = dbInfo[1];
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
