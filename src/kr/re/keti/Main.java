@@ -223,6 +223,8 @@ public class Main {
 			//------------------------DB-----------------------
 			String databaseType = br.readLine();
 			System.out.println(" * DBMS used by EdgeNode : " + databaseType);
+			if(databaseType.equals("MySQL")) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
