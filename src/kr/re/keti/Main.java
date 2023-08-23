@@ -237,6 +237,7 @@ public class Main {
 			}
 			
 			else if(databaseType.equals("SQLite")) {
+				String line = br.readLine();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
