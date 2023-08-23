@@ -220,6 +220,8 @@ public class Main {
 				if(!folder.exists()) folder.mkdir();
 			}
 			
+			//------------------------DB-----------------------
+			String databaseType = br.readLine();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
