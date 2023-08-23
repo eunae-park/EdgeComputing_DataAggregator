@@ -235,6 +235,7 @@ public class Main {
 				String pw = dbInfo[2];
 				database = new MysqlDao(databaseName, id, pw);
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
