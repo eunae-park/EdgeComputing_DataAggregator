@@ -236,6 +236,8 @@ public class Main {
 				database = new MysqlDao(databaseName, id, pw);
 			}
 			
+			else if(databaseType.equals("SQLite")) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
