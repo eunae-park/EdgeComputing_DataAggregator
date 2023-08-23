@@ -219,6 +219,7 @@ public class Main {
 				folder = new File(ramFolder+"time");
 				if(!folder.exists()) folder.mkdir();
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
