@@ -232,6 +232,7 @@ public class Main {
 				}
 				String databaseName = dbInfo[0];
 				String id = dbInfo[1];
+				String pw = dbInfo[2];
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
