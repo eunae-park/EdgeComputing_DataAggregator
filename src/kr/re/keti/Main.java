@@ -230,6 +230,7 @@ public class Main {
 					System.out.println(" * Input DB Infomation in info_device.txt(ex:DB name,table name,user ID,user PW).");
 					System.exit(0);
 				}
+				String databaseName = dbInfo[0];
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
