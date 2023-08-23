@@ -226,6 +226,8 @@ public class Main {
 			if(databaseType.equals("MySQL")) {
 				String line = br.readLine();
 				String[] dbInfo = line.split(",");
+				if(dbInfo.length != 3) {
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
