@@ -244,6 +244,7 @@ public class Main {
 					System.exit(0);
 				}
 				String path = dbInfo[0];
+				String databaseName = dbInfo[1];
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
