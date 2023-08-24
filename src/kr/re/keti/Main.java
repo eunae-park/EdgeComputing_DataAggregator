@@ -240,6 +240,7 @@ public class Main {
 				String line = br.readLine();
 				String[] dbInfo = line.split(",");
 				if(dbInfo.length != 2) {
+					System.out.println(" * Input DB Infomation in info_device.txt(ex:DB path, DB name,table name).");
 				}
 			}
 		} catch (Exception e) {
