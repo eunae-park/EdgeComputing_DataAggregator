@@ -245,6 +245,7 @@ public class Main {
 				}
 				String path = dbInfo[0];
 				String databaseName = dbInfo[1];
+				database = new SqliteDao(path, databaseName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
