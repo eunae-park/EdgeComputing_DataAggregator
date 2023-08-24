@@ -243,6 +243,7 @@ public class Main {
 					System.out.println(" * Input DB Infomation in info_device.txt(ex:DB path, DB name,table name).");
 					System.exit(0);
 				}
+				String path = dbInfo[0];
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
