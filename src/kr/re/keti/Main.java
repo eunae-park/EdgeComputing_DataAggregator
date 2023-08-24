@@ -238,6 +238,7 @@ public class Main {
 			
 			else if(databaseType.equals("SQLite")) {
 				String line = br.readLine();
+				String[] dbInfo = line.split(",");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
