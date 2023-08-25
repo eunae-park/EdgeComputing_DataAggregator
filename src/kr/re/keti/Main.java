@@ -254,6 +254,8 @@ public class Main {
 
 			//------------------------mode-----------------------
 			mode = br.readLine();
+			if(!(mode.equals("master") || mode.equals("slave") || mode.equals("upnp"))) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
