@@ -248,6 +248,7 @@ public class Main {
 				database = new SqliteDao(path, databaseName);
 			}
 			else {
+				System.out.println(" * Input DBMS used by EdgeNode(ex:MySQL, SQLite).");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
