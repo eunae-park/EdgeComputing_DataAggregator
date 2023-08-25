@@ -265,6 +265,11 @@ public class Main {
 				deviceIP = InetAddress.getLocalHost().getHostAddress();
 			}
 			else if(deviceIP != null) {
+				try {
+					InetAddress inetAddress = InetAddress.getByName(deviceIP);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
