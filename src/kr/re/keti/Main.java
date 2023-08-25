@@ -274,6 +274,7 @@ public class Main {
 			}
 			else {
 				System.out.println(" * Input IP(ex:DNS, Logical address, auto).");
+				System.exit(0);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
