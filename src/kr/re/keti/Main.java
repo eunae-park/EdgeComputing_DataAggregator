@@ -247,6 +247,8 @@ public class Main {
 				String databaseName = dbInfo[1];
 				database = new SqliteDao(path, databaseName);
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
