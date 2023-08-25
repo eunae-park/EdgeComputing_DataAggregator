@@ -252,6 +252,8 @@ public class Main {
 				System.exit(0);
 			}
 
+			//------------------------mode-----------------------
+			mode = br.readLine();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
