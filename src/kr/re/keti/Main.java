@@ -261,6 +261,8 @@ public class Main {
 
 			//------------------------IP-----------------------
 			deviceIP = br.readLine();
+			if(deviceIP.equals("auto")) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
