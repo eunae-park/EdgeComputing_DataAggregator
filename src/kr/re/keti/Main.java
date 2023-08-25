@@ -264,6 +264,8 @@ public class Main {
 			if(deviceIP.equals("auto")) {
 				deviceIP = InetAddress.getLocalHost().getHostAddress();
 			}
+			else if(deviceIP != null) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
