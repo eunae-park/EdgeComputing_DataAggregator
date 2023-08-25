@@ -255,6 +255,7 @@ public class Main {
 			//------------------------mode-----------------------
 			mode = br.readLine();
 			if(!(mode.equals("master") || mode.equals("slave") || mode.equals("upnp"))) {
+				System.out.println(" * Input UPnP mode(ex:upnp, master, slave&master_ip).");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
