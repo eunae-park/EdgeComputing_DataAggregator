@@ -251,6 +251,7 @@ public class Main {
 				System.out.println(" * Input DBMS used by EdgeNode(ex:MySQL, SQLite).");
 				System.exit(0);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
