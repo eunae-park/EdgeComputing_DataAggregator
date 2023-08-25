@@ -267,6 +267,7 @@ public class Main {
 			else if(deviceIP != null) {
 				try {
 					InetAddress inetAddress = InetAddress.getByName(deviceIP);
+					deviceIP = inetAddress.getHostAddress();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
