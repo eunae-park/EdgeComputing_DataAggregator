@@ -277,6 +277,8 @@ public class Main {
 				System.exit(0);
 			}
 
+			if(deviceIP.startsWith("192.168") || deviceIP.startsWith("127.0")) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
