@@ -259,6 +259,8 @@ public class Main {
 				System.exit(0);
 			}
 
+			//------------------------IP-----------------------
+			deviceIP = br.readLine();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
