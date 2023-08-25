@@ -258,6 +258,7 @@ public class Main {
 				System.out.println(" * Input UPnP mode(ex:upnp, master, slave&master_ip).");
 				System.exit(0);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
