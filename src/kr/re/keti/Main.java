@@ -273,6 +273,7 @@ public class Main {
 				}
 			}
 			else {
+				System.out.println(" * Input IP(ex:DNS, Logical address, auto).");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
