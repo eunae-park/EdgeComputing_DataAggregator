@@ -262,6 +262,7 @@ public class Main {
 			//------------------------IP-----------------------
 			deviceIP = br.readLine();
 			if(deviceIP.equals("auto")) {
+				deviceIP = InetAddress.getLocalHost().getHostAddress();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
