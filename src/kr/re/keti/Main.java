@@ -281,6 +281,7 @@ public class Main {
 				deviceIP = new AddressUpdate().localAddressUpdate();
 			}
 			System.out.println(" * IP Address of Edge Device : " + deviceIP);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
