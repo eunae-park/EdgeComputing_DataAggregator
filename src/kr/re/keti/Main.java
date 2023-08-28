@@ -303,8 +303,11 @@ public class Main {
 				writer.flush();
 			}
 			if(writer != null) writer.close();
+			// TODO Auto-generated catch block
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	private static String programStartTime() {
 	}
 }
