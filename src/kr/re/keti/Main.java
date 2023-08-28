@@ -299,6 +299,7 @@ public class Main {
 			else {
 				writer.write("slave\n");
 				writer.flush();
+				writer.write(masterIP);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
