@@ -290,5 +290,10 @@ public class Main {
 		return null;
 	}
 	private static void edgeIPList() {
+		try {
+			FileWriter writer = new FileWriter("edge_ipList.txt", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
