@@ -302,6 +302,7 @@ public class Main {
 				writer.write(masterIP);
 				writer.flush();
 			}
+			if(writer != null) writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
