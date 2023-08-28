@@ -300,6 +300,7 @@ public class Main {
 				writer.write("slave\n");
 				writer.flush();
 				writer.write(masterIP);
+				writer.flush();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
