@@ -296,6 +296,8 @@ public class Main {
 				writer.write("master\n");
 				writer.flush();
 			}
+			else {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
