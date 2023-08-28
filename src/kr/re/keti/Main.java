@@ -309,5 +309,6 @@ public class Main {
 		}
 	}
 	private static String programStartTime() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 	}
 }
