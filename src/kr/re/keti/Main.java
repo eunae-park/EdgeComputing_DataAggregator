@@ -297,6 +297,7 @@ public class Main {
 				writer.flush();
 			}
 			else {
+				writer.write("slave\n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
