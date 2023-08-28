@@ -292,6 +292,8 @@ public class Main {
 	private static void edgeIPList() {
 		try {
 			FileWriter writer = new FileWriter("edge_ipList.txt", false);
+			if(mode.equals("master")) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
