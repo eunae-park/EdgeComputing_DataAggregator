@@ -293,6 +293,7 @@ public class Main {
 		try {
 			FileWriter writer = new FileWriter("edge_ipList.txt", false);
 			if(mode.equals("master")) {
+				writer.write("master\n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
