@@ -282,6 +282,8 @@ public class Main {
 			}
 			System.out.println(" * IP Address of Edge Device : " + deviceIP);
 			
+			//----------------------------------------------
+			return database;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
