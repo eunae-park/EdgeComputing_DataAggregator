@@ -280,6 +280,7 @@ public class Main {
 			if(deviceIP.startsWith("192.168") || deviceIP.startsWith("127.0")) {
 				deviceIP = new AddressUpdate().localAddressUpdate();
 			}
+			System.out.println(" * IP Address of Edge Device : " + deviceIP);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
