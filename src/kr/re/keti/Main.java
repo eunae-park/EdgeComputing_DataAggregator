@@ -294,6 +294,7 @@ public class Main {
 			FileWriter writer = new FileWriter("edge_ipList.txt", false);
 			if(mode.equals("master")) {
 				writer.write("master\n");
+				writer.flush();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
