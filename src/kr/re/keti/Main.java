@@ -312,5 +312,6 @@ public class Main {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         LocalDateTime currentDateTime = LocalDateTime.now();
         String start = currentDateTime.format(formatter);
+        return start;
 	}
 }
