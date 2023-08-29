@@ -326,5 +326,7 @@ public class Main {
 		File directory = new File(path);
 		File[] files = directory.listFiles();
 		
+		for(File file : files) {
+		}
 	}
 }
