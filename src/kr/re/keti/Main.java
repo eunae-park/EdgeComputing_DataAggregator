@@ -320,5 +320,6 @@ public class Main {
 		agent.send(("{[{REQ::"+deviceIP+"::-1}]}").getBytes());
 
 		process.stop();
+		
 	}
 }
