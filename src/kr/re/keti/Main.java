@@ -316,5 +316,6 @@ public class Main {
 		
 	}
 	private static void shutdown() {
+		Agent agent = Agent.getInstance();
 	}
 }
