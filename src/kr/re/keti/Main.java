@@ -323,5 +323,6 @@ public class Main {
 		
 		String path = System.getProperty("user.dir");
 		System.out.println(path);
+		File directory = new File(path);
 	}
 }
