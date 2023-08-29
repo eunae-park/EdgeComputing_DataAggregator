@@ -317,5 +317,6 @@ public class Main {
 	}
 	private static void shutdown() {
 		Agent agent = Agent.getInstance();
+		agent.send(("{[{REQ::"+deviceIP+"::-1}]}").getBytes());
 	}
 }
