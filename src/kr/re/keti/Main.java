@@ -338,6 +338,8 @@ public class Main {
 		if(file.isDirectory()) {
 			File[] files = file.listFiles();
 			if(files != null) {
+				for(File subFile : files) {
+				}
 			}
 		}
 	}
