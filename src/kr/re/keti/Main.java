@@ -332,5 +332,6 @@ public class Main {
 			}
 		}
 		
+		agent.stop();
 	}
 }
