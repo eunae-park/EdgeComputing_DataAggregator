@@ -328,6 +328,7 @@ public class Main {
 		
 		for(File file : files) {
 			if(file.getName().startsWith("paho")) {
+				delete(file);
 			}
 		}
 	}
