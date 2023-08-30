@@ -344,5 +344,6 @@ public class Main {
 			}
 		}
 		
+		file.delete();
 	}
 }
