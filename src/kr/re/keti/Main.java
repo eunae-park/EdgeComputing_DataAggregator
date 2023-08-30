@@ -336,6 +336,7 @@ public class Main {
 	}
 	private static void delete(File file) {
 		if(file.isDirectory()) {
+			File[] files = file.listFiles();
 		}
 	}
 }
