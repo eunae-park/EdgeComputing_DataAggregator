@@ -339,6 +339,7 @@ public class Main {
 			File[] files = file.listFiles();
 			if(files != null) {
 				for(File subFile : files) {
+					delete(subFile);
 				}
 			}
 		}
