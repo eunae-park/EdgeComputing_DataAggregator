@@ -334,4 +334,6 @@ public class Main {
 		
 		agent.stop();
 	}
+	private static void delete(File file) {
+	}
 }
