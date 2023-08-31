@@ -10,4 +10,6 @@ public class AgentPacket {
 	private byte[] data;
 	private Consumer<byte[]> callback;
 
+	public AgentPacket(byte[] data) {
+	}
 }
