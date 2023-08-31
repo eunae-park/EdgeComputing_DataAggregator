@@ -8,4 +8,5 @@ public class AgentPacket {
 	private String address;
 	private int port;
 	private byte[] data;
+	private Consumer<byte[]> callback;
 }
