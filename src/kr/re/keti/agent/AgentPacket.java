@@ -7,4 +7,5 @@ public class AgentPacket {
 	private Socket socket;
 	private String address;
 	private int port;
+	private byte[] data;
 }
