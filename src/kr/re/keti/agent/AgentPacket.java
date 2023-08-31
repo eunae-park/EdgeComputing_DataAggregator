@@ -9,4 +9,5 @@ public class AgentPacket {
 	private int port;
 	private byte[] data;
 	private Consumer<byte[]> callback;
+
 }
