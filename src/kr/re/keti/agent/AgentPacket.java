@@ -5,4 +5,5 @@ import java.util.function.Consumer;
 
 public class AgentPacket {
 	private Socket socket;
+	private String address;
 }
