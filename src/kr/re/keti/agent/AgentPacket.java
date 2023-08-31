@@ -13,4 +13,5 @@ public class AgentPacket {
 	public AgentPacket(byte[] data) {
 		this.data = data;
 	}
+
 }
