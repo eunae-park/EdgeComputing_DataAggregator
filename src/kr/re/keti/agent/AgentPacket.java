@@ -11,5 +11,6 @@ public class AgentPacket {
 	private Consumer<byte[]> callback;
 
 	public AgentPacket(byte[] data) {
+		this.data = data;
 	}
 }
