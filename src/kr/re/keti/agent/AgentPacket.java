@@ -16,5 +16,6 @@ public class AgentPacket {
 
 	public AgentPacket(Socket socket, byte[] data) {
 		super();
+		this.socket = socket;
 	}
 }
