@@ -23,5 +23,6 @@ public class AgentPacket {
 	public AgentPacket(String address, int port, byte[] data) {
 		super();
 		this.address = address;
+		this.port = port;
 	}
 }
