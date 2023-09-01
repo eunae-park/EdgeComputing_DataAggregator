@@ -24,5 +24,6 @@ public class AgentPacket {
 		super();
 		this.address = address;
 		this.port = port;
+		this.data = data;
 	}
 }
