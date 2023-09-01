@@ -20,4 +20,6 @@ public class AgentPacket {
 		this.data = data;
 	}
 
+	public AgentPacket(String address, int port, byte[] data) {
+	}
 }
