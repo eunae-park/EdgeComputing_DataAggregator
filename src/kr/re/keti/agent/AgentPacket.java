@@ -15,5 +15,6 @@ public class AgentPacket {
 	}
 
 	public AgentPacket(Socket socket, byte[] data) {
+		super();
 	}
 }
