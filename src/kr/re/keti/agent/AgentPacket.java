@@ -29,5 +29,6 @@ public class AgentPacket {
 
 	public AgentPacket(Socket socket, String address, int port, byte[] data) {
 		this.socket = socket;
+		this.address = address;
 	}
 }
