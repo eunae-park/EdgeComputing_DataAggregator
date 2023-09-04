@@ -31,5 +31,6 @@ public class AgentPacket {
 		this.socket = socket;
 		this.address = address;
 		this.port = port;
+		this.data = data;
 	}
 }
