@@ -42,4 +42,6 @@ public class AgentPacket {
 		this.socket = socket;
 	}
 
+	public String getAddress() {
+	}
 }
