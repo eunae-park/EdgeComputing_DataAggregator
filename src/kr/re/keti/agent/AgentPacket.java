@@ -37,4 +37,5 @@ public class AgentPacket {
 	public Socket getSocket() {
 		return socket;
 	}
+
 }
