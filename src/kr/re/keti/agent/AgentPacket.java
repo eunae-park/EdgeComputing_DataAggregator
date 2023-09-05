@@ -46,4 +46,6 @@ public class AgentPacket {
 		return address;
 	}
 
+	public void setAddress(String address) {
+	}
 }
