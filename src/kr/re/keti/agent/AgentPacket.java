@@ -34,4 +34,6 @@ public class AgentPacket {
 		this.data = data;
 	}
 
+	public Socket getSocket() {
+	}
 }
