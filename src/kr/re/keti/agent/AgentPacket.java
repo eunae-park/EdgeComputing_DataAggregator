@@ -38,4 +38,6 @@ public class AgentPacket {
 		return socket;
 	}
 
+	public void setSocket(Socket socket) {
+	}
 }
