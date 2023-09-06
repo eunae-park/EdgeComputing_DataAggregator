@@ -50,4 +50,6 @@ public class AgentPacket {
 		this.address = address;
 	}
 
+	public int getPort() {
+	}
 }
