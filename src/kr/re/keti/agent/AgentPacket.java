@@ -59,5 +59,6 @@ public class AgentPacket {
 	}
 
 	public byte[] getData() {
+		return data;
 	}
 }
