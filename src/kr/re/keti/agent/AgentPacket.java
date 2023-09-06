@@ -58,4 +58,6 @@ public class AgentPacket {
 		this.port = port;
 	}
 
+	public byte[] getData() {
+	}
 }
