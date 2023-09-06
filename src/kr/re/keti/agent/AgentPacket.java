@@ -54,4 +54,6 @@ public class AgentPacket {
 		return port;
 	}
 
+	public void setPort(int port) {
+	}
 }
