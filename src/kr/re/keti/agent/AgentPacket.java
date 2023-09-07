@@ -65,4 +65,5 @@ public class AgentPacket {
 	public void setData(byte[] data) {
 		this.data = data;
 	}
+
 }
