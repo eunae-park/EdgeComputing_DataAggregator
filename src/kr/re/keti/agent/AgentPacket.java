@@ -71,5 +71,6 @@ public class AgentPacket {
 	}
 
 	public Consumer<byte[]> getCallback() {
+		return callback;
 	}
 }
