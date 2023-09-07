@@ -70,4 +70,6 @@ public class AgentPacket {
 		this.callback = callback;
 	}
 
+	public Consumer<byte[]> getCallback() {
+	}
 }
