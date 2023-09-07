@@ -66,4 +66,6 @@ public class AgentPacket {
 		this.data = data;
 	}
 
+	public void setCallback(Consumer<byte[]> callback) {
+	}
 }
