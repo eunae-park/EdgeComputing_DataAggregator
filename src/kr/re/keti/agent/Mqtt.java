@@ -14,4 +14,5 @@ import kr.re.keti.PortNum;
 
 public class Mqtt {
 	private MqttClient client;
+	private String topic;
 }
