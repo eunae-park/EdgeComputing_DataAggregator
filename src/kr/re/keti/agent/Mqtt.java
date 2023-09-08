@@ -21,5 +21,6 @@ public class Mqtt {
 	private String address;
 
 	public Mqtt(String topic, ArrayBlockingQueue<AgentPacket> sendQueue, ArrayBlockingQueue<AgentPacket> receiveQueue) {
+		this.topic = topic;
 	}
 }
