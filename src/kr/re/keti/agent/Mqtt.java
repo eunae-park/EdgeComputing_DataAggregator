@@ -22,5 +22,6 @@ public class Mqtt {
 
 	public Mqtt(String topic, ArrayBlockingQueue<AgentPacket> sendQueue, ArrayBlockingQueue<AgentPacket> receiveQueue) {
 		this.topic = topic;
+		this.sendQueue = sendQueue;
 	}
 }
