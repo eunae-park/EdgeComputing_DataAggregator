@@ -19,4 +19,5 @@ public class Mqtt {
 	private ArrayBlockingQueue<AgentPacket> sendQueue, receiveQueue;
 	private Thread publishThread;
 	private String address;
+
 }
