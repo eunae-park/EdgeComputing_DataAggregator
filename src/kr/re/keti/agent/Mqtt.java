@@ -12,3 +12,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import kr.re.keti.Main;
 import kr.re.keti.PortNum;
 
+public class Mqtt {
+	private MqttClient client;
+}
