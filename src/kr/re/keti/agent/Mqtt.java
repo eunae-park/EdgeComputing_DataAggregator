@@ -25,5 +25,10 @@ public class Mqtt {
 		this.sendQueue = sendQueue;
 		this.receiveQueue = receiveQueue;
 		address = "tcp://" + Main.masterIP + ":" + PortNum.DEFAULT_MQTT_PORT;
+		try {
+			client = new MqttClient(address, clientId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
