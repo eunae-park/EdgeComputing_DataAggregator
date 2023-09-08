@@ -16,4 +16,5 @@ public class Mqtt {
 	private MqttClient client;
 	private String topic;
 	private String clientId = MqttClient.generateClientId();
+	private ArrayBlockingQueue<AgentPacket> sendQueue, receiveQueue;
 }
