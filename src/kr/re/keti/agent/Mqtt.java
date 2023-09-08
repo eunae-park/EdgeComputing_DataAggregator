@@ -20,4 +20,6 @@ public class Mqtt {
 	private Thread publishThread;
 	private String address;
 
+	public Mqtt(String topic, ArrayBlockingQueue<AgentPacket> sendQueue, ArrayBlockingQueue<AgentPacket> receiveQueue) {
+	}
 }
