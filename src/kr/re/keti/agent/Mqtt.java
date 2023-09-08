@@ -24,5 +24,6 @@ public class Mqtt {
 		this.topic = topic;
 		this.sendQueue = sendQueue;
 		this.receiveQueue = receiveQueue;
+		address = "tcp://" + Main.masterIP + ":" + PortNum.DEFAULT_MQTT_PORT;
 	}
 }
