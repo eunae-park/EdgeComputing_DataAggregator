@@ -50,7 +50,9 @@ public class Mqtt {
 
 			@Override
 			public void deliveryComplete(IMqttDeliveryToken token) {
+				//                System.out.println("Delivery complete");
 			}
 		}
 	}
+
 }
