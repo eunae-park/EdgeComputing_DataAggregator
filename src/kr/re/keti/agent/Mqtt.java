@@ -44,6 +44,7 @@ public class Mqtt {
 			@Override
 			public void messageArrived(String topic, MqttMessage message) throws Exception {
 				String data = message + "";
+				AgentPacket packet = new AgentPacket(data.getBytes());
 			}
 		}
 	}
