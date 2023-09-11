@@ -45,6 +45,7 @@ public class Mqtt {
 			public void messageArrived(String topic, MqttMessage message) throws Exception {
 				String data = message + "";
 				AgentPacket packet = new AgentPacket(data.getBytes());
+				receiveQueue.put(packet);
 			}
 		}
 	}
