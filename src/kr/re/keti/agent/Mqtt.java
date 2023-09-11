@@ -55,4 +55,6 @@ public class Mqtt {
 		}
 	}
 
+	public void start() {
+	}
 }
