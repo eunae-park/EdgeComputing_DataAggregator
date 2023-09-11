@@ -49,6 +49,8 @@ public class Mqtt {
 			}
 
 			@Override
+			public void deliveryComplete(IMqttDeliveryToken token) {
+			}
 		}
 	}
 }
