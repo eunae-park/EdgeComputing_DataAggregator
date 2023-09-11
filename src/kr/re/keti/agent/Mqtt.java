@@ -58,6 +58,7 @@ public class Mqtt {
 	public void start() {
 		try {
 			MqttConnectOptions options = new MqttConnectOptions();
+			options.setCleanSession(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
