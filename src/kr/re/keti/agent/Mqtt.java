@@ -40,6 +40,7 @@ public class Mqtt {
 			public void connectionLost(Throwable cause) {
 				System.out.println("Connection lost");
 			}
+
 		}
 	}
 }
