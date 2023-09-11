@@ -56,5 +56,10 @@ public class Mqtt {
 	}
 
 	public void start() {
+		try {
+			MqttConnectOptions options = new MqttConnectOptions();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
