@@ -47,6 +47,7 @@ public class Mqtt {
 				AgentPacket packet = new AgentPacket(data.getBytes());
 				receiveQueue.put(packet);
 			}
+
 		}
 	}
 }
