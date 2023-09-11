@@ -38,6 +38,7 @@ public class Mqtt {
 		client.setCallback(new MqttCallback() {
 			@Override
 			public void connectionLost(Throwable cause) {
+				System.out.println("Connection lost");
 			}
 		}
 	}
