@@ -60,6 +60,7 @@ public class Mqtt {
 			MqttConnectOptions options = new MqttConnectOptions();
 			options.setCleanSession(true);
 			options.setAutomaticReconnect(false);
+			client.connect(options);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
