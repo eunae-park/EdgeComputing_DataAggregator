@@ -61,6 +61,7 @@ public class Mqtt {
 			options.setCleanSession(true);
 			options.setAutomaticReconnect(false);
 			client.connect(options);
+			client.subscribe(topic);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
