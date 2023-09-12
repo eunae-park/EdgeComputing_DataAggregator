@@ -71,6 +71,7 @@ public class Mqtt {
 				try {
 					AgentPacket packet = sendQueue.take();
 					byte[] data = packet.getData();
+					publish(topic, new String(data));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
