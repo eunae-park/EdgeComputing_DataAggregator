@@ -68,6 +68,11 @@ public class Mqtt {
 
 		publishThread = new Thread(() -> {
 			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					AgentPacket packet = sendQueue.take();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
