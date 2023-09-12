@@ -80,5 +80,6 @@ public class Mqtt {
 		}
 		publishThread.setName("MQTT_publish_Thread");
 		publishThread.start();
+
 	}
 }
