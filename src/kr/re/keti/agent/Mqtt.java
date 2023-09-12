@@ -66,5 +66,7 @@ public class Mqtt {
 			e.printStackTrace();
 		}
 
+		publishThread = new Thread(() -> {
+		}
 	}
 }
