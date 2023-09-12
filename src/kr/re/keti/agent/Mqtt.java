@@ -70,6 +70,7 @@ public class Mqtt {
 			while (!Thread.currentThread().isInterrupted()) {
 				try {
 					AgentPacket packet = sendQueue.take();
+					byte[] data = packet.getData();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
