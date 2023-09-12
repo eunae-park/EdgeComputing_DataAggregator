@@ -84,5 +84,6 @@ public class Mqtt {
 	}
 
 	public void stop() {
+		publishThread.interrupt();
 	}
 }
