@@ -83,4 +83,6 @@ public class Mqtt {
 
 	}
 
+	public void stop() {
+	}
 }
