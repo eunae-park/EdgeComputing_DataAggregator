@@ -67,6 +67,8 @@ public class Mqtt {
 		}
 
 		publishThread = new Thread(() -> {
+			while (!Thread.currentThread().isInterrupted()) {
+			}
 		}
 	}
 }
