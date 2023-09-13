@@ -94,5 +94,6 @@ public class Mqtt {
 
 	public void publish(String topic, String message) throws MqttException {
 		MqttMessage mqttMessage = new MqttMessage();
+		mqttMessage.setPayload(message.getBytes());
 	}
 }
