@@ -85,5 +85,10 @@ public class Mqtt {
 
 	public void stop() {
 		publishThread.interrupt();
+		try {
+			client.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
