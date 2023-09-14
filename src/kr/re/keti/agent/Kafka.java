@@ -26,3 +26,6 @@ import org.slf4j.simple.SimpleLogger;
 import kr.re.keti.Main;
 import kr.re.keti.PortNum;
 
+public class Kafka {
+	private String topic;
+}
