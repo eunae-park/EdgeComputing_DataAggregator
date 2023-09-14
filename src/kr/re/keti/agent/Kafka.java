@@ -32,4 +32,5 @@ public class Kafka {
 	private ArrayBlockingQueue<AgentPacket> receiveQueue;
 	private KafkaProducer<String, byte[]> producer;
 	private KafkaConsumer<String, byte[]> consumer;
+	private Thread producerThread;
 }
