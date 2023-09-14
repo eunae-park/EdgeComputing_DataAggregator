@@ -33,4 +33,5 @@ public class Kafka {
 	private KafkaProducer<String, byte[]> producer;
 	private KafkaConsumer<String, byte[]> consumer;
 	private Thread producerThread;
+	private Thread consumerThread;
 }
