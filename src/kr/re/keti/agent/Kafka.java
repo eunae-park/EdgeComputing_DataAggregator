@@ -28,4 +28,5 @@ import kr.re.keti.PortNum;
 
 public class Kafka {
 	private String topic;
+	private ArrayBlockingQueue<AgentPacket> sendQueue;
 }
