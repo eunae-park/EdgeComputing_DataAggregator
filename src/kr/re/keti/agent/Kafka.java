@@ -34,4 +34,5 @@ public class Kafka {
 	private KafkaConsumer<String, byte[]> consumer;
 	private Thread producerThread;
 	private Thread consumerThread;
+	private String serverIP;
 }
