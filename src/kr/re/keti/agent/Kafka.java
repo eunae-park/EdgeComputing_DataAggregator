@@ -42,5 +42,6 @@ public class Kafka {
 		serverIP = Main.masterIP + ":" + PortNum.DEFAULT_KAFKA_PORT;
 		this.topic = topic;
 		this.sendQueue = sendQueue;
+		this.receiveQueue = receiveQueue;
 	}
 }
