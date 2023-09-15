@@ -38,5 +38,6 @@ public class Kafka {
 
 	public Kafka(String topic, ArrayBlockingQueue<AgentPacket> sendQueue, ArrayBlockingQueue<AgentPacket> receiveQueue) {
 		System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "OFF");
+
 	}
 }
