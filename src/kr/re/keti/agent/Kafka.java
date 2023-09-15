@@ -44,5 +44,6 @@ public class Kafka {
 		this.sendQueue = sendQueue;
 		this.receiveQueue = receiveQueue;
 		producer();
+		consumer();
 	}
 }
