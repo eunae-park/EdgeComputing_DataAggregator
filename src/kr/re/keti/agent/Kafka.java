@@ -40,5 +40,6 @@ public class Kafka {
 		System.setProperty(SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "OFF");
 
 		serverIP = Main.masterIP + ":" + PortNum.DEFAULT_KAFKA_PORT;
+		this.topic = topic;
 	}
 }
