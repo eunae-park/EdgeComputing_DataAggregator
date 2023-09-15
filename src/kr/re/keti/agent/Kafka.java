@@ -36,4 +36,6 @@ public class Kafka {
 	private Thread consumerThread;
 	private String serverIP;
 
+	public Kafka(String topic, ArrayBlockingQueue<AgentPacket> sendQueue, ArrayBlockingQueue<AgentPacket> receiveQueue) {
+	}
 }
