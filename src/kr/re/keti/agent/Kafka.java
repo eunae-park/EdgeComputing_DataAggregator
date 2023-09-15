@@ -47,4 +47,6 @@ public class Kafka {
 		consumer();
 	}
 
+	public void producer() {
+	}
 }
