@@ -60,5 +60,6 @@ public class Kafka {
 	public void consumer() {
 		Properties properties = new Properties();
 		properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, serverIP);
+		properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 	}
 }
