@@ -53,5 +53,6 @@ public class Kafka {
 		properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class.getName());
 
+		producer = new KafkaProducer<>(properties);
 	}
 }
