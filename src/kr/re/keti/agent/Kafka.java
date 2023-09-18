@@ -59,5 +59,6 @@ public class Kafka {
 
 	public void consumer() {
 		Properties properties = new Properties();
+		properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, serverIP);
 	}
 }
