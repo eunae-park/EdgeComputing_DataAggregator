@@ -58,5 +58,6 @@ public class Kafka {
 	}
 
 	public void consumer() {
+		Properties properties = new Properties();
 	}
 }
