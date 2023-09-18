@@ -56,4 +56,5 @@ public class Kafka {
 		producer = new KafkaProducer<>(properties);
 
 	}
+
 }
