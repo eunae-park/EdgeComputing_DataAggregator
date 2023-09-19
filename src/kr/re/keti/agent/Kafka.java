@@ -71,4 +71,6 @@ public class Kafka {
 		consumer = new KafkaConsumer<>(properties);
 	}
 
+	public void admin() {
+	}
 }
