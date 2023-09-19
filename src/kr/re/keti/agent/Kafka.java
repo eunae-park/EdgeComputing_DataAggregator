@@ -65,5 +65,6 @@ public class Kafka {
 		properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, Main.uuid);
 		//        properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 		properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+		properties.put(ConsumerConfig.CLIENT_ID_CONFIG, Main.uuid);
 	}
 }
