@@ -70,4 +70,5 @@ public class Kafka {
 
 		consumer = new KafkaConsumer<>(properties);
 	}
+
 }
