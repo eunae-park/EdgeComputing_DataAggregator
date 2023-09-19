@@ -68,5 +68,6 @@ public class Kafka {
 		properties.put(ConsumerConfig.CLIENT_ID_CONFIG, Main.uuid);
 		properties.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, (Main.uuid));
 
+		consumer = new KafkaConsumer<>(properties);
 	}
 }
