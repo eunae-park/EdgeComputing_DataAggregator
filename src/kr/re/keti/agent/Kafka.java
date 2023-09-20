@@ -75,5 +75,6 @@ public class Kafka {
 		Properties properties = new Properties();
 		properties.put("bootstrap.servers", serverIP);
 		AdminClient adminClient = AdminClient.create(properties);
+
 	}
 }
