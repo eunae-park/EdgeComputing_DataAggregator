@@ -77,5 +77,6 @@ public class Kafka {
 		AdminClient adminClient = AdminClient.create(properties);
 
 		int numPartitions = 3;
+		short replicationFactor = 1;
 	}
 }
