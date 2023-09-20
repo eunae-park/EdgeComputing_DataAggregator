@@ -78,5 +78,6 @@ public class Kafka {
 
 		int numPartitions = 3;
 		short replicationFactor = 1;
+
 	}
 }
