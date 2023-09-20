@@ -76,5 +76,6 @@ public class Kafka {
 		properties.put("bootstrap.servers", serverIP);
 		AdminClient adminClient = AdminClient.create(properties);
 
+		int numPartitions = 3;
 	}
 }
