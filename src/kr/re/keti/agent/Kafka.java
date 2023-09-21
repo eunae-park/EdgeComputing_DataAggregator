@@ -90,5 +90,6 @@ public class Kafka {
 	}
 
 	public void start() {
+		initThread();
 	}
 }
