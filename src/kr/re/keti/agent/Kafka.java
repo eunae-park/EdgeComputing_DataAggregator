@@ -92,5 +92,6 @@ public class Kafka {
 	public void start() {
 		initThread();
 		producerThread.start();
+		consumerThread.start();
 	}
 }
