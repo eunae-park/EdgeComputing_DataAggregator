@@ -99,5 +99,6 @@ public class Kafka {
 		if(producerThread != null)
 			producerThread.interrupt();
 		if(consumerThread != null)
+			consumerThread.interrupt();
 	}
 }
