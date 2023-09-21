@@ -82,5 +82,7 @@ public class Kafka {
 		// NewTopic 객체 생성
 		NewTopic newTopic = new NewTopic(topic, numPartitions, replicationFactor);
 
+		// 토픽 생성
+		adminClient.createTopics(Collections.singletonList(newTopic));
 	}
 }
