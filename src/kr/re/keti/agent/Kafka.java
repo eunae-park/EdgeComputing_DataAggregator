@@ -81,5 +81,6 @@ public class Kafka {
 
 		// NewTopic 객체 생성
 		NewTopic newTopic = new NewTopic(topic, numPartitions, replicationFactor);
+
 	}
 }
