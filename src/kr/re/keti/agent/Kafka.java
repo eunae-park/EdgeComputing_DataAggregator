@@ -86,5 +86,6 @@ public class Kafka {
 		adminClient.createTopics(Collections.singletonList(newTopic));
 
 		adminClient.close();
+
 	}
 }
