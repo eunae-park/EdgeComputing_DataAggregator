@@ -85,5 +85,6 @@ public class Kafka {
 		// 토픽 생성
 		adminClient.createTopics(Collections.singletonList(newTopic));
 
+		adminClient.close();
 	}
 }
