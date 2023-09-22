@@ -113,6 +113,7 @@ public class Kafka {
 					ProducerRecord<String, byte[]> producerRecord = new ProducerRecord<>(topic, data);
 
 					producer.send(producerRecord, new Callback() {
+						@Override
 					}
 				}
 			} catch (Exception e) {
