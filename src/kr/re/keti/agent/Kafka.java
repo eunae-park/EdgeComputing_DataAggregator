@@ -108,6 +108,7 @@ public class Kafka {
 		producerThread = new Thread(() -> {
 			try {
 				while (!Thread.currentThread().isInterrupted()) {
+					AgentPacket packet = sendQueue.take();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
