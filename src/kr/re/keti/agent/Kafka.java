@@ -106,6 +106,12 @@ public class Kafka {
 
 	public void initThread() {
 		producerThread = new Thread(() -> {
+			try {
+				while (!Thread.currentThread().isInterrupted()) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
