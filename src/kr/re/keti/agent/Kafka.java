@@ -110,6 +110,7 @@ public class Kafka {
 				while (!Thread.currentThread().isInterrupted()) {
 					AgentPacket packet = sendQueue.take();
 					byte[] data = packet.getData();
+					ProducerRecord<String, byte[]> producerRecord = new ProducerRecord<>(topic, data);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
