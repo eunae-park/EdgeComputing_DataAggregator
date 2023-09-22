@@ -104,4 +104,6 @@ public class Kafka {
 		consumer.close();
 	}
 
+	public void initThread() {
+	}
 }
