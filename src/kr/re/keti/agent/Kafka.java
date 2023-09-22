@@ -105,5 +105,7 @@ public class Kafka {
 	}
 
 	public void initThread() {
+		producerThread = new Thread(() -> {
+		}
 	}
 }
