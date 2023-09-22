@@ -109,6 +109,7 @@ public class Kafka {
 			try {
 				while (!Thread.currentThread().isInterrupted()) {
 					AgentPacket packet = sendQueue.take();
+					byte[] data = packet.getData();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
