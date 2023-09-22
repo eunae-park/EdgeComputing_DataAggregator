@@ -101,5 +101,6 @@ public class Kafka {
 		if(consumerThread != null)
 			consumerThread.interrupt();
 		producer.close();
+		consumer.close();
 	}
 }
