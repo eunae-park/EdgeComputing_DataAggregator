@@ -114,6 +114,8 @@ public class Kafka {
 
 					producer.send(producerRecord, new Callback() {
 						@Override
+						public void onCompletion(RecordMetadata metadata, Exception exception) {
+						}
 					}
 				}
 			} catch (Exception e) {
