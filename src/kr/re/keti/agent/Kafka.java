@@ -111,6 +111,7 @@ public class Kafka {
 					AgentPacket packet = sendQueue.take();
 					byte[] data = packet.getData();
 					ProducerRecord<String, byte[]> producerRecord = new ProducerRecord<>(topic, data);
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
