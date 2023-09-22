@@ -103,4 +103,5 @@ public class Kafka {
 		producer.close();
 		consumer.close();
 	}
+
 }
