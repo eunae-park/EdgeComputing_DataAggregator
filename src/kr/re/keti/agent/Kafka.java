@@ -120,6 +120,8 @@ public class Kafka {
 								//					            System.err.println("Failed to send data: " + exception.getMessage());
 							}
 							else {
+								// 데이터 전송이 성공한 경우
+								//						            System.out.println("Data sent successfully: " + metadata);
 							}
 						}
 					}
@@ -128,5 +130,6 @@ public class Kafka {
 				e.printStackTrace();
 			}
 		}
+
 	}
 }
