@@ -138,6 +138,7 @@ public class Kafka {
 					ConsumerRecords<String, byte[]> records = consumer.poll(Duration.ofMillis(100));
 					for (ConsumerRecord<String, byte[]> record : records) {
 						byte[] data = record.value();
+						AgentPacket packet = new AgentPacket(null, data);
 					}
 				}
 			} catch (Exception e) {
