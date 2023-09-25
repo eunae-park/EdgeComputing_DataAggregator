@@ -137,6 +137,7 @@ public class Kafka {
 				while (!Thread.currentThread().isInterrupted()) {
 					ConsumerRecords<String, byte[]> records = consumer.poll(Duration.ofMillis(100));
 					for (ConsumerRecord<String, byte[]> record : records) {
+						byte[] data = record.value();
 					}
 				}
 			} catch (Exception e) {
