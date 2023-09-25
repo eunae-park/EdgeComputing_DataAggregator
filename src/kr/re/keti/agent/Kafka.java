@@ -131,5 +131,7 @@ public class Kafka {
 			}
 		}
 
+		consumerThread = new Thread(() -> {
+		}
 	}
 }
