@@ -134,6 +134,8 @@ public class Kafka {
 		consumerThread = new Thread(() -> {
 			try {
 				consumer.subscribe(Arrays.asList(topic));
+				while (!Thread.currentThread().isInterrupted()) {
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
