@@ -136,6 +136,8 @@ public class Kafka {
 				consumer.subscribe(Arrays.asList(topic));
 				while (!Thread.currentThread().isInterrupted()) {
 					ConsumerRecords<String, byte[]> records = consumer.poll(Duration.ofMillis(100));
+					for (ConsumerRecord<String, byte[]> record : records) {
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
