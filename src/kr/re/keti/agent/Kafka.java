@@ -139,6 +139,7 @@ public class Kafka {
 					for (ConsumerRecord<String, byte[]> record : records) {
 						byte[] data = record.value();
 						AgentPacket packet = new AgentPacket(null, data);
+						receiveQueue.put(packet);
 					}
 				}
 			} catch (Exception e) {
