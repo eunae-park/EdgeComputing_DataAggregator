@@ -132,6 +132,11 @@ public class Kafka {
 		}
 
 		consumerThread = new Thread(() -> {
+			try {
+				consumer.subscribe(Arrays.asList(topic));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
