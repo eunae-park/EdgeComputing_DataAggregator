@@ -116,6 +116,10 @@ public class Kafka {
 						@Override
 						public void onCompletion(RecordMetadata metadata, Exception exception) {
 							if(exception != null) {
+								// 데이터 전송이 실패한 경우
+								//					            System.err.println("Failed to send data: " + exception.getMessage());
+							}
+							else {
 							}
 						}
 					}
