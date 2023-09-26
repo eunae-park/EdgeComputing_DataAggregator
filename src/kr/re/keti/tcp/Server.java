@@ -12,4 +12,5 @@ import kr.re.keti.agent.AgentPacket;
 public class Server{
 	private final int CAPACITY = 5000;
 	private final int DEFAULT_BUFFER_SIZE = 5000;
+	private ServerSocket serverSocket;
 }
