@@ -14,4 +14,5 @@ public class Server{
 	private final int DEFAULT_BUFFER_SIZE = 5000;
 	private ServerSocket serverSocket;
 	private ArrayBlockingQueue<Socket> acceptQueue;
+	private ArrayBlockingQueue<AgentPacket> receivQueue;
 }
