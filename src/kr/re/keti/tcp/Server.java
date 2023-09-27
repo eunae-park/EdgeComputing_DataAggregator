@@ -19,4 +19,6 @@ public class Server{
 	private Thread receiveThread;
 	
 	
+	public Server(int port, ArrayBlockingQueue<AgentPacket> receivQueue) {
+	}
 }
