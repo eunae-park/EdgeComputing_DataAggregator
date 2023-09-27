@@ -40,6 +40,7 @@ public class Server{
 					Socket socket = acceptQueue.take();
 					try {
 						InputStream inputStream = socket.getInputStream();
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
