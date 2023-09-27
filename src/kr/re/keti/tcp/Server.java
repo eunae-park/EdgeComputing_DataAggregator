@@ -16,4 +16,5 @@ public class Server{
 	private ArrayBlockingQueue<Socket> acceptQueue;
 	private ArrayBlockingQueue<AgentPacket> receivQueue;
 	private Thread acceptThread;
+	private Thread receiveThread;
 }
