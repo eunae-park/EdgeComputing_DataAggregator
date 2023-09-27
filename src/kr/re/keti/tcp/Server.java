@@ -33,4 +33,6 @@ public class Server{
 		acceptThread.start();
 		receiveThread.start();
 	}
+	private void initThread() {
+	}
 }
