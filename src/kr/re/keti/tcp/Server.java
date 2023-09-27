@@ -22,6 +22,7 @@ public class Server{
 	public Server(int port, ArrayBlockingQueue<AgentPacket> receivQueue) {
 		try {
 			serverSocket = new ServerSocket(port);
+			this.receivQueue = receivQueue;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
