@@ -38,6 +38,11 @@ public class Server{
 			try {
 				while(!Thread.currentThread().isInterrupted()) {
 					Socket socket = acceptQueue.take();
+					try {
+						InputStream inputStream = socket.getInputStream();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
