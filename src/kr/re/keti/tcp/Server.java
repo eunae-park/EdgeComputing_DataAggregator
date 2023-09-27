@@ -34,5 +34,7 @@ public class Server{
 		receiveThread.start();
 	}
 	private void initThread() {
+		receiveThread = new Thread(()->{
+		});
 	}
 }
