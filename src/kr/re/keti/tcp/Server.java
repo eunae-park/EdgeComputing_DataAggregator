@@ -24,6 +24,7 @@ public class Server{
 			serverSocket = new ServerSocket(port);
 			this.receivQueue = receivQueue;
 			acceptQueue = new ArrayBlockingQueue<>(CAPACITY);
+			initThread();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
