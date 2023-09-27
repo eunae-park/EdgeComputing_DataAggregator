@@ -23,6 +23,7 @@ public class Server{
 		try {
 			serverSocket = new ServerSocket(port);
 			this.receivQueue = receivQueue;
+			acceptQueue = new ArrayBlockingQueue<>(CAPACITY);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
