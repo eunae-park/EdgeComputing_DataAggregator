@@ -20,5 +20,10 @@ public class Server{
 	
 	
 	public Server(int port, ArrayBlockingQueue<AgentPacket> receivQueue) {
+		try {
+			serverSocket = new ServerSocket(port);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
