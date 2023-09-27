@@ -31,5 +31,6 @@ public class Server{
 	}
 	public void start() {
 		acceptThread.start();
+		receiveThread.start();
 	}
 }
