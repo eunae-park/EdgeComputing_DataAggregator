@@ -18,4 +18,5 @@ public class Server{
 	private Thread acceptThread;
 	private Thread receiveThread;
 	
+	
 }
