@@ -46,6 +46,7 @@ public class Server{
 						int len;
 						while ((len = inputStream.read(buffer)) != -1) {
 						    baos.write(buffer, 0, len);
+						    if(inputStream.available() < 1) break;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
