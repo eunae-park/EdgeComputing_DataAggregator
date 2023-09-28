@@ -44,6 +44,8 @@ public class Server{
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 						int len;
+						while ((len = inputStream.read(buffer)) != -1) {
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
