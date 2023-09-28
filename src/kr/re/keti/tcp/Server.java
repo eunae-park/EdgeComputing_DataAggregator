@@ -41,6 +41,7 @@ public class Server{
 					try {
 						InputStream inputStream = socket.getInputStream();
 
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
