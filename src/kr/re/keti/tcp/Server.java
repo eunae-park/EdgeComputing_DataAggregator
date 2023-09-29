@@ -63,6 +63,8 @@ public class Server{
 			}
 		});
 		acceptThread = new Thread(()->{
+			while (!Thread.currentThread().isInterrupted()) {
+			}
 		});
 	}
 }
