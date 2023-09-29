@@ -51,6 +51,7 @@ public class Server{
 						byte[] data = baos.toByteArray();
 						
 						AgentPacket packet = new AgentPacket(socket, data);
+						receivQueue.put(packet);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
