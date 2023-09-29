@@ -62,5 +62,7 @@ public class Server{
 				e.printStackTrace();
 			}
 		});
+		acceptThread = new Thread(()->{
+		});
 	}
 }
