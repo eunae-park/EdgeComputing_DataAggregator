@@ -73,5 +73,6 @@ public class Server{
 			}
 		});
 		
+		acceptThread.setName("TCP_AcceptThread");
 	}
 }
