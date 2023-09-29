@@ -50,6 +50,7 @@ public class Server{
 						}
 						byte[] data = baos.toByteArray();
 						
+						AgentPacket packet = new AgentPacket(socket, data);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
