@@ -64,6 +64,11 @@ public class Server{
 		});
 		acceptThread = new Thread(()->{
 			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					Socket clientSocket = serverSocket.accept();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
