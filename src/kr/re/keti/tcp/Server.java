@@ -49,6 +49,7 @@ public class Server{
 						    if(inputStream.available() < 1) break;
 						}
 						byte[] data = baos.toByteArray();
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
