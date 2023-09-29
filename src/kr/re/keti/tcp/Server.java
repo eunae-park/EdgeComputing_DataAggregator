@@ -56,6 +56,7 @@ public class Server{
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
