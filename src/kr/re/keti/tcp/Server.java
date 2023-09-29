@@ -52,6 +52,7 @@ public class Server{
 						
 						AgentPacket packet = new AgentPacket(socket, data);
 						receivQueue.put(packet);
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
