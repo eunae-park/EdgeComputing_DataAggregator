@@ -21,4 +21,6 @@ public class Client extends Thread{
 	public Client(ArrayBlockingQueue<AgentPacket> queue) {
 		this.queue = queue;
 	}
+	public boolean send(Socket socket, byte[] data, Consumer<byte[]> callback) {
+	}
 }
