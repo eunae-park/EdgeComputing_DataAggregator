@@ -28,6 +28,8 @@ public class Client extends Thread{
 				int currReteries = 0;
 				InputStream inputStream = socket.getInputStream();
 				OutputStream outputStream = socket.getOutputStream();
+				while(!Thread.currentThread().isInterrupted()) {
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
