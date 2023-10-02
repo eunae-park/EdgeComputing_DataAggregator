@@ -17,4 +17,5 @@ public class Client extends Thread{
 	private final int DEFAULT_BUFFER_SIZE = 5000;
 	private final int MAX_RETRIES = 3;
 	private ArrayBlockingQueue<AgentPacket> queue;
+	
 }
