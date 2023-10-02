@@ -18,4 +18,6 @@ public class Client extends Thread{
 	private final int MAX_RETRIES = 3;
 	private ArrayBlockingQueue<AgentPacket> queue;
 	
+	public Client(ArrayBlockingQueue<AgentPacket> queue) {
+	}
 }
