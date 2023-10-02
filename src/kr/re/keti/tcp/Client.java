@@ -19,5 +19,6 @@ public class Client extends Thread{
 	private ArrayBlockingQueue<AgentPacket> queue;
 	
 	public Client(ArrayBlockingQueue<AgentPacket> queue) {
+		this.queue = queue;
 	}
 }
