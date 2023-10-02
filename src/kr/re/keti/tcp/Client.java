@@ -29,6 +29,11 @@ public class Client extends Thread{
 				InputStream inputStream = socket.getInputStream();
 				OutputStream outputStream = socket.getOutputStream();
 				while(!Thread.currentThread().isInterrupted()) {
+					try {
+						outputStream.write(data);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
