@@ -26,6 +26,7 @@ public class Client extends Thread{
 		Thread thread = new Thread(()->{
 			try {
 				int currReteries = 0;
+				InputStream inputStream = socket.getInputStream();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
