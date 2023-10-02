@@ -23,5 +23,7 @@ public class Client extends Thread{
 	}
 	public boolean send(Socket socket, byte[] data, Consumer<byte[]> callback) {
 		AtomicBoolean check = new AtomicBoolean(false);
+		Thread thread = new Thread(()->{
+		});
 	}
 }
