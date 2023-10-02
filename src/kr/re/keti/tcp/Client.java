@@ -14,4 +14,5 @@ import kr.re.keti.agent.AgentPacket;
 
 public class Client extends Thread{
 	private final int DEFAULT_TIMEOUT = 10 * 1000;
+	private final int DEFAULT_BUFFER_SIZE = 5000;
 }
