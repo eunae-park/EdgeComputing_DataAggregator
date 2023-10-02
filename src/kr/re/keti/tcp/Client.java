@@ -22,5 +22,6 @@ public class Client extends Thread{
 		this.queue = queue;
 	}
 	public boolean send(Socket socket, byte[] data, Consumer<byte[]> callback) {
+		AtomicBoolean check = new AtomicBoolean(false);
 	}
 }
