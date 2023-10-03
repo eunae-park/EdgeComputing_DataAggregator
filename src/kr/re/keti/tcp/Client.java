@@ -35,6 +35,7 @@ public class Client extends Thread{
 						
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+						int len;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
