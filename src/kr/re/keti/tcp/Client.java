@@ -43,6 +43,7 @@ public class Client extends Thread{
 						byte[] responseData = baos.toByteArray();
 						String response = new String(responseData);
 						if(response.indexOf("fail") != -1) {
+							currReteries++;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
