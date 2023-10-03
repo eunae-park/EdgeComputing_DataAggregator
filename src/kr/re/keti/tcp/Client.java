@@ -33,6 +33,7 @@ public class Client extends Thread{
 						outputStream.write(data);
 						outputStream.flush();
 						
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
