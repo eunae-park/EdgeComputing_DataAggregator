@@ -31,6 +31,7 @@ public class Client extends Thread{
 				while(!Thread.currentThread().isInterrupted()) {
 					try {
 						outputStream.write(data);
+						outputStream.flush();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
