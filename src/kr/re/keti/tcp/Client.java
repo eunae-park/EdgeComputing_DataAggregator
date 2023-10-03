@@ -32,6 +32,7 @@ public class Client extends Thread{
 					try {
 						outputStream.write(data);
 						outputStream.flush();
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
