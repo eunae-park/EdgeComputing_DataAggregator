@@ -41,6 +41,7 @@ public class Client extends Thread{
 							if(inputStream.available() < 1) break;
 						}
 						byte[] responseData = baos.toByteArray();
+						String response = new String(responseData);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
