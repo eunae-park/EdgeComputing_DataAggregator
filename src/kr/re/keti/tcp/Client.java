@@ -56,6 +56,7 @@ public class Client extends Thread{
 							}
 							break;
 						}
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
