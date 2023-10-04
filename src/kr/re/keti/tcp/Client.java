@@ -77,5 +77,11 @@ public class Client extends Thread{
 	}
 	@Override
 	public void run() {
+		try {
+			while(!Thread.currentThread().isInterrupted()) {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
