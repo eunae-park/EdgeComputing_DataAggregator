@@ -65,5 +65,6 @@ public class Client extends Thread{
 				e.printStackTrace();
 			}
 		});
+		thread.setName(socket.getInetAddress().getHostAddress()+"retryTCPThread");
 	}
 }
