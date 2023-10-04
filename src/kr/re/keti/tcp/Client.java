@@ -69,6 +69,7 @@ public class Client extends Thread{
 		thread.start();
 		try {
 			thread.join();
+			return check.get();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
