@@ -54,6 +54,7 @@ public class Client extends Thread{
 							if (callback != null) {
 								callback.accept(responseData);
 							}
+							break;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
