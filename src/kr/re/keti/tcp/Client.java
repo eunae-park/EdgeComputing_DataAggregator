@@ -47,6 +47,7 @@ public class Client extends Thread{
 							if(currReteries>MAX_RETRIES) {
 								break;
 							}
+							continue;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
