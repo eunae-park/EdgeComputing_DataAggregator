@@ -44,6 +44,8 @@ public class Client extends Thread{
 						String response = new String(responseData);
 						if(response.indexOf("fail") != -1) {
 							currReteries++;
+							if(currReteries>MAX_RETRIES) {
+							}
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
