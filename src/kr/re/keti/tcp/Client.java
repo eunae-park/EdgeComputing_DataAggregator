@@ -45,6 +45,7 @@ public class Client extends Thread{
 						if(response.indexOf("fail") != -1) {
 							currReteries++;
 							if(currReteries>MAX_RETRIES) {
+								break;
 							}
 						}
 					} catch (Exception e) {
