@@ -80,6 +80,8 @@ public class Client extends Thread{
 		try {
 			while(!Thread.currentThread().isInterrupted()) {
 				AgentPacket packet = queue.take();
+				Thread thread = new Thread(()->{
+				});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
