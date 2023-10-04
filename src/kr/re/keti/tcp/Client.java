@@ -52,6 +52,7 @@ public class Client extends Thread{
 						else {
 							check.set(true);
 							if (callback != null) {
+								callback.accept(responseData);
 							}
 						}
 					} catch (Exception e) {
