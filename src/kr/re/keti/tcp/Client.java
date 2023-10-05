@@ -83,6 +83,7 @@ public class Client extends Thread{
 				Thread thread = new Thread(()->{
 					try {
 						Socket socket = packet.getSocket();
+						String address = packet.getAddress();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
