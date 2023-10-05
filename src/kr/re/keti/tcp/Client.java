@@ -89,6 +89,7 @@ public class Client extends Thread{
 						if(socket == null) {
 							socket = new Socket(address, port);
 						}
+						socket.setSoTimeout(DEFAULT_TIMEOUT);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
