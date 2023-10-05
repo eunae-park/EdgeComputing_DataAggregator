@@ -90,6 +90,7 @@ public class Client extends Thread{
 							socket = new Socket(address, port);
 						}
 						socket.setSoTimeout(DEFAULT_TIMEOUT);
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
