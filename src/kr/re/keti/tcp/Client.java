@@ -81,6 +81,11 @@ public class Client extends Thread{
 			while(!Thread.currentThread().isInterrupted()) {
 				AgentPacket packet = queue.take();
 				Thread thread = new Thread(()->{
+					try {
+						Socket socket = packet.getSocket();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				});
 			}
 		} catch (Exception e) {
