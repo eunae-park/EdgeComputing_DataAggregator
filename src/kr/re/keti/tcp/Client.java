@@ -87,6 +87,7 @@ public class Client extends Thread{
 						int port = packet.getPort();
 						byte[] requestData = packet.getData();
 						if(socket == null) {
+							socket = new Socket(address, port);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
