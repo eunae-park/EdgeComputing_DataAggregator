@@ -92,6 +92,7 @@ public class Client extends Thread{
 						socket.setSoTimeout(DEFAULT_TIMEOUT);
 						
 						InputStream inputStream = socket.getInputStream();
+						OutputStream outputStream = socket.getOutputStream();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
