@@ -105,6 +105,7 @@ public class Client extends Thread{
 							if(inputStream.available() < 1) break;
 						}
 						byte[] responseData = baos.toByteArray();
+						boolean check = true;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
