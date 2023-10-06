@@ -98,6 +98,7 @@ public class Client extends Thread{
 						outputStream.flush();
 						
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
