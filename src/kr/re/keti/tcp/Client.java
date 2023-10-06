@@ -95,6 +95,7 @@ public class Client extends Thread{
 						OutputStream outputStream = socket.getOutputStream();
 						
 						outputStream.write(requestData);
+						outputStream.flush();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
