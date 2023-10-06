@@ -101,6 +101,7 @@ public class Client extends Thread{
 						byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 						int len;
 						while ((len = inputStream.read(buffer)) != -1) {
+							baos.write(buffer, 0, len);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
