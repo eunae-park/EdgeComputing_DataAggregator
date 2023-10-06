@@ -104,6 +104,7 @@ public class Client extends Thread{
 							baos.write(buffer, 0, len);
 							if(inputStream.available() < 1) break;
 						}
+						byte[] responseData = baos.toByteArray();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
