@@ -118,6 +118,8 @@ public class Client extends Thread{
 								e.printStackTrace();
 						else {
 							Consumer<byte[]> callback = packet.getCallback();
+                            if (callback != null) {
+}
 						}
 							}
 						}
