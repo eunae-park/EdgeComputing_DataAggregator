@@ -119,6 +119,7 @@ public class Client extends Thread{
 						else {
 							Consumer<byte[]> callback = packet.getCallback();
                             if (callback != null) {
+                                callback.accept(responseData);
 }
 						}
 							}
