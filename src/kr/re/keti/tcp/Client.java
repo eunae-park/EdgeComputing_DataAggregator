@@ -116,6 +116,8 @@ public class Client extends Thread{
 							} catch (Exception e) {
 							retryThread.start();
 								e.printStackTrace();
+						else {
+						}
 							}
 						}
 					} catch (Exception e) {
