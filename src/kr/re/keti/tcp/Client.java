@@ -117,6 +117,7 @@ public class Client extends Thread{
 							retryThread.start();
 								e.printStackTrace();
 						else {
+							Consumer<byte[]> callback = packet.getCallback();
 						}
 							}
 						}
