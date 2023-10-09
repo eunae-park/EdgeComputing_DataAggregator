@@ -114,6 +114,7 @@ public class Client extends Thread{
 									send(finalSocket, requestData, callback);
 								}
 							} catch (Exception e) {
+							retryThread.start();
 								e.printStackTrace();
 							}
 						}
