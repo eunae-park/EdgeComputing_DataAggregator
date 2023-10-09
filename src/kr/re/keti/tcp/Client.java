@@ -111,6 +111,7 @@ public class Client extends Thread{
 							Thread retryThread = new Thread(()->{
 								if(check) {
 									Consumer<byte[]> callback = packet.getCallback();
+									send(finalSocket, requestData, callback);
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
