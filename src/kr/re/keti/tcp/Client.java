@@ -108,6 +108,12 @@ public class Client extends Thread{
 						boolean check = true;
 						if(new String(responseData).indexOf("fail") != -1) {
 							final Socket finalSocket = socket;
+							Thread retryThread = new Thread(()->{
+								if(check) {
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
