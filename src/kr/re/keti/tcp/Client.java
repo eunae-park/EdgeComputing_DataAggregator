@@ -107,6 +107,7 @@ public class Client extends Thread{
 						byte[] responseData = baos.toByteArray();
 						boolean check = true;
 						if(new String(responseData).indexOf("fail") != -1) {
+							final Socket finalSocket = socket;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
