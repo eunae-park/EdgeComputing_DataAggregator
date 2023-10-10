@@ -125,6 +125,7 @@ public class Client extends Thread{
 							}
 						}
 					} catch (Exception e) {
+					
 						e.printStackTrace();
 					}
 				});
