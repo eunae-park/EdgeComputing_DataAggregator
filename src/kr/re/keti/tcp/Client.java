@@ -127,6 +127,7 @@ public class Client extends Thread{
 					} catch (Exception e) {
 					
 						e.printStackTrace();
+				thread.setName(packet.getAddress()+"TCPThread");
 					}
 				});
 			}
