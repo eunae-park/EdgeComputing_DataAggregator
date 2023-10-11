@@ -10,5 +10,6 @@ public class TcpPacket {
 	
 	public TcpPacket(Socket socket, byte[] data, int length) {
 		this.socket = socket;
+		this.data = data;
 	}
 }
