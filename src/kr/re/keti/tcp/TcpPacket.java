@@ -6,4 +6,5 @@ public class TcpPacket {
 	private Socket socket;
 	private int port;
 	private int length;
+	private byte[] data;
 }
