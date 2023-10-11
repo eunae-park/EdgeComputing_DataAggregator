@@ -9,5 +9,6 @@ public class TcpPacket {
 	private byte[] data;
 	
 	public TcpPacket(Socket socket, byte[] data, int length) {
+		this.socket = socket;
 	}
 }
