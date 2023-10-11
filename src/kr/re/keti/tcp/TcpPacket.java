@@ -8,4 +8,6 @@ public class TcpPacket {
 	private int length;
 	private byte[] data;
 	
+	public TcpPacket(Socket socket, byte[] data, int length) {
+	}
 }
