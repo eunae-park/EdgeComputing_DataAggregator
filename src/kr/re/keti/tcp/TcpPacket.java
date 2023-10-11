@@ -18,4 +18,6 @@ public class TcpPacket {
 		this.data = data;
 		this.length = length;
 	}
+	public Socket getSocket() {
+	}
 }
