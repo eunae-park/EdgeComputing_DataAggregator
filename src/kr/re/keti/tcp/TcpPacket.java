@@ -13,4 +13,6 @@ public class TcpPacket {
 		this.data = data;
 		this.length = length;
 	}
+	public TcpPacket(int port, byte[] data, int length) {
+	}
 }
