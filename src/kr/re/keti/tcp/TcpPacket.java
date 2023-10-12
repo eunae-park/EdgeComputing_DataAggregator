@@ -25,5 +25,6 @@ public class TcpPacket {
 		this.socket = socket;
 	}
 	public byte[] getData() {
+		return data;
 	}
 }
