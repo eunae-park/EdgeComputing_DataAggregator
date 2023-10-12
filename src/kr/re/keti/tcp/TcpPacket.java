@@ -24,4 +24,6 @@ public class TcpPacket {
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
+	public byte[] getData() {
+	}
 }
