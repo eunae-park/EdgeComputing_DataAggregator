@@ -19,5 +19,6 @@ public class TcpPacket {
 		this.length = length;
 	}
 	public Socket getSocket() {
+		return socket;
 	}
 }
