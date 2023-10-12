@@ -21,4 +21,6 @@ public class TcpPacket {
 	public Socket getSocket() {
 		return socket;
 	}
+	public void setSocket(Socket socket) {
+	}
 }
