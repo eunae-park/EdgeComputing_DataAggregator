@@ -37,5 +37,6 @@ public class TcpPacket {
 		this.length = length;
 	}
 	public int getPort() {
+		return port;
 	}
 }
