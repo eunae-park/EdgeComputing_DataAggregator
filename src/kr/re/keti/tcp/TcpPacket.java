@@ -28,5 +28,6 @@ public class TcpPacket {
 		return data;
 	}
 	public void setData(byte[] data) {
+		this.data = data;
 	}
 }
