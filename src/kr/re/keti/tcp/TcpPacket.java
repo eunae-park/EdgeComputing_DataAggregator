@@ -39,4 +39,6 @@ public class TcpPacket {
 	public int getPort() {
 		return port;
 	}
+	public void setPort(int port) {
+	}
 }
