@@ -33,4 +33,6 @@ public class TcpPacket {
 	public int getLength() {
 		return length;
 	}
+	public void setLength(int length) {
+	}
 }
