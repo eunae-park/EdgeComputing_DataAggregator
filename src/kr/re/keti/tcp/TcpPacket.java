@@ -34,5 +34,6 @@ public class TcpPacket {
 		return length;
 	}
 	public void setLength(int length) {
+		this.length = length;
 	}
 }
