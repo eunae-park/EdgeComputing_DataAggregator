@@ -31,5 +31,6 @@ public class TcpPacket {
 		this.data = data;
 	}
 	public int getLength() {
+		return length;
 	}
 }
