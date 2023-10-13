@@ -30,4 +30,6 @@ public class TcpPacket {
 	public void setData(byte[] data) {
 		this.data = data;
 	}
+	public int getLength() {
+	}
 }
