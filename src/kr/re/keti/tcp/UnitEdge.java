@@ -24,5 +24,6 @@ public class UnitEdge{
     	chunkList = new ArrayList<>();
     	FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
     	this.address = address;
+    	String fileName = dataid+"."+dto.getFileType();
 }
 }
