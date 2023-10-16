@@ -26,6 +26,7 @@ public class UnitEdge{
     	this.address = address;
     	String fileName = dataid+"."+dto.getFileType();
     	for(int i=startIdx; i<=finishIdx;i++) {
+    		chunkList.add(fileName+"_"+i);
 	}
 }
 }
