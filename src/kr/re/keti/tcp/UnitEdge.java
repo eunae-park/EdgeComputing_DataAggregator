@@ -23,5 +23,6 @@ public class UnitEdge{
     public UnitEdge(Database database, String address, String dataid, int startIdx, int finishIdx) {
     	chunkList = new ArrayList<>();
     	FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
+    	this.address = address;
 }
 }
