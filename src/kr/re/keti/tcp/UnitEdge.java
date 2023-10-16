@@ -19,4 +19,5 @@ import kr.re.keti.database.FileManagementDto;
 public class UnitEdge{
 	private String address;
     private List<String> chunkList;
+
 }
