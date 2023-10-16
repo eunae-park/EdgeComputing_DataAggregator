@@ -25,5 +25,7 @@ public class UnitEdge{
     	FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
     	this.address = address;
     	String fileName = dataid+"."+dto.getFileType();
+    	for(int i=startIdx; i<=finishIdx;i++) {
+	}
 }
 }
