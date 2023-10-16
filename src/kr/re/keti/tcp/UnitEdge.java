@@ -21,5 +21,6 @@ public class UnitEdge{
     private List<String> chunkList;
 
     public UnitEdge(Database database, String address, String dataid, int startIdx, int finishIdx) {
+    	chunkList = new ArrayList<>();
 }
 }
