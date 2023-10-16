@@ -16,3 +16,6 @@ import kr.re.keti.PortNum;
 import kr.re.keti.database.Database;
 import kr.re.keti.database.FileManagementDto;
 
+public class UnitEdge{
+	private String address;
+}
