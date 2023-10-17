@@ -42,6 +42,7 @@ public class UnitEdge{
         private String fileName;
 
         public UnitEdgeRunnable(String fileName) {
+            this.fileName = fileName;
 }
 }
 }
