@@ -30,4 +30,6 @@ public class UnitEdge{
 	}
 }
 
+    public void start() {
+}
 }
