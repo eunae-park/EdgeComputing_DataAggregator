@@ -32,6 +32,7 @@ public class UnitEdge{
 
     public void start() {
         for (String fileName : chunkList) {
+            Thread thread = new Thread(new UnitEdgeRunnable(fileName));
 }
 }
 }
