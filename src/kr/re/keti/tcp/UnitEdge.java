@@ -41,5 +41,7 @@ public class UnitEdge{
     private class UnitEdgeRunnable implements Runnable {
         private String fileName;
 
+        public UnitEdgeRunnable(String fileName) {
+}
 }
 }
