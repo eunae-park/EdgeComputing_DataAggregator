@@ -31,5 +31,7 @@ public class UnitEdge{
 }
 
     public void start() {
+        for (String fileName : chunkList) {
+}
 }
 }
