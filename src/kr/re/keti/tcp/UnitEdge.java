@@ -38,4 +38,6 @@ public class UnitEdge{
 }
 }
 
+    private class UnitEdgeRunnable implements Runnable {
+}
 }
