@@ -55,6 +55,7 @@ public class UnitEdge{
 		}
         		try (Socket socket = new Socket(address, PortNum.KETI_PORT);){
         			socket.setSoTimeout(3000);
+        			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
