@@ -47,6 +47,8 @@ public class UnitEdge{
 
         @Override
         public void run() {
+        	while(true) {
+	}
 }
 }
 }
