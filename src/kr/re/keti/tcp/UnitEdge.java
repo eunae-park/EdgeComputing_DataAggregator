@@ -53,6 +53,11 @@ public class UnitEdge{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+        		try (Socket socket = new Socket(address, PortNum.KETI_PORT);){
+        			socket.setSoTimeout(3000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 }
