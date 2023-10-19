@@ -60,6 +60,7 @@ public class UnitEdge{
         			String filePath = path+fileName;
         			
         			File file = new File(filePath);
+        			byte[] data = Files.readAllBytes(Paths.get(file.toURI()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
