@@ -59,6 +59,7 @@ public class UnitEdge{
         			String path = Main.storageFolder+"chunk/";
         			String filePath = path+fileName;
         			
+        			File file = new File(filePath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
