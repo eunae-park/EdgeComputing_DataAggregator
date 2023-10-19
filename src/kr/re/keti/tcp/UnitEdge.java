@@ -69,6 +69,7 @@ public class UnitEdge{
         			
         			//---------------------------response----------------------------------
         			InputStream inputStream = socket.getInputStream();
+        			byte[] buffer = new byte[1024];
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
