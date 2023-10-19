@@ -66,6 +66,7 @@ public class UnitEdge{
         			OutputStream outputStream = socket.getOutputStream();
         			outputStream.write(request);
         			outputStream.flush();
+        			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
