@@ -63,6 +63,7 @@ public class UnitEdge{
         			byte[] data = Files.readAllBytes(Paths.get(file.toURI()));
         			
         			byte[] request = message(address, fileName, data);
+        			OutputStream outputStream = socket.getOutputStream();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
