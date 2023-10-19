@@ -57,6 +57,7 @@ public class UnitEdge{
         			socket.setSoTimeout(3000);
         			
         			String path = Main.storageFolder+"chunk/";
+        			String filePath = path+fileName;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
