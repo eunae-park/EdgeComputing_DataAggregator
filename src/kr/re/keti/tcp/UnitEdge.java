@@ -61,6 +61,7 @@ public class UnitEdge{
         			
         			File file = new File(filePath);
         			byte[] data = Files.readAllBytes(Paths.get(file.toURI()));
+        			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
