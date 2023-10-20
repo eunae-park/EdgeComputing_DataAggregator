@@ -77,6 +77,8 @@ public class UnitEdge{
 			}
         			else if(response.indexOf("success") != -1) {        				
         				socket.close();
+//        				System.out.println("File transfer completed for: " + filePath);
+        				return;
 							}
 		} catch (Exception e) {
 			e.printStackTrace();
