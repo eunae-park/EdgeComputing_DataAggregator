@@ -76,6 +76,7 @@ public class UnitEdge{
         				continue;
 			}
         			else if(response.indexOf("success") != -1) {        				
+        				socket.close();
 							}
 		} catch (Exception e) {
 			e.printStackTrace();
