@@ -75,6 +75,8 @@ public class UnitEdge{
         			if(response.indexOf("fail") !=-1 ) {
         				continue;
 			}
+        			else if(response.indexOf("success") != -1) {        				
+							}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
