@@ -80,10 +80,14 @@ public class UnitEdge{
 //        				System.out.println("File transfer completed for: " + filePath);
         				return;
 							}
+        			// Close the connections
+//        			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+	    public static byte[] message(String address, String fileName, byte[] data) throws IOException {
+	}
 }
 }
