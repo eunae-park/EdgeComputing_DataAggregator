@@ -89,6 +89,7 @@ public class UnitEdge{
 }
 	    public static byte[] message(String address, String fileName, byte[] data) throws IOException {
 			int fileSize = data.length;
+		    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	}
 }
 }
