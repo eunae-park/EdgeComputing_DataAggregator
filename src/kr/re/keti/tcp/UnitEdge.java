@@ -72,6 +72,8 @@ public class UnitEdge{
         			byte[] buffer = new byte[1024];
         			int length = inputStream.read(buffer);
         			String response = new String(buffer, 0, length); 
+        			if(response.indexOf("fail") !=-1 ) {
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
