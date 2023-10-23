@@ -93,6 +93,7 @@ public class UnitEdge{
 		    baos.write(("{[{REQ::" + address + "::406::" + fileName + "::" + fileSize + "::").getBytes("UTF-8"));
 		    baos.write(data);
 		    baos.write("}]}".getBytes("UTF-8"));
+		    return baos.toByteArray();
 	}
 }
 }
