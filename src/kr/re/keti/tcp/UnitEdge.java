@@ -92,6 +92,7 @@ public class UnitEdge{
 		    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		    baos.write(("{[{REQ::" + address + "::406::" + fileName + "::" + fileSize + "::").getBytes("UTF-8"));
 		    baos.write(data);
+		    baos.write("}]}".getBytes("UTF-8"));
 	}
 }
 }
