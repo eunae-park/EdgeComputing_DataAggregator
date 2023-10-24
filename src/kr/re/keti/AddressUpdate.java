@@ -18,5 +18,10 @@ public class AddressUpdate {
 		
 		port = random.nextInt(49151 - 1024 + 1)+1024;
 		receive();
+		try {
+			Thread.sleep(100);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
