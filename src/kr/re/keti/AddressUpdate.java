@@ -12,4 +12,5 @@ import java.util.Random;
 public class AddressUpdate {
 	int port;
 	String address;
+	Thread thread;
 }
