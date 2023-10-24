@@ -9,3 +9,6 @@ import java.net.UnknownHostException;
 import java.util.Random;
 
 
+public class AddressUpdate {
+	int port;
+}
