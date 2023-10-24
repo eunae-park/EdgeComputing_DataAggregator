@@ -13,4 +13,6 @@ public class AddressUpdate {
 	int port;
 	String address;
 	Thread thread;
+	public String localAddressUpdate() {
+	}
 }
