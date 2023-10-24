@@ -14,5 +14,6 @@ public class AddressUpdate {
 	String address;
 	Thread thread;
 	public String localAddressUpdate() {
+		Random random = new Random();
 	}
 }
