@@ -17,5 +17,6 @@ public class AddressUpdate {
 		Random random = new Random();
 		
 		port = random.nextInt(49151 - 1024 + 1)+1024;
+		receive();
 	}
 }
