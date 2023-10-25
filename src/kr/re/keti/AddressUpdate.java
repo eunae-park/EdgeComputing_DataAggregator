@@ -35,6 +35,11 @@ public class AddressUpdate {
 	}
 	private void receive() {
 		thread = new Thread(()->{
+			try {
+				byte[] buf = new byte[1024];
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
 	}
 }
