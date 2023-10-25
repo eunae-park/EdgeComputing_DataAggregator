@@ -37,6 +37,7 @@ public class AddressUpdate {
 		thread = new Thread(()->{
 			try {
 				byte[] buf = new byte[1024];
+				DatagramSocket socket = new DatagramSocket(port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
