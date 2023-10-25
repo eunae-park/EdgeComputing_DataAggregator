@@ -25,5 +25,10 @@ public class AddressUpdate {
 		}
 		send();
 		
+		try {
+			thread.join();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
