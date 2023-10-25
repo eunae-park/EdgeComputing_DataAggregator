@@ -34,5 +34,7 @@ public class AddressUpdate {
 		
 	}
 	private void receive() {
+		thread = new Thread(()->{
+		});
 	}
 }
