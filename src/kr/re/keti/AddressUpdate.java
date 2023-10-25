@@ -33,4 +33,6 @@ public class AddressUpdate {
 		return address;
 		
 	}
+	private void receive() {
+	}
 }
