@@ -23,5 +23,6 @@ public class AddressUpdate {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		send();
 	}
 }
