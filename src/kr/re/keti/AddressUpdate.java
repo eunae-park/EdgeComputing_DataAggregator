@@ -39,6 +39,7 @@ public class AddressUpdate {
 				byte[] buf = new byte[1024];
 				DatagramSocket socket = new DatagramSocket(port);
 				DatagramPacket packet = new DatagramPacket(buf, buf.length);
+				socket.receive(packet);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
