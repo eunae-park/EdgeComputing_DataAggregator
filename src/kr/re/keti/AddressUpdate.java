@@ -50,4 +50,6 @@ public class AddressUpdate {
 		thread.start();
 		
 	}
+	private void send() {
+	}
 }
