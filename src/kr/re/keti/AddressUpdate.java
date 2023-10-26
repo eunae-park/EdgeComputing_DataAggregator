@@ -41,6 +41,7 @@ public class AddressUpdate {
 				DatagramPacket packet = new DatagramPacket(buf, buf.length);
 				socket.receive(packet);
 				address = packet.getAddress().getHostAddress();
+				socket.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
