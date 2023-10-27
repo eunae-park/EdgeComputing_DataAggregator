@@ -54,6 +54,7 @@ public class AddressUpdate {
 		Thread thread = new Thread(()->{
 			try {
 				byte[] buf = "update".getBytes();
+				DatagramPacket packet = new DatagramPacket(
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
