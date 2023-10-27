@@ -59,6 +59,7 @@ public class AddressUpdate {
 					buf.length, 
 					InetAddress.getByName("255.255.255.255"), 
 					port
+				);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
