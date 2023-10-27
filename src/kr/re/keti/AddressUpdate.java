@@ -56,6 +56,7 @@ public class AddressUpdate {
 				byte[] buf = "update".getBytes();
 				DatagramPacket packet = new DatagramPacket(
 					buf, 
+					buf.length, 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
