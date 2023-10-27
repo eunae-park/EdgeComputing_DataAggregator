@@ -68,5 +68,6 @@ public class AddressUpdate {
 			}
 		});
 		thread.start();
+		
 	}
 }
