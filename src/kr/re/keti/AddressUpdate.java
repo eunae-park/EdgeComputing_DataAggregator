@@ -67,5 +67,6 @@ public class AddressUpdate {
 				e.printStackTrace();
 			}
 		});
+		thread.start();
 	}
 }
