@@ -51,5 +51,7 @@ public class AddressUpdate {
 		
 	}
 	private void send() {
+		Thread thread = new Thread(()->{
+		});
 	}
 }
