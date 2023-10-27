@@ -62,6 +62,7 @@ public class AddressUpdate {
 				);
 				DatagramSocket socket = new DatagramSocket();
 				socket.send(packet);
+				socket.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
