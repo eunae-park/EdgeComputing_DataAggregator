@@ -52,6 +52,11 @@ public class AddressUpdate {
 	}
 	private void send() {
 		Thread thread = new Thread(()->{
+			try {
+				byte[] buf = "update".getBytes();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
 	}
 }
