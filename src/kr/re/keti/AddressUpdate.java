@@ -60,6 +60,7 @@ public class AddressUpdate {
 					InetAddress.getByName("255.255.255.255"), 
 					port
 				);
+				DatagramSocket socket = new DatagramSocket();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
