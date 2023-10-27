@@ -57,6 +57,7 @@ public class AddressUpdate {
 				DatagramPacket packet = new DatagramPacket(
 					buf, 
 					buf.length, 
+					InetAddress.getByName("255.255.255.255"), 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
