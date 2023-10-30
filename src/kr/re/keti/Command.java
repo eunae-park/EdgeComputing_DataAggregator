@@ -7,4 +7,5 @@ import kr.re.keti.database.FileManagementDto;
 
 public class Command extends Thread{
 	Database database;
+	RequestProcess requestProcess;
 }
