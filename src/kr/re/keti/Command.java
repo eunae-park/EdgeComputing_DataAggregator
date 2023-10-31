@@ -26,6 +26,7 @@ public class Command extends Thread{
 				System.out.print(">>>");
 				command = scanner.nextLine();
 				type = command.split(" ")[0];
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
