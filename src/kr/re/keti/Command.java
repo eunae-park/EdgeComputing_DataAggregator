@@ -21,6 +21,11 @@ public class Command extends Thread{
 		String type;
 		
 		while(!isInterrupted()) {
+			try {
+				System.out.println();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
