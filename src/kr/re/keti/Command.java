@@ -24,6 +24,7 @@ public class Command extends Thread{
 			try {
 				System.out.println();
 				System.out.print(">>>");
+				command = scanner.nextLine();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
