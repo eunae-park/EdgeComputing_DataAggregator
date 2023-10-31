@@ -16,4 +16,6 @@ public class Command extends Thread{
 		this.scanner = new Scanner(System.in);
 	}
 	@Override
+	public void run() {
+	}
 }
