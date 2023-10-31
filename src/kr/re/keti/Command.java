@@ -29,6 +29,7 @@ public class Command extends Thread{
 				
 				if(command.equals("exit")) break;
 				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
