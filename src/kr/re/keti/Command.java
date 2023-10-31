@@ -19,5 +19,6 @@ public class Command extends Thread{
 	public void run() {
 		String command;
 		String type;
+		
 	}
 }
