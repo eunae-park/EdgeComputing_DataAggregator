@@ -10,4 +10,6 @@ public class Command extends Thread{
 	RequestProcess requestProcess;
 	Scanner scanner;
 	
+	public Command(Database database) {
+	}
 }
