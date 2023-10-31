@@ -23,6 +23,7 @@ public class Command extends Thread{
 		while(!isInterrupted()) {
 			try {
 				System.out.println();
+				System.out.print(">>>");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
