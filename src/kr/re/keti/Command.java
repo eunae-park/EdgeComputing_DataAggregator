@@ -17,5 +17,6 @@ public class Command extends Thread{
 	}
 	@Override
 	public void run() {
+		String command;
 	}
 }
