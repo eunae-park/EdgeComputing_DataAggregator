@@ -15,4 +15,5 @@ public class Command extends Thread{
 		this.database = database;
 		this.scanner = new Scanner(System.in);
 	}
+	@Override
 }
