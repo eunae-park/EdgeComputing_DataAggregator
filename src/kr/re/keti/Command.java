@@ -13,5 +13,6 @@ public class Command extends Thread{
 	public Command(Database database) {
 		requestProcess = new RequestProcess(database);
 		this.database = database;
+		this.scanner = new Scanner(System.in);
 	}
 }
