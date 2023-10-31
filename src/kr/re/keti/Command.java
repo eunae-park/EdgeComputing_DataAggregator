@@ -20,5 +20,7 @@ public class Command extends Thread{
 		String command;
 		String type;
 		
+		while(!isInterrupted()) {
+		}
 	}
 }
