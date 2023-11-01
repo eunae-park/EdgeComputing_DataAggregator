@@ -30,6 +30,8 @@ public class Command extends Thread{
 				if(command.equals("exit")) break;
 				
 				
+				if(type.matches("[0-9]+")) {
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
