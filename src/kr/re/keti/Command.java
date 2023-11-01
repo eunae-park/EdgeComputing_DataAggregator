@@ -38,6 +38,7 @@ public class Command extends Thread{
 					case 4: individualDataRead(command); break;
 					case 5: requestProcess.newEdge("[10.0.0.126]");
 					}
+					continue;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
