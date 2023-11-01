@@ -34,6 +34,7 @@ public class Command extends Thread{
 					switch(Integer.parseInt(type)) {
 					case 1: deviceInformation(command); break;
 					case 2: wholeDataInformation(command); break;
+					case 3: individualMetaDataInformation(command);break;
 					}
 				}
 			} catch (Exception e) {
