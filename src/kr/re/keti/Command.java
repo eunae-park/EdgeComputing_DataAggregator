@@ -31,6 +31,8 @@ public class Command extends Thread{
 				
 				
 				if(type.matches("[0-9]+")) {
+					switch(Integer.parseInt(type)) {
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
