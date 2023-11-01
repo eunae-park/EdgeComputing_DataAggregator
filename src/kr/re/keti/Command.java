@@ -33,6 +33,7 @@ public class Command extends Thread{
 				if(type.matches("[0-9]+")) {
 					switch(Integer.parseInt(type)) {
 					case 1: deviceInformation(command); break;
+					case 2: wholeDataInformation(command); break;
 					}
 				}
 			} catch (Exception e) {
