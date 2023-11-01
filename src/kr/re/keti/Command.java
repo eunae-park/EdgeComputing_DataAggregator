@@ -35,6 +35,7 @@ public class Command extends Thread{
 					case 1: deviceInformation(command); break;
 					case 2: wholeDataInformation(command); break;
 					case 3: individualMetaDataInformation(command);break;
+					case 4: individualDataRead(command); break;
 					}
 				}
 			} catch (Exception e) {
