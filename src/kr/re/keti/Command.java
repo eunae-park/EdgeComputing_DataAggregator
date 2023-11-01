@@ -40,6 +40,8 @@ public class Command extends Thread{
 					}
 					continue;
 				}
+				switch(type) {
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
