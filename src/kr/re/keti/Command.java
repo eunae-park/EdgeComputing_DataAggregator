@@ -43,6 +43,7 @@ public class Command extends Thread{
 				switch(type) {
 					case "update": updateFile(); break;
 					case "help": help(); break;
+					case "deviceIP": System.out.println("device-IP : "+Main.deviceIP); break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
