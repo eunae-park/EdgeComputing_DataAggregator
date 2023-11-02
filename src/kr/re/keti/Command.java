@@ -41,6 +41,7 @@ public class Command extends Thread{
 					continue;
 				}
 				switch(type) {
+					case "update": updateFile(); break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
