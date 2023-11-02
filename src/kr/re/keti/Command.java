@@ -47,6 +47,7 @@ public class Command extends Thread{
 					case "masterIP": System.out.println("master-IP : "+Main.masterIP); break;
 					case "mode" : System.out.println("device mode : "+Main.mode); break;
 					case "edgeList": edgeList(); break;
+					case "deviceInformation": deviceInformation(command); break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
