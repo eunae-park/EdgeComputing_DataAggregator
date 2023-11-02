@@ -44,6 +44,7 @@ public class Command extends Thread{
 					case "update": updateFile(); break;
 					case "help": help(); break;
 					case "deviceIP": System.out.println("device-IP : "+Main.deviceIP); break;
+					case "masterIP": System.out.println("master-IP : "+Main.masterIP); break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
