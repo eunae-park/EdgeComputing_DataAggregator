@@ -53,9 +53,11 @@ public class Command extends Thread{
 					case "distributed": distributed(command); break;
 				}
 				
+//				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		if(scanner != null) scanner.close();
 	}
 }
