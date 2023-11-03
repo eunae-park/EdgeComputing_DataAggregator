@@ -48,6 +48,7 @@ public class Command extends Thread{
 					case "mode" : System.out.println("device mode : "+Main.mode); break;
 					case "edgeList": edgeList(); break;
 					case "deviceInformation": deviceInformation(command); break;
+					case "wholeDataInformation": wholeDataInformation(command); break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
