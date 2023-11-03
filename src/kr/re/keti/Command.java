@@ -49,6 +49,7 @@ public class Command extends Thread{
 					case "edgeList": edgeList(); break;
 					case "deviceInformation": deviceInformation(command); break;
 					case "wholeDataInformation": wholeDataInformation(command); break;
+					case "individualMetaDataInformation": individualMetaDataInformation(command);break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
