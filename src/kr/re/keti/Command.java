@@ -50,6 +50,7 @@ public class Command extends Thread{
 					case "deviceInformation": deviceInformation(command); break;
 					case "wholeDataInformation": wholeDataInformation(command); break;
 					case "individualMetaDataInformation": individualMetaDataInformation(command);break;
+					case "distributed": distributed(command); break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
