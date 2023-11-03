@@ -52,6 +52,7 @@ public class Command extends Thread{
 					case "individualMetaDataInformation": individualMetaDataInformation(command);break;
 					case "distributed": distributed(command); break;
 				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
