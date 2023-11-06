@@ -65,6 +65,7 @@ public class Command extends Thread{
 		String dataId = "";
 		while(true) {
 			System.out.println("File Name : ");
+			dataId = scanner.nextLine();
 		}
 	}
 }
