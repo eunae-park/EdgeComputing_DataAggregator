@@ -63,5 +63,7 @@ public class Command extends Thread{
 	private void updateFile() {
 		FileManagementDto dto = null;
 		String dataId = "";
+		while(true) {
+		}
 	}
 }
