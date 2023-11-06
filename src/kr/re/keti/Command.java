@@ -64,6 +64,7 @@ public class Command extends Thread{
 		FileManagementDto dto = null;
 		String dataId = "";
 		while(true) {
+			System.out.println("File Name : ");
 		}
 	}
 }
