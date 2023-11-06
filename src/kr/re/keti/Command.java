@@ -68,6 +68,8 @@ public class Command extends Thread{
 			dataId = scanner.nextLine();
 			if(dataId.equals("exit")) return;
 			else {
+				if(database.select(dataId) != null) {
+				}
 			}
 		}
 	}
