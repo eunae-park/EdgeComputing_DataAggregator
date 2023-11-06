@@ -84,6 +84,7 @@ public class Command extends Thread{
 				if(level == -1) break;
 				if(level<0 || level>5) throw new Exception();
 				
+				dto.setSecurityLevel(level);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
