@@ -78,6 +78,7 @@ public class Command extends Thread{
 		}
 		
 		while(true) {
+			System.out.println("Security Level(1 - 5) : ");
 		}
 	}
 }
