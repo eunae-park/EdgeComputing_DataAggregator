@@ -77,5 +77,7 @@ public class Command extends Thread{
 			}
 		}
 		
+		while(true) {
+		}
 	}
 }
