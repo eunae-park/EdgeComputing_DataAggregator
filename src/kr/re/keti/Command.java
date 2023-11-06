@@ -69,6 +69,7 @@ public class Command extends Thread{
 			if(dataId.equals("exit")) return;
 			else {
 				if(database.select(dataId) != null) {
+					break;
 				}
 			}
 		}
