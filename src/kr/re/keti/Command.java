@@ -60,4 +60,6 @@ public class Command extends Thread{
 		}
 		if(scanner != null) scanner.close();
 	}
+	private void updateFile() {
+	}
 }
