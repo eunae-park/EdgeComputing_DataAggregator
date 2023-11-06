@@ -81,6 +81,7 @@ public class Command extends Thread{
 			System.out.println("Security Level(1 - 5) : ");
 			try {
 				int level = Integer.parseInt(scanner.nextLine());
+				if(level == -1) break;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
