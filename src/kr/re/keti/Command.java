@@ -72,6 +72,7 @@ public class Command extends Thread{
 					break;
 				}
 				else {
+					System.out.println("not found data ["+dataId+"]");
 				}
 			}
 		}
