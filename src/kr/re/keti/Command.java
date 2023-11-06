@@ -83,6 +83,7 @@ public class Command extends Thread{
 				int level = Integer.parseInt(scanner.nextLine());
 				if(level == -1) break;
 				if(level<0 || level>5) throw new Exception();
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
