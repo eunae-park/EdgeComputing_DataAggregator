@@ -67,6 +67,8 @@ public class Command extends Thread{
 			System.out.println("File Name : ");
 			dataId = scanner.nextLine();
 			if(dataId.equals("exit")) return;
+			else {
+			}
 		}
 	}
 }
