@@ -71,6 +71,8 @@ public class Command extends Thread{
 				if(database.select(dataId) != null) {
 					break;
 				}
+				else {
+				}
 			}
 		}
 	}
