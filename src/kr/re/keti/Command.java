@@ -96,5 +96,6 @@ public class Command extends Thread{
 	private void help() {
 		System.out.println("keyword : ");
 		System.out.println("\thelp, deviceIP, masterIP, mode, edgeList");
+		System.out.println("\t1. deviceInformation [ip]");
 	}
 }
