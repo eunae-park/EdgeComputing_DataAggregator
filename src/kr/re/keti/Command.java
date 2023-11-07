@@ -93,4 +93,6 @@ public class Command extends Thread{
 			break;
 		}
 	}
+	private void help() {
+	}
 }
