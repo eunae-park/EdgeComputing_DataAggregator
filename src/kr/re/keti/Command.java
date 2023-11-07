@@ -86,6 +86,7 @@ public class Command extends Thread{
 				
 				dto.setSecurityLevel(level);
 				database.update(dto);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
