@@ -98,5 +98,6 @@ public class Command extends Thread{
 		System.out.println("\thelp, deviceIP, masterIP, mode, edgeList");
 		System.out.println("\t1. deviceInformation [ip]");
 		System.out.println("\t2. wholeDataInformation [ip]");
+		System.out.println("\t3. individualMetaDataInformation [dataid]");
 	}
 }
