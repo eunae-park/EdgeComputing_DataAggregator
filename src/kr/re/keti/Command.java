@@ -94,5 +94,6 @@ public class Command extends Thread{
 		}
 	}
 	private void help() {
+		System.out.println("keyword : ");
 	}
 }
