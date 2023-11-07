@@ -90,6 +90,7 @@ public class Command extends Thread{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			break;
 		}
 	}
 }
