@@ -104,4 +104,6 @@ public class Command extends Thread{
 		String slaveList = requestProcess.requestEdgeList(PortNum.KETI_PORT);
 		System.out.print("Edge List : "+Main.masterIP+"(master)\t["+slaveList+"]\n");			
 	}
+	private void deviceInformation(String command) {
+	}
 }
