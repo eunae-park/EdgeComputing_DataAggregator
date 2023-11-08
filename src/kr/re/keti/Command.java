@@ -105,5 +105,6 @@ public class Command extends Thread{
 		System.out.print("Edge List : "+Main.masterIP+"(master)\t["+slaveList+"]\n");			
 	}
 	private void deviceInformation(String command) {
+		String[] commands = command.split(" ");
 	}
 }
