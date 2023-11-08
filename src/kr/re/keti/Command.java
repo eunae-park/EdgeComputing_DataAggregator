@@ -111,5 +111,7 @@ public class Command extends Thread{
 			String data = requestProcess.deviceInformation();
 			requestProcess.showDeviceInformation(data);
 		}
+		else {
+		}
 	}
 }
