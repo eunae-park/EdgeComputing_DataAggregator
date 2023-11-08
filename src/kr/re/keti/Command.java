@@ -101,5 +101,6 @@ public class Command extends Thread{
 		System.out.println("\t3. individualMetaDataInformation [dataid]");
 	}
 	private void edgeList() {
+		String slaveList = requestProcess.requestEdgeList(PortNum.KETI_PORT);
 	}
 }
