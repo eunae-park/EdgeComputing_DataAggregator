@@ -100,4 +100,6 @@ public class Command extends Thread{
 		System.out.println("\t2. wholeDataInformation [ip]");
 		System.out.println("\t3. individualMetaDataInformation [dataid]");
 	}
+	private void edgeList() {
+	}
 }
