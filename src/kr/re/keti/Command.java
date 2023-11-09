@@ -123,6 +123,7 @@ public class Command extends Thread{
 			requestProcess.wholeDataInformation(data);
 		}
 		else {
+			System.out.println("request to "+commands[1]);
 		}
 	}
 }
