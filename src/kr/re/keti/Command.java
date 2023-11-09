@@ -116,5 +116,6 @@ public class Command extends Thread{
 		}
 	}
 	private void wholeDataInformation(String command) {
+		String[] commands = command.split(" ");
 	}
 }
