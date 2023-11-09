@@ -115,4 +115,6 @@ public class Command extends Thread{
 			requestProcess.requestDeviceInformation(commands[1], PortNum.KETI_PORT);
 		}
 	}
+	private void wholeDataInformation(String command) {
+	}
 }
