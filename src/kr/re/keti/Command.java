@@ -122,5 +122,7 @@ public class Command extends Thread{
 			String data = requestProcess.wholeDataInformation();
 			requestProcess.wholeDataInformation(data);
 		}
+		else {
+		}
 	}
 }
