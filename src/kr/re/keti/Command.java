@@ -118,6 +118,7 @@ public class Command extends Thread{
 	private void wholeDataInformation(String command) {
 		String[] commands = command.split(" ");
 		if(commands.length == 1 || commands[1].equals(Main.deviceIP)) {
+			System.out.println("request to mine");
 		}
 	}
 }
