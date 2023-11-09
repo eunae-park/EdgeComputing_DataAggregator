@@ -120,6 +120,7 @@ public class Command extends Thread{
 		if(commands.length == 1 || commands[1].equals(Main.deviceIP)) {
 			System.out.println("request to mine");
 			String data = requestProcess.wholeDataInformation();
+			requestProcess.wholeDataInformation(data);
 		}
 	}
 }
