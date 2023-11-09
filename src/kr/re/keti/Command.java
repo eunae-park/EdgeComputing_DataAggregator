@@ -112,6 +112,7 @@ public class Command extends Thread{
 			requestProcess.showDeviceInformation(data);
 		}
 		else {
+			requestProcess.requestDeviceInformation(commands[1], PortNum.KETI_PORT);
 		}
 	}
 }
