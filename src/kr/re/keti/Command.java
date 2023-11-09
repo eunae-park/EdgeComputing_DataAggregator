@@ -128,5 +128,6 @@ public class Command extends Thread{
 		}
 	}
 	private void individualMetaDataInformation(String command) {
+		String[] commands = command.split(" ");
 	}
 }
