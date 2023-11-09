@@ -127,4 +127,6 @@ public class Command extends Thread{
 			requestProcess.requestWholeDataInformation(commands[1], PortNum.KETI_PORT);;
 		}
 	}
+	private void individualMetaDataInformation(String command) {
+	}
 }
