@@ -124,6 +124,7 @@ public class Command extends Thread{
 		}
 		else {
 			System.out.println("request to "+commands[1]);
+			requestProcess.requestWholeDataInformation(commands[1], PortNum.KETI_PORT);;
 		}
 	}
 }
