@@ -133,6 +133,7 @@ public class Command extends Thread{
 			System.out.println("NO DataID");
 		}
 		else {
+			requestProcess.requestIndividualMetaDataInformation(PortNum.KETI_PORT, commands[1]);			
 		}
 	}
 }
