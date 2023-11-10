@@ -137,5 +137,6 @@ public class Command extends Thread{
 		}
 	}
 	private void individualDataRead(String command) {
+		String[] commands = command.split(" ");
 	}
 }
