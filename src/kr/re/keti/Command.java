@@ -141,5 +141,7 @@ public class Command extends Thread{
 		if(commands.length <2) {
 			System.out.println("not dataid");
 		}
+		else {
+		}
 	}
 }
