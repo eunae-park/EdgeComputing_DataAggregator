@@ -139,6 +139,7 @@ public class Command extends Thread{
 	private void individualDataRead(String command) {
 		String[] commands = command.split(" ");
 		if(commands.length <2) {
+			System.out.println("not dataid");
 		}
 	}
 }
