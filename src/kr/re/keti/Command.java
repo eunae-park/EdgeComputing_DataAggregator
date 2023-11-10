@@ -132,5 +132,7 @@ public class Command extends Thread{
 		if(commands.length <2) {
 			System.out.println("NO DataID");
 		}
+		else {
+		}
 	}
 }
