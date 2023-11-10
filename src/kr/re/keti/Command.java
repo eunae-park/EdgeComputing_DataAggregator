@@ -144,6 +144,7 @@ public class Command extends Thread{
 		else {
 			String dataid = commands[1];
 			requestProcess.requestIndividualDataRead(PortNum.KETI_PORT, dataid);
+			
 		}
 	}
 }
