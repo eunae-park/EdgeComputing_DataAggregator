@@ -149,5 +149,7 @@ public class Command extends Thread{
 	}
 	private void distributed(String command) {
 		String[] commands = command.split(" ");
+		if(commands.length <2) {
+		}
 	}
 }
