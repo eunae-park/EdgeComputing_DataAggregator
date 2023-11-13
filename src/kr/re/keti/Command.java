@@ -153,6 +153,7 @@ public class Command extends Thread{
 			System.out.println("not dataid");
 		}
 		else {
+			String dataid = commands[1];
 		}
 	}
 }
