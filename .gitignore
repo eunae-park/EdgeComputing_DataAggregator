@@ -2,3 +2,5 @@
 /.classpath
 .settings/
 info_device.txt
+.project
+src/kr/re/keti/PortNum.java
