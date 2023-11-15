@@ -30,4 +30,5 @@ public class UnitShared {
 	private static int port = PortNum.KETI_PORT;
 	private static Map<String, UnitShared> instances = new HashMap<String, UnitShared>();
 	private static Map<String, String> uuidMap = new HashMap<String, String>();
+	private static BlockingQueue<UnitShared> queue = new ArrayBlockingQueue<>(500);
 }
