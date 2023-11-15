@@ -26,3 +26,6 @@ import kr.re.keti.Main;
 import kr.re.keti.PortNum;
 import kr.re.keti.agent.Agent;
 
+public class UnitShared {
+	private static int port = PortNum.KETI_PORT;
+}
