@@ -29,4 +29,5 @@ import kr.re.keti.agent.Agent;
 public class UnitShared {
 	private static int port = PortNum.KETI_PORT;
 	private static Map<String, UnitShared> instances = new HashMap<String, UnitShared>();
+	private static Map<String, String> uuidMap = new HashMap<String, String>();
 }
