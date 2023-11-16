@@ -34,4 +34,5 @@ public class UnitShared {
 	private static Thread processThread = processThread();
 	private Agent agent;
 	private File file;
+	private String fileName;
 }
