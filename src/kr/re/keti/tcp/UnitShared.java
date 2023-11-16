@@ -35,4 +35,5 @@ public class UnitShared {
 	private Agent agent;
 	private File file;
 	private String fileName;
+	private String uuid;
 }
