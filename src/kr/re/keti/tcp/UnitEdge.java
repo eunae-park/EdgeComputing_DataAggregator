@@ -27,32 +27,32 @@ public class UnitEdge{
     	String fileName = dataid+"."+dto.getFileType();
     	for(int i=startIdx; i<=finishIdx;i++) {
     		chunkList.add(fileName+"_"+i);
-	}
-}
+    	}
+    }
 
     public void start() {
         for (String fileName : chunkList) {
             Thread thread = new Thread(new UnitEdgeRunnable(fileName));
             thread.setName(fileName+"UnitEdgeThread");
             thread.start();
-}
-}
+        }
+    }
 
     private class UnitEdgeRunnable implements Runnable {
         private String fileName;
 
         public UnitEdgeRunnable(String fileName) {
             this.fileName = fileName;
-}
+        }
 
         @Override
         public void run() {
         	while(true) {
         		try {
 					Thread.sleep(100);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
         		try (Socket socket = new Socket(address, PortNum.KETI_PORT);){
         			socket.setSoTimeout(3000);
         			
@@ -74,19 +74,19 @@ public class UnitEdge{
         			String response = new String(buffer, 0, length); 
         			if(response.indexOf("fail") !=-1 ) {
         				continue;
-			}
+        			}
         			else if(response.indexOf("success") != -1) {        				
         				socket.close();
 //        				System.out.println("File transfer completed for: " + filePath);
         				return;
-							}
+        			}
         			// Close the connections
+        		} catch (IOException e) {
 //        			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-}
+        			break;
+        		}
+        	}
+        }
 	    public static byte[] message(String address, String fileName, byte[] data) throws IOException {
 			int fileSize = data.length;
 		    ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -94,8 +94,8 @@ public class UnitEdge{
 		    baos.write(data);
 		    baos.write("}]}".getBytes("UTF-8"));
 		    return baos.toByteArray();
-	}
+		}
         
-}
+    }
 
 }

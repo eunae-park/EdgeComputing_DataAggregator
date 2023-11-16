@@ -31,7 +31,7 @@ abstract class EdgeDataAggregator {
 	private Thread sendThread;
 	private Thread receiveThread;
 	private Client client;
-
+	
 	public EdgeDataAggregator() {
 		STANDARD = 5000;
 		sendQueue = new ArrayBlockingQueue<>(CAPACITY);
@@ -43,74 +43,68 @@ abstract class EdgeDataAggregator {
 		pentaServer = new Server(PortNum.PENTA_PROT, receiveQueue);
 		client = new Client(sendTcpQueue);
 	}
-
-	public void setStandard(int standard) {
+	public void setStandard (int standard) {
 		this.STANDARD = standard;
 	}
-
 	public int getStandard() {
 		return this.STANDARD;
 	}
 
 	public void start() {
-		if(sendThread == null || sendThread.getState() == Thread.State.TERMINATED) {
+		if (sendThread == null || sendThread.getState() == Thread.State.TERMINATED) {
 			initSendThread();
 			sendThread.start();
 		}
-		if(receiveThread == null || receiveThread.getState() == Thread.State.TERMINATED) {
+		if (receiveThread == null || receiveThread.getState() == Thread.State.TERMINATED) {
 			initReceiveThread();
 			receiveThread.start();
 		}
 
 		mqtt = new Mqtt("/", sendMqttQueue, receiveQueue);
 		mqtt.start();
-
-		kafka = new Kafka("keti", sendQueue, receiveQueue);
+		
+		kafka = new Kafka("keti", sendKafkaQueue, receiveQueue);
 		kafka.start();
-
+		
 		client.start();
 		ketiServer.start();
 		pentaServer.start();
 	}
-
 	public void stop() {
-		if(mqtt != null)
-			mqtt.stop();
-		if(kafka != null)
-			kafka.stop();
-
-		if(sendThread != null) {
-			sendThread.interrupt();
-			try {
-				sendThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		if(receiveThread != null) {
-			receiveThread.interrupt();
-			try {
-				receiveThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		if(mqtt != null) mqtt.stop();
+		if(kafka != null) kafka.stop();
+		
+	    if (sendThread != null) {
+	    	sendThread.interrupt();
+	        try {
+	        	sendThread.join();
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    if (receiveThread != null) {
+	        receiveThread.interrupt();
+	        try {
+	            receiveThread.join();
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
 
 	private void initReceiveThread() {
-		receiveThread = new Thread(() -> {
-			try {
-				while (!Thread.currentThread().isInterrupted()) {
-					AgentPacket packet = receiveQueue.take();
-					receive(packet);
-				}
-			} catch (InterruptedException e) {
-				return;
-			}
-		});
-		receiveThread.setName("sendThread");
+	    receiveThread = new Thread(() -> {
+	        try {
+	            while (!Thread.currentThread().isInterrupted()) {
+	                AgentPacket packet = receiveQueue.take();
+	                receive(packet);
+	            }
+	        } catch (InterruptedException e) {
+	            return;
+	        }
+	    });
+	    receiveThread.setName("sendThread");
 	}
-
 	public void addReceive(AgentPacket packet) {
 		try {
 			receiveQueue.put(packet);
@@ -118,68 +112,74 @@ abstract class EdgeDataAggregator {
 			e.printStackTrace();
 		}
 	}
-
 	private void initSendThread() {
 		sendThread = new Thread(() -> {
-			try {
-				while (!Thread.currentThread().isInterrupted()) {
-					AgentPacket packet = sendQueue.take();
-					Socket socket = packet.getSocket();
-					String address = packet.getAddress();
-					byte[] data = packet.getData();
-					int len = data.length;
-					if(socket != null || address != null) { //TCP
-						sendTcpQueue.put(packet);
-					}
-					else if(len < STANDARD) { // MQTT
-						sendMqttQueue.put(packet);
-					}
-					else if(len >= STANDARD) { // Kafka
-						sendKafkaQueue.put(packet);
-					}
-				}
-			} catch (InterruptedException e) {
-				return;
-			}
-		});
+	        try {
+	            while (!Thread.currentThread().isInterrupted()) {
+	            	AgentPacket packet = sendQueue.take();
+	            	Socket socket = packet.getSocket();
+	            	String address = packet.getAddress();
+	            	byte[] data = packet.getData();
+	            	int len = data.length;
+	            	if(socket != null || address != null) { //TCP
+	            		sendTcpQueue.put(packet);
+	            	}
+	            	else if(len < STANDARD) { // MQTT
+	            		sendMqttQueue.put(packet);
+	            	}
+	            	else if(len >= STANDARD) { // Kafka
+	            		sendKafkaQueue.put(packet);
+	            	}
+	            	else {
+	            		System.out.println("Agent Packet error");
+	            	}
+	            }
+	        } catch (InterruptedException e) {
+	        	System.out.println("sendKetiThread exist");
+	            return;
+	        }
+	    });
 		sendThread.setName("sendKetiThread");
 	}
-
 	public void send(byte[] data) {
 		AgentPacket packet = new AgentPacket(data);
 		try {
+//			System.out.println("------------------------------------------------");
+//			System.out.println(packet.getAddress());
+//			System.out.println(new String(packet.getData()));
+//			System.out.println(packet.getPort());
+//			System.out.println(packet.getSocket() != null);
+//			System.out.println("------------------------------------------------");
 			sendQueue.put(packet);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-
 	public byte[] send(String address, byte[] data) {
 		AtomicReference<byte[]> response = new AtomicReference<>();
 		try {
 			if(address != null) {
-				CountDownLatch latch = new CountDownLatch(1);
-				Consumer<byte[]> callback = responseData -> {
+	            CountDownLatch latch = new CountDownLatch(1);
+				Consumer<byte[]> callback = responseData->{
 					response.set(responseData);
-					latch.countDown();
+	                latch.countDown();
 				};
 				int port = portCategorization(new String(data));
-
+				
 				AgentPacket packet = new AgentPacket(address, port, data);
 				packet.setCallback(callback);
-				sendTcpQueue.put(packet);
-				latch.await();
+        		sendTcpQueue.put(packet);
+                latch.await();
 			}
 			else {
 				send(data);
 			}
-
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return response.get();
 	}
-
 	public void send(Socket socket, byte[] data) {
 		AgentPacket packet = new AgentPacket(socket, data);
 		if(socket != null) {
@@ -203,12 +203,13 @@ abstract class EdgeDataAggregator {
 		}
 	}
 
-	public void sendThread() {
 
+
+	public void sendThread() {
+		
 	}
 
 	abstract int portCategorization(String massage);
-
 	abstract void receive(AgentPacket packet);
-
+	
 }

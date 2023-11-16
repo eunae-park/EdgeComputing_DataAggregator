@@ -9,69 +9,56 @@ public class AgentPacket {
 	private int port;
 	private byte[] data;
 	private Consumer<byte[]> callback;
-
 	public AgentPacket(byte[] data) {
 		this.data = data;
 	}
-
 	public AgentPacket(Socket socket, byte[] data) {
 		super();
 		this.socket = socket;
 		this.data = data;
 	}
-
 	public AgentPacket(String address, int port, byte[] data) {
 		super();
 		this.address = address;
 		this.port = port;
 		this.data = data;
 	}
-
+	
 	public AgentPacket(Socket socket, String address, int port, byte[] data) {
 		this.socket = socket;
 		this.address = address;
 		this.port = port;
 		this.data = data;
 	}
-
 	public Socket getSocket() {
 		return socket;
 	}
-
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
-
 	public String getAddress() {
 		return address;
 	}
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 	public int getPort() {
 		return port;
 	}
-
 	public void setPort(int port) {
 		this.port = port;
 	}
-
 	public byte[] getData() {
 		return data;
 	}
-
 	public void setData(byte[] data) {
 		this.data = data;
 	}
-
 	public void setCallback(Consumer<byte[]> callback) {
 		this.callback = callback;
 	}
-
-	public Consumer<byte[]> getCallback() {
+	public Consumer<byte[]> getCallback(){
 		return callback;
 	}
-
+	
 }

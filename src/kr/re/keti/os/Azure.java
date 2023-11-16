@@ -11,14 +11,14 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.Arrays;
 
-public class Azure implements OSProcess{
+public class Azure extends OSProcess{
 	private final String mountPoint = "/media/azure/";
 	private final String checkFile = "check.txt";
 	private String mountPath;
 	private TcpReceptor receptor;
 	@Override
 	public String getMaster() {
-		receptor = new TcpReceptor();
+		receptor = new TcpReceptor(edgeList);
 		String masterIP = "none";
 		mountPath = getSharedDiskPath();
 		mount(mountPath);
@@ -61,7 +61,9 @@ public class Azure implements OSProcess{
 				BufferedReader reader = new BufferedReader(new FileReader(checkPath));
 				masterIP = reader.readLine();
 				reader.close();
-			} catch (Exception e) {
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -78,7 +80,7 @@ public class Azure implements OSProcess{
 			BufferedWriter writer = new BufferedWriter(new FileWriter(checkPath));
 			writer.write(address);
 			writer.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return address;
@@ -94,7 +96,9 @@ public class Azure implements OSProcess{
 			Process process = Runtime.getRuntime().exec("sudo mount "+path+" "+mountPoint);
 			process.waitFor();
 			return true;
-		} catch (Exception e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return false;
@@ -105,7 +109,9 @@ public class Azure implements OSProcess{
 			process.waitFor();
 			return true;
 			
-		} catch (Exception e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return false;
@@ -127,7 +133,7 @@ public class Azure implements OSProcess{
 				
 			}
 			return "/dev/"+path;
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

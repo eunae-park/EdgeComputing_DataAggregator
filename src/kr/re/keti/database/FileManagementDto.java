@@ -22,10 +22,10 @@ public class FileManagementDto{
 
 	public FileManagementDto() {
 	}
-	public FileManagementDto(String dataId, int availabilityPolicy, String cert, int dataPriority, String dataSign,
+	public void setting(String dataId, int availabilityPolicy, String cert, int dataPriority, String dataSign,
 			long dataSize, int dataType, String directory, String fileType, String linkedEdge, int securityLevel,
-			Timestamp timestamp) {
-		super();
+			Timestamp timestamp) 
+	{
 		this.dataId = dataId;
 		this.availabilityPolicy = availabilityPolicy;
 		this.cert = cert;
@@ -38,22 +38,24 @@ public class FileManagementDto{
 		this.linkedEdge = linkedEdge;
 		this.securityLevel = securityLevel;
 		this.timestamp = timestamp;
-			}
-	public FileManagementDto(File file, String signature) {
-		int dotIndex = file.getName().lastIndexOf(".");
-		this.dataId = (dotIndex > 0) ? file.getName().substring(0, dotIndex) : file.getName();
-		this.availabilityPolicy = 1;
-		this.cert = Main.certFolder;
-		this.dataPriority = 0;
-		this.dataSign = signature;
-		this.dataSize = (long) Math.ceil((double) file.length() / 1000);
-		this.dataType = 1;
-		this.directory = file.getParent();
-		this.fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-		this.linkedEdge = null;
-		this.securityLevel = 1;
-		this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+		
 	}
+	public FileManagementDto(String dataId, int availabilityPolicy, String cert, int dataPriority, String dataSign,
+			long dataSize, int dataType, String directory, String fileType, String linkedEdge, int securityLevel,
+			Timestamp timestamp) {
+		setting(dataId, availabilityPolicy, cert, dataPriority, dataSign, dataSize, dataType, directory, fileType, linkedEdge, securityLevel, timestamp);
+	}
+	public FileManagementDto(File file, String uuid, String signature) {
+		long dataSize = (long) Math.ceil((double) file.length() / 1000);
+		String directory = file.getParent();
+		String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+		Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+		
+		setting(uuid, 1, Main.certFolder, 0, signature, dataSize, dataType, directory, fileType, null, 1, timestamp);
+	}
+//	public FileManagementDto(File file) {
+//		this(file, "sign");
+//	}
 	public String toString() {
 		String result = dataId+"#"+timestamp+"#"+fileType+"#"+dataType+"#"+securityLevel+"#"+dataPriority+"#"
 				+availabilityPolicy+"#"+dataSign+"#"+cert+"#"+directory+"#"+linkedEdge+"#"+dataSize;

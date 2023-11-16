@@ -53,9 +53,9 @@ public class Command extends Thread{
 					case "distributed": distributed(command); break;
 				}
 				
-//				e.printStackTrace();
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				break;
 			}
 		}
 		if(scanner != null) scanner.close();
@@ -88,7 +88,8 @@ public class Command extends Thread{
 				database.update(dto);
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("level is 1 ~ 5 and exit is -1");
+				continue;
 			}
 			break;
 		}

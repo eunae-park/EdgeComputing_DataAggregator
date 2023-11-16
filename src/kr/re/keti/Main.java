@@ -12,7 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import java.util.ArrayList;
+import java.util.Base64;
 
 import kr.re.keti.agent.Agent;
 import kr.re.keti.database.Database;
@@ -22,6 +23,7 @@ import kr.re.keti.os.Azure;
 import kr.re.keti.os.EdgeFinder;
 import kr.re.keti.os.Linux;
 import kr.re.keti.os.OSProcess;
+import kr.re.keti.os.UdpReceptor;
 
 public class Main {
 	public static String uuid;
@@ -32,16 +34,16 @@ public class Main {
 	public static String ramFolder;
 	public static String mode;
 	public static String programStartTime = programStartTime();
-	public static OSProcess process;
+	private static OSProcess process;
 	public static void main(String[] args){
 		// -----------------IP in args---------------------------------------------
 		if(args.length >0 ) {
 			try {
 				InetAddress addr = InetAddress.getByName(args[args.length - 1]);
 				deviceIP = addr.getHostAddress();
-			} catch (Exception e) {
+			} catch (UnknownHostException e) {
 				e.printStackTrace();
-			}
+			} 
 		}
 		
 		Database database = null;
@@ -55,8 +57,12 @@ public class Main {
 		
 			if(br!=null) br.close();
 			if(file!=null) file.close();
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
 		}
 		
 		//----------------OS-----------------------------------
@@ -74,7 +80,9 @@ public class Main {
 			System.out.println("\t**System is Windows**");
 		}
 
-		Ssl.selfSignedCertificate(certFolder, certFolder+"Private/", certFolder+"Private/private.key", 365);
+		//------------------------ssl-----------------------------------
+		Ssl.setting(certFolder, "pri.key", "pub.key");
+		
 		//--------------------Master Find---------------------------------
 		masterIP = process.getMaster();
 		if(masterIP.equals("none") || masterIP.equals(deviceIP)) {
@@ -103,20 +111,13 @@ public class Main {
 		else {
 			System.out.println("* Master found: " + masterIP + "\n");
 			agent.send(("{[{REQ::"+deviceIP+"::001::EDGE_LIST}]}").getBytes());
-			
 			try {
 				byte[] keyData = Files.readAllBytes(Path.of(certFolder+"Private/pub.key"));
+				String key = Base64.getEncoder().encodeToString(keyData);
 				int keySize = keyData.length;
-				byte[] start = ("{[{REQ::"+deviceIP+"::019::public_key::"+keySize+"::").getBytes();
-				byte[] end = "}]}".getBytes();
-				
-				byte[] data = new byte[start.length + keyData.length + end.length];
-			    System.arraycopy(start, 0, data, 0, start.length);
-			    System.arraycopy(keyData, 0, data, start.length, keyData.length);
-			    System.arraycopy(end, 0, data, start.length + keyData.length, end.length);
-
+				byte[] data = ("{[{REQ::"+deviceIP+"::019::"+uuid+"::"+keySize+"::"+key+"}]}").getBytes();
 			    agent.send(data);
-			} catch (Exception e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -124,35 +125,36 @@ public class Main {
 		FileMonitor fileMonitor = new FileMonitor(storageFolder, agent, database, 500);
 		try {
 			fileMonitor.start();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e2) {
+			e2.printStackTrace();
 		}
 		try {
 			Thread.sleep(EdgeFinder.DEFAULT_WAITING_TIME+100);
 			edgeIPList();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
 		
 		//-----------------------command-------------------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			Command.interrupted();
 			shutdown();
-		}
+		}));
+		Command command = null;
 		try {
-			Command command = new Command(database);
+			command = new Command(database);
 			command.setName("command");
 			command.start();
 			command.join();
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
 		//-----------------------program exit---------------------------------
+//		Command.interrupted();
+		command.interrupt();
 		shutdown();
 		System.exit(0);
 	}
-	
 	private static Database EdgeInformation(BufferedReader br) {
 		Database database = null;
 		System.out.println("==================================================================");
@@ -269,7 +271,8 @@ public class Main {
 					InetAddress inetAddress = InetAddress.getByName(deviceIP);
 					deviceIP = inetAddress.getHostAddress();
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("Input IP format is invalid");
+					System.exit(0);
 				}
 			}
 			else {
@@ -303,8 +306,8 @@ public class Main {
 				writer.flush();
 			}
 			if(writer != null) writer.close();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -316,6 +319,7 @@ public class Main {
 		
 	}
 	private static void shutdown() {
+		
 		Agent agent = Agent.getInstance();
 		agent.send(("{[{REQ::"+deviceIP+"::-1}]}").getBytes());
 
@@ -328,10 +332,15 @@ public class Main {
 		
 		for(File file : files) {
 			if(file.getName().startsWith("paho")) {
-				delete(file);
+//				delete(file);
 			}
 		}
 		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		agent.stop();
 	}
 	private static void delete(File file) {
@@ -345,6 +354,5 @@ public class Main {
 		}
 		
 		file.delete();
-		
 	}
 }

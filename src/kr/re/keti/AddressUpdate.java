@@ -20,14 +20,14 @@ public class AddressUpdate {
 		receive();
 		try {
 			Thread.sleep(100);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
 		send();
 		
 		try {
 			thread.join();
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return address;
@@ -42,7 +42,9 @@ public class AddressUpdate {
 				socket.receive(packet);
 				address = packet.getAddress().getHostAddress();
 				socket.close();
-			} catch (Exception e) {
+			} catch (SocketException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
@@ -63,7 +65,11 @@ public class AddressUpdate {
 				DatagramSocket socket = new DatagramSocket();
 				socket.send(packet);
 				socket.close();
-			} catch (Exception e) {
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (SocketException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});

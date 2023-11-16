@@ -7,8 +7,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,11 +15,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import kr.re.keti.Main;
 import kr.re.keti.PortNum;
-import kr.re.keti.agent.Agent;
 import kr.re.keti.Ssl;
+import kr.re.keti.agent.Agent;
 
 public class UdpReceptor {
-	public static ArrayList<String> edgeList = new ArrayList<>();
+	private ArrayList<String> edgeList;
 	private HashMap<String, String> edgeMap = new HashMap<>();
 	
 	public final int DEFAULT_RECEIVE_PORT = PortNum.DEFAULT_RECEIVE_PORT;
@@ -34,7 +32,8 @@ public class UdpReceptor {
 	private Thread receiveThread, sendThread;
 	private Agent agent;
 	
-	public UdpReceptor() {
+	public UdpReceptor(ArrayList<String> edgeList) {
+		this.edgeList = edgeList;
 		try {
 			queue = new ArrayBlockingQueue<>(5000);
 			receiveSocket = new DatagramSocket(DEFAULT_RECEIVE_PORT);
@@ -44,8 +43,9 @@ public class UdpReceptor {
 			sendSocket.setReuseAddress(true);
 			sendSocket.setBroadcast(true);
 			sendSocket.setSoTimeout(1000);
-		} catch (Exception e) {
+		} catch (SocketException e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 	public String getMaster() {
@@ -59,24 +59,25 @@ public class UdpReceptor {
 			masterIP= packet.getAddress().getHostAddress();
 			
 
-			byte[] request = ("{[{REQ::"+masterIP+"::020::EDGE_KEYS}]}").getBytes();
-			String response = new String(agent.send(masterIP, request));
-			String responseData = response.split("::")[3];
-			String[] datas = response.split(":");
-			for(String data : datas) {
-				String uuid = data.substring(0, 36);
-				String key = data.substring(36, data.length());
-				byte[] keyData = key.getBytes();
-				Ssl.addKey(responseData, uuid, keyData);
-			}
-			String path = Ssl.getPath()+"private/private.key";
-			byte[] keyData = Files.readAllBytes(Path.of(path));
-			String key = new String(keyData);
-			agent.send(("{[{REQ::"+Main.deviceIP+"::019::"+Main.uuid+"::"+key+"}]}").getBytes());
+//			byte[] request = ("{[{REQ::"+masterIP+"::020::EDGE_KEYS}]}").getBytes();
+//			Agent agent = Agent.getInstance();
+//			String response = new String(agent.send(masterIP, request));
+//			String responseData = response.split("::")[3];
+//			String[] datas = response.split(":");
+//			for(String data : datas) {
+//				String uuid = data.substring(0, 36);
+//				String key = data.substring(36, data.length());
+//				byte[] keyData = key.getBytes();
+//				Ssl.addKey(responseData, uuid, keyData);
+//			}
+//			String path = Ssl.getPath()+"private/private.key";
+//			byte[] keyData = Files.readAllBytes(Path.of(path));
+//			String key = new String(keyData);
+//			agent.send(("{[{REQ::"+Main.deviceIP+"::019::"+Main.uuid+"::"+key+"}]}").getBytes());
+		} catch (SocketException e) {
 //			e.printStackTrace();
+		} catch (IOException e) {
 //			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return masterIP;
 	}
@@ -90,8 +91,10 @@ public class UdpReceptor {
 				try {
 					receiveSocket.receive(packet);
 					queue.put(packet);
-				} catch (Exception e) {
+				} catch (IOException e) {
 					e.printStackTrace();
+				} catch (InterruptedException e) {
+					receiveSocket.close();
 				}
 			}
 		});
@@ -105,9 +108,9 @@ public class UdpReceptor {
 					if(address.equals(Main.deviceIP)) continue;
 					send(packet.getPort(), Main.uuid.getBytes());
 					newEdge(address, uuid);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				} catch (InterruptedException e) {
+					sendSocket.close();
+				}				
 			}
 		});
 		
@@ -126,7 +129,9 @@ public class UdpReceptor {
 		try {
 			DatagramPacket packet = createPacket(targetPort, data);
 			sendSocket.send(packet);
-		} catch (Exception e) {
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -139,7 +144,7 @@ public class UdpReceptor {
 				port
 			);
 			return packet;
-		} catch (Exception e) {
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -162,10 +167,14 @@ public class UdpReceptor {
 		if(!logWrite()) {
 			System.out.println("edge_ipList write error");
 		}
-		String list = getEdgeList();
+		String list = OSProcess.getEdgeListAsString();
 		agent.send(("{[{REQ::"+address+"::001::EDGE_LIST::"+list+"}]}").getBytes());
-		
-		
+
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	public void newEdgeLog() {
 		if(edgeList.size() == 0) return;
@@ -198,12 +207,6 @@ public class UdpReceptor {
 			e.printStackTrace();
 		}
 		return false;
-	}
-	public String getEdgeList() {
-		String list = edgeList.toString();
-		list = list.substring(1, list.length()-1);
-		list = list.replace(", ", ":");
-		return list;
 	}
 }
 

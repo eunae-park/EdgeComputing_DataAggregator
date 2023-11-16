@@ -14,8 +14,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import kr.re.keti.PortNum;
 
-public class TcpReceptor {
-	public static ArrayList<String> slaveList = new ArrayList<>();
+public class TcpReceptor{
+	private ArrayList<String> slaveList;
 	private HashMap<String, String> slaveMap = new HashMap<>();
 	private final int CAPACITY = 5000;
 	private ServerSocket serverSocket;
@@ -23,35 +23,31 @@ public class TcpReceptor {
 	private Thread acceptThread;
 	private Thread receiveThread;
 	private final int PORT = PortNum.DEFAULT_TCP_RECEPTOR_PORT;
-
-	public TcpReceptor() {
+	
+	public TcpReceptor(ArrayList<String> slaveList) {
+		this.slaveList = slaveList;
 		try {
 			serverSocket = new ServerSocket(PortNum.DEFAULT_TCP_RECEPTOR_PORT);
 			acceptQueue = new ArrayBlockingQueue<>(CAPACITY);
 			initThread();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 	public void start() {
 		acceptThread.start();
 		receiveThread.start();
 	}
-
 	public void stop() {
-		acceptThread.interrupt();
-		;
-		receiveThread.interrupt();
-		;
+		acceptThread.interrupt();;
+		receiveThread.interrupt();;
 		acceptQueue.clear();
-
+		
 	}
-
 	private void initThread() {
-		receiveThread = new Thread(() -> {
+		receiveThread = new Thread(()->{
 			try {
-				while (!Thread.currentThread().isInterrupted()) {
+				while(!Thread.currentThread().isInterrupted()) {
 					Socket socket = acceptQueue.take();
 					String address = socket.getInetAddress().getHostAddress();
 					if(!slaveList.contains(address)) {
@@ -67,66 +63,64 @@ public class TcpReceptor {
 							writer.write("master\n");
 							writer.flush();
 
-							for (int i = 0; i < slaveList.size(); i++) {
-								writer.write(slaveList.get(i) + "\n");
+							for(int i=0; i<slaveList.size(); i++) {
+								writer.write(slaveList.get(i)+"\n");
 								writer.flush();
 							}
-
-							if(writer != null)
-								writer.close();
-
-						} catch (Exception e) {
+							
+							if(writer != null) writer.close();
+							
+						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
 				}
-				//				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (InterruptedException e) {
+//				e.printStackTrace();
 			}
-		}
-		acceptThread = new Thread(() -> {
+		});
+		acceptThread = new Thread(()->{
 			while (!Thread.currentThread().isInterrupted()) {
 				try {
 					Socket clientSocket = serverSocket.accept();
 					acceptQueue.put(clientSocket);
-					//					e.printStackTrace();
-				} catch (Exception e) {
+				} catch (IOException e) {
 					e.printStackTrace();
+				} catch (InterruptedException e) {
+//					e.printStackTrace();
 				}
 			}
-		}
-
+		});
+		
 		acceptThread.setName("TCP_AcceptThread");
 		receiveThread.setName("TCP_ReceiveThread");
 	}
-
 	public boolean check(String masterIP) {
 		try {
 			String address = InetAddress.getLocalHost().getHostAddress();
-			if(address.equals(masterIP))
-				return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+			if(address.equals(masterIP)) return true;
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
 		}
-		try (Socket socket = new Socket(masterIP, PORT);) {
+		try(Socket socket = new Socket(masterIP, PORT);
+		){
 			socket.setSoTimeout(1000);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
 		}
 		return true;
 	}
-
 	public void newEdgeListShow() {
-		if(slaveList.size() == 0)
-			return;
+		if(slaveList.size() == 0 )return;
 		System.out.println("\n* Slave List");
-		for (String slave : slaveList) {
-			if(slave.equals(slaveList.get(slaveList.size() - 1)))
+		for(String slave : slaveList) {
+			if(slave.equals(slaveList.get(slaveList.size()-1)))
 				// last slave == new slave
-				System.out.println("\t" + slaveMap.get(slave) + " : " + slave + " : new");
+				System.out.println("\t"+slaveMap.get(slave)+" : "+slave+" : new");
 			else
-				System.out.println("\t" + slaveMap.get(slave) + " : " + slave);
+				System.out.println("\t"+slaveMap.get(slave)+" : "+slave);
 		}
 	}
 }

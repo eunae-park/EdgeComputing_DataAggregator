@@ -25,7 +25,7 @@ public class Server{
 			this.receivQueue = receivQueue;
 			acceptQueue = new ArrayBlockingQueue<>(CAPACITY);
 			initThread();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -53,12 +53,12 @@ public class Server{
 						AgentPacket packet = new AgentPacket(socket, data);
 						receivQueue.put(packet);
 						
-					} catch (Exception e) {
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					
 				}
-			} catch (Exception e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		});
@@ -67,7 +67,9 @@ public class Server{
 				try {
 					Socket clientSocket = serverSocket.accept();
 					acceptQueue.put(clientSocket);
-				} catch (Exception e) {
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}

@@ -57,11 +57,11 @@ public class Client extends Thread{
 							break;
 						}
 						
-					} catch (Exception e) {
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-			} catch (Exception e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
@@ -70,7 +70,7 @@ public class Client extends Thread{
 		try {
 			thread.join();
 			return check.get();
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return check.get();
@@ -113,27 +113,26 @@ public class Client extends Thread{
 									Consumer<byte[]> callback = packet.getCallback();
 									send(finalSocket, requestData, callback);
 								}
-							} catch (Exception e) {
+							});
 							retryThread.start();
-								e.printStackTrace();
+						}
 						else {
 							Consumer<byte[]> callback = packet.getCallback();
                             if (callback != null) {
                                 callback.accept(responseData);
-}
+                            }
 						}
-							}
-						}
-					} catch (Exception e) {
-					
+					} catch (UnknownHostException e) {
 						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+				});
 				thread.setName(packet.getAddress()+"TCPThread");
 				thread.start();
-					}
-				});
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InterruptedException e) {
 		}
 	}
 }

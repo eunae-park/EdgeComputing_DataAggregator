@@ -33,8 +33,9 @@ public class Broadcast {
 			sendSocket = new DatagramSocket(PortNum.DEFAULT_SEND_PORT);
 			sendSocket.setReuseAddress(true);
 			sendSocket.setBroadcast(true);
-		} catch (Exception e) {
+		} catch (SocketException e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 	public void close() {
@@ -60,7 +61,7 @@ public class Broadcast {
 			packet = new DatagramPacket(addr, addr.length, InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS),PortNum.DEFAULT_RECEIVE_PORT);
 			packet.setData(data);
 			send(packet);
-		} catch (Exception e) {
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 		
@@ -68,7 +69,7 @@ public class Broadcast {
 	public void send(DatagramPacket packet) {
 		try {
 			sendSocket.send(packet);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -79,7 +80,7 @@ public class Broadcast {
 			byte[] buf = new byte[DEFAULT_BUF_LENGTH];
 			packet = new DatagramPacket(buf, DEFAULT_BUF_LENGTH);
 			receiverSocket.receive(packet);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return packet;
@@ -93,7 +94,11 @@ public class Broadcast {
 			DatagramSocket socket = new DatagramSocket();
 			socket.send(packet);
 			socket.close();
-		} catch (Exception e) {
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -108,9 +113,11 @@ public class Broadcast {
 			String addr = packet.getAddress().getHostAddress();
 			socket.close();
 			return addr;
+		} catch (SocketException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "none";
