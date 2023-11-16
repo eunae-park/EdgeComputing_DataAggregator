@@ -39,4 +39,5 @@ public class UnitShared {
 	private int securityLevel;
 	private int chunkLength;
 	private AtomicInteger chunkShareStatus;
+	private AtomicInteger chunkCreateStatus;
 }
