@@ -32,4 +32,5 @@ public class UnitShared {
 	private static Map<String, String> uuidMap = new HashMap<String, String>();
 	private static BlockingQueue<UnitShared> queue = new ArrayBlockingQueue<>(500);
 	private static Thread processThread = processThread();
+	private Agent agent;
 }
