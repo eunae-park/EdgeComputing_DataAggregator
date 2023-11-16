@@ -38,4 +38,5 @@ public class UnitShared {
 	private String uuid;
 	private int securityLevel;
 	private int chunkLength;
+	private AtomicInteger chunkShareStatus;
 }
