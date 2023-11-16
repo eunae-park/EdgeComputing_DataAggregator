@@ -37,4 +37,5 @@ public class UnitShared {
 	private String fileName;
 	private String uuid;
 	private int securityLevel;
+	private int chunkLength;
 }
