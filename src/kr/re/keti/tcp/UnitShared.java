@@ -36,4 +36,5 @@ public class UnitShared {
 	private File file;
 	private String fileName;
 	private String uuid;
+	private int securityLevel;
 }
