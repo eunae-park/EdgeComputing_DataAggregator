@@ -45,4 +45,5 @@ public class UnitShared {
 	private int standard;
 	private int edgeCount;
 	private AtomicInteger readyCount;
+	
 }
