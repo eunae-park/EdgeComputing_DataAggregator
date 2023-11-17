@@ -43,4 +43,5 @@ public class UnitShared {
 	private int progress;
 	private AtomicInteger progressCount;
 	private int standard;
+	private int edgeCount;
 }
