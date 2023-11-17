@@ -41,4 +41,5 @@ public class UnitShared {
 	private AtomicInteger chunkShareStatus;
 	private AtomicInteger chunkCreateStatus;
 	private int progress;
+	private AtomicInteger progressCount;
 }
