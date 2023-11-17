@@ -46,4 +46,5 @@ public class UnitShared {
 	private int edgeCount;
 	private AtomicInteger readyCount;
 	
+	private UnitShared() {}
 }
