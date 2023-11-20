@@ -51,6 +51,7 @@ public class UnitShared {
 		if(!instances.containsKey(fileName)) {
 			UnitShared unit = new UnitShared();
 			unit.agent = Agent.getInstance();
+			unit.chunkShareStatus = new AtomicInteger(0);
 		}
 	}
 }
