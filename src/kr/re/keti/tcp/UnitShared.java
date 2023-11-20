@@ -50,6 +50,7 @@ public class UnitShared {
 	public static UnitShared getInstance(String fileName, String uuid) {
 		if(!instances.containsKey(fileName)) {
 			UnitShared unit = new UnitShared();
+			unit.agent = Agent.getInstance();
 		}
 	}
 }
