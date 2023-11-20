@@ -52,6 +52,7 @@ public class UnitShared {
 			UnitShared unit = new UnitShared();
 			unit.agent = Agent.getInstance();
 			unit.chunkShareStatus = new AtomicInteger(0);
+			unit.chunkCreateStatus = new AtomicInteger(0);
 		}
 	}
 }
