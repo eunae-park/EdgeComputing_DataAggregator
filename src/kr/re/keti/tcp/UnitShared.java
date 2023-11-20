@@ -54,6 +54,7 @@ public class UnitShared {
 			unit.chunkShareStatus = new AtomicInteger(0);
 			unit.chunkCreateStatus = new AtomicInteger(0);
 			unit.readyCount = new AtomicInteger(0);
+			unit.setFileName(fileName);
 		}
 	}
 }
