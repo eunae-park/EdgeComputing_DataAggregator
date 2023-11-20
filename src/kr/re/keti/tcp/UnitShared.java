@@ -47,4 +47,6 @@ public class UnitShared {
 	private AtomicInteger readyCount;
 	
 	private UnitShared() {}
+	public static UnitShared getInstance(String fileName, String uuid) {
+	}
 }
