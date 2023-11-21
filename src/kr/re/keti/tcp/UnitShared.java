@@ -59,5 +59,6 @@ public class UnitShared {
 			instances.put(fileName, unit);
 			uuidMap.put(uuid, fileName);
 		}
+		return instances.get(fileName);
 	}
 }
