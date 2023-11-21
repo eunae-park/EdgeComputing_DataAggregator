@@ -56,6 +56,7 @@ public class UnitShared {
 			unit.readyCount = new AtomicInteger(0);
 			unit.setFileName(fileName);
 			unit.setUuid(uuid);
+			instances.put(fileName, unit);
 		}
 	}
 }
