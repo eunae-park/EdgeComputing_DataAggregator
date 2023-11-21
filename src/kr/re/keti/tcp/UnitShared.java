@@ -65,6 +65,7 @@ public class UnitShared {
 		if(uuidMap.containsKey(uuid)) {
 			String fileName = uuidMap.get(uuid);
 			uuidMap.remove(uuid);
+			instances.remove(fileName);
 		}
 	}
 }
