@@ -68,6 +68,7 @@ public class UnitShared {
 			instances.remove(fileName);
 		}
 		else {
+			String fileName = uuidMap.get(uuid);
 		}
 	}
 }
