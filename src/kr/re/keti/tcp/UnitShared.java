@@ -67,5 +67,7 @@ public class UnitShared {
 			uuidMap.remove(uuid);
 			instances.remove(fileName);
 		}
+		else {
+		}
 	}
 }
