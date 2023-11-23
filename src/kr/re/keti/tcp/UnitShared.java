@@ -69,6 +69,7 @@ public class UnitShared {
 		}
 		else {
 			String fileName = uuidMap.get(uuid);
+			System.out.println("instance delete fail");
 		}
 	}
 }
