@@ -79,4 +79,6 @@ public class UnitShared {
 		}
 		return null;
 	}
+	public void setStandard(int standard) {
+	}
 }
