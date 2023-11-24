@@ -70,6 +70,7 @@ public class UnitShared {
 		else {
 			String fileName = uuidMap.get(uuid);
 			System.out.println("instance delete fail");
+			System.out.println("uuid: "+uuid+"\tfileName: "+fileName);
 		}
 	}
 }
