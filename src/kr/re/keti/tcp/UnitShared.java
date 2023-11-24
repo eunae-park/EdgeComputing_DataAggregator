@@ -73,4 +73,6 @@ public class UnitShared {
 			System.out.println("uuid: "+uuid+"\tfileName: "+fileName);
 		}
 	}
+	public static UnitShared getInstanceUuid(String uuid) {
+	}
 }
