@@ -77,5 +77,6 @@ public class UnitShared {
 		if(uuidMap.containsKey(uuid)) {
 			return getInstance(uuidMap.get(uuid), uuid);
 		}
+		return null;
 	}
 }
