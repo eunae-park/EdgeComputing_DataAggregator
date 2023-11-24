@@ -74,5 +74,7 @@ public class UnitShared {
 		}
 	}
 	public static UnitShared getInstanceUuid(String uuid) {
+		if(uuidMap.containsKey(uuid)) {
+		}
 	}
 }
