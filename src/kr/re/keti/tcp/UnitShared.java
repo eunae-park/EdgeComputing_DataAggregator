@@ -83,5 +83,6 @@ public class UnitShared {
 		this.standard = standard;
 	}
 	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }
