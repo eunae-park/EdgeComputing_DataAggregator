@@ -86,5 +86,6 @@ public class UnitShared {
 		this.fileName = fileName;
 	}
 	public String getUuid() {
+		return this.uuid;
 	}
 }
