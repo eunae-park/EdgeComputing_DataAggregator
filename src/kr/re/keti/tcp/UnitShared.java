@@ -89,5 +89,6 @@ public class UnitShared {
 		return this.uuid;
 	}
 	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }
