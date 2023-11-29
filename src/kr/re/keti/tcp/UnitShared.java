@@ -95,5 +95,6 @@ public class UnitShared {
 		this.chunkLength = length;
 	}
 	public void setSecurityLevel(int securityLevel) {
+		this.securityLevel = securityLevel;
 	}
 }
