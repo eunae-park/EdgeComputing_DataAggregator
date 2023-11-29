@@ -91,4 +91,6 @@ public class UnitShared {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+	public void setLength(int length) {
+	}
 }
