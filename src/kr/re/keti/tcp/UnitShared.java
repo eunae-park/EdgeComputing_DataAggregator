@@ -92,5 +92,6 @@ public class UnitShared {
 		this.uuid = uuid;
 	}
 	public void setLength(int length) {
+		this.chunkLength = length;
 	}
 }
