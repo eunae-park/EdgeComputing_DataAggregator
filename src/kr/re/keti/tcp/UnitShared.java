@@ -98,5 +98,6 @@ public class UnitShared {
 		this.securityLevel = securityLevel;
 	}
 	public void setFile(File file) {
+		this.file = file;
 	}
 }
