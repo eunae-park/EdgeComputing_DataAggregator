@@ -103,5 +103,7 @@ public class UnitShared {
 	public void countAdd(String address, String fileName) {
 		int progressCount = this.progressCount.incrementAndGet();
 		float status = 100;
+		if(this.progress>0) {
+		}
 	}
 }
