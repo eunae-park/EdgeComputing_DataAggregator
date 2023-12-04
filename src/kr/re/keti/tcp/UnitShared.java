@@ -104,6 +104,7 @@ public class UnitShared {
 		int progressCount = this.progressCount.incrementAndGet();
 		float status = 100;
 		if(this.progress>0) {
+			status = ((float)progressCount/this.progress)*100;
 		}
 	}
 }
