@@ -107,5 +107,6 @@ public class UnitShared {
 			status = ((float)progressCount/this.progress)*100;
 		}
 		
+		FileHandler handler = FileHandler.getInstance();
 	}
 }
