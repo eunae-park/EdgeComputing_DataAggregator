@@ -110,5 +110,8 @@ public class UnitShared {
 		FileHandler handler = FileHandler.getInstance();
 		handler.modifyRecord(this.uuid, status+"");
 		handler.modifyRecord(this.uuid, "sharing("+status+"%)", 4);
+//		System.out.println(progressCount+"/"+this.progress+"\t"+status);
+		if(status>=100) {
+		}
 	}
 }
