@@ -108,5 +108,6 @@ public class UnitShared {
 		}
 		
 		FileHandler handler = FileHandler.getInstance();
+		handler.modifyRecord(this.uuid, status+"");
 	}
 }
