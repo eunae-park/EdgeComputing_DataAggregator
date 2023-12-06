@@ -121,4 +121,25 @@ public class UnitShared {
 			delInstance(this.uuid);
 		}
 	}
+//	public void countAdd() {
+//		this.progressCount.incrementAndGet();
+//		float status = 100;
+//		if(this.progress>0) {
+//			status = ((float)this.progressCount.incrementAndGet()/this.progress)*100;
+//		}
+//		String log = Main.deviceIP+"#"+this.uuid+"#"+this.fileName+"#"+this.securityLevel+"#sharing("+status+"%)#"+status;
+//		byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "300", log);
+//		FileHandler handler = FileHandler.getInstance();
+//		handler.modifyRecord(this.uuid, status+"");
+//		handler.modifyRecord(this.uuid, "sharing("+status+"%)", 4);
+//
+//		if(status>=100) {
+//			handler.modifyRecord(this.uuid, "complte", 4);
+//			FileMonitor.unignoreFile(this.fileName);
+//			delInstance(this.uuid);
+//			
+//		}
+//	}
+	public static void send(UnitShared unit) {
+	}
 }
