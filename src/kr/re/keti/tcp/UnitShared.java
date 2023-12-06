@@ -113,6 +113,7 @@ public class UnitShared {
 //		System.out.println(progressCount+"/"+this.progress+"\t"+status);
 		if(status>=100) {
 			String log = Main.deviceIP+"#"+this.uuid+"#"+this.fileName+"#"+this.securityLevel+"#complte"+100;
+			byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "500", log);
 		}
 	}
 }
