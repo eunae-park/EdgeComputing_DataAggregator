@@ -115,6 +115,7 @@ public class UnitShared {
 			String log = Main.deviceIP+"#"+this.uuid+"#"+this.fileName+"#"+this.securityLevel+"#complte"+100;
 			byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "500", log);
 			this.agent.send(message);
+			
 		}
 	}
 }
