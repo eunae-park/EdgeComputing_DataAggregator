@@ -141,5 +141,10 @@ public class UnitShared {
 //		}
 //	}
 	public static void send(UnitShared unit) {
+		try {
+			queue.put(unit);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
