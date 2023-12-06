@@ -117,6 +117,7 @@ public class UnitShared {
 			this.agent.send(message);
 			
 			handler.modifyRecord(this.uuid, "complte", 4);
+			FileMonitor.unignoreFile(this.fileName);
 		}
 	}
 }
