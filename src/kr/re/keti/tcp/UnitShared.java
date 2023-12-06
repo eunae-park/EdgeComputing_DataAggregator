@@ -116,6 +116,7 @@ public class UnitShared {
 			byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "500", log);
 			this.agent.send(message);
 			
+			handler.modifyRecord(this.uuid, "complte", 4);
 		}
 	}
 }
