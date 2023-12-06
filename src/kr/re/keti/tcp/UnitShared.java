@@ -112,6 +112,7 @@ public class UnitShared {
 		handler.modifyRecord(this.uuid, "sharing("+status+"%)", 4);
 //		System.out.println(progressCount+"/"+this.progress+"\t"+status);
 		if(status>=100) {
+			String log = Main.deviceIP+"#"+this.uuid+"#"+this.fileName+"#"+this.securityLevel+"#complte"+100;
 		}
 	}
 }
