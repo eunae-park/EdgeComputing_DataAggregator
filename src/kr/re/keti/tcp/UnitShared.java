@@ -118,6 +118,7 @@ public class UnitShared {
 			
 			handler.modifyRecord(this.uuid, "complte", 4);
 			FileMonitor.unignoreFile(this.fileName);
+			delInstance(this.uuid);
 		}
 	}
 }
