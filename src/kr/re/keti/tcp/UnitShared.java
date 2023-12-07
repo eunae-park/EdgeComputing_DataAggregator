@@ -152,6 +152,7 @@ public class UnitShared {
 			while(!Thread.currentThread().isInterrupted()) {
 				try {
 					UnitShared unit = queue.take();
+					unit.preparData();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
