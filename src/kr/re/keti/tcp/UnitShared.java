@@ -150,6 +150,11 @@ public class UnitShared {
 	private static Thread processThread() {
 		processThread = new Thread(()->{
 			while(!Thread.currentThread().isInterrupted()) {
+				try {
+					UnitShared unit = queue.take();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
