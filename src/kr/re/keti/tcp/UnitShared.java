@@ -147,4 +147,6 @@ public class UnitShared {
 			e.printStackTrace();
 		}
 	}
+	private static Thread processThread() {
+	}
 }
