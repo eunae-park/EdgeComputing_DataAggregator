@@ -153,6 +153,8 @@ public class UnitShared {
 				try {
 					UnitShared unit = queue.take();
 					unit.preparData();
+					for(int i=0; i<30; i++) {
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
