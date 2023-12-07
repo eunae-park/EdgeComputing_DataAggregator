@@ -156,6 +156,8 @@ public class UnitShared {
 					for(int i=0; i<30; i++) {
 						if(unit.readyCount.get() == unit.edgeCount) {
 							unit.share();
+							while(true) {
+							}
 						}
 					}
 				} catch (Exception e) {
