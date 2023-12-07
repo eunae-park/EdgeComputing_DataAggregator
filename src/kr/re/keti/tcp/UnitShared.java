@@ -148,5 +148,7 @@ public class UnitShared {
 		}
 	}
 	private static Thread processThread() {
+		processThread = new Thread(()->{
+		});
 	}
 }
