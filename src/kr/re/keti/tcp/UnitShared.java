@@ -154,6 +154,8 @@ public class UnitShared {
 					UnitShared unit = queue.take();
 					unit.preparData();
 					for(int i=0; i<30; i++) {
+						if(unit.readyCount.get() == unit.edgeCount) {
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
