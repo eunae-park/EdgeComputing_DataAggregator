@@ -158,6 +158,7 @@ public class UnitShared {
 							unit.share();
 							while(true) {
 								int progressCount = unit.progressCount.get();
+								unit.loadingBar("progress", progressCount, unit.progress);
 							}
 						}
 					}
