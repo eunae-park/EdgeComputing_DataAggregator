@@ -164,6 +164,7 @@ public class UnitShared {
 									unit.agent.send(message);
 									break;
 								}
+								Thread.sleep(100);
 							}
 						}
 					}
