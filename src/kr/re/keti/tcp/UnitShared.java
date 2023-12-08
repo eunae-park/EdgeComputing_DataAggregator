@@ -161,6 +161,7 @@ public class UnitShared {
 								unit.loadingBar("progress", progressCount, unit.progress);
 								if(progressCount >= unit.progress) {
 									byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "111", unit.uuid);
+									unit.agent.send(message);
 								}
 							}
 						}
