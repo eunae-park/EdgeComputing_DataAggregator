@@ -159,6 +159,8 @@ public class UnitShared {
 							while(true) {
 								int progressCount = unit.progressCount.get();
 								unit.loadingBar("progress", progressCount, unit.progress);
+								if(progressCount >= unit.progress) {
+								}
 							}
 						}
 					}
