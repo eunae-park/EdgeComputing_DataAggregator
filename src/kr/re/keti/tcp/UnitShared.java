@@ -157,6 +157,7 @@ public class UnitShared {
 						if(unit.readyCount.get() == unit.edgeCount) {
 							unit.share();
 							while(true) {
+								int progressCount = unit.progressCount.get();
 							}
 						}
 					}
