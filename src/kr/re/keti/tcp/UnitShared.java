@@ -168,6 +168,7 @@ public class UnitShared {
 							}
 							break;
 						}
+						Thread.sleep(100);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
