@@ -179,4 +179,6 @@ public class UnitShared {
 		processThread.start();
 		return processThread;
 	}
+	private void preparData() {
+	}
 }
