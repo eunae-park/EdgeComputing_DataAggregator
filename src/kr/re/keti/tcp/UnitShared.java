@@ -166,6 +166,7 @@ public class UnitShared {
 								}
 								Thread.sleep(100);
 							}
+							break;
 						}
 					}
 				} catch (Exception e) {
