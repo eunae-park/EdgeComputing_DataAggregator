@@ -180,5 +180,6 @@ public class UnitShared {
 		return processThread;
 	}
 	private void preparData() {
+			this.edgeCount = DataProcess.requestEdgeList(port).split(", ").length;
 	}
 }
