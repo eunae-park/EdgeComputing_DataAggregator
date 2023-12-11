@@ -176,5 +176,6 @@ public class UnitShared {
 			}
 		});
 		processThread.setName("UnitProcessThread");
+		processThread.start();
 	}
 }
