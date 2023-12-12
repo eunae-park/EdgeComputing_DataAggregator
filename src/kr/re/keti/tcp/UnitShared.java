@@ -182,5 +182,6 @@ public class UnitShared {
 	private void preparData() {
 			this.edgeCount = DataProcess.requestEdgeList(port).split(", ").length;
 			this.chunkLength = (int) Math.ceil((double) this.file.length() / standard);
+			this.chunkCreate();
 	}
 }
