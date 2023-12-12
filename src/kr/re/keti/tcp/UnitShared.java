@@ -184,5 +184,6 @@ public class UnitShared {
 			this.chunkLength = (int) Math.ceil((double) this.file.length() / standard);
 			this.chunkCreate();
 			this.progress = chunkLength*this.edgeCount;
+			byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "399", this.fileName, this.uuid, chunkLength+"");
 	}
 }
