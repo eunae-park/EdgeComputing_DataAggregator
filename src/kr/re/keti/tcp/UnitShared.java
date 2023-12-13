@@ -185,5 +185,6 @@ public class UnitShared {
 			this.chunkCreate();
 			this.progress = chunkLength*this.edgeCount;
 			byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "399", this.fileName, this.uuid, chunkLength+"");
+			this.agent.send(message);
 	}
 }
