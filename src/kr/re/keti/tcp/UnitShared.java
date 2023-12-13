@@ -188,5 +188,6 @@ public class UnitShared {
 			this.agent.send(message);
 	}
 	public void addReadyCount() {
+		this.readyCount.incrementAndGet();
 	}
 }
