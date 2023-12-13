@@ -187,4 +187,6 @@ public class UnitShared {
 			byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "399", this.fileName, this.uuid, chunkLength+"");
 			this.agent.send(message);
 	}
+	public void addReadyCount() {
+	}
 }
