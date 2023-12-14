@@ -189,5 +189,12 @@ public class UnitShared {
 	}
 	public void addReadyCount() {
 		this.readyCount.incrementAndGet();
+//		if(this.readyCount.incrementAndGet() == this.edgeCount) {
+//			this.share();
+//			System.out.println(this.uuid+"\tshare start");
+//		}
+//		System.out.println(this.uuid+"\t"+this.readyCount.get()+"/"+this.edgeCount+"\tedge");
+	}
+	private void share() {
 	}
 }
