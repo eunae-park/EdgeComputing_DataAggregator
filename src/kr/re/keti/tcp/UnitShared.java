@@ -196,5 +196,7 @@ public class UnitShared {
 //		System.out.println(this.uuid+"\t"+this.readyCount.get()+"/"+this.edgeCount+"\tedge");
 	}
 	private void share() {
+		// 스레드 풀 생성
+		ExecutorService executor = Executors.newFixedThreadPool(10); // 10개의 스레드를 가진 스레드 풀
 	}
 }
