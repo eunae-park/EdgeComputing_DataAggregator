@@ -206,6 +206,7 @@ public class UnitShared {
 				String fileName = file.getName()+"_"+fileCount;
 				String filePath = Main.storageFolder+"chunk/"+fileName;
 				File chunkFile = new File(filePath);
+				byte[] data = DataProcess.readFileToByteArray(chunkFile);
 		}
 	}
 }
