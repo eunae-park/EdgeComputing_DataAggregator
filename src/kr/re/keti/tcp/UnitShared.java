@@ -208,6 +208,7 @@ public class UnitShared {
 				File chunkFile = new File(filePath);
 				byte[] data = DataProcess.readFileToByteArray(chunkFile);
 				String encodingData = Base64.getEncoder().encodeToString(data);
+				fileName = this.uuid+"_"+fileCount;
 		}
 	}
 }
