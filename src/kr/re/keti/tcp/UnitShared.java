@@ -201,6 +201,7 @@ public class UnitShared {
 		
 		this.progressCount = new AtomicInteger(0);
 		for(int i=0; i<chunkLength; i++) {
+			final int fileCount = i;
 		}
 	}
 }
