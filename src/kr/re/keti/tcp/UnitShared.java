@@ -204,6 +204,7 @@ public class UnitShared {
 			final int fileCount = i;
 			executor.submit(() -> { // 스레드 풀에 작업 제출
 				String fileName = file.getName()+"_"+fileCount;
+				String filePath = Main.storageFolder+"chunk/"+fileName;
 		}
 	}
 }
