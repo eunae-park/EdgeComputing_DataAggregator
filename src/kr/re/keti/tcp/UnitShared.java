@@ -202,6 +202,7 @@ public class UnitShared {
 		this.progressCount = new AtomicInteger(0);
 		for(int i=0; i<chunkLength; i++) {
 			final int fileCount = i;
+			executor.submit(() -> { // 스레드 풀에 작업 제출
 		}
 	}
 }
