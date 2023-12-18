@@ -211,6 +211,8 @@ public class UnitShared {
 				fileName = this.uuid+"_"+fileCount;
 				byte[] chunkMessage = DataProcess.messageCreate("REQ", Main.deviceIP, "400", fileName, data.length+"", encodingData);
 				this.agent.send(chunkMessage);
+//				System.out.println("send data: "+LocalTime.now().format(DateTimeFormatter.ofPattern("H:m:s.SSS")));
 		}
 	}
+		
 }
