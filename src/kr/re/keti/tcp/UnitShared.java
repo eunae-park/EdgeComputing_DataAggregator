@@ -222,4 +222,5 @@ public class UnitShared {
 	    if(handler.isExists(this.uuid)) {
 	        handler.deleteRecord(this.uuid);			
 	}
+	    StringBuilder logBuilder = new StringBuilder();
 	}
