@@ -219,4 +219,6 @@ public class UnitShared {
 }
 	public int chunkCreate() {
 	    FileHandler handler = FileHandler.getInstance();
+	    if(handler.isExists(this.uuid)) {
+	}
 	}
