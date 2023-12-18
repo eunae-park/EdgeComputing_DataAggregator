@@ -218,4 +218,5 @@ public class UnitShared {
 		executor.shutdown(); // 모든 작업이 완료되면 스레드 풀 종료
 }
 	public int chunkCreate() {
+	    FileHandler handler = FileHandler.getInstance();
 	}
