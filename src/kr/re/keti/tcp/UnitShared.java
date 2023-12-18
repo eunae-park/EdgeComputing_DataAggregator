@@ -210,6 +210,7 @@ public class UnitShared {
 				String encodingData = Base64.getEncoder().encodeToString(data);
 				fileName = this.uuid+"_"+fileCount;
 				byte[] chunkMessage = DataProcess.messageCreate("REQ", Main.deviceIP, "400", fileName, data.length+"", encodingData);
+				this.agent.send(chunkMessage);
 		}
 	}
 }
