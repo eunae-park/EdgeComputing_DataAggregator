@@ -227,4 +227,6 @@ public class UnitShared {
 	    
 	    handler.addRecord(logBuilder.toString());
 	    byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "300", logBuilder.toString());
+//	    this.agent.send(message);
+	    
 	}
