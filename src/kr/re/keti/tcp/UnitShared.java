@@ -223,4 +223,5 @@ public class UnitShared {
 	        handler.deleteRecord(this.uuid);			
 	}
 	    StringBuilder logBuilder = new StringBuilder();
+	    logBuilder.append(Main.deviceIP).append("#").append(this.uuid).append("#").append(this.fileName).append("#").append(this.securityLevel).append("#loding(0%)#").append(0);
 	}
