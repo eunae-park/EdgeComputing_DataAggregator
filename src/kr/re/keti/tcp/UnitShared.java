@@ -229,4 +229,5 @@ public class UnitShared {
 	    byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "300", logBuilder.toString());
 //	    this.agent.send(message);
 	    
+	    int maxCount = (int) Math.ceil((double) this.file.length() / standard);
 	}
