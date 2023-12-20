@@ -233,4 +233,5 @@ public class UnitShared {
 
 	    final int CHUNK_SIZE = this.standard;
 	    ExecutorService executor = Executors.newFixedThreadPool(10); // Thread pool with 10 threads
+
 	}
