@@ -236,5 +236,7 @@ public class UnitShared {
 
 	    loadingBar("loading", 0, this.chunkLength);
 	    new Thread(()->{
+	    	while(true) {
+		}
 	});
 	}
