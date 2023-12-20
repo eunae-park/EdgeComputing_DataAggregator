@@ -232,4 +232,5 @@ public class UnitShared {
 	    int maxCount = (int) Math.ceil((double) this.file.length() / standard);
 
 	    final int CHUNK_SIZE = this.standard;
+	    ExecutorService executor = Executors.newFixedThreadPool(10); // Thread pool with 10 threads
 	}
