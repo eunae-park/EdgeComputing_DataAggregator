@@ -230,4 +230,5 @@ public class UnitShared {
 //	    this.agent.send(message);
 	    
 	    int maxCount = (int) Math.ceil((double) this.file.length() / standard);
+
 	}
