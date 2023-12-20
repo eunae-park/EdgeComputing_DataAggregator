@@ -231,4 +231,5 @@ public class UnitShared {
 	    
 	    int maxCount = (int) Math.ceil((double) this.file.length() / standard);
 
+	    final int CHUNK_SIZE = this.standard;
 	}
