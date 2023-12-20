@@ -235,4 +235,6 @@ public class UnitShared {
 	    ExecutorService executor = Executors.newFixedThreadPool(10); // Thread pool with 10 threads
 
 	    loadingBar("loading", 0, this.chunkLength);
+	    new Thread(()->{
+	});
 	}
