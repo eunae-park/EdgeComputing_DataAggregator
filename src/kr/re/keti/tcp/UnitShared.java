@@ -244,6 +244,7 @@ public class UnitShared {
 				e.printStackTrace();
 			}
 	    		if(chunkCreateStatus.get() == chunkLength || chunkCreateStatus.get() == -1) {
+		    		loadingBar("loading", chunkCreateStatus.get(), this.chunkLength);
 			}
 		}
 	});
