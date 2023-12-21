@@ -246,6 +246,7 @@ public class UnitShared {
 	    		if(chunkCreateStatus.get() == chunkLength || chunkCreateStatus.get() == -1) {
 		    		loadingBar("loading", chunkCreateStatus.get(), this.chunkLength);
 		    		System.out.println();
+	    			break;
 			}
 		}
 	});
