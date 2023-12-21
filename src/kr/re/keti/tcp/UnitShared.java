@@ -243,6 +243,8 @@ public class UnitShared {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	    		if(chunkCreateStatus.get() == chunkLength || chunkCreateStatus.get() == -1) {
+			}
 		}
 	});
 	}
