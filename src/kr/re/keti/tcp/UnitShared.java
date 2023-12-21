@@ -250,4 +250,9 @@ public class UnitShared {
 			}
 		}
 	});
+	    try (InputStream inputStream = new FileInputStream(this.file)) {
+	        File directory = new File(Main.storageFolder + "chunk/");
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	}
