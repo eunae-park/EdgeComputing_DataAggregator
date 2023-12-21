@@ -238,6 +238,11 @@ public class UnitShared {
 	    new Thread(()->{
 	    	while(true) {
 	    		loadingBar("loading", chunkCreateStatus.get(), this.chunkLength);
+	    		try {
+					Thread.sleep(100);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	});
 	}
