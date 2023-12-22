@@ -253,6 +253,7 @@ public class UnitShared {
 	    try (InputStream inputStream = new FileInputStream(this.file)) {
 	        File directory = new File(Main.storageFolder + "chunk/");
 	        if (!directory.exists()) directory.mkdirs();
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
