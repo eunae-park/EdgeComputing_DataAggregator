@@ -255,6 +255,7 @@ public class UnitShared {
 	        if (!directory.exists()) directory.mkdirs();
 
 	        byte[] buffer = new byte[CHUNK_SIZE];
+	        int bytesRead;
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
