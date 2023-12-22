@@ -254,6 +254,7 @@ public class UnitShared {
 	        File directory = new File(Main.storageFolder + "chunk/");
 	        if (!directory.exists()) directory.mkdirs();
 
+	        byte[] buffer = new byte[CHUNK_SIZE];
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
