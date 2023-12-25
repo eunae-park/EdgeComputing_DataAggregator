@@ -261,6 +261,7 @@ public class UnitShared {
 	            final int currentChunkCount = chunkCreateStatus.getAndIncrement();
 	            executor.submit(() -> {
 	                String chunkFileName = this.file.getName() + "_" + currentChunkCount;
+	                String chunkFilePath = directory.getPath() + File.separator + chunkFileName;
 	}
 	}
 	} catch (Exception e) {
