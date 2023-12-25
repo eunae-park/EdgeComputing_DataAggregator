@@ -268,6 +268,7 @@ public class UnitShared {
 		e.printStackTrace();
 	}
 	                float chunkStatus = ((currentChunkCount)/(float) maxCount)*100;
+	                StringBuilder threadLogBuilder = new StringBuilder();
 	}
 	}
 	} catch (Exception e) {
