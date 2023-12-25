@@ -258,6 +258,7 @@ public class UnitShared {
 	        int bytesRead;
 	        while ((bytesRead = inputStream.read(buffer)) != -1) {
 	            final byte[] bufferCopy = Arrays.copyOf(buffer, bytesRead);
+	            final int currentChunkCount = chunkCreateStatus.getAndIncrement();
 	}
 	} catch (Exception e) {
 		e.printStackTrace();
