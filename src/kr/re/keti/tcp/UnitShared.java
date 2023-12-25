@@ -267,6 +267,7 @@ public class UnitShared {
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	                float chunkStatus = ((currentChunkCount)/(float) maxCount)*100;
 	}
 	}
 	} catch (Exception e) {
