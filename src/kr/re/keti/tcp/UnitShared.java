@@ -256,6 +256,8 @@ public class UnitShared {
 
 	        byte[] buffer = new byte[CHUNK_SIZE];
 	        int bytesRead;
+	        while ((bytesRead = inputStream.read(buffer)) != -1) {
+	}
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
