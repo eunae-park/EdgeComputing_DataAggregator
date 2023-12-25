@@ -260,6 +260,7 @@ public class UnitShared {
 	            final byte[] bufferCopy = Arrays.copyOf(buffer, bytesRead);
 	            final int currentChunkCount = chunkCreateStatus.getAndIncrement();
 	            executor.submit(() -> {
+	                String chunkFileName = this.file.getName() + "_" + currentChunkCount;
 	}
 	}
 	} catch (Exception e) {
