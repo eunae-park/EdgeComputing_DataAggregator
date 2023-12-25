@@ -262,6 +262,11 @@ public class UnitShared {
 	            executor.submit(() -> {
 	                String chunkFileName = this.file.getName() + "_" + currentChunkCount;
 	                String chunkFilePath = directory.getPath() + File.separator + chunkFileName;
+	                try (OutputStream outputStream = new FileOutputStream(chunkFilePath)) {
+	                    outputStream.write(bufferCopy);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	}
 	}
 	} catch (Exception e) {
