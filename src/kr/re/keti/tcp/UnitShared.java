@@ -272,6 +272,7 @@ public class UnitShared {
 	                threadLogBuilder.append(Main.deviceIP).append("#").append(this.uuid).append("#").append(this.fileName).append("#").append(this.securityLevel).append("#loding(").append(chunkStatus).append("%)#").append(chunkStatus);
 	                String threadLog = threadLogBuilder.toString();
 
+	                byte[] threadMessage = DataProcess.messageCreate("REQ", Main.deviceIP, "300", threadLog);
 	}
 	}
 	} catch (Exception e) {
