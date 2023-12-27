@@ -270,6 +270,7 @@ public class UnitShared {
 	                float chunkStatus = ((currentChunkCount)/(float) maxCount)*100;
 	                StringBuilder threadLogBuilder = new StringBuilder();
 	                threadLogBuilder.append(Main.deviceIP).append("#").append(this.uuid).append("#").append(this.fileName).append("#").append(this.securityLevel).append("#loding(").append(chunkStatus).append("%)#").append(chunkStatus);
+	                String threadLog = threadLogBuilder.toString();
 	}
 	}
 	} catch (Exception e) {
