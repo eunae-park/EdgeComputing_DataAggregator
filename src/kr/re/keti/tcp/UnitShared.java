@@ -279,6 +279,7 @@ public class UnitShared {
 	}
 	}
 	        executor.shutdown(); // Shutdown the executor
+	        while (!executor.isTerminated()) {} // Wait until all tasks are finished
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
