@@ -282,6 +282,7 @@ public class UnitShared {
 	        while (!executor.isTerminated()) {} // Wait until all tasks are finished
 
 	        float chunkStatus = ((chunkCreateStatus.get())/(float) maxCount)*100;
+            StringBuilder threadLogBuilder = new StringBuilder();
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
