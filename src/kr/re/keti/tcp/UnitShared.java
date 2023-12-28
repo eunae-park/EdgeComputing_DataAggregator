@@ -281,6 +281,7 @@ public class UnitShared {
 	        executor.shutdown(); // Shutdown the executor
 	        while (!executor.isTerminated()) {} // Wait until all tasks are finished
 
+	        float chunkStatus = ((chunkCreateStatus.get())/(float) maxCount)*100;
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
