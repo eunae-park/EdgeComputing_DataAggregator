@@ -288,6 +288,7 @@ public class UnitShared {
             byte[] threadMessage = DataProcess.messageCreate("REQ", Main.deviceIP, "300", threadLog);
             handler.modifyRecord(this.uuid, String.valueOf(chunkStatus));
             handler.modifyRecord(this.uuid, "loding("+chunkStatus+"%)", 4);
+            this.agent.send(threadMessage);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
