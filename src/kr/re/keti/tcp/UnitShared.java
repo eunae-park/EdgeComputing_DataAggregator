@@ -290,6 +290,7 @@ public class UnitShared {
             handler.modifyRecord(this.uuid, "loding("+chunkStatus+"%)", 4);
             this.agent.send(threadMessage);
             
+	        return chunkCreateStatus.get();
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
