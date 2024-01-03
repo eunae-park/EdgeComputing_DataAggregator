@@ -300,3 +300,5 @@ public class UnitShared {
 
 	
 	
+	public void receive(String address, String fileName, byte[] data) {
+	}
