@@ -311,6 +311,11 @@ public class UnitShared {
 	    if(chunkLength == chunkShareStatus.incrementAndGet()) {
 //		    System.out.println(fileName+"\t"+chunkShareStatus.get()+"/"+chunkLength);
 			new Thread(()->{
+				try {
+					FileMonitor.ignoreFile(this.uuid);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			});
 	}
 	}
