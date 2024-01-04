@@ -313,6 +313,7 @@ public class UnitShared {
 			new Thread(()->{
 				try {
 					FileMonitor.ignoreFile(this.uuid);
+					mergeFiles();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
