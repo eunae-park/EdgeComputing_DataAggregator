@@ -309,5 +309,8 @@ public class UnitShared {
 	    String number = fileName.substring(fileName.indexOf("_"), fileName.length());
 
 	    if(chunkLength == chunkShareStatus.incrementAndGet()) {
+//		    System.out.println(fileName+"\t"+chunkShareStatus.get()+"/"+chunkLength);
+			new Thread(()->{
+			});
 	}
 	}
