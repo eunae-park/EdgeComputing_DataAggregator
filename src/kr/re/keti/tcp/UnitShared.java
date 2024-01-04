@@ -306,4 +306,5 @@ public class UnitShared {
 			return;
 		}
 	    
+	    String number = fileName.substring(fileName.indexOf("_"), fileName.length());
 	}
