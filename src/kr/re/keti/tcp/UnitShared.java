@@ -308,4 +308,6 @@ public class UnitShared {
 	    
 	    String number = fileName.substring(fileName.indexOf("_"), fileName.length());
 
+	    if(chunkLength == chunkShareStatus.incrementAndGet()) {
+	}
 	}
