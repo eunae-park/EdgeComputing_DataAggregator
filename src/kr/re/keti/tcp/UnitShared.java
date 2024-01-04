@@ -302,4 +302,6 @@ public class UnitShared {
 	
 	public void receive(String address, String fileName, byte[] data) {
 		String filePath = Main.storageFolder+"chunk/"+fileName;
+		if(!this.fileWrite(filePath, data)) {
+		}
 	}
