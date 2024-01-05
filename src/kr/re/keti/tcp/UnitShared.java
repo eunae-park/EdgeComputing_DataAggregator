@@ -314,6 +314,7 @@ public class UnitShared {
 				try {
 					FileMonitor.ignoreFile(this.uuid);
 					mergeFiles();
+					Thread.sleep(Main.INTERVAL*3);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
