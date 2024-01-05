@@ -324,4 +324,5 @@ public class UnitShared {
 	}
 //	    System.out.println(fileName+"\t"+chunkShareStatus.get()+"/"+chunkLength);
 	    byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "400", fileName, "success");
+	    agent.send(address, message);
 	}
