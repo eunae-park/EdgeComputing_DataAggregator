@@ -320,5 +320,6 @@ public class UnitShared {
 					e.printStackTrace();
 				}
 			});
+			delInstance(this.uuid);
 	}
 	}
