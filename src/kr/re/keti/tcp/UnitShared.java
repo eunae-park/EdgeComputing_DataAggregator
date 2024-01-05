@@ -322,4 +322,6 @@ public class UnitShared {
 			});
 			delInstance(this.uuid);
 	}
+//	    System.out.println(fileName+"\t"+chunkShareStatus.get()+"/"+chunkLength);
+	    byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "400", fileName, "success");
 	}
