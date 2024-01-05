@@ -327,4 +327,9 @@ public class UnitShared {
 	    agent.send(address, message);
 	}
 	private Boolean fileWrite(String filePath, byte[] data) {
+	    try (FileOutputStream fos = new FileOutputStream(filePath)) {
+	        fos.write(data);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	}
