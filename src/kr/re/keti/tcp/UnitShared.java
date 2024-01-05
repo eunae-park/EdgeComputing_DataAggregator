@@ -326,3 +326,5 @@ public class UnitShared {
 	    byte[] message = DataProcess.messageCreate("REQ", Main.deviceIP, "400", fileName, "success");
 	    agent.send(address, message);
 	}
+	private Boolean fileWrite(String filePath, byte[] data) {
+	}
