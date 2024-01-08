@@ -334,3 +334,5 @@ public class UnitShared {
 	}
 	    return true;
 	}
+	private void mergeFiles() {
+	}
