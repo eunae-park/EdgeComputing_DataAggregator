@@ -335,4 +335,5 @@ public class UnitShared {
 	    return true;
 	}
 	private void mergeFiles() {
+	    String filePath = Main.storageFolder + this.uuid;
 	}
