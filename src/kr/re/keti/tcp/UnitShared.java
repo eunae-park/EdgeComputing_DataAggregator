@@ -336,4 +336,10 @@ public class UnitShared {
 	}
 	private void mergeFiles() {
 	    String filePath = Main.storageFolder + this.uuid;
+	    try (FileOutputStream fos = new FileOutputStream(filePath)) {
+	        for(int i = 0; i < this.chunkLength; i++) {
+	}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	}
