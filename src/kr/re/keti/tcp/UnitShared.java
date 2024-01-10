@@ -338,6 +338,7 @@ public class UnitShared {
 	    String filePath = Main.storageFolder + this.uuid;
 	    try (FileOutputStream fos = new FileOutputStream(filePath)) {
 	        for(int i = 0; i < this.chunkLength; i++) {
+	            String chunkPath = Main.storageFolder + "chunk/" + this.uuid + "_" + i;
 	}
 	} catch (Exception e) {
 		e.printStackTrace();
