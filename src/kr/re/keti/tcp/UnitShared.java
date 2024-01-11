@@ -340,6 +340,7 @@ public class UnitShared {
 	        for(int i = 0; i < this.chunkLength; i++) {
 	            String chunkPath = Main.storageFolder + "chunk/" + this.uuid + "_" + i;
 	            File file = new File(chunkPath);
+	            byte[] fileBytes = new byte[(int) file.length()];
 	}
 	} catch (Exception e) {
 		e.printStackTrace();
