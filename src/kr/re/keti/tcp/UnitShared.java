@@ -341,6 +341,11 @@ public class UnitShared {
 	            String chunkPath = Main.storageFolder + "chunk/" + this.uuid + "_" + i;
 	            File file = new File(chunkPath);
 	            byte[] fileBytes = new byte[(int) file.length()];
+	            try (FileInputStream fis = new FileInputStream(file)) {
+	                int bytesRead = fis.read(fileBytes);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	}
 	} catch (Exception e) {
 		e.printStackTrace();
