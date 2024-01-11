@@ -343,6 +343,7 @@ public class UnitShared {
 	            byte[] fileBytes = new byte[(int) file.length()];
 	            try (FileInputStream fis = new FileInputStream(file)) {
 	                int bytesRead = fis.read(fileBytes);
+	                assert(bytesRead == fileBytes.length);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
