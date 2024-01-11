@@ -345,6 +345,7 @@ public class UnitShared {
 	                int bytesRead = fis.read(fileBytes);
 	                assert(bytesRead == fileBytes.length);
 	                assert(bytesRead == (int) file.length());
+	                fos.write(fileBytes);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
