@@ -354,6 +354,7 @@ public class UnitShared {
 	} catch (Exception e) {
 		e.printStackTrace();
 	private void loadingBar(String type, int count, int total) {
+        int barLength = 30;
 	}
 	}
 	}
