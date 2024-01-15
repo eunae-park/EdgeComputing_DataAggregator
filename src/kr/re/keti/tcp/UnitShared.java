@@ -359,6 +359,8 @@ public class UnitShared {
         String format = "%"+(total+"").length()+"d";
         System.out.print("\r"+this.uuid+" [");
         int j = 0;
+        for (; j < (int) (percent * barLength); j++) {
+}
 	}
 	}
 	}
