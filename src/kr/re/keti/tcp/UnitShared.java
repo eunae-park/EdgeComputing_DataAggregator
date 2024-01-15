@@ -360,6 +360,8 @@ public class UnitShared {
         System.out.print("\r"+this.uuid+" [");
         int j = 0;
         for (; j < (int) (percent * barLength); j++) {
+        	switch(type) {
+	}
 }
 	}
 	}
