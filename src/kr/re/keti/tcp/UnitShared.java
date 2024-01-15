@@ -355,6 +355,7 @@ public class UnitShared {
 		e.printStackTrace();
 	private void loadingBar(String type, int count, int total) {
         int barLength = 30;
+        double percent = (double) count / total;
 	}
 	}
 	}
