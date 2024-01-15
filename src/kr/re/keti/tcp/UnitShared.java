@@ -358,6 +358,7 @@ public class UnitShared {
         double percent = (double) count / total;
         String format = "%"+(total+"").length()+"d";
         System.out.print("\r"+this.uuid+" [");
+        int j = 0;
 	}
 	}
 	}
