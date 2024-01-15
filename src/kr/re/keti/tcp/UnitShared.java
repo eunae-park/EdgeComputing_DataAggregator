@@ -356,6 +356,7 @@ public class UnitShared {
 	private void loadingBar(String type, int count, int total) {
         int barLength = 30;
         double percent = (double) count / total;
+        String format = "%"+(total+"").length()+"d";
 	}
 	}
 	}
