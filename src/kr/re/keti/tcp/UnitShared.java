@@ -361,6 +361,7 @@ public class UnitShared {
         int j = 0;
         for (; j < (int) (percent * barLength); j++) {
         	switch(type) {
+        	case "loading":
 	}
 }
 	}
