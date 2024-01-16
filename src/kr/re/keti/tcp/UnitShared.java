@@ -362,6 +362,7 @@ public class UnitShared {
         for (; j < (int) (percent * barLength); j++) {
         	switch(type) {
         	case "loading":
+        		System.out.print("-");
 	}
 }
 	}
