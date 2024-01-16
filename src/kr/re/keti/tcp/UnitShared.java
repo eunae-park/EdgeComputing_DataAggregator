@@ -363,6 +363,7 @@ public class UnitShared {
         	switch(type) {
         	case "loading":
         		System.out.print("-");
+        		break;
 	}
 }
 	}
