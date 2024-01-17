@@ -369,6 +369,8 @@ public class UnitShared {
         		break;
 	}
 }
+        for (; j < barLength; j++) {
+}
 	}
 	}
 	}
