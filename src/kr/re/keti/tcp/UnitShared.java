@@ -370,6 +370,7 @@ public class UnitShared {
 	}
 }
         for (; j < barLength; j++) {
+            System.out.print(" ");
 }
 	}
 	}
