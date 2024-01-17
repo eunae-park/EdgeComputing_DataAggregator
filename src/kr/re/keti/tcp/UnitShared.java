@@ -372,6 +372,7 @@ public class UnitShared {
         for (; j < barLength; j++) {
             System.out.print(" ");
 }
+        System.out.print("] " + String.format(format, count) + "/" + total);
 	}
 	}
 	}
