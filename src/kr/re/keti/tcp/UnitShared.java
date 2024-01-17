@@ -366,6 +366,7 @@ public class UnitShared {
         		break;
         	case "progress":
         		System.out.print("=");
+        		break;
 	}
 }
 	}
