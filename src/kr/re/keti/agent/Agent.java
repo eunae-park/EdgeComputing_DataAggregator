@@ -40,4 +40,5 @@ public class Agent extends EdgeDataAggregator{
 	public static Hashtable<String, AgentPacket> unitTable;
 	private ResponseProcess responseProcess;
 	private List<Integer> logFilters;
+	private List<Integer> responseFilters;
 }
