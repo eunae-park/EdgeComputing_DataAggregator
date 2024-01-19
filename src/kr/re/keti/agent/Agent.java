@@ -39,4 +39,5 @@ public class Agent extends EdgeDataAggregator{
 	public Database database;
 	public static Hashtable<String, AgentPacket> unitTable;
 	private ResponseProcess responseProcess;
+	private List<Integer> logFilters;
 }
