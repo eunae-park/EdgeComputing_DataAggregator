@@ -34,3 +34,6 @@ import kr.re.keti.os.OSProcess;
 import kr.re.keti.tcp.UnitEdge;
 import kr.re.keti.tcp.UnitShared;
 
+public class Agent extends EdgeDataAggregator{
+	private static final Agent instance = new Agent();
+}
