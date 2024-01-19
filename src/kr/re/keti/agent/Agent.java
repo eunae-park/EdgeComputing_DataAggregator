@@ -37,4 +37,5 @@ import kr.re.keti.tcp.UnitShared;
 public class Agent extends EdgeDataAggregator{
 	private static final Agent instance = new Agent();
 	public Database database;
+	public static Hashtable<String, AgentPacket> unitTable;
 }
