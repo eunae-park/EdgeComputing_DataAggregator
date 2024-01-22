@@ -51,4 +51,6 @@ public class Agent extends EdgeDataAggregator{
 	public static Agent getInstance() {
 		return instance;
 	}
+	public void setDatabase(Database database) {
+	}
 }
