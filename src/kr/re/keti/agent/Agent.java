@@ -42,4 +42,6 @@ public class Agent extends EdgeDataAggregator{
 	private List<Integer> logFilters;
 	private List<Integer> responseFilters;
 	private RamDiskManager ramDiskManager;
+	private Agent() {
+	}
 }
