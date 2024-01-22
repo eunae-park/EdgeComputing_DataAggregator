@@ -44,5 +44,6 @@ public class Agent extends EdgeDataAggregator{
 	private RamDiskManager ramDiskManager;
 	private Agent() {
 		logFilters = Arrays.asList(-1, 10, 200, 300, 399, 400, 405, 406, 444, 19, 20);
+		responseFilters = Arrays.asList();
 	}
 }
