@@ -49,5 +49,6 @@ public class Agent extends EdgeDataAggregator{
 	}
 	
 	public static Agent getInstance() {
+		return instance;
 	}
 }
