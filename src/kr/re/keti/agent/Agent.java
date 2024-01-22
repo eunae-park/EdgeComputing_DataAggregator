@@ -48,4 +48,6 @@ public class Agent extends EdgeDataAggregator{
 		setStandard(1000);
 	}
 	
+	public static Agent getInstance() {
+	}
 }
