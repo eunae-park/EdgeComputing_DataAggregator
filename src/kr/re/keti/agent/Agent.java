@@ -47,4 +47,5 @@ public class Agent extends EdgeDataAggregator{
 		responseFilters = Arrays.asList();
 		setStandard(1000);
 	}
+	
 }
