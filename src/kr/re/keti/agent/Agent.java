@@ -53,5 +53,6 @@ public class Agent extends EdgeDataAggregator{
 	}
 	public void setDatabase(Database database) {
 		instance.database = database;
+		responseProcess = new ResponseProcess(database);
 	}
 }
