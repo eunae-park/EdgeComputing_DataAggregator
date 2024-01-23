@@ -54,5 +54,6 @@ public class Agent extends EdgeDataAggregator{
 	public void setDatabase(Database database) {
 		instance.database = database;
 		responseProcess = new ResponseProcess(database);
+		ramDiskManager = RamDiskManager.getInstance(Main.ramFolder, Main.storageFolder);
 	}
 }
