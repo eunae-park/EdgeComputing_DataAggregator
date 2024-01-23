@@ -57,4 +57,6 @@ public class Agent extends EdgeDataAggregator{
 		ramDiskManager = RamDiskManager.getInstance(Main.ramFolder, Main.storageFolder);
 	}
 	@Override
+	void receive(AgentPacket packet) {
+	}
 }
