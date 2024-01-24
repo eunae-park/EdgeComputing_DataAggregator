@@ -60,5 +60,6 @@ public class Agent extends EdgeDataAggregator{
 	void receive(AgentPacket packet) {
 		byte[] originalData = packet.getData();
 		String dataString = new String(originalData);
+		if(!(dataString.startsWith("{[{") && dataString.endsWith("}]}"))) return;
 	}
 }
