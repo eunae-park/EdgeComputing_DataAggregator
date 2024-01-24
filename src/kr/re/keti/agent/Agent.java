@@ -59,5 +59,6 @@ public class Agent extends EdgeDataAggregator{
 	@Override
 	void receive(AgentPacket packet) {
 		byte[] originalData = packet.getData();
+		String dataString = new String(originalData);
 	}
 }
