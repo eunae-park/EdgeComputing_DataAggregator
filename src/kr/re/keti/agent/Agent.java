@@ -63,5 +63,6 @@ public class Agent extends EdgeDataAggregator{
 		if(!(dataString.startsWith("{[{") && dataString.endsWith("}]}"))) return;
 		
 		String message = DataProcess.messageFormat(dataString);
+		String datas[] = message.split("::");
 	}
 }
