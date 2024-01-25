@@ -64,5 +64,6 @@ public class Agent extends EdgeDataAggregator{
 		
 		String message = DataProcess.messageFormat(dataString);
 		String datas[] = message.split("::");
+		String address = datas[1];
 	}
 }
