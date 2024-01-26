@@ -66,5 +66,21 @@ public class Agent extends EdgeDataAggregator{
 		String datas[] = message.split("::");
 		String address = datas[1];
 		int code = Integer.parseInt(datas[2]);
+//		if(!address.equals(Main.deviceIP)) {
+//			if(code==400) {
+//				if(dataString.length()>500) {
+//					String[] temp = dataString.split("::");
+//					temp[temp.length-1] = "...}]}";
+//					System.out.println(String.join("::", temp));					
+//				}
+//				else {
+//					System.out.println(dataString);
+//				}
+//			}
+//			else {
+//				System.out.println(dataString);
+//			}
+//		}
+		
 	}
 }
