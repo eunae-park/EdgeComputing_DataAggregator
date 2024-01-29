@@ -96,5 +96,7 @@ public class Agent extends EdgeDataAggregator{
 			log(message);			
 		}
 		
+		//------------------process----------------------
+		Socket socket = packet.getSocket();
 	}
 }
