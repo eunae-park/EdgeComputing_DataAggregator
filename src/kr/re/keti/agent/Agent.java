@@ -98,5 +98,7 @@ public class Agent extends EdgeDataAggregator{
 		
 		//------------------process----------------------
 		Socket socket = packet.getSocket();
+		if(socket == null) {
+		}
 	}
 }
