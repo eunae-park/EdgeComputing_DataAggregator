@@ -101,5 +101,7 @@ public class Agent extends EdgeDataAggregator{
 		if(socket == null) {
 			messageProcess(originalData);				
 		}
+		else {
+		}
 	}
 }
