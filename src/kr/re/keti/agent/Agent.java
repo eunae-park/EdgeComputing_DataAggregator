@@ -102,6 +102,7 @@ public class Agent extends EdgeDataAggregator{
 			messageProcess(originalData);				
 		}
 		else {
+			tcpProcess(packet);		
 		}
 	}
 }
