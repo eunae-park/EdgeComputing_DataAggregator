@@ -92,6 +92,7 @@ public class Agent extends EdgeDataAggregator{
 //		}
 		//-------------------Accept Log--------------------
 		if(shouldLog(code)) {
+			System.out.println();
 		}
 	}
 }
