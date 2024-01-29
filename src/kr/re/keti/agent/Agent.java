@@ -82,5 +82,16 @@ public class Agent extends EdgeDataAggregator{
 //			}
 //		}
 		
+//		if(!address.equals(Main.deviceIP) && code == 400) {
+//			System.out.println("1================================================================================================");
+//			System.out.println(address+"::"+datas[3]+": "+LocalTime.now().format(DateTimeFormatter.ofPattern("H:m:s.SSS")));
+////		System.out.println(dataString);
+//			System.out.println("2================================================================================================");
+//			System.out.println();
+//			
+//		}
+		//-------------------Accept Log--------------------
+		if(shouldLog(code)) {
+		}
 	}
 }
