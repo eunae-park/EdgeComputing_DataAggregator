@@ -105,5 +105,8 @@ public class Agent extends EdgeDataAggregator{
 			tcpProcess(packet);		
 		}
 		
+		//-----------------Complete Log------------------
+		if(shouldLog(code)) {
+		}
 	}
 }
