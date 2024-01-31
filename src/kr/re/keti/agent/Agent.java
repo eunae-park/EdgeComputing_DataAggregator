@@ -113,5 +113,6 @@ public class Agent extends EdgeDataAggregator{
 	}
 
 	private void tcpProcess(AgentPacket packet) {
+		byte[] originalData = packet.getData();
 	}
 }
