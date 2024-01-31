@@ -116,5 +116,6 @@ public class Agent extends EdgeDataAggregator{
 		byte[] originalData = packet.getData();
 		String dataString = new String(originalData);
 		String requestData = DataProcess.messageFormat(dataString);
+		String[] datas = requestData.split("::");
 	}
 }
