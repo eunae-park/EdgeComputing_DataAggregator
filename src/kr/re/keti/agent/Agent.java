@@ -108,6 +108,7 @@ public class Agent extends EdgeDataAggregator{
 		//-----------------Complete Log------------------
 		if(shouldLog(code)) {
 			logLine("complete", address);
+			System.out.print(">>>");
 		}
 	}
 }
