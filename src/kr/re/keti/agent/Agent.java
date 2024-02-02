@@ -123,6 +123,8 @@ public class Agent extends EdgeDataAggregator{
 		switch(requestCode) {
 			case 1:
 				String type = datas[3];
+				switch(type) {
+				}
 		}
 	}
 }
