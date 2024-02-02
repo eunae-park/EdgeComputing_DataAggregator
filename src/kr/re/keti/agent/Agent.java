@@ -120,5 +120,7 @@ public class Agent extends EdgeDataAggregator{
 		String address = datas[1];
 		int requestCode = Integer.parseInt(datas[2]);
 		String response = "none";
+		switch(requestCode) {
+		}
 	}
 }
