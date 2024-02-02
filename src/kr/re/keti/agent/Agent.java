@@ -122,6 +122,7 @@ public class Agent extends EdgeDataAggregator{
 		String response = "none";
 		switch(requestCode) {
 			case 1:
+				String type = datas[3];
 		}
 	}
 }
