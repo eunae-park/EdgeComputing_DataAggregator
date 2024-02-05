@@ -125,6 +125,7 @@ public class Agent extends EdgeDataAggregator{
 				String type = datas[3];
 				switch(type) {
 					case "EDGE_LIST": 
+						response = responseProcess.responseInitEdgeList(address); break;
 				}
 		}
 	}
