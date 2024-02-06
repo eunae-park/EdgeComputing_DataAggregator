@@ -132,6 +132,7 @@ public class Agent extends EdgeDataAggregator{
 						response = responseProcess.responseDeviceInformation(address); break;
 				}
 				break;
+			case 2:
 		}
 	}
 }
