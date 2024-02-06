@@ -131,6 +131,7 @@ public class Agent extends EdgeDataAggregator{
 					case "DEV_STATUS":
 						response = responseProcess.responseDeviceInformation(address); break;
 				}
+				break;
 		}
 	}
 }
