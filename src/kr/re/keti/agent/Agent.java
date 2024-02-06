@@ -128,6 +128,7 @@ public class Agent extends EdgeDataAggregator{
 						response = responseProcess.responseInitEdgeList(address); break;
 					case "SLAVE_LIST": 
 						response = responseProcess.responseEdgeList(address); break;
+					case "DEV_STATUS":
 				}
 		}
 	}
