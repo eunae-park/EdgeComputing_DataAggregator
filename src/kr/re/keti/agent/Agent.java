@@ -133,6 +133,7 @@ public class Agent extends EdgeDataAggregator{
 				}
 				break;
 			case 2:
+				response = responseProcess.responseWholeDataInformation(address); break;
 		}
 	}
 }
