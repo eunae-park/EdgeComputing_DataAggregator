@@ -136,6 +136,8 @@ public class Agent extends EdgeDataAggregator{
 				response = responseProcess.responseWholeDataInformation(address); break;
 			case 3: {
 				String dataid = datas[3];
+				if(requestCode == 3) {
+				}
 			}
 		}
 	}
