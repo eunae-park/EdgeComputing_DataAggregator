@@ -143,6 +143,7 @@ public class Agent extends EdgeDataAggregator{
 			}
 			case 6:{
 				String dataid = datas[3];
+				response = responseProcess.responseIndividualDataRemove(address, dataid);
 			}
 		}
 	}
