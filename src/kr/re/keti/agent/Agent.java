@@ -146,6 +146,8 @@ public class Agent extends EdgeDataAggregator{
 				response = responseProcess.responseIndividualDataRemove(address, dataid);
 				break;
 			}
+			case 20:{
+			}
 		}
 	}
 }
