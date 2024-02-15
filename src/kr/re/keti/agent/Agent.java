@@ -152,6 +152,7 @@ public class Agent extends EdgeDataAggregator{
 				String path = Ssl.getPath();
 				path = path+"keys/"+uuid+".key";
 				
+				Ssl.addKey(address, uuid, data);
 			}
 		}
 	}
