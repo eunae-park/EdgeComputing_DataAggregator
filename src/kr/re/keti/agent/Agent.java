@@ -149,6 +149,7 @@ public class Agent extends EdgeDataAggregator{
 			case 20:{
 				String uuid = datas[3].trim();
 				String data = datas[4];
+				String path = Ssl.getPath();
 			}
 		}
 	}
