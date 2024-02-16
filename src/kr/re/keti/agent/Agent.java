@@ -153,6 +153,7 @@ public class Agent extends EdgeDataAggregator{
 				path = path+"keys/"+uuid+".key";
 				
 				Ssl.addKey(address, uuid, data);
+				response = "{[{ANS::"+address+"::020::success}]}";
 			}
 		}
 	}
