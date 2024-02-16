@@ -157,6 +157,7 @@ public class Agent extends EdgeDataAggregator{
 				break;
 			}
 			case 399:{
+				String fileName = datas[3];
 			}
 		}
 	}
