@@ -161,6 +161,7 @@ public class Agent extends EdgeDataAggregator{
 				String uuid = datas[4];
 				UnitShared unit = UnitShared.getInstance(fileName, uuid);
 				unit.addReadyCount();
+				response = "{[{ANS::"+address+"::399::success}]}";
 			}
 		}
 	}
