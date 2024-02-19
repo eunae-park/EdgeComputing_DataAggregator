@@ -166,6 +166,7 @@ public class Agent extends EdgeDataAggregator{
 			}
 			case 400:{
 				String uuid = datas[3];
+				uuid = uuid.substring(0, uuid.indexOf("_"));
 			}
 		}
 	}
