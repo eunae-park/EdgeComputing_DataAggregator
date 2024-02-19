@@ -162,6 +162,7 @@ public class Agent extends EdgeDataAggregator{
 				UnitShared unit = UnitShared.getInstance(fileName, uuid);
 				unit.addReadyCount();
 				response = "{[{ANS::"+address+"::399::success}]}";
+				break;
 			}
 		}
 	}
