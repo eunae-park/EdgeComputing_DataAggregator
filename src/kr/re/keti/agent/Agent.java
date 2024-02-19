@@ -164,6 +164,8 @@ public class Agent extends EdgeDataAggregator{
 				response = "{[{ANS::"+address+"::399::success}]}";
 				break;
 			}
+			case 400:{
+			}
 		}
 	}
 }
