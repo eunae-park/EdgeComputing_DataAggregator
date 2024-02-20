@@ -170,6 +170,7 @@ public class Agent extends EdgeDataAggregator{
 				final String chunkUuid = uuid;
 				UnitShared unit = UnitShared.getInstanceUuid(chunkUuid);
 				unit.countAdd(address, datas[3]);
+				response = "{[{ANS::"+address+"::400::"+datas[3]+"::success}]}";
 			}
 		}
 	}
