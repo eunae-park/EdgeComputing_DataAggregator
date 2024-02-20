@@ -175,6 +175,7 @@ public class Agent extends EdgeDataAggregator{
 			}
 			case 401:
 			case 405:
+				String dataid = datas[3];
 		}
 	}
 }
