@@ -184,6 +184,7 @@ public class Agent extends EdgeDataAggregator{
 				else if(requestCode == 405) {
 					response = responseProcess.responseSha(address, dataid, startIdx, finishIdx);
 					UnitEdge unitEdge = new UnitEdge(database, address, dataid, startIdx, finishIdx);
+					unitEdge.start();
 				}
 		}
 	}
