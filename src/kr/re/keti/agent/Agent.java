@@ -181,6 +181,8 @@ public class Agent extends EdgeDataAggregator{
 				if(requestCode == 401) {
 					response = responseProcess.responseChunkCreate(address, dataid, startIdx, finishIdx);									
 				}
+				else if(requestCode == 405) {
+				}
 		}
 	}
 }
