@@ -190,6 +190,7 @@ public class Agent extends EdgeDataAggregator{
 			case 406:
 				Socket socket = packet.getSocket();
 				if(socket == null) return;
+				
 		}
 	}
 }
