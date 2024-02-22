@@ -193,6 +193,7 @@ public class Agent extends EdgeDataAggregator{
 				
 				String chunkName = datas[3];
 				int chunkLength = Integer.parseInt(datas[4]);
+				int chunkEndIdx = originalData.length - 3;
 		}
 	}
 }
