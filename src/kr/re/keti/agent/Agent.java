@@ -186,6 +186,7 @@ public class Agent extends EdgeDataAggregator{
 					UnitEdge unitEdge = new UnitEdge(database, address, dataid, startIdx, finishIdx);
 					unitEdge.start();
 				}
+				break;
 		}
 	}
 }
