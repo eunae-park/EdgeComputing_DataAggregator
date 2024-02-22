@@ -187,6 +187,7 @@ public class Agent extends EdgeDataAggregator{
 					unitEdge.start();
 				}
 				break;
+			case 406:
 		}
 	}
 }
