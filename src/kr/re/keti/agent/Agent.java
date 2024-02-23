@@ -200,6 +200,7 @@ public class Agent extends EdgeDataAggregator{
 				AgentPacket unitPacket = new AgentPacket(socket, data);
 				unitTable.put(chunkName, unitPacket);
 				break;
+			case 444:
 		}
 	}
 }
