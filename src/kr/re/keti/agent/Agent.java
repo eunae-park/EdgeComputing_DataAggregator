@@ -195,6 +195,7 @@ public class Agent extends EdgeDataAggregator{
 				int chunkLength = Integer.parseInt(datas[4]);
 				int chunkEndIdx = originalData.length - 3;
 				int chunkStartIdx = chunkEndIdx - chunkLength;
+				byte[] data = new byte[chunkLength];
 		}
 	}
 }
