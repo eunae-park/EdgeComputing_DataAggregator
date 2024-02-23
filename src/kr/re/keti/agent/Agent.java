@@ -197,6 +197,7 @@ public class Agent extends EdgeDataAggregator{
 				int chunkStartIdx = chunkEndIdx - chunkLength;
 				byte[] data = new byte[chunkLength];
 				System.arraycopy(originalData, chunkStartIdx, data, 0, chunkLength);
+				AgentPacket unitPacket = new AgentPacket(socket, data);
 		}
 	}
 }
