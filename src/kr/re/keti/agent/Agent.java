@@ -203,6 +203,7 @@ public class Agent extends EdgeDataAggregator{
 			case 444:
 				String fileName = datas[3];
 				response = responseProcess.responseSha(address, fileName);
+				break;
 		}
 	}
 }
