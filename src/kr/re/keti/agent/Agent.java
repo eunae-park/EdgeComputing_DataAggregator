@@ -201,6 +201,7 @@ public class Agent extends EdgeDataAggregator{
 				unitTable.put(chunkName, unitPacket);
 				break;
 			case 444:
+				String fileName = datas[3];
 		}
 	}
 }
