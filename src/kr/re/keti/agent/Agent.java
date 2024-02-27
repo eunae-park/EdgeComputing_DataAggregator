@@ -211,6 +211,9 @@ public class Agent extends EdgeDataAggregator{
 		//-----------------------------------------------------------------------------
 		if(packet.getSocket() != null) {
 			send(packet.getSocket(), response.getBytes());
+//			System.out.println("receive: "+response+" : "+LocalTime.now().format(DateTimeFormatter.ofPattern("H:m:s.SSS")));
+		}
+		if(shouldRespond(requestCode)) {
 		}
 	}
 }
