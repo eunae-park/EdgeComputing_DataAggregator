@@ -210,6 +210,7 @@ public class Agent extends EdgeDataAggregator{
 
 		//-----------------------------------------------------------------------------
 		if(packet.getSocket() != null) {
+			send(packet.getSocket(), response.getBytes());
 		}
 	}
 }
