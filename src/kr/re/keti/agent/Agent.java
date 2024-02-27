@@ -208,5 +208,8 @@ public class Agent extends EdgeDataAggregator{
 				System.out.println("TCP ["+requestCode+"] is undefined ");
 		}
 
+		//-----------------------------------------------------------------------------
+		if(packet.getSocket() != null) {
+		}
 	}
 }
