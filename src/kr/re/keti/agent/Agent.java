@@ -217,4 +217,6 @@ public class Agent extends EdgeDataAggregator{
 			send(response.getBytes());
 		}
 	}
+	private void messageProcess(byte[] originalMessage) {
+	}
 }
