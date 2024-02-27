@@ -205,6 +205,7 @@ public class Agent extends EdgeDataAggregator{
 				response = responseProcess.responseSha(address, fileName);
 				break;
 			default:
+				System.out.println("TCP ["+requestCode+"] is undefined ");
 		}
 	}
 }
