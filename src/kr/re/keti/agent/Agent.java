@@ -223,5 +223,7 @@ public class Agent extends EdgeDataAggregator{
 		String address = datas[1];
 		int code = Integer.parseInt(datas[2]);
 		
+		if(address.equals(Main.deviceIP) && code != 200) {
+		}
 	}
 }
