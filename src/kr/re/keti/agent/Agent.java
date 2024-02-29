@@ -229,6 +229,7 @@ public class Agent extends EdgeDataAggregator{
 		switch(code) {
 			case -1:
 				break;
+			case 1:
 		}
 	}
 }
