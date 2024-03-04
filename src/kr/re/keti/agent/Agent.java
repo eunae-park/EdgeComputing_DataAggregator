@@ -232,6 +232,7 @@ public class Agent extends EdgeDataAggregator{
 			case 1:
 				break;
 			case 10:{
+				String data = datas[3];
 			}
 		}
 	}
