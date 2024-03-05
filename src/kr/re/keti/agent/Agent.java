@@ -234,6 +234,7 @@ public class Agent extends EdgeDataAggregator{
 			case 10:{
 				String data = datas[3];
 				FileManagementDto dto = DataProcess.metaDataToDto(data);
+				database.insert(dto);
 			}
 		}
 	}
