@@ -237,6 +237,8 @@ public class Agent extends EdgeDataAggregator{
 				database.insert(dto);
 				break;
 			}
+			case 11:{
+			}
 		}
 	}
 }
