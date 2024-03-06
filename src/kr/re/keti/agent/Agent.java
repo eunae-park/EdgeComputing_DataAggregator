@@ -243,6 +243,8 @@ public class Agent extends EdgeDataAggregator{
 				String extension = dto.getFileType();
 				String fileName = dataid + "." +extension;
 				byte[] data = getData(originalMessage);
+//				ramDiskManager.createFile(fileName, data);
+				ramDiskManager.download(fileName, data);
 			}
 		}
 	}
