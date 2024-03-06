@@ -242,6 +242,7 @@ public class Agent extends EdgeDataAggregator{
 				FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
 				String extension = dto.getFileType();
 				String fileName = dataid + "." +extension;
+				byte[] data = getData(originalMessage);
 			}
 		}
 	}
