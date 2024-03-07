@@ -252,6 +252,7 @@ public class Agent extends EdgeDataAggregator{
 				try {
 					Thread.sleep(100);
 					if(!Ssl.verify(ipAddress, sign, Main.storageFolder+fileName)) {
+						System.out.println("sign verify fail");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
