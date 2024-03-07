@@ -248,6 +248,7 @@ public class Agent extends EdgeDataAggregator{
 				
 //				byte[] sign = Base64.getDecoder().decode(dto.getDataSign());
 				String sign = dto.getDataSign();
+				String ipAddress = dto.getLinkedEdge();
 			}
 		}
 	}
