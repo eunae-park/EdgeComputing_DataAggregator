@@ -251,6 +251,8 @@ public class Agent extends EdgeDataAggregator{
 				String ipAddress = dto.getLinkedEdge();
 				try {
 					Thread.sleep(100);
+					if(!Ssl.verify(ipAddress, sign, Main.storageFolder+fileName)) {
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
