@@ -246,6 +246,8 @@ public class Agent extends EdgeDataAggregator{
 //				ramDiskManager.createFile(fileName, data);
 				ramDiskManager.download(fileName, data);
 				
+//				byte[] sign = Base64.getDecoder().decode(dto.getDataSign());
+				String sign = dto.getDataSign();
 			}
 		}
 	}
