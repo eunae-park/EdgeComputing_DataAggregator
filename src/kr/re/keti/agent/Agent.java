@@ -261,6 +261,7 @@ public class Agent extends EdgeDataAggregator{
 			}
 			case 12:{
 				String dataid = datas[3];
+				FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
 			}
 		}
 	}
