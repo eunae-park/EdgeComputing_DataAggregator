@@ -257,6 +257,7 @@ public class Agent extends EdgeDataAggregator{
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				break;
 			}
 		}
 	}
