@@ -264,6 +264,7 @@ public class Agent extends EdgeDataAggregator{
 				FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
 				dto.setDataSize(Long.parseLong(datas[4]));
 				String extension = dto.getFileType();
+				String fileName = dataid + "." +extension;
 			}
 		}
 	}
