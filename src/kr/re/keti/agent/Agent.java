@@ -268,6 +268,7 @@ public class Agent extends EdgeDataAggregator{
 				byte[] data = getData(originalMessage);
 				ramDiskManager.createFile(fileName, data);
 				database.update(dto);
+				break;
 			}
 		}
 	}
