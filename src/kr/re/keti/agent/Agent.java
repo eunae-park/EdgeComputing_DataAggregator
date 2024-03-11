@@ -270,6 +270,8 @@ public class Agent extends EdgeDataAggregator{
 				database.update(dto);
 				break;
 			}
+			case 13:{
+			}
 		}
 	}
 }
