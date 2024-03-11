@@ -274,6 +274,7 @@ public class Agent extends EdgeDataAggregator{
 				String dataid = datas[3];
 				FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
 				if(dto == null) break;
+				database.delete("file_management", dataid);
 			}
 		}
 	}
