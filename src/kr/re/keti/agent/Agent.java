@@ -275,6 +275,8 @@ public class Agent extends EdgeDataAggregator{
 				FileManagementDto dto = (FileManagementDto) database.select("file_management", dataid);
 				if(dto == null) break;
 				database.delete("file_management", dataid);
+				if(dto.getLinkedEdge().equals(Main.deviceIP)) {
+				}
 			}
 		}
 	}
