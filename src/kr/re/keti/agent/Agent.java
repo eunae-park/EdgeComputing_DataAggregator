@@ -281,6 +281,7 @@ public class Agent extends EdgeDataAggregator{
 				String extension = dto.getFileType();
 				String fileName = dataid+"."+extension;
 				ramDiskManager.remove(fileName, "");
+				break;
 			}
 		}
 	}
