@@ -276,6 +276,7 @@ public class Agent extends EdgeDataAggregator{
 				if(dto == null) break;
 				database.delete("file_management", dataid);
 				if(dto.getLinkedEdge().equals(Main.deviceIP)) {
+					dataid = ((FileUuidDto) database.executeQuery("select * from file_uuid where fileUuid='"+dataid+"';").get(0)).getFileName();
 				}
 			}
 		}
