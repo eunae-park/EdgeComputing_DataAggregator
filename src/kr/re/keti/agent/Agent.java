@@ -279,6 +279,7 @@ public class Agent extends EdgeDataAggregator{
 					dataid = ((FileUuidDto) database.executeQuery("select * from file_uuid where fileUuid='"+dataid+"';").get(0)).getFileName();
 				}
 				String extension = dto.getFileType();
+				String fileName = dataid+"."+extension;
 			}
 		}
 	}
