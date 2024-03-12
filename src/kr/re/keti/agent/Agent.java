@@ -283,6 +283,7 @@ public class Agent extends EdgeDataAggregator{
 				ramDiskManager.remove(fileName, "");
 				break;
 			}
+			case 14:
 		}
 	}
 }
