@@ -292,6 +292,7 @@ public class Agent extends EdgeDataAggregator{
 			case 19:{
 				String uuid = datas[3];
 				String data = datas[5];
+				Ssl.addKey(address, uuid, data);
 			}
 		}
 	}
