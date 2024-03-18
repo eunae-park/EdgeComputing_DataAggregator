@@ -296,6 +296,7 @@ public class Agent extends EdgeDataAggregator{
 
 				
 				Agent agent = Agent.getInstance();
+				String keyData = Ssl.getKey(Main.deviceIP);
 			}
 		}
 	}
