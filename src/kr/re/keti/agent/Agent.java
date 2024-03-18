@@ -295,6 +295,7 @@ public class Agent extends EdgeDataAggregator{
 				Ssl.addKey(address, uuid, data);
 
 				
+				Agent agent = Agent.getInstance();
 			}
 		}
 	}
