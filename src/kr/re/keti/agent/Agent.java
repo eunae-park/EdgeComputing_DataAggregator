@@ -301,6 +301,7 @@ public class Agent extends EdgeDataAggregator{
 				for(String ip : OSProcess.edgeList) {
 					if(!ip.equals(address)) {
 						keyData = Ssl.getKey(ip);
+						String keyUuid = Ssl.getUuid(ip);
 					}
 				}
 			}
