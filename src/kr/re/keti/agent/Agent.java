@@ -305,6 +305,7 @@ public class Agent extends EdgeDataAggregator{
 						agent.send(address, ("{[{REQ::"+ip+"::020::"+keyUuid+"::"+keyData+"}]}").getBytes());				
 					}
 				}
+				break;
 			}
 		}
 	}
