@@ -300,6 +300,7 @@ public class Agent extends EdgeDataAggregator{
 				agent.send(address, ("{[{REQ::"+Main.deviceIP+"::020::"+Main.uuid+"::"+keyData+"}]}").getBytes());
 				for(String ip : OSProcess.edgeList) {
 					if(!ip.equals(address)) {
+						keyData = Ssl.getKey(ip);
 					}
 				}
 			}
