@@ -302,6 +302,7 @@ public class Agent extends EdgeDataAggregator{
 					if(!ip.equals(address)) {
 						keyData = Ssl.getKey(ip);
 						String keyUuid = Ssl.getUuid(ip);
+						agent.send(address, ("{[{REQ::"+ip+"::020::"+keyUuid+"::"+keyData+"}]}").getBytes());				
 					}
 				}
 			}
