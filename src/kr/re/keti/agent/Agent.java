@@ -315,6 +315,8 @@ public class Agent extends EdgeDataAggregator{
 				String data = datas[3];
 				String[] logData = data.split("#");
 				FileHandler handler = FileHandler.getInstance();
+				if(handler.isExists(logData[1])) {
+				}
 			}
 		}
 	}
