@@ -313,6 +313,7 @@ public class Agent extends EdgeDataAggregator{
 			}
 			case 500:{
 				String data = datas[3];
+				String[] logData = data.split("#");
 			}
 		}
 	}
