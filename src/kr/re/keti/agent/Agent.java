@@ -308,6 +308,7 @@ public class Agent extends EdgeDataAggregator{
 				break;
 			}
 			case 200:{
+				logSave(message);
 			}
 		}
 	}
