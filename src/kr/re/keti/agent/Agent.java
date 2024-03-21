@@ -316,6 +316,7 @@ public class Agent extends EdgeDataAggregator{
 				String[] logData = data.split("#");
 				FileHandler handler = FileHandler.getInstance();
 				if(handler.isExists(logData[1])) {
+					handler.deleteRecord(logData[1]);
 				}
 			}
 		}
