@@ -318,6 +318,7 @@ public class Agent extends EdgeDataAggregator{
 				if(handler.isExists(logData[1])) {
 					handler.deleteRecord(logData[1]);
 				}
+				handler.addRecord(data);
 			}
 		}
 	}
