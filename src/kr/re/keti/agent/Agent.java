@@ -326,6 +326,7 @@ public class Agent extends EdgeDataAggregator{
 				String uuid = datas[4];
 				int chunkLength = Integer.parseInt(datas[5]);
 				
+				UnitShared unit = UnitShared.getInstance(fileName, uuid);
 			}
 		}
 	}
