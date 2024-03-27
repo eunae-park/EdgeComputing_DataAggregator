@@ -330,6 +330,7 @@ public class Agent extends EdgeDataAggregator{
 				unit.setLength(chunkLength);
 				
 				Agent agent = Agent.getInstance();
+				byte[] requestMessage = DataProcess.messageCreate("REQ", Main.deviceIP, "399", fileName, "success");
 			}
 		}
 	}
