@@ -334,6 +334,8 @@ public class Agent extends EdgeDataAggregator{
 				agent.send(address, requestMessage);
 				break;
 			}
+			case 400:{
+			}
 		}
 	}
 }
