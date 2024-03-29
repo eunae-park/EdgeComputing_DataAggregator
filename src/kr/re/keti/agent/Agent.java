@@ -338,6 +338,7 @@ public class Agent extends EdgeDataAggregator{
 				String chunk = datas[3];
 				String dataid = chunk.substring(0, chunk.indexOf("_"));
 				byte[] data = getData(originalMessage);
+				
 			}
 		}
 	}
