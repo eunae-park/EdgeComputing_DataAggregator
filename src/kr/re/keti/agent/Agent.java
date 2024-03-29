@@ -349,4 +349,6 @@ public class Agent extends EdgeDataAggregator{
 		}
 		
 	}
+	private void log(String message) {
+	}
 }
