@@ -340,6 +340,7 @@ public class Agent extends EdgeDataAggregator{
 				byte[] data = getData(originalMessage);
 				
 				UnitShared unit = UnitShared.getInstanceUuid(dataid);
+				unit.receive(address, chunk, data);
 			}
 		}
 	}
