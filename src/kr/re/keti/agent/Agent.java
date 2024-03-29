@@ -344,6 +344,7 @@ public class Agent extends EdgeDataAggregator{
 				
 				break;				
 			}
+			default:
 		}
 	}
 }
