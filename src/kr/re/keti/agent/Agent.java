@@ -345,6 +345,7 @@ public class Agent extends EdgeDataAggregator{
 				break;				
 			}
 			default:
+				System.out.println("message ["+code+"] is undefined ");
 		}
 	}
 }
