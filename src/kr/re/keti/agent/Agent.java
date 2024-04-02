@@ -355,6 +355,7 @@ public class Agent extends EdgeDataAggregator{
 		int requestCode = Integer.parseInt(datas[2]);
 		logLine("Accept",address);
 		switch(requestCode) {
+			case 1:
 		}
 	}
 }
