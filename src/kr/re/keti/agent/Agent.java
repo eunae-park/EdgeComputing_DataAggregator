@@ -356,6 +356,7 @@ public class Agent extends EdgeDataAggregator{
 		logLine("Accept",address);
 		switch(requestCode) {
 			case 1:
+				String type = datas[3];
 		}
 	}
 }
