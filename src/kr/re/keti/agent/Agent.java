@@ -358,6 +358,7 @@ public class Agent extends EdgeDataAggregator{
 			case 1:
 				String type = datas[3];
 				switch(type) {
+					case "EDGE_LIST": logFun("Edge List Update"); break;
 				}
 		}
 	}
