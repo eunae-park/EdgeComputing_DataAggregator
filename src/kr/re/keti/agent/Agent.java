@@ -362,6 +362,7 @@ public class Agent extends EdgeDataAggregator{
 					case "SLAVE_LIST": logFun("Newest Edge List"); break;
 					case "DEV_STATUS": logFun("Device Information"); break;
 				}
+				break;
 		}
 	}
 }
