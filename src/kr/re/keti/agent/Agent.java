@@ -363,6 +363,7 @@ public class Agent extends EdgeDataAggregator{
 					case "DEV_STATUS": logFun("Device Information"); break;
 				}
 				break;
+			case 2: logFun("Whole Data Information"); break;
 		}
 	}
 }
