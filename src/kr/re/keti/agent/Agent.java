@@ -367,6 +367,7 @@ public class Agent extends EdgeDataAggregator{
 			case 3: {
 				String dataid = datas[3];
 				logData("MetaData Information", dataid);
+				break;
 			}
 		}
 	}
