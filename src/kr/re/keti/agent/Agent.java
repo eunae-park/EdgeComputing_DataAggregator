@@ -364,6 +364,8 @@ public class Agent extends EdgeDataAggregator{
 				}
 				break;
 			case 2: logFun("Whole Data Information"); break;
+			case 3: {
+			}
 		}
 	}
 }
