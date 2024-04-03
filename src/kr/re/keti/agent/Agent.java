@@ -360,6 +360,7 @@ public class Agent extends EdgeDataAggregator{
 				switch(type) {
 					case "EDGE_LIST": logFun("Edge List Update"); break;
 					case "SLAVE_LIST": logFun("Newest Edge List"); break;
+					case "DEV_STATUS": logFun("Device Information"); break;
 				}
 		}
 	}
