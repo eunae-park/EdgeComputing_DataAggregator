@@ -369,6 +369,8 @@ public class Agent extends EdgeDataAggregator{
 				logData("MetaData Information", dataid);
 				break;
 			}
+			case 6: {
+			}
 		}
 	}
 }
