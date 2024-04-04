@@ -370,6 +370,7 @@ public class Agent extends EdgeDataAggregator{
 				break;
 			}
 			case 6: {
+				String dataid = datas[3];
 			}
 		}
 	}
