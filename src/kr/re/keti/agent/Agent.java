@@ -374,6 +374,7 @@ public class Agent extends EdgeDataAggregator{
 				logData("Data Remove", dataid);
 				break;
 			}
+			case 11:
 		}
 	}
 }
