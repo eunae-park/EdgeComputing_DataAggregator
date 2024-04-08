@@ -389,6 +389,7 @@ public class Agent extends EdgeDataAggregator{
 						"Update File",
 						"Delete File",
 						"Create Directory",
+						"Update Directory",
 				};
 			}
 		}
