@@ -386,6 +386,7 @@ public class Agent extends EdgeDataAggregator{
 				String dataid = datas[3];
 				String logMessage[] = {
 						"create File",
+						"Update File",
 				};
 			}
 		}
