@@ -384,6 +384,8 @@ public class Agent extends EdgeDataAggregator{
 			case 15:
 			case 16:{
 				String dataid = datas[3];
+				String logMessage[] = {
+				};
 			}
 		}
 	}
