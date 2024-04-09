@@ -396,6 +396,8 @@ public class Agent extends EdgeDataAggregator{
 				if(requestCode>100) {
 					messageIdx = requestCode -111;
 				}
+				else {
+				}
 			}
 		}
 	}
