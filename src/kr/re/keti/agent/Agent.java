@@ -390,6 +390,7 @@ public class Agent extends EdgeDataAggregator{
 						"Delete File",
 						"Create Directory",
 						"Update Directory",
+						"Delete Directory"
 				};
 			}
 		}
