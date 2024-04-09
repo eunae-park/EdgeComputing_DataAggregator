@@ -392,6 +392,7 @@ public class Agent extends EdgeDataAggregator{
 						"Update Directory",
 						"Delete Directory"
 				};
+				int messageIdx = -1;
 			}
 		}
 	}
