@@ -400,6 +400,7 @@ public class Agent extends EdgeDataAggregator{
 					messageIdx = requestCode -11;
 				}
 				logData(logMessage[messageIdx], dataid);
+				break;
 			}
 		}
 	}
