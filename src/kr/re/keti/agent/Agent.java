@@ -403,6 +403,7 @@ public class Agent extends EdgeDataAggregator{
 				break;
 			}
 			case 401:{
+				String dataid = datas[3];
 			}
 		}
 	}
