@@ -402,6 +402,8 @@ public class Agent extends EdgeDataAggregator{
 				logData(logMessage[messageIdx], dataid);
 				break;
 			}
+			case 401:{
+			}
 		}
 	}
 }
