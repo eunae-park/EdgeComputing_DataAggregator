@@ -399,6 +399,7 @@ public class Agent extends EdgeDataAggregator{
 				else {
 					messageIdx = requestCode -11;
 				}
+				logData(logMessage[messageIdx], dataid);
 			}
 		}
 	}
