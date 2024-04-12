@@ -407,6 +407,7 @@ public class Agent extends EdgeDataAggregator{
 				int startIdx = Integer.parseInt(datas[4]);
 				int finishIdx = Integer.parseInt(datas[5]);
 				logChunk("Data read", dataid, startIdx, finishIdx);
+				break;
 			}
 		}
 	}
