@@ -413,4 +413,6 @@ public class Agent extends EdgeDataAggregator{
 		}
 		
 	}
+	private void logLine(String type, String address) {
+	}
 }
