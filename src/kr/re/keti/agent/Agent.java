@@ -416,5 +416,6 @@ public class Agent extends EdgeDataAggregator{
 	private void logLine(String type, String address) {
 		Date now = new Date(System.currentTimeMillis());
 		System.out.println(" <-- "+logFormat.format(now)+"\tData Processing Request from "+address+" : "+type+" -->");
+		
 	}
 }
