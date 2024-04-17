@@ -418,4 +418,6 @@ public class Agent extends EdgeDataAggregator{
 		System.out.println(" <-- "+logFormat.format(now)+"\tData Processing Request from "+address+" : "+type+" -->");
 		
 	}
+	private void logFun(String type) {
+	}
 }
