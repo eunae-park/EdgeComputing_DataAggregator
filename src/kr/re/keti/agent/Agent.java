@@ -421,4 +421,6 @@ public class Agent extends EdgeDataAggregator{
 	private void logFun(String type) {
 		System.out.println("\tRequest Function : "+type);
 	}
+	private void logData(String type, String dataid) {
+	}
 }
