@@ -427,5 +427,6 @@ public class Agent extends EdgeDataAggregator{
 	}
 	private void logChunk(String type, String dataid, int startIdx, int finishIdx) {
 		logData(type, dataid);
+		System.out.println("\tchunk : #"+startIdx+" to #"+finishIdx);
 	}
 }
