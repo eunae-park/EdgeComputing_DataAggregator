@@ -429,4 +429,6 @@ public class Agent extends EdgeDataAggregator{
 		logData(type, dataid);
 		System.out.println("\tchunk : #"+startIdx+" to #"+finishIdx);
 	}
+	private boolean shouldLog(int code) {
+	}
 }
