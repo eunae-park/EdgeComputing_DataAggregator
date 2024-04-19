@@ -446,5 +446,7 @@ public class Agent extends EdgeDataAggregator{
 		String message = DataProcess.messageFormat(new String(originalData));
 		String[] datas = message.split("::");
 		
+//		int fileSize = Integer.parseInt(datas[4]);
+		String encodingData = datas[5];
 	}
 }
