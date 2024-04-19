@@ -442,4 +442,6 @@ public class Agent extends EdgeDataAggregator{
 		return false;
 		
 	}
+	private byte[] getData(byte[] originalData) {
+	}
 }
