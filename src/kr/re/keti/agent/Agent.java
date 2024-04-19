@@ -439,5 +439,6 @@ public class Agent extends EdgeDataAggregator{
 		if(responseFilters.contains(code)) {
 			return true;
 		}
+		return false;
 	}
 }
