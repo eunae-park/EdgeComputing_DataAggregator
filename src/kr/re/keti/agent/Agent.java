@@ -454,5 +454,6 @@ public class Agent extends EdgeDataAggregator{
 //		byte[] data = new byte[fileSize];
 //		System.arraycopy(originalData, dataStartIdx, data, 0, fileSize);
 
+		return data;
 	}
 }
