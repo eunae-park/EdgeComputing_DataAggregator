@@ -449,5 +449,10 @@ public class Agent extends EdgeDataAggregator{
 //		int fileSize = Integer.parseInt(datas[4]);
 		String encodingData = datas[5];
 		byte[] data = Base64.getDecoder().decode(encodingData);
+//		int dataEndIdx = originalData.length -3;
+//		int dataStartIdx = dataEndIdx - fileSize;
+//		byte[] data = new byte[fileSize];
+//		System.arraycopy(originalData, dataStartIdx, data, 0, fileSize);
+
 	}
 }
