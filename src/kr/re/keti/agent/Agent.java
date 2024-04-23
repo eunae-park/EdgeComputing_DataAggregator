@@ -458,5 +458,6 @@ public class Agent extends EdgeDataAggregator{
 	}
 	private void logSave(String message) {
 		String[] datas = message.split("::");
+
 	}
 }
