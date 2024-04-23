@@ -460,5 +460,6 @@ public class Agent extends EdgeDataAggregator{
 		String[] datas = message.split("::");
 
 		String address = datas[1];
+        String status = "";
 	}
 }
