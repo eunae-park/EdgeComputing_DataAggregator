@@ -462,5 +462,7 @@ public class Agent extends EdgeDataAggregator{
 		String address = datas[1];
         String status = "";
         String metadata = datas[4];
+        switch(datas[3]) {
+}
 	}
 }
