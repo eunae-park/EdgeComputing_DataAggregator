@@ -465,6 +465,7 @@ public class Agent extends EdgeDataAggregator{
         switch(datas[3]) {
 	        case "011": 
 	        case "111":
+	        	status = "file create"; break;
 }
 	}
 }
