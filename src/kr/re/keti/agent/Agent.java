@@ -464,6 +464,7 @@ public class Agent extends EdgeDataAggregator{
         String metadata = datas[4];
         switch(datas[3]) {
 	        case "011": 
+	        case "111":
 }
 	}
 }
