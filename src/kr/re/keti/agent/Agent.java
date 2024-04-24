@@ -466,6 +466,7 @@ public class Agent extends EdgeDataAggregator{
 	        case "011": 
 	        case "111":
 	        	status = "file create"; break;
+	        case "012":
 }
 	}
 }
