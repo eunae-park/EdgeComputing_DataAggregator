@@ -470,6 +470,7 @@ public class Agent extends EdgeDataAggregator{
 	        case "112":
 	        	status = "file update"; break;
 	        case "013": status = "file delete"; break;
+	        case "014": status = "directory create"; break;
 }
 	}
 }
