@@ -476,5 +476,6 @@ public class Agent extends EdgeDataAggregator{
 	        case "017": status = "Security Level update"; break;
 	        default: return;
 }
+        FileManagementDto dto = new FileManagementDto(metadata);
 	}
 }
