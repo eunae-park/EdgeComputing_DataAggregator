@@ -473,6 +473,7 @@ public class Agent extends EdgeDataAggregator{
 	        case "014": status = "directory create"; break;
 	        case "015": status = "directory update"; break;
 	        case "016": status = "directory delete"; break;
+	        case "017": status = "Security Level update"; break;
 }
 	}
 }
